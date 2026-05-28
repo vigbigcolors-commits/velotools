@@ -28,6 +28,21 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does PNG compression show 0% savings?","acceptedAnswer":{"@type":"Answer","text":"PNG is lossless — quality settings have no effect. Convert to WebP for 25-35% smaller files with full transparency preserved."}},{"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens in your browser via Canvas API. Files never leave your device."}},{"@type":"Question","name":"What is the maximum file size?","acceptedAnswer":{"@type":"Answer","text":"No file size limit — only your device memory is the constraint."}},{"@type":"Question","name":"Does converting PNG to WebP lose transparency?","acceptedAnswer":{"@type":"Answer","text":"No. WebP supports full alpha transparency. PNG transparency is fully preserved when converting to WebP."}},{"@type":"Question","name":"How many images can I process at once?","acceptedAnswer":{"@type":"Answer","text":"The Batch mode processes up to 15 images simultaneously with progress tracking and ZIP download."}}]}
 </script>
+
+<style>
+/* ── CRITICAL INLINE — mode tabs + dropzone fix ── */
+.v-mode-tabs{display:flex;border-bottom:1px solid #e4e7ed;background:#f7f8fa}
+.v-mode-tab{flex:1;padding:13px 16px;border:none;background:none;cursor:pointer;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;color:#4a5568;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;border-bottom:2px solid transparent;margin-bottom:-1px}
+.v-mode-tab:hover{color:#0d0f14;background:#fff}
+.v-mode-tab.on{color:#5b6cf9;border-bottom-color:#5b6cf9;background:#fff}
+.v-mode-tab svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor}
+.v-dz-ico{width:64px;height:64px;background:#fff;border:1.5px solid #e4e7ed;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 1px 3px rgba(13,15,20,.07)}
+.v-dz-ico svg{width:30px;height:30px;color:#8a95a8;stroke:currentColor}
+.v-preview{position:relative;background:#0f1117;min-height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.v-preview-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#475569;pointer-events:none}
+.v-preview-placeholder svg{width:56px;height:56px;opacity:.2;stroke:currentColor}
+.v-preview-placeholder span{font-size:13px;opacity:.4;font-weight:500}
+</style>
 </head>
 <body>
 
