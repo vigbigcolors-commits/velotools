@@ -1,0 +1,11 @@
+# VeloTools — robots.txt
+# TEMPORARY: blocking all crawlers until site is ready
+# Remove the Disallow line when ready to go live
+
+User-agent: *
+Disallow: /
+
+# When ready for Google — replace above with:
+# User-agent: *
+# Allow: /
+# Sitemap: https://velotools.app/sitemap.xml
