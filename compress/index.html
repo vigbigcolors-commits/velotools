@@ -133,7 +133,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-editor{display:none}.v-editor.on{display:block}
 
 /* ── TOOLBAR ─────────────────── */
-.v-tb{display:flex;gap:2px;padding:10px;background:var(--bg);border-bottom:1px solid var(--br);overflow-x:auto;scrollbar-width:none}
+.v-tb{display:flex;gap:2px;padding:10px 20px 10px 10px;background:var(--bg);border-bottom:1px solid var(--br);overflow-x:auto;scrollbar-width:none}
 .v-tb::-webkit-scrollbar{display:none}
 .v-tbb{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 15px;border-radius:var(--r-sm);border:1.5px solid transparent;background:transparent;cursor:pointer;font-family:var(--font);transition:all .15s;min-width:76px;flex-shrink:0}
 .v-tbb svg{width:26px;height:26px;transition:transform .2s}
@@ -1782,154 +1782,391 @@ window.VBatch = (function () {
     if (!S.origImg) return;
     CROP.on = true;
     _cropClean();
-
     var preview = $('v-preview');
     var img     = $('v-prev-img');
     if (!preview || !img) return;
-
-    /* Make sure preview is NOT overflow:hidden while cropping */
     preview.style.overflow = 'visible';
 
-    /* ── Overlay (covers exactly the rendered image) ── */
+    // Compute where the actual image pixels are rendered inside the img element
+    // (accounts for object-fit:contain letterboxing)
+    function getImgRenderRect() {
+      var er   = img.getBoundingClientRect();
+      var scale= Math.min(er.width/S.origW, er.height/S.origH);
+      var rw   = S.origW * scale, rh = S.origH * scale;
+      var pr   = preview.getBoundingClientRect();
+      return {
+        // Position relative to preview
+        left:  er.left - pr.left + (er.width  - rw)/2,
+        top:   er.top  - pr.top  + (er.height - rh)/2,
+        width: rw, height: rh,
+        scaleX: S.origW / rw,
+        scaleY: S.origH / rh
+      };
+    }
+
+    // Build overlay sized to actual image render area
     var ov = document.createElement('div');
-    ov.id = 'crop-ov';
-    ov.style.cssText = [
-      'position:absolute', 'top:0', 'left:0',
-      'width:100%', 'height:100%',
-      'cursor:crosshair', 'z-index:20',
-      'user-select:none', '-webkit-user-select:none'
-    ].join(';');
+    ov.id  = 'crop-ov';
+    function sizeOverlay() {
+      var r = getImgRenderRect();
+      ov.style.cssText = [
+        'position:absolute',
+        'left:'+r.left+'px', 'top:'+r.top+'px',
+        'width:'+r.width+'px', 'height:'+r.height+'px',
+        'cursor:crosshair', 'z-index:20',
+        'user-select:none', '-webkit-user-select:none'
+      ].join(';');
+    }
+    sizeOverlay();
 
-    /* ── Dark mask ── */
-    var mask = document.createElement('div');
-    mask.id = 'crop-mask';
-    mask.style.cssText = [
-      'position:absolute', 'top:0', 'left:0',
-      'width:100%', 'height:100%',
-      'background:rgba(0,0,0,0.5)', 'pointer-events:none', 'z-index:1'
-    ].join(';');
-
-    /* ── Selection box ── */
     var sel = document.createElement('div');
-    sel.id = 'crop-sel';
-    sel.style.cssText = [
-      'position:absolute', 'display:none',
-      'border:2px solid #5b6cf9',
-      'box-shadow:0 0 0 9999px rgba(0,0,0,0.5)',
-      'pointer-events:none', 'z-index:2',
-      'box-sizing:border-box'
-    ].join(';');
+    sel.id  = 'crop-sel';
+    sel.style.cssText = 'position:absolute;display:none;border:2px solid #5b6cf9;'+
+      'box-shadow:0 0 0 9999px rgba(0,0,0,.52);pointer-events:none;z-index:2;box-sizing:border-box';
 
-    /* ── Dimensions badge ── */
     var badge = document.createElement('div');
-    badge.id = 'crop-badge';
-    badge.style.cssText = [
-      'position:absolute', 'display:none',
-      'background:rgba(91,108,249,0.92)', 'color:#fff',
-      'font:700 11px/1 Inter,system-ui,sans-serif',
-      'padding:4px 9px', 'border-radius:6px',
-      'pointer-events:none', 'z-index:3',
-      'white-space:nowrap'
-    ].join(';');
+    badge.id  = 'crop-badge';
+    badge.style.cssText = 'position:absolute;display:none;background:rgba(91,108,249,.9);'+
+      'color:#fff;font:700 11px/1 Inter,sans-serif;padding:4px 9px;border-radius:6px;'+
+      'pointer-events:none;z-index:3;white-space:nowrap';
 
-    ov.appendChild(mask);
-    ov.appendChild(sel);
-    ov.appendChild(badge);
+    ov.appendChild(sel); ov.appendChild(badge);
     preview.appendChild(ov);
 
-    /* ── Event listeners ── */
-    function getRelPos(e) {
-      var imgRect = img.getBoundingClientRect();
-      var cl = e.touches ? e.touches[0].clientX : e.clientX;
-      var ct = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: Math.max(0, Math.min(cl - imgRect.left, imgRect.width)),
-        y: Math.max(0, Math.min(ct - imgRect.top,  imgRect.height)),
-        iw: imgRect.width,
-        ih: imgRect.height
-      };
+    function getPos(e) {
+      var r  = ov.getBoundingClientRect();
+      var cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+      var cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+      return { x:Math.max(0,Math.min(cx,r.width)), y:Math.max(0,Math.min(cy,r.height)), w:r.width, h:r.height };
     }
 
     function onStart(e) {
       e.preventDefault();
-      var p = getRelPos(e);
-      CROP.dragging = true;
-      CROP.sx = p.x; CROP.sy = p.y;
-      CROP.x  = p.x; CROP.y  = p.y;
-      CROP.w  = 0;   CROP.h  = 0;
-      sel.style.display   = 'none';
-      badge.style.display = 'none';
+      var p=getPos(e); CROP.dragging=true;
+      CROP.sx=p.x; CROP.sy=p.y; CROP.x=p.x; CROP.y=p.y; CROP.w=0; CROP.h=0;
+      sel.style.display=badge.style.display='none';
     }
-
     function onMove(e) {
-      if (!CROP.dragging) return;
-      e.preventDefault();
-      var p = getRelPos(e);
+      if (!CROP.dragging) return; e.preventDefault();
+      var p=getPos(e);
+      CROP.x=Math.min(CROP.sx,p.x); CROP.y=Math.min(CROP.sy,p.y);
+      CROP.w=Math.abs(p.x-CROP.sx); CROP.h=Math.abs(p.y-CROP.sy);
+      if (CROP.w<2||CROP.h<2) return;
+      sel.style.cssText+='';
+      sel.style.left=CROP.x+'px'; sel.style.top=CROP.y+'px';
+      sel.style.width=CROP.w+'px'; sel.style.height=CROP.h+'px';
+      sel.style.display='block';
+      CROP.imgX=Math.round((CROP.x/p.w)*S.origW);
+      CROP.imgY=Math.round((CROP.y/p.h)*S.origH);
+      CROP.imgW=Math.round((CROP.w/p.w)*S.origW);
+      CROP.imgH=Math.round((CROP.h/p.h)*S.origH);
+      badge.textContent=CROP.imgW+' × '+CROP.imgH+' px';
+      badge.style.left=CROP.x+'px'; badge.style.top=(CROP.y+CROP.h+6)+'px';
+      badge.style.display='block';
+      var info=$('v-crop-info'); if(info) info.textContent=CROP.imgW+' × '+CROP.imgH+' px — click Apply crop';
+    }
+    function onEnd() {
+      CROP.dragging=false;
+      if (CROP.w<5||CROP.h<5){sel.style.display=badge.style.display='none';_cropClean();}
+    }
+    ov.addEventListener('mousedown', onStart);
+    ov.addEventListener('touchstart',onStart,{passive:false});
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove,{passive:false});
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchend',onEnd);
+    ov._onMove=onMove; ov._onEnd=onEnd;
+    ov._resize=sizeOverlay; window.addEventListener('resize',sizeOverlay);
+  }
 
-      CROP.x = Math.min(CROP.sx, p.x);
-      CROP.y = Math.min(CROP.sy, p.y);
-      CROP.w = Math.abs(p.x - CROP.sx);
-      CROP.h = Math.abs(p.y - CROP.sy);
+  function _cropExit() {
+    CROP.on = false;
+    var ov = $('crop-ov');
+    if (ov) {
+      document.removeEventListener('mousemove', ov._onMove);
+      document.removeEventListener('touchmove', ov._onMove);
+      document.removeEventListener('mouseup',   ov._onEnd);
+      document.removeEventListener('touchend',  ov._onEnd);
+      ov.parentNode && ov.parentNode.removeChild(ov);
+    }
+    var preview = $('v-preview');
+    if (preview) preview.style.overflow = '';
+  }
 
-      /* Clamp to image bounds */
-      CROP.x = Math.max(0, CROP.x);
-      CROP.y = Math.max(0, CROP.y);
-      CROP.w = Math.min(CROP.w, p.iw - CROP.x);
-      CROP.h = Math.min(CROP.h, p.ih - CROP.y);
+  function _cropClean() {
+    CROP.dragging = false;
+    CROP.sx=0; CROP.sy=0;
+    CROP.x=0;  CROP.y=0; CROP.w=0; CROP.h=0;
+    CROP.imgX=0; CROP.imgY=0; CROP.imgW=0; CROP.imgH=0;
+    var info = $('v-crop-info');
+    if (info) info.textContent = 'Draw a selection on the image above';
+  }
 
-      if (CROP.w < 2 || CROP.h < 2) return;
+  window.applyCrop = function() {
+    if (!S.origImg) { alert('Load an image first.'); return; }
+    if (CROP.imgW < 2 || CROP.imgH < 2) { alert('Draw a selection first.'); return; }
 
-      /* Position selection box relative to overlay */
-      var imgRect = img.getBoundingClientRect();
-      var ovRect  = ov.getBoundingClientRect();
-      var offX = imgRect.left - ovRect.left;
-      var offY = imgRect.top  - ovRect.top;
+    var c = document.createElement('canvas');
+    c.width  = CROP.imgW;
+    c.height = CROP.imgH;
+    c.getContext('2d').drawImage(S.origImg, CROP.imgX, CROP.imgY, CROP.imgW, CROP.imgH, 0, 0, CROP.imgW, CROP.imgH);
 
-      sel.style.left    = px(CROP.x + offX);
-      sel.style.top     = px(CROP.y + offY);
-      sel.style.width   = px(CROP.w);
-      sel.style.height  = px(CROP.h);
-      sel.style.display = 'block';
-
-      /* Calculate real pixel dimensions */
-      var scaleX = S.origW / p.iw;
-      var scaleY = S.origH / p.ih;
-      CROP.imgX = Math.round(CROP.x * scaleX);
-      CROP.imgY = Math.round(CROP.y * scaleY);
-      CROP.imgW = Math.round(CROP.w * scaleX);
-      CROP.imgH = Math.round(CROP.h * scaleY);
-
-      /* Update badge */
-      badge.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px';
-      badge.style.left  = px(CROP.x + offX);
-      badge.style.top   = px(CROP.y + offY + CROP.h + 6);
-      badge.style.display = 'block';
-
-      /* Update info text */
+    var mime   = S.fileMime || 'image/png';
+    var newUrl = c.toDataURL(mime, 1.0);
+    var newImg = new Image();
+    newImg.onload = function() {
+      S.origImg = newImg;
+      S.origW   = CROP.imgW; S.origH = CROP.imgH;
+      S.ar      = CROP.imgW / CROP.imgH;
+      S.targetW = CROP.imgW; S.targetH = CROP.imgH;
+      S.origUrl = newUrl;
+      var rw = $('v-rw'), rh = $('v-rh');
+      if (rw) rw.value = CROP.imgW;
+      if (rh) rh.value = CROP.imgH;
+      var pi = $('v-prev-img');
+      if (pi) { pi.src = newUrl; pi.style.display=''; }
+      _setFInfo('v-fi-orig', S.file ? S.file.name : 'cropped', 0, CROP.imgW, CROP.imgH, mime, null, null);
       var info = $('v-crop-info');
-      if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — click "Apply crop" to confirm';
-    }
+      if (info) info.textContent = '✓ Cropped to ' + CROP.imgW + ' × ' + CROP.imgH + ' px';
+      _cropExit();
+      _cropClean();
+      switchPanel('compress', $('v-tb-compress'));
+    };
+    newImg.src = newUrl;
+  };
 
-    function onEnd(e) {
-      CROP.dragging = false;
-      if (CROP.w < 5 || CROP.h < 5) {
-        sel.style.display   = 'none';
-        badge.style.display = 'none';
-        var info = $('v-crop-info');
-        if (info) info.textContent = 'Draw a selection on the image above';
+  window.resetCrop = function() {
+    var sel = $('crop-sel'), badge = $('crop-badge');
+    if (sel)   sel.style.display   = 'none';
+    if (badge) badge.style.display = 'none';
+    _cropClean();
+  };
+
+  /* ═══════════════════════════════════════════════
+     🔍 ZOOM — magnifier lens
+  ═══════════════════════════════════════════════ */
+  window.toggleZoom = function(btn) {
+    ZOOM.on = !ZOOM.on;
+    btn.classList.toggle('on', ZOOM.on);
+    var sp = btn.querySelector('span');
+    var img = $('v-prev-img'), preview = $('v-preview');
+
+    if (!ZOOM.on) {
+      if (sp) sp.textContent = 'Zoom';
+      var lens = $('zoom-lens'); if (lens) lens.style.display='none';
+      if (img) {
+        if (img._zMv) img.removeEventListener('mousemove', img._zMv);
+        if (img._zLv) img.removeEventListener('mouseleave',img._zLv);
+        if (img._zTv) img.removeEventListener('touchmove', img._zTv);
+        img.style.cursor='';
       }
+      return;
+    }
+    if (sp) sp.textContent = 'Zoom off';
+    if (img) img.style.cursor = 'zoom-in';
+
+    var LENS=140, ZLV=3;
+    var lens = $('zoom-lens');
+    if (!lens) {
+      lens=document.createElement('div'); lens.id='zoom-lens';
+      lens.style.cssText='position:absolute;width:'+LENS+'px;height:'+LENS+'px;'+
+        'border-radius:50%;border:2.5px solid #5b6cf9;box-shadow:0 4px 20px rgba(0,0,0,.45);'+
+        'pointer-events:none;z-index:30;display:none;overflow:hidden;background:#0f1117';
+      var lc=document.createElement('canvas'); lc.id='zoom-canvas';
+      lc.width=lc.height=LENS; lc.style.cssText='display:block;width:'+LENS+'px;height:'+LENS+'px';
+      lens.appendChild(lc); preview.appendChild(lens);
     }
 
-    ov.addEventListener('mousedown',  onStart);
-    ov.addEventListener('touchstart', onStart, { passive: false });
-    document.addEventListener('mousemove',  onMove);
-    document.addEventListener('touchmove',  onMove, { passive: false });
-    document.addEventListener('mouseup',    onEnd);
-    document.addEventListener('touchend',   onEnd);
+    function onZoom(e) {
+      if (!ZOOM.on||!S.origImg) return;
+      var ir=img.getBoundingClientRect();
+      var cx=(e.touches?e.touches[0].clientX:e.clientX);
+      var cy=(e.touches?e.touches[0].clientY:e.clientY);
+      var mx=cx-ir.left, my=cy-ir.top;
+      if (mx<0||my<0||mx>ir.width||my>ir.height){lens.style.display='none';return;}
+      lens.style.display='block';
+      var pr=preview.getBoundingClientRect();
+      var lx=(cx-pr.left)-LENS/2, ly=(cy-pr.top)-LENS/2-(e.touches?90:0);
+      lx=Math.max(0,Math.min(lx,pr.width-LENS));
+      ly=Math.max(0,Math.min(ly,pr.height-LENS));
+      lens.style.left=lx+'px'; lens.style.top=ly+'px';
+      // Calculate actual image position within element (letterbox)
+      var sc=Math.min(ir.width/S.origW,ir.height/S.origH);
+      var rw=S.origW*sc, rh=S.origH*sc;
+      var ox=(ir.width-rw)/2, oy=(ir.height-rh)/2;
+      var px=(mx-ox)/sc, py=(my-oy)/sc;
+      var vw=LENS/ZLV, vh=LENS/ZLV;
+      var sx=Math.max(0,Math.min(px-vw/2,S.origW-vw));
+      var sy=Math.max(0,Math.min(py-vh/2,S.origH-vh));
+      var ctx=$('zoom-canvas').getContext('2d');
+      ctx.clearRect(0,0,LENS,LENS);
+      ctx.drawImage(S.origImg,sx,sy,vw,vh,0,0,LENS,LENS);
+    }
+    function onLeave(){lens.style.display='none';}
+    img._zMv=onZoom; img._zLv=onLeave; img._zTv=onZoom;
+    img.addEventListener('mousemove',onZoom);
+    img.addEventListener('mouseleave',onLeave);
+    img.addEventListener('touchmove',onZoom,{passive:true});
+  };
 
-    /* Store refs for cleanup */
-    ov._onMove = onMove;
-    ov._onEnd  = onEnd;
+  /* ═══════════════════════════════════════════════
+     PROCESS
+  ═══════════════════════════════════════════════ */
+  window.process = function() {
+    if (!S.origImg) return;
+    _cropExit();
+    var proc = $('v-proc'), gb = $('v-gobtn'), res = $('v-result');
+    proc.classList.add('on');
+    gb.disabled = true;
+    res.classList.remove('on');
+
+    var pb = $('v-pb'), prog = 0;
+    var iv = setInterval(function(){ prog = Math.min(prog+20, 88); pb.style.width = prog+'%'; }, 90);
+
+    P.process(S.origImg, _snap()).then(function(r) {
+      clearInterval(iv); pb.style.width = '100%';
+      S.resultBlob = r.blob;
+      if (S.resultUrl) URL.revokeObjectURL(S.resultUrl);
+      S.resultUrl  = URL.createObjectURL(r.blob);
+      S.resultExt  = C.ext(r.mime);
+
+      var ri = $('v-res-img');
+      if (ri) { ri.src = S.resultUrl; ri.style.display = ''; }
+
+      var base = S.file.name.replace(/\.[^.]+$/, '');
+      var fnIn = $('v-fnin'), fnExt = $('v-fnext');
+      if (fnIn)  fnIn.value  = base + '_velo';
+      if (fnExt) fnExt.textContent = '.' + S.resultExt;
+
+      _setFInfo('v-fi-res', base+'_velo.'+S.resultExt, r.blob.size, r.canvas.width, r.canvas.height, r.mime, S.file.size, r.blob.size);
+      _showCompare(S.file.size, r.blob.size);
+      _buildBA(S.origUrl, S.resultUrl);
+
+      var pi = $('v-prev-img');
+      if (pi) pi.src = S.origUrl;
+
+      setTimeout(function(){
+        proc.classList.remove('on');
+        pb.style.width = '0%';
+        gb.disabled = false;
+        res.classList.add('on');
+        res.scrollIntoView({ behavior:'smooth', block:'start' });
+      }, 280);
+
+    }).catch(function(err){
+      clearInterval(iv);
+      $('v-proc').classList.remove('on');
+      $('v-pb').style.width = '0%';
+      $('v-gobtn').disabled = false;
+      console.error('[VeloTools]', err);
+      alert('Processing failed. Try a different format or image.');
+    });
+  };
+
+  /* ═══════════════════════════════════════════════
+     ✂️ CROP  — div-based, no canvas z-index issues
+     Works by placing a transparent overlay div on top
+     of the displayed image. Selection is a bordered div.
+  ═══════════════════════════════════════════════ */
+  function _cropEnter() {
+    if (!S.origImg) return;
+    CROP.on = true;
+    _cropClean();
+    var preview = $('v-preview');
+    var img     = $('v-prev-img');
+    if (!preview || !img) return;
+    preview.style.overflow = 'visible';
+
+    // Compute where the actual image pixels are rendered inside the img element
+    // (accounts for object-fit:contain letterboxing)
+    function getImgRenderRect() {
+      var er   = img.getBoundingClientRect();
+      var scale= Math.min(er.width/S.origW, er.height/S.origH);
+      var rw   = S.origW * scale, rh = S.origH * scale;
+      var pr   = preview.getBoundingClientRect();
+      return {
+        // Position relative to preview
+        left:  er.left - pr.left + (er.width  - rw)/2,
+        top:   er.top  - pr.top  + (er.height - rh)/2,
+        width: rw, height: rh,
+        scaleX: S.origW / rw,
+        scaleY: S.origH / rh
+      };
+    }
+
+    // Build overlay sized to actual image render area
+    var ov = document.createElement('div');
+    ov.id  = 'crop-ov';
+    function sizeOverlay() {
+      var r = getImgRenderRect();
+      ov.style.cssText = [
+        'position:absolute',
+        'left:'+r.left+'px', 'top:'+r.top+'px',
+        'width:'+r.width+'px', 'height:'+r.height+'px',
+        'cursor:crosshair', 'z-index:20',
+        'user-select:none', '-webkit-user-select:none'
+      ].join(';');
+    }
+    sizeOverlay();
+
+    var sel = document.createElement('div');
+    sel.id  = 'crop-sel';
+    sel.style.cssText = 'position:absolute;display:none;border:2px solid #5b6cf9;'+
+      'box-shadow:0 0 0 9999px rgba(0,0,0,.52);pointer-events:none;z-index:2;box-sizing:border-box';
+
+    var badge = document.createElement('div');
+    badge.id  = 'crop-badge';
+    badge.style.cssText = 'position:absolute;display:none;background:rgba(91,108,249,.9);'+
+      'color:#fff;font:700 11px/1 Inter,sans-serif;padding:4px 9px;border-radius:6px;'+
+      'pointer-events:none;z-index:3;white-space:nowrap';
+
+    ov.appendChild(sel); ov.appendChild(badge);
+    preview.appendChild(ov);
+
+    function getPos(e) {
+      var r  = ov.getBoundingClientRect();
+      var cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+      var cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+      return { x:Math.max(0,Math.min(cx,r.width)), y:Math.max(0,Math.min(cy,r.height)), w:r.width, h:r.height };
+    }
+
+    function onStart(e) {
+      e.preventDefault();
+      var p=getPos(e); CROP.dragging=true;
+      CROP.sx=p.x; CROP.sy=p.y; CROP.x=p.x; CROP.y=p.y; CROP.w=0; CROP.h=0;
+      sel.style.display=badge.style.display='none';
+    }
+    function onMove(e) {
+      if (!CROP.dragging) return; e.preventDefault();
+      var p=getPos(e);
+      CROP.x=Math.min(CROP.sx,p.x); CROP.y=Math.min(CROP.sy,p.y);
+      CROP.w=Math.abs(p.x-CROP.sx); CROP.h=Math.abs(p.y-CROP.sy);
+      if (CROP.w<2||CROP.h<2) return;
+      sel.style.cssText+='';
+      sel.style.left=CROP.x+'px'; sel.style.top=CROP.y+'px';
+      sel.style.width=CROP.w+'px'; sel.style.height=CROP.h+'px';
+      sel.style.display='block';
+      CROP.imgX=Math.round((CROP.x/p.w)*S.origW);
+      CROP.imgY=Math.round((CROP.y/p.h)*S.origH);
+      CROP.imgW=Math.round((CROP.w/p.w)*S.origW);
+      CROP.imgH=Math.round((CROP.h/p.h)*S.origH);
+      badge.textContent=CROP.imgW+' × '+CROP.imgH+' px';
+      badge.style.left=CROP.x+'px'; badge.style.top=(CROP.y+CROP.h+6)+'px';
+      badge.style.display='block';
+      var info=$('v-crop-info'); if(info) info.textContent=CROP.imgW+' × '+CROP.imgH+' px — click Apply crop';
+    }
+    function onEnd() {
+      CROP.dragging=false;
+      if (CROP.w<5||CROP.h<5){sel.style.display=badge.style.display='none';_cropClean();}
+    }
+    ov.addEventListener('mousedown', onStart);
+    ov.addEventListener('touchstart',onStart,{passive:false});
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove,{passive:false});
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchend',onEnd);
+    ov._onMove=onMove; ov._onEnd=onEnd;
+    ov._resize=sizeOverlay; window.addEventListener('resize',sizeOverlay);
   }
 
   function _cropExit() {
