@@ -96,7 +96,7 @@
         $('v-rh').value = img.height;
         $('v-dz').style.display = 'none';
         $('v-editor').classList.add('on');
-        $('v-prev-img').src = S.origUrl;
+        var pi=$('v-prev-img'); pi.src=S.origUrl; pi.style.display='';
         setFInfo('v-fi-orig', file.name, file.size, img.width, img.height, file.type, null, null);
         $('v-result').classList.remove('on');
         checkPNG();
@@ -696,7 +696,7 @@
       if (S.resultUrl) URL.revokeObjectURL(S.resultUrl);
       S.resultUrl = URL.createObjectURL(res.blob);
       S.resultExt = C.ext(res.mime);
-      $('v-res-img').src = S.resultUrl;
+      var ri=$('v-res-img'); ri.src=S.resultUrl; ri.style.display='';
       var base = S.file.name.replace(/\.[^.]+$/, '');
       $('v-fnin').value = base + '_velo';
       $('v-fnext').textContent = '.' + S.resultExt;
@@ -822,7 +822,7 @@
       S.origImg = img; S.origW = img.width; S.origH = img.height;
       S.ar = img.width / img.height; S.targetW = img.width; S.targetH = img.height;
       $('v-rw').value = img.width; $('v-rh').value = img.height;
-      $('v-prev-img').src = S.origUrl;
+      var pi3=$('v-prev-img'); pi3.src=S.origUrl; pi3.style.display='';
       setFInfo('v-fi-orig', S.file.name, S.file.size, img.width, img.height, S.file.type, null, null);
       $('v-result').classList.remove('on'); S.resultBlob = null; S.resultUrl = null;
       checkPNG();
@@ -833,6 +833,7 @@
 
   window.newFile = function() {
     S.reset(); resetAdjSliders(); resetRotBtns(); resetEfxBtns(); cropReset(); exitCropMode();
+    var pi4=$('v-prev-img'); if(pi4){pi4.src='';pi4.style.display='none';}
     $('v-editor').classList.remove('on');
     $('v-dz').style.display = '';
     $('v-fi').value = '';
@@ -840,7 +841,7 @@
     window.scrollTo({top: 0, behavior: 'smooth'});
   };
 
-  window.openModal  = function(w) { var s = w===1 ? S.resultUrl : S.origUrl; if(!s) return; $('v-modal-img').src=s; $('v-modal').classList.add('open'); document.body.style.overflow='hidden'; };
+  window.openModal  = function(w) { var s = w===1 ? S.resultUrl : S.origUrl; if(!s) return; var mi=$('v-modal-img'); mi.src=s; mi.style.display=''; $('v-modal').classList.add('open'); document.body.style.overflow='hidden'; };
   window.closeModal = function() { $('v-modal').classList.remove('open'); document.body.style.overflow=''; };
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
 
