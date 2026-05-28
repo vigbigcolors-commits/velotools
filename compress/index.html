@@ -123,6 +123,10 @@
           <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="14" cy="14" r="9"/><path d="M9 14c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5" stroke-linecap="round"/><circle cx="14" cy="14" r="2" fill="currentColor"/></svg><span>Effects</span></button>
         <button class="v-tbb" id="v-tb-blur" onclick="switchPanel('blur',this)" role="tab">
           <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="20" height="20" rx="3"/><circle cx="14" cy="14" r="5" stroke-dasharray="2.5 2"/><circle cx="14" cy="14" r="2" stroke-dasharray="2 2"/></svg><span>Blur</span></button>
+        <button class="v-tbb" id="v-tb-crop" onclick="switchPanel('crop',this)">
+          <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 4v16h16M4 7h16v16" stroke-linecap="round"/><rect x="7" y="7" width="12" height="12" stroke-dasharray="3 2"/></svg><span>Crop</span></button>
+        <button class="v-tbb" id="v-tb-zoom" onclick="toggleZoom(this)">
+          <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M18 18l5 5" stroke-linecap="round"/><path d="M9 12h6M12 9v6" stroke-linecap="round"/></svg><span>Zoom</span></button>
         <div class="v-tb-sep"></div>
         <button class="v-tbb" onclick="openModal(0)" title="View original">
           <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 16v8h8M20 4h4v4M4 24l8-8M24 4l-8 8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Full view</span></button>
@@ -265,6 +269,17 @@
             </div>
           </div>
           <div class="v-hint v-hint-gn">💡 <strong>Privacy:</strong> Pixelate or Gaussian blur to censor sensitive data in screenshots.</div>
+        </section>
+
+        <!-- CROP PANEL -->
+        <section class="v-panel" id="v-pan-crop">
+          <div class="v-live-badge" style="margin-bottom:12px"><div class="v-ldot"></div>Crop mode — draw a selection on the image above</div>
+          <div class="v-hint v-hint-ac" style="margin-bottom:12px">💡 Click and drag on the preview image to select the area. Rule-of-thirds grid guides composition automatically.</div>
+          <div id="v-crop-info" style="font-size:13px;color:var(--tx-2);padding:10px 14px;background:var(--bg2);border-radius:9px;border:1px solid var(--br);margin-bottom:12px">Draw a selection on the image above</div>
+          <div style="display:flex;gap:8px">
+            <button class="crop-apply" onclick="applyCrop()">✂️ Apply crop</button>
+            <button class="crop-reset" onclick="resetCrop()">↺ Reset selection</button>
+          </div>
         </section>
 
       </div><!-- panels -->

@@ -11,208 +11,115 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://velotools.app">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/main.css">
 <style>
-/* ── HERO ─────────────────────────────── */
-.hero {
-  padding: 72px 40px 64px;
-  text-align: center;
-  background: var(--bg);
+:root {
+  --ac:       #5b6cf9;
+  --ac-dark:  #4756e8;
+  --ac-light: rgba(91,108,249,.09);
+  --text:     #0d0f14;
+  --text2:    #4a5568;
+  --text3:    #8a95a8;
+  --bg:       #ffffff;
+  --bg2:      #f7f8fa;
+  --bg3:      #eef0f4;
+  --border:   #e4e7ed;
+  --border2:  #c8cdd8;
+  --gn:       #0ea66e;
+  --font:     'Inter', system-ui, sans-serif;
+  --sh:       0 1px 3px rgba(13,15,20,.07);
+  --sh-md:    0 4px 16px rgba(13,15,20,.09);
+  --sh-lg:    0 12px 40px rgba(13,15,20,.12);
 }
-
-.hero-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ac);
-  background: var(--ac-light);
-  padding: 6px 16px;
-  border-radius: 30px;
-  margin-bottom: 24px;
-}
-
-.hero h1 {
-  font-size: 52px;
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -1.5px;
-  color: var(--text);
-  margin-bottom: 16px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero h1 em {
-  font-style: normal;
-  color: var(--ac);
-}
-
-.hero-sub {
-  font-size: 18px;
-  color: var(--text2);
-  line-height: 1.65;
-  max-width: 520px;
-  margin: 0 auto 36px;
-}
-
-.hero-search {
-  display: flex;
-  max-width: 540px;
-  margin: 0 auto 24px;
-  background: var(--bg);
-  border: 1.5px solid var(--border2);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: border-color .2s, box-shadow .2s;
-}
-
-.hero-search:focus-within {
-  border-color: var(--ac);
-  box-shadow: 0 0 0 4px var(--ac-light);
-}
-
-.hero-search svg {
-  padding: 0 12px 0 18px;
-  color: var(--text3);
-  flex-shrink: 0;
-  align-self: center;
-}
-
-.hero-search input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: 15px 0;
-  font-size: 15px;
-  color: var(--text);
-  outline: none;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
   font-family: var(--font);
-}
-
-.hero-search input::placeholder { color: var(--text3); }
-
-.hero-search button {
-  background: var(--ac);
-  color: #fff;
-  border: none;
-  padding: 11px 22px;
-  margin: 6px;
-  border-radius: 9px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: background .15s;
-  white-space: nowrap;
-}
-
-.hero-search button:hover { background: var(--ac-dark); }
-
-.hero-tags {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.hero-tag {
-  font-size: 13px;
-  padding: 7px 16px;
-  border-radius: 30px;
   background: var(--bg2);
-  border: 1px solid var(--border);
-  color: var(--text2);
-  cursor: pointer;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ─────────────────────── */
+.v-nav {
+  height: 62px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--sh);
+}
+.v-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+.v-logo-mark {
+  width: 34px; height: 34px;
+  background: var(--ac); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .2s;
+}
+.v-logo:hover .v-logo-mark { transform: scale(1.07) rotate(-4deg); }
+.v-logo-name { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
+.v-nav-links { display: flex; gap: 2px; }
+.v-nl {
+  font-size: 13px; font-weight: 500;
+  padding: 7px 13px; border-radius: 8px;
+  color: var(--text2); text-decoration: none;
   transition: all .15s;
-  text-decoration: none;
+}
+.v-nl:hover { background: var(--bg2); color: var(--text); }
+.v-ncta {
+  background: var(--ac); color: #fff;
+  padding: 8px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none; transition: all .2s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.v-ncta:hover { background: var(--ac-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(91,108,249,.35); }
+
+/* ── TRUST ───────────────────── */
+.v-trust {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: center; gap: 24px;
+  padding: 9px 40px; flex-wrap: wrap;
+}
+.v-ti { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text2); }
+.v-ti svg { color: var(--gn); flex-shrink: 0; }
+
+/* ── HERO ────────────────────── */
+.v-hero {
+  background: var(--bg);
+  padding: 52px 40px 44px;
+  text-align: center;
+}
+.v-hero h1 {
+  font-size: 52px; font-weight: 800;
+  letter-spacing: -1.8px; line-height: 1.1;
+  color: var(--text); margin-bottom: 14px;
+}
+.v-hero h1 span { color: var(--ac); }
+.v-hero-sub {
+  font-size: 17px; color: var(--text2);
+  line-height: 1.7; max-width: 520px;
+  margin: 0 auto 0;
 }
 
-.hero-tag:hover {
-  border-color: var(--ac);
-  color: var(--ac);
-  background: var(--ac-light);
-}
-
-/* ── STATS ────────────────────────────── */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
+/* ── TOOLS ───────────────────── */
+.v-tools-wrap {
+  background: var(--bg);
+  padding: 36px 40px 48px;
   border-bottom: 1px solid var(--border);
 }
-
-.stat {
-  flex: 1;
-  max-width: 200px;
-  text-align: center;
-  padding: 28px 20px;
-  border-right: 1px solid var(--border);
-}
-
-.stat:last-child { border-right: none; }
-
-.stat-num {
-  font-size: 32px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -1px;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.stat-num span { color: var(--ac); }
-
-.stat-label {
-  font-size: 13px;
-  color: var(--text2);
-}
-
-/* ── TOOLS GRID ───────────────────────── */
-.tools-section {
-  padding: 64px 40px;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-}
-
-.section-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.4px;
-}
-
-.section-all {
-  font-size: 14px;
-  color: var(--ac);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: gap .15s;
-}
-
-.section-all:hover { gap: 8px; }
-
-.tools-grid {
+.v-tools-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   max-width: 1020px;
   margin: 0 auto;
 }
-
-.tool-card {
+.v-card {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -224,8 +131,7 @@
   position: relative;
   overflow: hidden;
 }
-
-.tool-card::before {
+.v-card::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -234,661 +140,277 @@
   transition: transform .25s;
   transform-origin: left;
 }
+.v-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: var(--sh-lg); }
+.v-card:hover::after { transform: scaleX(1); }
+.v-card.c-ac::after    { background: var(--ac); }
+.v-card.c-gn::after    { background: #16a34a; }
+.v-card.c-pu::after    { background: #9333ea; }
+.v-card.c-bl::after    { background: #2563eb; }
+.v-card.c-rd::after    { background: #ef4444; }
+.v-card.c-tl::after    { background: #0d9488; }
+.v-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.v-card-ico {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; transition: transform .2s;
+}
+.v-card:hover .v-card-ico { transform: scale(1.1); }
+.ico-ac { background: rgba(91,108,249,.09); }
+.ico-gn { background: rgba(22,163,74,.1); }
+.ico-pu { background: rgba(147,51,234,.1); }
+.ico-bl { background: rgba(37,99,235,.1); }
+.ico-rd { background: rgba(239,68,68,.1); }
+.ico-tl { background: rgba(13,148,136,.1); }
+.v-card-arr { font-size: 18px; color: var(--border2); transition: all .2s; opacity: 0; }
+.v-card:hover .v-card-arr { opacity: 1; color: var(--ac); transform: translate(2px,-2px); }
+.v-card-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 7px; letter-spacing: -.2px; }
+.v-card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
+.v-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px;
+}
+.bdg-ac { background: rgba(91,108,249,.09); color: var(--ac); }
+.bdg-gn { background: rgba(22,163,74,.1); color: #16a34a; }
+.bdg-pu { background: rgba(147,51,234,.1); color: #9333ea; }
 
-.tool-card:hover {
-  border-color: var(--border2);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+/* ── AD SLOT ─────────────────── */
+.v-ad-wrap { display: flex; justify-content: center; padding: 28px 40px; background: var(--bg2); border-bottom: 1px solid var(--border); }
+.v-ad {
+  width: 100%; max-width: 728px; height: 90px;
+  background: var(--bg3); border: 1px dashed var(--border2);
+  border-radius: 8px; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 11px; color: var(--text3); letter-spacing: .05em;
 }
 
-.tool-card:hover::before { transform: scaleX(1); }
+/* ── SEO ─────────────────────── */
+.v-seo { padding: 56px 40px; background: var(--bg); border-top: 1px solid var(--border); }
+.v-seo-in { max-width: 780px; margin: 0 auto; }
+.v-seo-in h2 { font-size: 27px; font-weight: 800; color: var(--text); letter-spacing: -.6px; margin-bottom: 12px; }
+.v-seo-in p { font-size: 15px; color: var(--text2); line-height: 1.85; margin-bottom: 12px; }
 
-.tool-card.orange::before { background: var(--ac); }
-.tool-card.green::before  { background: #16a34a; }
-.tool-card.purple::before { background: #9333ea; }
-.tool-card.blue::before   { background: #2563eb; }
-.tool-card.red::before    { background: #ef4444; }
-.tool-card.teal::before   { background: #0d9488; }
-
-.card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 16px;
+/* ── FAQ ─────────────────────── */
+.v-faq { padding: 56px 40px; background: var(--bg2); border-top: 1px solid var(--border); }
+.v-faq-in { max-width: 780px; margin: 0 auto; }
+.v-faq-in h2 { font-size: 27px; font-weight: 800; color: var(--text); letter-spacing: -.6px; margin-bottom: 24px; }
+.v-fi { border-bottom: 1px solid var(--border); }
+.v-fq {
+  width: 100%; background: none; border: none; padding: 18px 0;
+  text-align: left; font-size: 15px; font-weight: 600; color: var(--text);
+  cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; font-family: var(--font); transition: color .14s; gap: 10px;
 }
-
-.card-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  transition: transform .2s;
+.v-fq:hover { color: var(--ac); }
+.v-fqico {
+  width: 24px; height: 24px; border: 1.5px solid var(--border2);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--text2); flex-shrink: 0; transition: all .18s;
 }
-
-.tool-card:hover .card-icon { transform: scale(1.1); }
-
-.card-icon.orange { background: var(--ac-light); }
-.card-icon.green  { background: rgba(34,197,94,.1); }
-.card-icon.purple { background: rgba(147,51,234,.1); }
-.card-icon.blue   { background: rgba(37,99,235,.1); }
-.card-icon.red    { background: rgba(239,68,68,.1); }
-.card-icon.teal   { background: rgba(13,148,136,.1); }
-
-.card-arrow {
-  font-size: 18px;
-  color: var(--border2);
-  transition: all .2s;
-  opacity: 0;
+.v-fi.op .v-fqico { background: var(--ac); border-color: var(--ac); color: #fff; transform: rotate(45deg); }
+.v-fa {
+  display: none; padding: 0 0 17px;
+  font-size: 14px; color: var(--text2); line-height: 1.85;
+  border-left: 2px solid rgba(91,108,249,.15); padding-left: 16px;
 }
+.v-fi.op .v-fa { display: block; }
 
-.tool-card:hover .card-arrow {
-  opacity: 1;
-  color: var(--ac);
-  transform: translate(2px, -2px);
+/* ── FOOTER ──────────────────── */
+.v-foot { background: var(--bg); border-top: 1px solid var(--border); padding: 28px 40px; }
+.v-foot-in { max-width: 1020px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.v-flinks { display: flex; gap: 16px; flex-wrap: wrap; }
+.v-flinks a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color .14s; }
+.v-flinks a:hover { color: var(--ac); }
+
+/* ── RESPONSIVE ──────────────── */
+@media (max-width: 900px) {
+  .v-nav { padding: 0 16px; }
+  .v-nav-links { display: none; }
+  .v-hero { padding: 36px 16px 32px; }
+  .v-hero h1 { font-size: 34px; }
+  .v-hero-sub { font-size: 15px; }
+  .v-tools-wrap { padding: 24px 16px 36px; }
+  .v-tools-grid { grid-template-columns: 1fr; }
+  .v-ad-wrap { padding: 20px 16px; }
+  .v-seo, .v-faq { padding: 36px 16px; }
+  .v-foot { padding: 24px 16px; }
+  .v-trust { gap: 12px; padding: 9px 16px; }
 }
-
-.card-name {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 7px;
-  letter-spacing: -0.2px;
-}
-
-.card-desc {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.6;
-  margin-bottom: 14px;
-}
-
-/* ── FEATURED ─────────────────────────── */
-.featured {
-  padding: 0 40px 64px;
-}
-
-.feat-inner {
-  max-width: 1020px;
-  margin: 0 auto;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 40px;
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 40px;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.feat-inner::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 300px; height: 3px;
-  background: var(--ac);
-}
-
-.feat-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ac);
-  background: var(--ac-light);
-  padding: 5px 12px;
-  border-radius: 20px;
-  margin-bottom: 14px;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-}
-
-.feat-title {
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: -0.8px;
-  color: var(--text);
-  margin-bottom: 10px;
-}
-
-.feat-desc {
-  font-size: 15px;
-  color: var(--text2);
-  line-height: 1.75;
-  margin-bottom: 24px;
-}
-
-.feat-checks {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 28px;
-}
-
-.feat-check {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--text2);
-}
-
-.check-icon {
-  width: 22px;
-  height: 22px;
-  background: var(--ac);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-.feat-preview {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-}
-
-.prev-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
-}
-
-.prev-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.prev-badge {
-  font-size: 11px;
-  background: var(--ac-light);
-  color: var(--ac);
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: 600;
-}
-
-.prev-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  color: var(--text2);
-  padding: 5px 0;
-}
-
-.prev-total {
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1.5px solid var(--border2);
-}
-
-.prev-btn {
-  width: 100%;
-  margin-top: 16px;
-  background: var(--ac);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: var(--font);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  transition: all .2s;
-}
-
-.prev-btn:hover {
-  background: var(--ac-dark);
-  transform: translateY(-1px);
-}
-
-/* ── SEO CONTENT ──────────────────────── */
-.seo-section {
-  padding: 64px 40px;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-}
-
-.seo-inner {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.seo-inner h2 {
-  font-size: 26px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
-}
-
-.seo-inner p {
-  font-size: 15px;
-  color: var(--text2);
-  line-height: 1.8;
-  margin-bottom: 16px;
-}
-
-/* ── FAQ ──────────────────────────────── */
-.faq-section {
-  padding: 64px 40px;
-  border-top: 1px solid var(--border);
-}
-
-.faq-inner {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.faq-inner h2 {
-  font-size: 26px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.5px;
-  margin-bottom: 28px;
-}
-
-.faq-item {
-  border-bottom: 1px solid var(--border);
-}
-
-.faq-q {
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 20px 0;
-  text-align: left;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font);
-  transition: color .15s;
-}
-
-.faq-q:hover { color: var(--ac); }
-
-.faq-icon {
-  width: 24px;
-  height: 24px;
-  border: 1.5px solid var(--border2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: var(--text2);
-  flex-shrink: 0;
-  transition: all .2s;
-}
-
-.faq-item.open .faq-icon {
-  background: var(--ac);
-  border-color: var(--ac);
-  color: #fff;
-  transform: rotate(45deg);
-}
-
-.faq-a {
-  display: none;
-  padding: 0 0 20px;
-  font-size: 14px;
-  color: var(--text2);
-  line-height: 1.8;
-  border-left: 2px solid var(--ac-light);
-  padding-left: 16px;
-}
-
-.faq-item.open .faq-a { display: block; }
-
-@media (max-width: 768px) {
-  .hero { padding: 48px 20px 40px; }
-  .hero h1 { font-size: 34px; }
-  .hero-sub { font-size: 16px; }
-  .tools-grid { grid-template-columns: 1fr; }
-  .stats { flex-wrap: wrap; }
-  .stat { min-width: 140px; }
-  .feat-inner { grid-template-columns: 1fr; }
-  .feat-preview { display: none; }
-  .tools-section, .featured, .seo-section, .faq-section { padding: 40px 20px; }
+@media (max-width: 600px) {
+  .v-hero h1 { font-size: 28px; }
+  .v-tools-grid { grid-template-columns: 1fr; }
 }
 </style>
-<!-- Google Fonts: DM Sans -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "VeloTools",
-  "url": "https://velotools.app",
-  "description": "Free online tools. No sign-up. No limits.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://velotools.app/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
+{"@context":"https://schema.org","@type":"WebSite","name":"VeloTools","url":"https://velotools.app","description":"Free online tools. No sign-up. No limits.","potentialAction":{"@type":"SearchAction","target":"https://velotools.app/?q={search_term_string}","query-input":"required name=search_term_string"}}
 </script>
 </head>
 <body>
 
-<!-- NAVIGATION -->
-<nav class="nav">
-  <a href="/" class="logo">
-    <div class="logo-mark">⚡</div>
-    <div class="logo-name">velotools</div>
+<!-- NAV -->
+<nav class="v-nav">
+  <a href="/" class="v-logo">
+    <div class="v-logo-mark">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </div>
+    <span class="v-logo-name">velotools</span>
   </a>
-  <div class="nav-links">
-    <a href="/compress/" class="nav-link">🖼 Image</a>
-    <a href="/invoice/" class="nav-link">📄 PDF</a>
-    <a href="/invoice/" class="nav-link">💰 Finance</a>
-    <a href="/focus/" class="nav-link">🎵 Focus</a>
+  <div class="v-nav-links">
+    <a href="/compress/" class="v-nl">🖼 Image</a>
+    <a href="/invoice/"  class="v-nl">🧾 Invoice</a>
+    <a href="/qr/"       class="v-nl">🔲 QR Code</a>
+    <a href="/focus/"    class="v-nl">🎵 Focus</a>
   </div>
-  <a href="/compress/" class="nav-cta">Try Image Compressor →</a>
+  <a href="/compress/" class="v-ncta">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    Try Image Tool
+  </a>
 </nav>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-item"><span>🔒</span>Files never leave your browser</div>
-  <div class="trust-item"><span>✅</span>No sign-up required</div>
-  <div class="trust-item"><span>♾️</span>No file size limits</div>
-  <div class="trust-item"><span>❤️</span>Free forever</div>
-</div>
-
-<!-- AD TOP -->
-<div style="display:flex;justify-content:center;padding:16px 40px 0">
-  <div class="ad-slot ad-top">Advertisement</div>
+<!-- TRUST STRIP -->
+<div class="v-trust">
+  <div class="v-ti"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Files stay in your browser</div>
+  <div class="v-ti"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>No sign-up required</div>
+  <div class="v-ti"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>No file size limits</div>
+  <div class="v-ti"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Forever free</div>
 </div>
 
 <!-- HERO -->
-<section class="hero fade-up">
-  <div class="hero-pill">⚡ Free — No sign-up — No limits</div>
-  <h1>Every tool you need.<br><em>Right here. Right now.</em></h1>
-  <p class="hero-sub">Compress images, create invoices, remove backgrounds, generate QR codes — free, instant, works entirely in your browser.</p>
-  <div class="hero-search">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search-input" placeholder='Try "compress image" or "invoice"…' oninput="filterTools(this.value)">
-    <button onclick="filterTools(document.getElementById('search-input').value)">Search</button>
-  </div>
-  <div class="hero-tags">
-    <a href="/compress/" class="hero-tag">🖼 Compress image</a>
-    <a href="/invoice/" class="hero-tag">🧾 Invoice PDF</a>
-    <a href="/background/" class="hero-tag">✂️ Remove background</a>
-    <a href="/qr/" class="hero-tag">🔲 QR code</a>
-    <a href="/focus/" class="hero-tag">🎵 Focus room</a>
-    <a href="/pdf/" class="hero-tag">📦 Compress PDF</a>
-  </div>
+<section class="v-hero">
+  <h1>Every tool you need.<br><span>Free. Private. Instant.</span></h1>
+  <p class="v-hero-sub">Compress images, create invoices, generate QR codes, remove backgrounds — no account, no upload, no limits. Everything runs right in your browser.</p>
 </section>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat fade-up">
-    <div class="stat-num">12<span>+</span></div>
-    <div class="stat-label">Free tools</div>
-  </div>
-  <div class="stat fade-up-2">
-    <div class="stat-num"><span>0</span></div>
-    <div class="stat-label">Registration needed</div>
-  </div>
-  <div class="stat fade-up-3">
-    <div class="stat-num">100<span>%</span></div>
-    <div class="stat-label">Browser-based</div>
-  </div>
-  <div class="stat fade-up">
-    <div class="stat-num"><span>∞</span></div>
-    <div class="stat-label">No file limits</div>
-  </div>
-</div>
+<!-- TOOLS GRID — above the fold -->
+<section class="v-tools-wrap" id="tools">
+  <div class="v-tools-grid" id="tools-grid">
 
-<!-- TOOLS GRID -->
-<section class="tools-section">
-  <div class="section-header" style="max-width:1020px;margin:0 auto 28px">
-    <h2 class="section-title">All tools — free forever</h2>
-    <a href="#all-tools" class="section-all">View all →</a>
-  </div>
-  <div class="tools-grid" id="tools-grid">
-
-    <a href="/compress/" class="tool-card orange">
-      <div class="card-top">
-        <div class="card-icon orange">🖼️</div>
-        <span class="card-arrow">↗</span>
+    <a href="/compress/" class="v-card c-ac">
+      <div class="v-card-top">
+        <div class="v-card-ico ico-ac">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5b6cf9" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <span class="v-card-arr">↗</span>
       </div>
-      <div class="card-name">Image Compressor</div>
-      <div class="card-desc">Shrink JPG, PNG, WebP without losing quality. Drag and drop. Instant results.</div>
-      <span class="badge badge-orange">🔥 Most popular</span>
+      <div class="v-card-name">Image Compressor</div>
+      <div class="v-card-desc">Compress JPG, PNG, WebP up to 90%. Convert to WebP or AVIF. Resize, crop, blur, effects. 100% private.</div>
+      <span class="v-badge bdg-ac">🔥 Most popular</span>
     </a>
 
-    <a href="/invoice/" class="tool-card green">
-      <div class="card-top">
-        <div class="card-icon green">🧾</div>
-        <span class="card-arrow">↗</span>
+    <a href="/invoice/" class="v-card c-gn">
+      <div class="v-card-top">
+        <div class="v-card-ico ico-gn">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <span class="v-card-arr">↗</span>
       </div>
-      <div class="card-name">Invoice Generator</div>
-      <div class="card-desc">Professional PDF invoice in 60 seconds. No watermark. No account needed.</div>
-      <span class="badge badge-green">⭐ Featured</span>
+      <div class="v-card-name">Invoice Generator</div>
+      <div class="v-card-desc">Professional PDF invoice in 60 seconds. No watermark. No account needed. Your data stays on your device.</div>
+      <span class="v-badge bdg-gn">⭐ Featured</span>
     </a>
 
-    <a href="/background/" class="tool-card purple">
-      <div class="card-top">
-        <div class="card-icon purple">✂️</div>
-        <span class="card-arrow">↗</span>
+    <a href="/background/" class="v-card c-pu">
+      <div class="v-card-top">
+        <div class="v-card-ico ico-pu">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <span class="v-card-arr">↗</span>
       </div>
-      <div class="card-name">Background Remover</div>
-      <div class="card-desc">AI removes any background instantly. Download transparent PNG for free.</div>
-      <span class="badge badge-blue">✨ AI powered</span>
+      <div class="v-card-name">Background Remover</div>
+      <div class="v-card-desc">AI removes any background instantly. Download transparent PNG for free. No uploads to servers.</div>
+      <span class="v-badge bdg-pu">✨ AI powered</span>
     </a>
 
-    <a href="/qr/" class="tool-card blue">
-      <div class="card-top">
-        <div class="card-icon blue">🔲</div>
-        <span class="card-arrow">↗</span>
+    <a href="/qr/" class="v-card c-bl">
+      <div class="v-card-top">
+        <div class="v-card-ico ico-bl">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/></svg>
+        </div>
+        <span class="v-card-arr">↗</span>
       </div>
-      <div class="card-name">QR Code Generator</div>
-      <div class="card-desc">Create QR codes for URL, WiFi, text or contact card. Download SVG or PNG.</div>
-      <span class="badge badge-green">⚡ Instant</span>
+      <div class="v-card-name">QR Code Generator</div>
+      <div class="v-card-desc">Create QR codes for URL, WiFi, text or contact card. Download SVG or PNG instantly.</div>
+      <span class="v-badge bdg-gn">⚡ Instant</span>
     </a>
 
-    <a href="/focus/" class="tool-card red">
-      <div class="card-top">
-        <div class="card-icon red">🎵</div>
-        <span class="card-arrow">↗</span>
+    <a href="/focus/" class="v-card c-rd">
+      <div class="v-card-top">
+        <div class="v-card-ico ico-rd">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span class="v-card-arr">↗</span>
       </div>
-      <div class="card-name">Focus Room</div>
-      <div class="card-desc">Lofi music + white noise + Pomodoro timer. Open once, stay all day.</div>
-      <span class="badge badge-orange">🕐 Stay all day</span>
+      <div class="v-card-name">Focus Room</div>
+      <div class="v-card-desc">Lofi music + white noise + Pomodoro timer. Deep work made easy. Open once, stay all day.</div>
+      <span class="v-badge bdg-ac">🕐 Stay all day</span>
     </a>
 
-    <a href="/pdf/" class="tool-card teal">
-      <div class="card-top">
-        <div class="card-icon teal">📦</div>
-        <span class="card-arrow">↗</span>
+    <a href="/pdf/" class="v-card c-tl">
+      <div class="v-card-top">
+        <div class="v-card-ico ico-tl">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </div>
+        <span class="v-card-arr">↗</span>
       </div>
-      <div class="card-name">PDF Compressor</div>
-      <div class="card-desc">Reduce PDF file size up to 90%. No upload limit. 100% private.</div>
-      <span class="badge badge-green">🔒 100% private</span>
+      <div class="v-card-name">PDF Compressor</div>
+      <div class="v-card-desc">Reduce PDF file size up to 90%. No upload limit. 100% private — processed locally.</div>
+      <span class="v-badge bdg-gn">🔒 100% private</span>
     </a>
 
   </div>
 </section>
 
-<!-- FEATURED: Invoice Generator -->
-<section class="featured">
-  <div class="feat-inner">
-    <div>
-      <div class="feat-label">⭐ Most used this week</div>
-      <h2 class="feat-title">Invoice Generator</h2>
-      <p class="feat-desc">The fastest way to send a professional invoice. Fill in your details, add your services, download a beautiful PDF — in under 60 seconds. No account. No watermark. Free forever.</p>
-      <div class="feat-checks">
-        <div class="feat-check">
-          <div class="check-icon">✓</div>
-          No account or registration required
-        </div>
-        <div class="feat-check">
-          <div class="check-icon">✓</div>
-          No watermark on your PDF — ever
-        </div>
-        <div class="feat-check">
-          <div class="check-icon">✓</div>
-          Works completely in your browser
-        </div>
-        <div class="feat-check">
-          <div class="check-icon">✓</div>
-          Your data never leaves your device
-        </div>
-      </div>
-      <a href="/invoice/" class="btn btn-primary btn-lg">⚡ Create your invoice — free</a>
-    </div>
-    <div class="feat-preview">
-      <div class="prev-head">
-        <div class="prev-title">Invoice</div>
-        <div class="prev-badge">#INV-001</div>
-      </div>
-      <div class="prev-row"><span>From</span><span style="font-weight:500">Your Company</span></div>
-      <div class="prev-row"><span>To</span><span>Client Name</span></div>
-      <div style="height:1px;background:var(--border);margin:10px 0"></div>
-      <div class="prev-row"><span>Web design</span><span>$800</span></div>
-      <div class="prev-row"><span>SEO setup</span><span>$400</span></div>
-      <div class="prev-row"><span>Consulting</span><span>$200</span></div>
-      <div class="prev-total"><span>Total</span><span>$1,400</span></div>
-      <button class="prev-btn">⬇ Download PDF — free</button>
-    </div>
-  </div>
-</section>
-
-<!-- AD BOTTOM -->
-<div style="display:flex;justify-content:center;padding:0 40px 40px">
-  <div class="ad-slot ad-bottom">Advertisement</div>
+<!-- GOOGLE ADS SLOT -->
+<div class="v-ad-wrap">
+  <!-- Google AdSense: replace div with actual ad unit -->
+  <div class="v-ad">Advertisement</div>
 </div>
 
 <!-- SEO CONTENT -->
-<section class="seo-section">
-  <div class="seo-inner">
+<section class="v-seo">
+  <div class="v-seo-in">
     <h2>Free online tools — no limits, no sign-up</h2>
-    <p>VeloTools is a collection of free online tools that work entirely in your browser. Whether you need to compress an image before sending it by email, create a professional invoice for a client, remove a background from a product photo, or generate a QR code for your business — you can do it here in seconds, for free.</p>
-    <p>Unlike other tools that require you to create an account, pay for a subscription, or limit your file sizes, VeloTools works without any registration. Your files are processed locally on your device using modern browser technology — they never get uploaded to any server. This means your data stays completely private.</p>
-    <p>Every tool on VeloTools is optimized to load in under one second and work on any device — desktop, tablet, or smartphone. We designed VeloTools to be as simple as possible: large buttons, clear instructions, and results in one click.</p>
+    <p>VeloTools is a collection of free online tools that work entirely in your browser. Whether you need to compress an image, create a professional invoice, remove a background, or generate a QR code — you can do it here in seconds, for free.</p>
+    <p>Unlike other tools that require account creation or limit file sizes, VeloTools processes everything locally on your device using modern browser technology. Your files never get uploaded to any server — your data stays completely private.</p>
+    <p>Every tool is optimized to load in under one second and work on any device — desktop, tablet, or smartphone. Large buttons, clear instructions, results in one click.</p>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="faq-section">
-  <div class="faq-inner">
+<section class="v-faq">
+  <div class="v-faq-in">
     <h2>Frequently asked questions</h2>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Are VeloTools really free? <div class="faq-icon">+</div>
-      </button>
-      <div class="faq-a">Yes — all tools on VeloTools are completely free to use. There are no hidden fees, no premium tiers, and no subscription plans. The site is supported by non-intrusive advertising.</div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Do I need to create an account? <div class="faq-icon">+</div>
-      </button>
-      <div class="faq-a">No. VeloTools requires zero registration. You open the tool, use it, and download your result. No email, no password, no account — ever.</div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Are my files safe? Where do they go? <div class="faq-icon">+</div>
-      </button>
-      <div class="faq-a">Your files never leave your device. All processing happens locally in your browser using modern JavaScript and WebAssembly technology. Nothing is uploaded to any server. Your data is 100% private.</div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Is there a file size limit? <div class="faq-icon">+</div>
-      </button>
-      <div class="faq-a">No. Unlike other tools that limit free users to 10MB or 25MB, VeloTools has no file size restrictions. Process files as large as your browser and device can handle.</div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Do VeloTools work on mobile phones? <div class="faq-icon">+</div>
-      </button>
-      <div class="faq-a">Yes. Every tool on VeloTools is designed to work perfectly on smartphones and tablets. The interface adapts to any screen size automatically.</div>
-    </div>
-
+    <div class="v-fi"><button class="v-fq" onclick="vFaq(this)">Are VeloTools really free?<div class="v-fqico">+</div></button><div class="v-fa">Yes — all tools are completely free to use. No hidden fees, no premium tiers, no subscriptions. The site is supported by non-intrusive advertising.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vFaq(this)">Do I need to create an account?<div class="v-fqico">+</div></button><div class="v-fa">No. Zero registration required. Open the tool, use it, download your result. No email, no password, no account — ever.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vFaq(this)">Are my files safe? Where do they go?<div class="v-fqico">+</div></button><div class="v-fa">Your files never leave your device. All processing happens locally in your browser using JavaScript and the Canvas API. Nothing is uploaded to any server. 100% private.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vFaq(this)">Is there a file size limit?<div class="v-fqico">+</div></button><div class="v-fa">No file size limits. Process files as large as your browser and device can handle — typically several hundred megabytes.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vFaq(this)">Do VeloTools work on mobile phones?<div class="v-fqico">+</div></button><div class="v-fa">Yes. Every tool is designed to work perfectly on smartphones and tablets. The interface adapts to any screen size automatically.</div></div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <a href="/" class="footer-logo">
-      <div class="logo-mark" style="width:28px;height:28px;font-size:15px">⚡</div>
-      <span style="font-size:15px;font-weight:600;color:var(--text)">velotools</span>
+<footer class="v-foot">
+  <div class="v-foot-in">
+    <a href="/" class="v-logo">
+      <div class="v-logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <span class="v-logo-name">velotools</span>
     </a>
-    <div class="footer-links">
+    <nav class="v-flinks">
       <a href="/compress/">Image Compressor</a>
       <a href="/invoice/">Invoice Generator</a>
       <a href="/qr/">QR Code</a>
       <a href="/focus/">Focus Room</a>
       <a href="/privacy/">Privacy Policy</a>
-      <a href="/about/">About</a>
-    </div>
-    <div class="footer-copy">© 2026 VeloTools · Free forever</div>
+    </nav>
+    <small style="font-size:12px;color:var(--text3)">© 2026 VeloTools · Free forever</small>
   </div>
 </footer>
 
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type":"Question","name":"Are VeloTools really free?","acceptedAnswer":{"@type":"Answer","text":"Yes — all tools are completely free. No hidden fees, no premium tiers, no subscriptions."}},
-    {"@type":"Question","name":"Do I need to create an account?","acceptedAnswer":{"@type":"Answer","text":"No. Zero registration required. Open the tool, use it, download your result."}},
-    {"@type":"Question","name":"Are my files safe?","acceptedAnswer":{"@type":"Answer","text":"Your files never leave your device. All processing happens locally in your browser. 100% private."}},
-    {"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"No file size limits. Process files as large as your browser and device can handle."}},
-    {"@type":"Question","name":"Do VeloTools work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every tool works perfectly on smartphones and tablets."}}
-  ]
-}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are VeloTools really free?","acceptedAnswer":{"@type":"Answer","text":"Yes — all tools are completely free. No hidden fees, no subscriptions."}},{"@type":"Question","name":"Do I need to create an account?","acceptedAnswer":{"@type":"Answer","text":"No. Zero registration required."}},{"@type":"Question","name":"Are my files safe?","acceptedAnswer":{"@type":"Answer","text":"Files never leave your device. All processing is local. 100% private."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"No file size limits."}},{"@type":"Question","name":"Do VeloTools work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every tool works perfectly on smartphones and tablets."}}]}
 </script>
-
 <script>
-function toggleFaq(btn) {
-  var item = btn.parentElement;
-  item.classList.toggle('open');
-}
-
-function filterTools(q) {
-  if (!q) {
-    document.querySelectorAll('.tool-card').forEach(function(c){ c.style.display=''; });
-    return;
-  }
-  q = q.toLowerCase();
-  document.querySelectorAll('.tool-card').forEach(function(c){
-    var text = c.textContent.toLowerCase();
-    c.style.display = text.includes(q) ? '' : 'none';
-  });
-}
+function vFaq(btn) { btn.parentElement.classList.toggle('op'); }
 </script>
-
 </body>
 </html>
