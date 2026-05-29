@@ -664,7 +664,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
       </div>
 
       <!-- PREVIEW -->
-      <div class="v-preview">
+      <div class="v-preview" id="v-preview">
         <img id="v-prev-img" src="" alt="Preview" class="v-prev-img" style="display:none">
         <div id="v-prev-placeholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#475569;pointer-events:none">
           <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:.18"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -1779,8 +1779,7 @@ window.VBatch = (function () {
      of the displayed image. Selection is a bordered div.
   ═══════════════════════════════════════════════ */
   function _cropEnter() {
-    console.log("[Crop] enter, image:", !!S.origImg);
-    if (!S.origImg) { console.warn("[Crop] No image loaded"); return; }
+    if (!S.origImg) return;
     CROP.on = true;
     _cropClean();
     var preview = $('v-preview');
@@ -2125,8 +2124,7 @@ window.VBatch = (function () {
      of the displayed image. Selection is a bordered div.
   ═══════════════════════════════════════════════ */
   function _cropEnter() {
-    console.log("[Crop] enter, image:", !!S.origImg);
-    if (!S.origImg) { console.warn("[Crop] No image loaded"); return; }
+    if (!S.origImg) return;
     CROP.on = true;
     _cropClean();
     var preview = $('v-preview');
