@@ -15,28 +15,34 @@
 <link rel="stylesheet" href="/css/main.css">
 <style>
 :root {
-  --ac:       #5b6cf9;
-  --ac-dark:  #4756e8;
-  --ac-light: rgba(91,108,249,.09);
-  --text:     #0d0f14;
-  --text2:    #4a5568;
-  --text3:    #8a95a8;
-  --bg:       #ffffff;
-  --bg2:      #f7f8fa;
-  --bg3:      #eef0f4;
-  --border:   #e4e7ed;
-  --border2:  #c8cdd8;
-  --gn:       #0ea66e;
-  --font:     'Inter', system-ui, sans-serif;
-  --sh:       0 1px 3px rgba(13,15,20,.07);
-  --sh-md:    0 4px 16px rgba(13,15,20,.09);
-  --sh-lg:    0 12px 40px rgba(13,15,20,.12);
+  --ac:       #6366F1;
+  --ac-dark:  #4f46e5;
+  --ac-light: rgba(99,102,241,.14);
+  --ac-grad:  linear-gradient(135deg,#6366F1 0%,#A855F7 100%);
+  --text:     #F8FAFC;
+  --text2:    #94A3B8;
+  --text3:    #64748B;
+  --bg-main:  #09090B;
+  --bg:       #09090B;
+  --bg2:      rgba(255,255,255,.03);
+  --bg3:      rgba(255,255,255,.06);
+  --border:   rgba(255,255,255,.08);
+  --border2:  rgba(255,255,255,.14);
+  --gn:       #10B981;
+  --font:     'Inter','Plus Jakarta Sans', system-ui, sans-serif;
+  --sh:       0 1px 3px rgba(0,0,0,.4);
+  --sh-md:    0 6px 24px rgba(0,0,0,.45);
+  --sh-lg:    0 18px 50px rgba(0,0,0,.55);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
-  background: var(--bg2);
+  background: var(--bg-main);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(99,102,241,.08), transparent 38%),
+    radial-gradient(circle at 85% 8%, rgba(168,85,247,.06), transparent 42%);
+  background-attachment: fixed;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
 }

@@ -3,24 +3,27 @@
    ═══════════════════════════════════════ */
 
 :root {
-  --ac: #f97316;
-  --ac-dark: #ea6c0a;
-  --ac-light: rgba(249,115,22,0.10);
-  --ac-mid: rgba(249,115,22,0.18);
-  --bg: #ffffff;
-  --bg2: #f9f7f5;
-  --bg3: #f3f0ec;
-  --text: #1a1612;
-  --text2: #6b6055;
-  --text3: #a09080;
-  --border: #e8e0d8;
-  --border2: #d4ccc4;
+  /* ═══ DARK GLASS & NEON — synced with compress/ ═══ */
+  --ac: #6366F1;
+  --ac-dark: #4f46e5;
+  --ac-light: rgba(99,102,241,0.14);
+  --ac-mid: rgba(99,102,241,0.28);
+  --ac-grad: linear-gradient(135deg,#6366F1 0%,#A855F7 100%);
+  --bg-main: #09090B;
+  --bg: #09090B;
+  --bg2: rgba(255,255,255,0.03);
+  --bg3: rgba(255,255,255,0.06);
+  --text: #F8FAFC;
+  --text2: #94A3B8;
+  --text3: #64748B;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
   --radius: 14px;
   --radius-sm: 8px;
   --radius-lg: 20px;
-  --shadow: 0 2px 16px rgba(0,0,0,0.07);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
-  --font: 'DM Sans', system-ui, sans-serif;
+  --shadow: 0 2px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.55);
+  --font: 'Inter','Plus Jakarta Sans','DM Sans', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,7 +46,9 @@ body {
   justify-content: space-between;
   padding: 0 40px;
   height: 64px;
-  background: var(--bg);
+  background: rgba(9,9,11,0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -60,8 +65,9 @@ body {
 .logo-mark {
   width: 34px;
   height: 34px;
-  background: var(--ac);
-  border-radius: 9px;
+  background: var(--ac-grad);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +108,7 @@ body {
 }
 
 .nav-cta {
-  background: var(--ac);
+  background: var(--ac-grad);
   color: #fff;
   border: none;
   padding: 9px 20px;
@@ -119,9 +125,8 @@ body {
 }
 
 .nav-cta:hover {
-  background: var(--ac-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(249,115,22,0.35);
+  box-shadow: 0 4px 16px rgba(99,102,241,0.45);
 }
 
 /* ── BUTTONS ──────────────────────────── */
@@ -142,14 +147,13 @@ body {
 }
 
 .btn-primary {
-  background: var(--ac);
+  background: var(--ac-grad);
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: var(--ac-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(249,115,22,0.35);
+  box-shadow: 0 6px 22px rgba(99,102,241,0.45);
 }
 
 .btn-secondary {
@@ -175,7 +179,8 @@ body {
   justify-content: center;
   gap: 32px;
   padding: 14px 40px;
-  background: var(--bg2);
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
 }
@@ -196,7 +201,7 @@ body {
 
 /* ── FOOTER ───────────────────────────── */
 .footer {
-  background: var(--bg2);
+  background: rgba(255,255,255,0.02);
   border-top: 1px solid var(--border);
   padding: 40px;
 }
@@ -288,7 +293,8 @@ body {
   letter-spacing: .03em;
 }
 
-.badge-orange { background: var(--ac-light); color: var(--ac); }
+.badge-indigo { background: var(--ac-light); color: #a5b4fc; }
+.badge-orange { background: var(--ac-light); color: #a5b4fc; }
 .badge-green  { background: rgba(34,197,94,.1); color: #16a34a; }
 .badge-blue   { background: rgba(59,130,246,.1); color: #2563eb; }
 
@@ -320,3 +326,17 @@ body {
   .ad-side { display: none; }
   .footer { padding: 28px 20px; }
 }
+
+
+/* ── DARK THEME EXTRAS (synced with compress/) ── */
+html, body { background: var(--bg-main); }
+body {
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(99,102,241,.08), transparent 38%),
+    radial-gradient(circle at 85% 8%, rgba(168,85,247,.06), transparent 42%);
+  background-attachment: fixed;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.2); }
