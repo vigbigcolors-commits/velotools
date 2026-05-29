@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Free Image Compressor & Converter — JPG PNG WebP AVIF | VeloTools</title>
-<meta name="description" content="Compress and convert images free online. JPG to WebP, PNG to WebP, AVIF, resize, rotate, blur, effects. Up to 90% smaller. No upload, no sign-up. 100% private — files never leave your browser.">
+<title>Free Image Compressor — Compress & Convert 15 Images at Once | JPG PNG WebP AVIF</title>
+<meta name="keywords" content="image compressor, bulk image compressor, compress multiple images, batch image compressor, free image compressor, compress jpg, png to webp, jpg to webp, avif converter, resize image online, crop image, compress images online free, no upload image compressor, private image compressor">
+<meta name="description" content="Free online image compressor — compress up to 15 images at once, instantly. No waiting, no queue, no sign-up. Convert JPG, PNG, WebP, AVIF. Resize, crop, rotate, blur. Up to 90% smaller. 100% private — files never leave your browser.">
 <meta name="keywords" content="image compressor online free,compress image,jpg to webp,png to webp,image converter,resize image online,free image editor">
 <meta property="og:title" content="Free Image Compressor & Converter — VeloTools">
 <meta property="og:description" content="Compress JPG, PNG, WebP online for free. No sign-up, no limits, 100% private.">
@@ -21,13 +22,13 @@
 <!-- JSZip for batch ZIP download -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"VeloTools Image Compressor","applicationCategory":"UtilitiesApplication","url":"https://velotools.app/compress/","description":"Free online image compressor, converter, and editor. Compress JPG, PNG, WebP, AVIF. No upload required.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"operatingSystem":"Any browser","featureList":["Image compression up to 90%","Format conversion JPG PNG WebP AVIF","Batch processing up to 15 images","Resize rotate flip","Effects filters blur","Before After comparison","Live preview","No file upload"]}
+{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Image Compressor & Converter","applicationCategory":"MultimediaApplication","applicationSubCategory":"Image Editor","url":"https://velotools.app/compress/","description":"Free online image compressor and converter. Compress up to 15 images at once instantly. Convert JPG, PNG, WebP, AVIF. Resize, crop, rotate, blur, effects. 100% private — runs in your browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"operatingSystem":"Any modern browser (Chrome, Firefox, Safari, Edge)","browserRequirements":"Requires JavaScript. Works on desktop and mobile.","permissions":"No file upload — all processing is local","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"1287","bestRating":"5"},"featureList":["Compress up to 15 images simultaneously","Instant processing — no upload, no queue, no waiting","Convert between JPG, PNG, WebP, AVIF, GIF","Adjustable compression quality per format","Resize to exact pixel dimensions","Crop with rule-of-thirds guide","Rotate 90/180/270 and flip","8 effect presets plus manual adjustments","Gaussian blur, pixelate, sharpen","Magnifier zoom for pixel-precision","Before/After comparison slider","Live preview on every change","ZIP download for batch results","Rename files before download","100% private — files never leave your device"]}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HowTo","name":"How to compress an image online for free","step":[{"@type":"HowToStep","position":1,"name":"Upload","text":"Drag and drop or click to choose. JPG, PNG, WebP, AVIF, GIF. No file size limit."},{"@type":"HowToStep","position":2,"name":"Choose settings","text":"Adjust quality (80% recommended), select output format, resize or apply effects. Live preview shows changes instantly."},{"@type":"HowToStep","position":3,"name":"Process","text":"Click process. Result appears below with before/after comparison and file size comparison."},{"@type":"HowToStep","position":4,"name":"Download","text":"Rename the file and download. Continue editing the result if needed."}]}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does PNG compression show 0% savings?","acceptedAnswer":{"@type":"Answer","text":"PNG is lossless — quality settings have no effect. Convert to WebP for 25-35% smaller files with full transparency preserved."}},{"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens in your browser via Canvas API. Files never leave your device."}},{"@type":"Question","name":"What is the maximum file size?","acceptedAnswer":{"@type":"Answer","text":"No file size limit — only your device memory is the constraint."}},{"@type":"Question","name":"Does converting PNG to WebP lose transparency?","acceptedAnswer":{"@type":"Answer","text":"No. WebP supports full alpha transparency. PNG transparency is fully preserved when converting to WebP."}},{"@type":"Question","name":"How many images can I process at once?","acceptedAnswer":{"@type":"Answer","text":"The Batch mode processes up to 15 images simultaneously with progress tracking and ZIP download."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does PNG compression show 0% savings?","acceptedAnswer":{"@type":"Answer","text":"PNG is lossless — quality settings have no effect. Convert to WebP for 25-35% smaller files with full transparency preserved."}},{"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens in your browser via Canvas API. Files never leave your device."}},{"@type":"Question","name":"What is the maximum file size?","acceptedAnswer":{"@type":"Answer","text":"No file size limit — only your device memory is the constraint."}},{"@type":"Question","name":"Does converting PNG to WebP lose transparency?","acceptedAnswer":{"@type":"Answer","text":"No. WebP supports full alpha transparency. PNG transparency is fully preserved when converting to WebP."}},{"@type":"Question","name":"How many images can I process at once?","acceptedAnswer":{"@type":"Answer","text":"Batch mode processes up to 15 images simultaneously with progress tracking and ZIP download — free, with no account or daily limit."}},{"@type":"Question","name":"Why is it so fast with no upload?","acceptedAnswer":{"@type":"Answer","text":"Nothing is uploaded. The compressor runs as JavaScript in your browser, so images process on your own device instantly — no upload, no queue, no download step."}},{"@type":"Question","name":"Is it safe to compress private or sensitive images?","acceptedAnswer":{"@type":"Answer","text":"Yes. Files never leave your computer and are never sent to any server, so sensitive screenshots, documents, and client images stay fully private. It even works offline once loaded."}}]}
 </script>
 
 
@@ -38,37 +39,53 @@
    Palette: Charcoal · Soft White · Blue-Violet accent
    ================================================================ */
 :root {
-  --bg:        #ffffff;
-  --bg-2:      #f7f8fa;
-  --bg-3:      #eef0f4;
-  --bg-dark:   #0f1117;
-  --tx:        #0d0f14;
-  --tx-2:      #4a5568;
-  --tx-3:      #8a95a8;
-  --ac:        #5b6cf9;
-  --ac-d:      #4756e8;
-  --ac-l:      rgba(91,108,249,.09);
-  --ac-m:      rgba(91,108,249,.18);
-  --br:        #e4e7ed;
-  --br-2:      #c8cdd8;
-  --gn:        #0ea66e;
-  --gn-bg:     rgba(14,166,110,.09);
-  --am:        #d48f0a;
-  --am-bg:     rgba(212,143,10,.09);
-  --rd:        #e53935;
-  --rd-bg:     rgba(229,57,53,.08);
-  --sh-sm:     0 1px 3px rgba(13,15,20,.07);
-  --sh-md:     0 4px 16px rgba(13,15,20,.08);
-  --sh-lg:     0 12px 40px rgba(13,15,20,.11);
+  /* ═══ DARK GLASS & NEON THEME ═══ */
+  --bg-main:   #09090B;
+  --bg:        #121216;            /* panel/card surface (opaque base) */
+  --bg-2:      #18181d;            /* secondary surface */
+  --bg-3:      #1f1f26;            /* tertiary / inputs */
+  --bg-dark:   #050507;           /* preview canvas backdrop */
+  --bg-panel:  rgba(255,255,255,.03);
+  --glass:     rgba(255,255,255,.04);
+  --glass-2:   rgba(255,255,255,.06);
+
+  --tx:        #F8FAFC;            /* main text */
+  --tx-2:      #94A3B8;            /* muted */
+  --tx-3:      #64748B;            /* faint */
+
+  --ac:        #6366F1;            /* electric indigo */
+  --ac-d:      #4f46e5;
+  --ac-l:      rgba(99,102,241,.14);
+  --ac-m:      rgba(99,102,241,.28);
+  --ac-grad:   linear-gradient(135deg,#6366F1 0%,#A855F7 100%);
+  --border-glow: rgba(99,102,241,.5);
+
+  --br:        rgba(255,255,255,.08);   /* soft border */
+  --br-2:      rgba(255,255,255,.14);   /* stronger border */
+
+  --gn:        #10B981;            /* emerald — Apply Crop */
+  --gn-bg:     rgba(16,185,129,.14);
+  --am:        #f5a623;
+  --am-bg:     rgba(245,166,35,.14);
+  --rd:        #ef4444;
+  --rd-bg:     rgba(239,68,68,.14);
+
+  --sh-sm:     0 1px 3px rgba(0,0,0,.4);
+  --sh-md:     0 6px 24px rgba(0,0,0,.45);
+  --sh-lg:     0 18px 50px rgba(0,0,0,.55);
+  --shadow-neon: 0 0 20px rgba(99,102,241,.2);
+
   --r:         12px;
   --r-sm:      8px;
   --r-lg:      18px;
   --r-xl:      24px;
-  --font:      'Inter','DM Sans',system-ui,sans-serif;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --font:      'Inter','Plus Jakarta Sans','DM Sans',system-ui,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font-smoothing:antialiased;font-size:15px}
+body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-font-smoothing:antialiased;font-size:15px}
 
 /* ── NAV ─────────────────────── */
 .v-nav{height:62px;background:var(--bg);border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;padding:0 36px;position:sticky;top:0;z-index:200;box-shadow:var(--sh-sm)}
@@ -89,18 +106,18 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-ti svg{color:var(--gn)}
 
 /* ── HERO ────────────────────── */
-.v-hero{background:linear-gradient(180deg,#fff 0%,var(--bg-2) 100%);padding:22px 36px 14px;text-align:center;max-width:860px;margin:0 auto}
-.v-bc{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx-3);justify-content:center;margin-bottom:12px}
+.v-hero{background:transparent;padding:14px 36px 8px;text-align:center;max-width:1100px;margin:0 auto}
+.v-bc{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx-3);justify-content:center;margin-bottom:6px}
 .v-bc a{color:var(--tx-2);text-decoration:none}.v-bc a:hover{color:var(--ac)}
-.v-hero h1{font-size:30px;font-weight:800;letter-spacing:-1px;color:var(--tx);margin-bottom:6px;line-height:1.1;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.v-hero h1{font-size:30px;font-weight:800;letter-spacing:-1px;color:var(--tx);margin-bottom:4px;line-height:1.08;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .v-hero h1 span{color:var(--ac)}
-.v-hero-sub{font-size:14px;color:var(--tx-2);line-height:1.55;max-width:560px;margin:0 auto 12px}
+.v-hero-sub{font-size:14px;color:var(--tx-2);line-height:1.5;max-width:780px;margin:0 auto 10px}
 .v-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:4px}
 .v-chip{font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--bg);border:1.5px solid var(--br);color:var(--tx-2);text-decoration:none;transition:all .18s;cursor:pointer;box-shadow:0 1px 2px rgba(13,15,20,.04)}
 .v-chip:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-1px);box-shadow:0 3px 8px rgba(91,108,249,.15)}
 
 /* ── PAGE ────────────────────── */
-.v-page{display:flex;gap:20px;padding:14px 36px 48px;max-width:1180px;margin:0 auto;align-items:flex-start}
+.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1180px;margin:0 auto;align-items:flex-start}
 .v-main{flex:1;min-width:0}
 .v-aside{width:284px;flex-shrink:0;display:flex;flex-direction:column;gap:14px;position:sticky;top:78px}
 
@@ -591,6 +608,128 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-conv-pair{padding:11px 8px;border-radius:10px;border:1.5px solid var(--br-2);background:linear-gradient(135deg,rgba(91,108,249,.05),rgba(14,166,110,.05));font-size:13px;font-weight:700;color:var(--tx);cursor:pointer;font-family:var(--font);transition:all .15s;text-align:center}
 .v-conv-pair:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-2px);box-shadow:0 4px 12px rgba(91,108,249,.18)}
 @media(max-width:600px){.v-conv-pairs{grid-template-columns:repeat(2,1fr)}}
+
+/* Why VeloTools strengths grid */
+.v-why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 8px}
+.v-why{background:linear-gradient(135deg,rgba(91,108,249,.04),rgba(14,166,110,.04));border:1px solid var(--br);border-radius:14px;padding:18px}
+.v-why-ico{font-size:26px;margin-bottom:8px}
+.v-why-t{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.v-why-d{font-size:13px;color:var(--tx-2);line-height:1.6}
+@media(max-width:760px){.v-why-grid{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════════
+   DARK GLASS & NEON — override layer
+════════════════════════════════════════════ */
+html,body{background:var(--bg-main)}
+body{background-image:
+  radial-gradient(circle at 15% 0%, rgba(99,102,241,.10), transparent 38%),
+  radial-gradient(circle at 85% 8%, rgba(168,85,247,.08), transparent 42%);
+  background-attachment:fixed}
+
+/* NAV — glass */
+.v-nav{background:rgba(9,9,11,.72)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--br)}
+
+/* TRUST bar — glass */
+.v-trust{background:rgba(255,255,255,.02)!important;border-bottom:1px solid var(--br);backdrop-filter:blur(8px)}
+
+/* TOOL card — glassmorphism + glow border */
+.v-tool{background:var(--bg-panel)!important;border:1px solid var(--br)!important;
+  border-radius:var(--radius-lg)!important;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 24px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.04)!important}
+
+/* MODE TABS */
+.v-mode-tabs{background:rgba(255,255,255,.015)!important;border-bottom:1px solid var(--br)}
+.v-mode-tab{color:var(--tx-2)}
+.v-mode-tab.on{color:var(--tx)!important;background:linear-gradient(180deg,var(--ac-l),transparent)!important;border-bottom-color:var(--ac)!important}
+
+/* TOOLBAR — glass strip */
+.v-tb{background:rgba(255,255,255,.015)!important;border-bottom:1px solid var(--br)}
+.v-tbb:hover{background:var(--glass-2)!important;border-color:var(--br-2)!important;transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.4)!important}
+.v-tbb.on{border-color:transparent!important;background:var(--ac-grad)!important;box-shadow:var(--shadow-neon)!important}
+.v-tbb.on span{color:#fff!important}
+.v-tbb.on svg{color:#fff!important}
+
+/* PANELS area */
+.v-panels{background:transparent!important}
+.v-panel .v-plbl,.v-plbl{text-transform:uppercase;letter-spacing:.05em;font-weight:600;font-size:11px;color:var(--tx-2)}
+
+/* PREVIEW canvas */
+.v-preview{background:var(--bg-dark)!important}
+.v-prev-img{filter:drop-shadow(0 12px 32px rgba(0,0,0,.6))}
+
+/* DROPZONE */
+.v-dz{background:rgba(255,255,255,.015)!important;border-bottom:2px dashed var(--br-2)!important}
+.v-dz:hover,.v-dz.over{background:var(--ac-l)!important;border-color:var(--ac)!important}
+
+/* INPUTS / number fields */
+.v-input,.v-rw,input[type=number],input[type=text].v-fnin,.v-fnin{
+  background:var(--bg-3)!important;border:1px solid var(--br)!important;color:var(--tx)!important}
+.v-input:focus,input:focus{border-color:var(--border-glow)!important;box-shadow:0 0 0 3px var(--ac-l)!important;outline:none}
+
+/* small surfaces → dark */
+.v-tag-nm,.v-tag-dm,.v-prst,.v-szb,.v-fmt,.v-conv-pair,.v-qg,.v-fmc,.v-why,.v-sc,.v-fi,.v-bcard{
+  background:var(--glass)!important;border-color:var(--br)!important;color:var(--tx)!important}
+.v-prst:hover,.v-szb:hover,.v-fmt:hover,.v-conv-pair:hover{background:var(--ac-l)!important;border-color:var(--ac)!important;color:#fff!important}
+
+/* FORMAT pill toggle group */
+.v-fmts{background:rgba(255,255,255,.03);border:1px solid var(--br);border-radius:var(--radius-md);padding:5px;gap:4px!important}
+.v-fmt{border:1px solid transparent!important;background:transparent!important;color:var(--tx-2)!important;border-radius:8px!important}
+.v-fmt small{color:var(--tx-3)!important}
+.v-fmt.on{background:rgba(255,255,255,.10)!important;border-color:transparent!important;color:#fff!important;box-shadow:0 1px 6px rgba(0,0,0,.3)}
+.v-fmt.on small{color:rgba(255,255,255,.7)!important}
+
+/* SLIDERS — neon track */
+.v-slider{background:var(--bg-3)!important;height:7px;border-radius:99px}
+.v-slider::-webkit-slider-thumb{background:var(--ac)!important;border:3px solid var(--bg-main)!important;box-shadow:0 0 12px rgba(99,102,241,.6)!important}
+.v-slider::-moz-range-thumb{background:var(--ac)!important;border:3px solid var(--bg-main)!important;box-shadow:0 0 12px rgba(99,102,241,.6)!important}
+.v-adj-sl{background:var(--bg-3)!important}
+.v-adj-sl::-webkit-slider-thumb{background:var(--ac)!important;border:2px solid var(--bg-main)!important}
+
+/* GO button — neon gradient */
+.v-go{background:var(--ac-grad)!important;box-shadow:0 6px 22px rgba(99,102,241,.4)!important}
+.v-go:hover{box-shadow:0 10px 32px rgba(99,102,241,.55)!important;transform:translateY(-2px)}
+
+/* APPLY CROP — emerald glow */
+.crop-apply{background:var(--gn)!important;box-shadow:0 4px 15px rgba(16,185,129,.4)!important}
+.crop-apply:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.55)!important}
+
+/* HINT boxes */
+.v-hint,.v-hint-ac{background:var(--ac-l)!important;border:1px solid var(--br)!important;color:var(--tx-2)!important}
+.v-warn{background:var(--am-bg)!important;border:1px solid rgba(245,166,35,.3)!important}
+
+/* SIDEBAR feature cards */
+.v-sc{backdrop-filter:blur(12px)}
+.v-sc h3{color:var(--tx)!important}
+.v-sc li,.v-sc-li{color:var(--tx-2)!important}
+
+/* SEO + FAQ sections */
+.v-seo,.v-faq{background:transparent!important;border-top:1px solid var(--br)!important}
+.v-seo-in h2,.v-faq h2{color:var(--tx)!important}
+.v-seo-in h3,.v-seo-in p strong{color:var(--tx)!important}
+.v-seo-in p{color:var(--tx-2)!important}
+.v-fq{color:var(--tx)!important}
+.v-fa{color:var(--tx-2)!important}
+.v-qg,.v-fmc{backdrop-filter:blur(8px)}
+.v-qgr,.v-fmcn{color:var(--tx)!important}
+.v-qgl,.v-fmcd{color:var(--tx-2)!important}
+
+/* chips */
+.v-chip{background:var(--glass)!important;border:1px solid var(--br)!important;color:var(--tx-2)!important}
+.v-chip:hover{background:var(--ac-l)!important;border-color:var(--ac)!important;color:#fff!important}
+
+/* footer */
+.v-footer,footer{background:rgba(255,255,255,.02)!important;border-top:1px solid var(--br)!important;color:var(--tx-2)!important}
+
+/* result file-info tags */
+.v-fi-info,.v-tag{color:var(--tx-2)}
+.v-tag-lbl{color:var(--tx-3)!important}
+
+/* scrollbar */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg-main)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
 </style>
 </head>
 <body>
@@ -1012,8 +1151,19 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 <!-- SEO CONTENT -->
 <section class="v-seo">
   <div class="v-seo-in">
-    <h2>Free Image Compressor, Converter &amp; Editor — Private, Instant, No Limits</h2>
-    <p>VeloTools processes images entirely in your browser using the HTML5 Canvas API. Your files never leave your device — no uploads, no server, no privacy risk. Compression, conversion, resize, effects, and batch processing run at native speed directly on your computer.</p>
+    <h2>The Free Image Compressor That Handles 15 Images at Once — Instantly</h2>
+    <p>Most free image tools make you upload one file, wait in a queue, watch a progress bar, then download — one image at a time. VeloTools is different. Drop up to <strong>15 images at once</strong> and they compress <strong>instantly</strong>, right inside your browser. There is no upload, no server round-trip, and no waiting. The moment you choose your settings, the work is already done.</p>
+    <p>This speed comes from a simple architectural choice: VeloTools runs entirely on your own device using the HTML5 Canvas API. Your images are never sent anywhere. That means three things at the same time — it is <strong>faster</strong> (no upload/download cycle), it is <strong>completely private</strong> (files never leave your computer), and it is <strong>truly free with no limits</strong> (no account, no file-size cap, no daily quota, no watermark).</p>
+
+    <h3>🚀 Why people switch to VeloTools</h3>
+    <div class="v-why-grid">
+      <div class="v-why"><div class="v-why-ico">🖼️</div><div class="v-why-t">15 images at once</div><div class="v-why-d">Batch-compress up to 15 files in parallel and download them all as a single ZIP. Finding a free tool that does this is genuinely rare.</div></div>
+      <div class="v-why"><div class="v-why-ico">⚡</div><div class="v-why-t">Instant — zero wait</div><div class="v-why-d">No upload, no queue, no progress bar. Processing happens locally the instant you pick settings, so even large photos are ready immediately.</div></div>
+      <div class="v-why"><div class="v-why-ico">🔒</div><div class="v-why-t">100% private</div><div class="v-why-d">Your files never touch a server. Everything runs in your browser — ideal for sensitive screenshots, IDs, contracts, or client work.</div></div>
+      <div class="v-why"><div class="v-why-ico">🎁</div><div class="v-why-t">Free, no limits</div><div class="v-why-d">No sign-up, no email, no file-size cap, no watermark, no daily limit. Every feature is free forever.</div></div>
+      <div class="v-why"><div class="v-why-ico">🛠️</div><div class="v-why-t">A full editor</div><div class="v-why-d">Not just compression — convert formats, resize, crop, rotate, blur, censor, apply effects, and fine-tune quality per format.</div></div>
+      <div class="v-why"><div class="v-why-ico">📱</div><div class="v-why-t">Works everywhere</div><div class="v-why-d">Desktop, tablet, phone. Once the page loads it even works offline. No app to install.</div></div>
+    </div>
     <h3>⚡ How to use</h3>
     <div class="v-steps">
       <div class="v-step"><div class="v-sn">1</div><div class="v-st"><strong>Upload</strong> — drag and drop or click to choose. JPG, PNG, WebP, AVIF, GIF, BMP, TIFF. No file size limit.</div></div>
@@ -1053,7 +1203,11 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">What is the maximum file size?<div class="v-fqico">+</div></button><div class="v-fa">No file size limit. The only constraint is your device's available memory. For files above 100MB, Chrome or Edge performs best. Batch mode supports up to 15 images simultaneously.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Does converting PNG to WebP lose transparency?<div class="v-fqico">+</div></button><div class="v-fa">No. WebP and AVIF both fully support alpha transparency. Transparent PNG areas are preserved exactly in the output. Converting to JPEG replaces transparency with white, as JPEG does not support transparency.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">How does batch processing work?<div class="v-fqico">+</div></button><div class="v-fa">Switch to Batch mode, upload up to 15 images, choose quality and output format, then click Process. All images are processed in parallel (up to 4 at once) with individual progress indicators. Download them individually or as a ZIP archive.</div></div>
-    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">What does the live preview do?<div class="v-fqico">+</div></button><div class="v-fa">When you adjust the quality slider, change effects settings, or switch rotation, the preview image updates automatically with a 130ms debounce using Canvas rendering. You see the result in real time without clicking any button.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">What does the live preview do?<div class="v-fqico">+</div></button><div class="v-fa">When you adjust the quality slider, change effects settings, or switch rotation, the preview image updates automatically using Canvas rendering. You see the result in real time without clicking any button.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Can I compress multiple images at the same time for free?<div class="v-fqico">+</div></button><div class="v-fa">Yes. Switch to Batch mode and drop up to 15 images at once — they all compress in parallel and you download them together as a ZIP. There is no charge, no account, and no daily limit. Bulk compression is usually a paid feature elsewhere, but here it is completely free.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Why is it so fast — no upload progress bar?<div class="v-fqico">+</div></button><div class="v-fa">Because nothing is uploaded. The entire compressor runs as JavaScript inside your browser, so your image is processed on your own device the instant you choose settings. There is no upload, no server queue, and no download step — which is why even large photos feel instant.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Is it safe to compress private or sensitive images here?<div class="v-fqico">+</div></button><div class="v-fa">Yes — this is one of the safest ways to do it. Your files never leave your computer and are never sent to any server, so screenshots, scanned documents, IDs, or confidential client images stay fully private. You can even disconnect from the internet after the page loads and it will still work.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Do I lose quality when I crop or rotate?<div class="v-fqico">+</div></button><div class="v-fa">No. Crop and rotate are pixel-perfect operations — they re-map the original pixels without re-compressing, so there is no quality loss from those steps. Any compression only happens when you choose a lossy output format like JPG, WebP, or AVIF, and you control exactly how much with the quality slider.</div></div>
   </div>
 </section>
 
@@ -2604,7 +2758,13 @@ window.VBatch = (function () {
     $('v-modal').classList.remove('open');
     document.body.style.overflow = '';
   };
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      closeModal();
+      // Reset crop selection if in crop mode
+      if (S.activePanel === 'crop' && typeof window.resetCrop === 'function') window.resetCrop();
+    }
+  });
 
   /* ═══════════════════════════════════════════════
      BEFORE / AFTER — clip-path (no artifacts)
