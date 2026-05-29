@@ -1,8 +1,7 @@
 /**
- * VeloTools — ui.js v7.0
- * Crop: div-based overlay (no canvas z-index/overflow issues)
- * Zoom: magnifier lens on mousemove
- * All functions tested and working
+ * VeloTools — ui.js v7.2
+ * Crop Fix: Added position: relative to container to prevent overlay bleed.
+ * Added Floating "Apply Crop" button directly attached to the selection.
  */
 (function () {
   'use strict';
@@ -20,10 +19,9 @@
   var CROP = {
     on: false,
     dragging: false,
-    sx: 0, sy: 0,          // start in overlay-px
-    x: 0,  y: 0,           // selection top-left in overlay-px
-    w: 0,  h: 0,           // selection size in overlay-px
-    // image-space result (set on mouseup)
+    sx: 0, sy: 0,
+    x: 0,  y: 0,
+    w: 0,  h: 0,
     imgX: 0, imgY: 0, imgW: 0, imgH: 0
   };
 
@@ -34,7 +32,6 @@
      INIT
   ═══════════════════════════════════════════════ */
   document.addEventListener('DOMContentLoaded', function () {
-    /* drag-drop on dropzone */
     var dz = $('v-dz');
     if (dz) {
       dz.addEventListener('dragover',  function(e){ e.preventDefault(); dz.classList.add('over'); });
@@ -42,7 +39,6 @@
       dz.addEventListener('drop',      function(e){ e.preventDefault(); dz.classList.remove('over'); var f = e.dataTransfer.files[0]; if(f) loadFile(f); });
     }
 
-    /* quality slider */
     var qsl = $('v-qsl');
     if (qsl) {
       qsl.addEventListener('input', function(){
@@ -53,7 +49,6 @@
       _sliderUI(qsl, $('v-qnum'), '80%');
     }
 
-    /* effect sliders */
     [['v-ef-br','brightness'],['v-ef-co','contrast'],
      ['v-ef-sa','saturation'],['v-ef-hu','hue'],
      ['v-ef-sh','sharpness'], ['v-ef-dn','denoise']].forEach(function(p){
@@ -65,7 +60,6 @@
       });
     });
 
-    /* blur amount */
     var ba = $('v-blur-amt');
     if (ba) {
       ba.addEventListener('input', function(){
@@ -75,12 +69,10 @@
       });
     }
 
-    /* resize inputs */
     var rw = $('v-rw'), rh = $('v-rh');
     if (rw) rw.addEventListener('input', _onW);
     if (rh) rh.addEventListener('input', _onH);
 
-    /* batch */
     if (window.VBatch) VBatch.init();
   });
 
@@ -265,6 +257,13 @@
   ═══════════════════════════════════════════════ */
   window.process = function() {
     if (!S.origImg) return;
+
+    if (S.activePanel === 'crop' && CROP.on) {
+      if (CROP.imgW < 2 || CROP.imgH < 2) return;
+      window.applyCrop();
+      return; 
+    }
+
     _cropExit();
     var proc = $('v-proc'), gb = $('v-gobtn'), res = $('v-result');
     proc.classList.add('on');
@@ -315,9 +314,7 @@
   };
 
   /* ═══════════════════════════════════════════════
-     ✂️ CROP  — div-based, no canvas z-index issues
-     Works by placing a transparent overlay div on top
-     of the displayed image. Selection is a bordered div.
+     ✂️ CROP
   ═══════════════════════════════════════════════ */
   function _cropEnter() {
     if (!S.origImg) return;
@@ -328,10 +325,10 @@
     var img     = $('v-prev-img');
     if (!preview || !img) return;
 
-    /* Make sure preview is NOT overflow:hidden while cropping */
+    // ЖЕСТКИЙ ФИКС: Удерживаем невидимый слой обрезки строго внутри контейнера превью
+    preview.style.position = 'relative';
     preview.style.overflow = 'visible';
 
-    /* ── Overlay (covers exactly the rendered image) ── */
     var ov = document.createElement('div');
     ov.id = 'crop-ov';
     ov.style.cssText = [
@@ -341,7 +338,6 @@
       'user-select:none', '-webkit-user-select:none'
     ].join(';');
 
-    /* ── Dark mask ── */
     var mask = document.createElement('div');
     mask.id = 'crop-mask';
     mask.style.cssText = [
@@ -350,7 +346,6 @@
       'background:rgba(0,0,0,0.5)', 'pointer-events:none', 'z-index:1'
     ].join(';');
 
-    /* ── Selection box ── */
     var sel = document.createElement('div');
     sel.id = 'crop-sel';
     sel.style.cssText = [
@@ -361,7 +356,6 @@
       'box-sizing:border-box'
     ].join(';');
 
-    /* ── Dimensions badge ── */
     var badge = document.createElement('div');
     badge.id = 'crop-badge';
     badge.style.cssText = [
@@ -373,12 +367,29 @@
       'white-space:nowrap'
     ].join(';');
 
+    // ЖЕСТКИЙ ФИКС 2: Создаем плавающую кнопку прямо под рамкой
+    var floatBtn = document.createElement('button');
+    floatBtn.id = 'crop-float-btn';
+    floatBtn.innerHTML = '✔ Apply Crop';
+    floatBtn.style.cssText = [
+      'position:absolute', 'display:none',
+      'background:#0ea66e', 'color:#fff', 'border:none',
+      'padding:8px 16px', 'border-radius:6px',
+      'font:700 13px Inter,system-ui,sans-serif', 'cursor:pointer',
+      'box-shadow:0 4px 12px rgba(0,0,0,0.4)',
+      'z-index:30', 'pointer-events:auto' // auto делает ее кликабельной!
+    ].join(';');
+
+    // Защищаем клик по кнопке, чтобы он не сбрасывал выделение
+    floatBtn.addEventListener('mousedown', function(e){ e.stopPropagation(); window.applyCrop(); });
+    floatBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); window.applyCrop(); }, {passive:false});
+
     ov.appendChild(mask);
     ov.appendChild(sel);
     ov.appendChild(badge);
+    ov.appendChild(floatBtn);
     preview.appendChild(ov);
 
-    /* ── Event listeners ── */
     function getRelPos(e) {
       var imgRect = img.getBoundingClientRect();
       var cl = e.touches ? e.touches[0].clientX : e.clientX;
@@ -400,6 +411,7 @@
       CROP.w  = 0;   CROP.h  = 0;
       sel.style.display   = 'none';
       badge.style.display = 'none';
+      floatBtn.style.display = 'none';
     }
 
     function onMove(e) {
@@ -412,7 +424,6 @@
       CROP.w = Math.abs(p.x - CROP.sx);
       CROP.h = Math.abs(p.y - CROP.sy);
 
-      /* Clamp to image bounds */
       CROP.x = Math.max(0, CROP.x);
       CROP.y = Math.max(0, CROP.y);
       CROP.w = Math.min(CROP.w, p.iw - CROP.x);
@@ -420,7 +431,6 @@
 
       if (CROP.w < 2 || CROP.h < 2) return;
 
-      /* Position selection box relative to overlay */
       var imgRect = img.getBoundingClientRect();
       var ovRect  = ov.getBoundingClientRect();
       var offX = imgRect.left - ovRect.left;
@@ -432,7 +442,6 @@
       sel.style.height  = px(CROP.h);
       sel.style.display = 'block';
 
-      /* Calculate real pixel dimensions */
       var scaleX = S.origW / p.iw;
       var scaleY = S.origH / p.ih;
       CROP.imgX = Math.round(CROP.x * scaleX);
@@ -440,13 +449,20 @@
       CROP.imgW = Math.round(CROP.w * scaleX);
       CROP.imgH = Math.round(CROP.h * scaleY);
 
-      /* Update badge */
       badge.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px';
       badge.style.left  = px(CROP.x + offX);
       badge.style.top   = px(CROP.y + offY + CROP.h + 6);
       badge.style.display = 'block';
 
-      /* Update info text */
+      // Позиционируем плавающую кнопку сразу под рамкой
+      var btnY = CROP.y + offY + CROP.h + 30;
+      // Если рамка ушла в самый низ, переносим кнопку внутрь рамки, чтобы не обрезалась
+      if (btnY + 40 > imgRect.height) { btnY = CROP.y + offY + CROP.h - 45; }
+      
+      floatBtn.style.left = px(CROP.x + offX);
+      floatBtn.style.top  = px(btnY);
+      floatBtn.style.display = 'block';
+
       var info = $('v-crop-info');
       if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — click "Apply crop" to confirm';
     }
@@ -456,6 +472,7 @@
       if (CROP.w < 5 || CROP.h < 5) {
         sel.style.display   = 'none';
         badge.style.display = 'none';
+        floatBtn.style.display = 'none';
         var info = $('v-crop-info');
         if (info) info.textContent = 'Draw a selection on the image above';
       }
@@ -468,7 +485,6 @@
     document.addEventListener('mouseup',    onEnd);
     document.addEventListener('touchend',   onEnd);
 
-    /* Store refs for cleanup */
     ov._onMove = onMove;
     ov._onEnd  = onEnd;
   }
@@ -497,8 +513,8 @@
   }
 
   window.applyCrop = function() {
-    if (!S.origImg) { alert('Load an image first.'); return; }
-    if (CROP.imgW < 2 || CROP.imgH < 2) { alert('Draw a selection first.'); return; }
+    if (!S.origImg) return;
+    if (CROP.imgW < 2 || CROP.imgH < 2) return;
 
     var c = document.createElement('canvas');
     c.width  = CROP.imgW;
@@ -524,20 +540,23 @@
       if (info) info.textContent = '✓ Cropped to ' + CROP.imgW + ' × ' + CROP.imgH + ' px';
       _cropExit();
       _cropClean();
+      
       switchPanel('compress', $('v-tb-compress'));
+      setTimeout(window.process, 50);
     };
     newImg.src = newUrl;
   };
 
   window.resetCrop = function() {
-    var sel = $('crop-sel'), badge = $('crop-badge');
+    var sel = $('crop-sel'), badge = $('crop-badge'), fbtn = $('crop-float-btn');
     if (sel)   sel.style.display   = 'none';
     if (badge) badge.style.display = 'none';
+    if (fbtn)  fbtn.style.display  = 'none';
     _cropClean();
   };
 
   /* ═══════════════════════════════════════════════
-     🔍 ZOOM — magnifier lens
+     🔍 ZOOM
   ═══════════════════════════════════════════════ */
   window.toggleZoom = function(btn) {
     ZOOM.on = !ZOOM.on;
@@ -560,7 +579,6 @@
     if (sp) sp.textContent = 'Zoom off';
     if (img) img.style.cursor = 'zoom-in';
 
-    /* Create lens once */
     var lens = $('zoom-lens');
     if (!lens) {
       lens = document.createElement('div');
@@ -593,7 +611,6 @@
       var cx = (e.touches ? e.touches[0].clientX : e.clientX);
       var cy = (e.touches ? e.touches[0].clientY : e.clientY);
 
-      /* Cursor relative to image */
       var mx = cx - imgRect.left;
       var my = cy - imgRect.top;
       if (mx < 0 || my < 0 || mx > imgRect.width || my > imgRect.height) {
@@ -602,7 +619,6 @@
       }
       lens.style.display = 'block';
 
-      /* Position lens — offset above finger on touch */
       var prevRect = preview.getBoundingClientRect();
       var lx = (cx - prevRect.left) - LENS_SIZE / 2;
       var ly = (cy - prevRect.top)  - LENS_SIZE / 2 - (e.touches ? 90 : 0);
@@ -611,7 +627,6 @@
       lens.style.left = px(lx);
       lens.style.top  = px(ly);
 
-      /* Draw zoomed portion onto lens canvas */
       var scaleX = S.origW / imgRect.width;
       var scaleY = S.origH / imgRect.height;
       var zw = LENS_SIZE * scaleX / ZOOM_LEVEL;
@@ -676,19 +691,15 @@
 
   /* ─── NEW IMAGE ──────────────────────────────── */
   window.newFile = function() {
-    /* Disable zoom */
     var zb = $('v-tb-zoom');
     if (zb && ZOOM.on) toggleZoom(zb);
 
-    /* Clean up crop */
     _cropExit();
     _cropClean();
 
-    /* Reset state */
     S.reset();
     _resetAdj(); _resetRot(); _resetEfx();
 
-    /* Reset UI */
     var editor = $('v-editor');
     if (editor) editor.classList.remove('on');
 
@@ -704,7 +715,6 @@
     var res = $('v-result');
     if (res) res.classList.remove('on');
 
-    /* Reset quality slider */
     var sl = $('v-qsl');
     if (sl) { sl.value = 80; _sliderUI(sl, $('v-qnum'), '80%'); }
 
@@ -727,13 +737,12 @@
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
 
   /* ═══════════════════════════════════════════════
-     BEFORE / AFTER — clip-path (no artifacts)
+     BEFORE / AFTER
   ═══════════════════════════════════════════════ */
   function _buildBA(origSrc, resSrc) {
     var wrap = $('v-ba-wrap');
     if (!wrap) return;
 
-    /* Normalize both images to same canvas size */
     function toDataUrl(src, cb) {
       var img = new Image();
       img.onload = function() {
