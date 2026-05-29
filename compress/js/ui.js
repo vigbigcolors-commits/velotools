@@ -870,4 +870,76 @@
     if (sm) sm.style.display = mode === 'single' ? '' : 'none';
     if (bm) bm.style.display = mode === 'batch'  ? '' : 'none';
   };
+
+/* ═══════════════════════════════════════════════
+     KEYBOARD SHORTCUTS
+  ═══════════════════════════════════════════════ */
+  document.addEventListener('keydown', function(e) {
+    // Не срабатывает когда фокус в input/textarea
+    var tag = document.activeElement && document.activeElement.tagName;
+    var inInput = (tag === 'INPUT' || tag === 'TEXTAREA');
+
+    // Enter — нажать главную кнопку Process
+    if (e.key === 'Enter' && !inInput && S.origImg) {
+      e.preventDefault();
+      window.process();
+    }
+
+    // D — скачать результат
+    if (e.key === 'd' && !inInput && S.resultBlob) {
+      e.preventDefault();
+      window.dlFile();
+    }
+
+    // N — новое изображение
+    if (e.key === 'n' && !inInput) {
+      e.preventDefault();
+      window.newFile();
+    }
+
+    // 1-7 — переключение панелей
+    var panels = ['compress','convert','resize','rotate','effects','blur','crop'];
+    var idx = parseInt(e.key) - 1;
+    if (!isNaN(idx) && idx >= 0 && idx < panels.length && !inInput && S.origImg) {
+      var tbId = 'v-tb-' + panels[idx];
+      switchPanel(panels[idx], $(tbId));
+    }
+  });
+
+  /* ═══════════════════════════════════════════════
+     PASTE IMAGE FROM CLIPBOARD (Ctrl+V)
+  ═══════════════════════════════════════════════ */
+  document.addEventListener('paste', function(e) {
+    var items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith('image/')) {
+        e.preventDefault();
+        var file = items[i].getAsFile();
+        if (file) window.loadFile(file);
+        break;
+      }
+    }
+  });
+
+  /* ═══════════════════════════════════════════════
+     AUTO-SCROLL TO RESULT on mobile
+  ═══════════════════════════════════════════════ */
+  var _origProcess = window.process;
+  window.process = function() {
+    _origProcess();
+  };
+
+  /* ═══════════════════════════════════════════════
+     FILENAME INPUT — Enter triggers download
+  ═══════════════════════════════════════════════ */
+  document.addEventListener('DOMContentLoaded', function() {
+    var fnin = $('v-fnin');
+    if (fnin) {
+      fnin.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') window.dlFile();
+      });
+    }
+  });
+
 })();
