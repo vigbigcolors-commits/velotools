@@ -191,7 +191,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-prst .l{font-size:10px;color:var(--tx-2);margin-top:2px}
 
 /* Format */
-.v-fmts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.v-fmts{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
 .v-fmt{padding:10px 4px;border-radius:9px;border:1.5px solid var(--br-2);background:var(--bg);font-size:13px;font-weight:700;color:var(--tx-2);cursor:pointer;font-family:var(--font);transition:all .14s;text-align:center}
 .v-fmt small{display:block;font-size:9px;font-weight:500;color:var(--tx-3);margin-top:2px}
 .v-fmt:hover,.v-fmt.on{border-color:var(--ac);color:var(--ac);background:var(--ac-l)}
@@ -585,6 +585,12 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-mode-tab { font-size:14px; padding:15px 16px }
 .v-mode-tab.on { font-weight:700 }
 
+
+/* Popular conversion pairs */
+.v-conv-pairs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:4px}
+.v-conv-pair{padding:11px 8px;border-radius:10px;border:1.5px solid var(--br-2);background:linear-gradient(135deg,rgba(91,108,249,.05),rgba(14,166,110,.05));font-size:13px;font-weight:700;color:var(--tx);cursor:pointer;font-family:var(--font);transition:all .15s;text-align:center}
+.v-conv-pair:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-2px);box-shadow:0 4px 12px rgba(91,108,249,.18)}
+@media(max-width:600px){.v-conv-pairs{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -744,8 +750,27 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
             <button class="v-fmt"    id="v-fmt-png"   onclick="setFmt('image/png',this)">PNG<small>Lossless</small></button>
             <button class="v-fmt"    id="v-fmt-webp"  onclick="setFmt('image/webp',this)">WebP<small>Modern</small></button>
             <button class="v-fmt"    id="v-fmt-avif"  onclick="setFmt('image/avif',this)">AVIF<small>Smallest</small></button>
+            <button class="v-fmt"    id="v-fmt-gif"   onclick="setFmt('image/gif',this)">GIF<small>Legacy</small></button>
           </div>
-          <div class="v-hint v-hint-ac">💡 <strong>WebP</strong> is 25–40% smaller than JPG/PNG at equal quality. <strong>AVIF</strong> up to 50% smaller than JPG.</div>
+          <div id="v-conv-quality" style="margin-top:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span class="v-plbl" style="margin:0">Compression quality</span>
+              <span id="v-conv-qnum" style="font-size:22px;font-weight:800;color:var(--ac)">80%</span>
+            </div>
+            <input type="range" class="v-slider" id="v-conv-qsl" min="10" max="100" value="80" aria-label="Conversion quality">
+            <div class="v-hints"><span>Smaller file</span><span>Higher quality</span></div>
+            <div id="v-conv-qhint" style="margin-top:6px;font-size:11px;color:var(--tx-3)">Lower quality = smaller file. 80% is the sweet spot for WebP/JPG/AVIF.</div>
+          </div>
+          <span class="v-plbl" style="margin-top:16px">Popular conversions — one click</span>
+          <div class="v-conv-pairs">
+            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">GIF → WebP</button>
+            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">JPG → WebP</button>
+            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">PNG → WebP</button>
+            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">AVIF → WebP</button>
+            <button class="v-conv-pair" onclick="setFmt('image/jpeg',document.getElementById('v-fmt-jpg'))">WebP → JPG</button>
+            <button class="v-conv-pair" onclick="setFmt('image/png',document.getElementById('v-fmt-png'))">WebP → PNG</button>
+          </div>
+          <div class="v-hint v-hint-ac">💡 <strong>WebP</strong> is 25–40% smaller than JPG/PNG at equal quality. <strong>AVIF</strong> up to 50% smaller than JPG. Tip: click a pair above, then press the big button to convert.</div>
         </section>
 
         <!-- RESIZE -->
@@ -1290,7 +1315,7 @@ window.VProcessor = (function () {
         targetEl.src = url;
         if (old && old.startsWith('blob:')) URL.revokeObjectURL(old);
       }).catch(function(){});
-    }, ms || 130);
+    }, (ms === 0 ? 0 : (ms || 130)));
   }
 
   return { process:process, livePreview:livePreview };
@@ -1571,6 +1596,20 @@ window.VBatch = (function () {
     if (rw) rw.addEventListener('input', _onW);
     if (rh) rh.addEventListener('input', _onH);
 
+    // Convert-panel quality slider (shares S.quality)
+    var cqsl = $('v-conv-qsl');
+    if (cqsl) {
+      cqsl.addEventListener('input', function(){
+        S.quality = parseInt(this.value);
+        var qn = $('v-conv-qnum'); if (qn) qn.textContent = this.value + '%';
+        _sliderUI(this, null, '');
+        // keep main compress slider in sync
+        var mq = $('v-qsl'); if (mq) { mq.value = this.value; _sliderUI(mq, $('v-qnum'), this.value+'%'); }
+        if (S.origImg && S.activePanel === 'convert') _livePreview();
+      });
+      _sliderUI(cqsl, null, '');
+    }
+
     /* batch */
     if (window.VBatch) VBatch.init();
   });
@@ -1700,6 +1739,21 @@ window.VBatch = (function () {
     $$('.v-fmt').forEach(function(b){ b.classList.remove('on'); });
     btn.classList.add('on');
     _checkPNG();
+    // Grey out quality slider for lossless formats (PNG / GIF / original-PNG)
+    var lossless = (fmt === 'image/png' || fmt === 'image/gif');
+    var qbox = $('v-conv-quality');
+    var qsl  = $('v-conv-qsl');
+    var qhint= $('v-conv-qhint');
+    if (qbox && qsl) {
+      qsl.disabled = lossless;
+      qbox.style.opacity = lossless ? '.45' : '1';
+      qbox.style.pointerEvents = lossless ? 'none' : '';
+      if (qhint) qhint.textContent = lossless
+        ? 'PNG/GIF are lossless — quality has no effect on these formats.'
+        : 'Lower quality = smaller file. 80% is the sweet spot for WebP/JPG/AVIF.';
+    }
+    // Sync convert slider to current quality
+    if (qsl) { qsl.value = S.quality; var qn=$('v-conv-qnum'); if(qn) qn.textContent=S.quality+'%'; _sliderUI(qsl,null,''); }
     if (S.origImg) _livePreview();
   };
 
@@ -1707,7 +1761,17 @@ window.VBatch = (function () {
     S.rotation = (S.rotation === r) ? null : r;
     _resetRot();
     if (S.rotation) btn.classList.add('on');
-    if (S.origImg) _livePreview();
+    // INSTANT rotation preview — bypass debounce
+    if (S.origImg) {
+      P.process(S.origImg, _snap()).then(function(res){
+        var pi = $('v-prev-img');
+        if (pi) {
+          var old = pi.src;
+          pi.src = URL.createObjectURL(res.blob);
+          if (old && old.startsWith('blob:')) URL.revokeObjectURL(old);
+        }
+      }).catch(function(){});
+    }
   };
 
   window.setBlur = function(t, btn) {
@@ -2072,7 +2136,7 @@ window.VBatch = (function () {
     if (sp) sp.textContent = 'Zoom off';
     if (img) img.style.cursor = 'zoom-in';
 
-    var LENS=140, ZLV=3;
+    var LENS=220, ZLV=4;
     var lens = $('zoom-lens');
     if (!lens) {
       lens=document.createElement('div'); lens.id='zoom-lens';
@@ -2379,7 +2443,7 @@ window.VBatch = (function () {
       lens = document.createElement('div');
       lens.id = 'zoom-lens';
       lens.style.cssText = [
-        'position:absolute', 'width:140px', 'height:140px',
+        'position:absolute', 'width:220px', 'height:220px',
         'border-radius:50%',
         'border:2.5px solid #5b6cf9',
         'box-shadow:0 4px 20px rgba(0,0,0,.4)',
@@ -2389,15 +2453,15 @@ window.VBatch = (function () {
       ].join(';');
       var lensCanvas = document.createElement('canvas');
       lensCanvas.id = 'zoom-canvas';
-      lensCanvas.width  = 140;
-      lensCanvas.height = 140;
-      lensCanvas.style.cssText = 'display:block;width:140px;height:140px';
+      lensCanvas.width  = 220;
+      lensCanvas.height = 220;
+      lensCanvas.style.cssText = 'display:block;width:220px;height:220px';
       lens.appendChild(lensCanvas);
       preview.appendChild(lens);
     }
 
-    var ZOOM_LEVEL = 3;
-    var LENS_SIZE  = 140;
+    var ZOOM_LEVEL = 4;
+    var LENS_SIZE  = 220;
 
     function onZoomMove(e) {
       if (!ZOOM.on || !S.origImg) return;
@@ -2663,7 +2727,7 @@ window.VBatch = (function () {
       var v  = $(m[0]+'-v'); if (v) v.textContent = m[1] + m[2];
     });
   }
-  function _resetRot()  { $$('.v-rbtn').forEach(function(b){ b.classList.remove('on'); }); S.rotation = null; }
+  function _resetRot()  { $$('.v-rbtn').forEach(function(b){ b.classList.remove('on'); }); }
   function _resetEfx()  {
     $$('.v-ebtn').forEach(function(b){ b.classList.remove('on'); });
     var n = $('v-efx-none'); if (n) n.classList.add('on');
