@@ -1779,104 +1779,160 @@ window.VBatch = (function () {
      of the displayed image. Selection is a bordered div.
   ═══════════════════════════════════════════════ */
   function _cropEnter() {
-    if (!S.origImg) return;
+    console.log("[Crop] enter, image:", !!S.origImg);
+    if (!S.origImg) { console.warn("[Crop] No image loaded"); return; }
     CROP.on = true;
     _cropClean();
     var preview = $('v-preview');
     var img     = $('v-prev-img');
     if (!preview || !img) return;
-    preview.style.overflow = 'visible';
+    preview.style.overflow = 'hidden';
 
-    // Compute where the actual image pixels are rendered inside the img element
-    // (accounts for object-fit:contain letterboxing)
-    function getImgRenderRect() {
-      var er   = img.getBoundingClientRect();
-      var scale= Math.min(er.width/S.origW, er.height/S.origH);
-      var rw   = S.origW * scale, rh = S.origH * scale;
-      var pr   = preview.getBoundingClientRect();
+    // ── Rendered image rect inside <img> (object-fit:contain aware) ──
+    function renderRect() {
+      var er = img.getBoundingClientRect();
+      var sc = Math.min(er.width / S.origW, er.height / S.origH);
+      var rw = S.origW * sc, rh = S.origH * sc;
+      var pr = preview.getBoundingClientRect();
       return {
-        // Position relative to preview
-        left:  er.left - pr.left + (er.width  - rw)/2,
-        top:   er.top  - pr.top  + (er.height - rh)/2,
-        width: rw, height: rh,
-        scaleX: S.origW / rw,
-        scaleY: S.origH / rh
+        left: er.left - pr.left + (er.width - rw) / 2,
+        top:  er.top  - pr.top  + (er.height - rh) / 2,
+        width: rw, height: rh
       };
     }
 
-    // Build overlay sized to actual image render area
+    // ── Overlay covering exactly the rendered image ──
     var ov = document.createElement('div');
-    ov.id  = 'crop-ov';
-    function sizeOverlay() {
-      var r = getImgRenderRect();
-      ov.style.cssText = [
-        'position:absolute',
-        'left:'+r.left+'px', 'top:'+r.top+'px',
-        'width:'+r.width+'px', 'height:'+r.height+'px',
-        'cursor:crosshair', 'z-index:20',
-        'user-select:none', '-webkit-user-select:none'
-      ].join(';');
+    ov.id = 'crop-ov';
+    function place() {
+      var r = renderRect();
+      ov.style.cssText =
+        'position:absolute;left:' + r.left + 'px;top:' + r.top + 'px;' +
+        'width:' + r.width + 'px;height:' + r.height + 'px;' +
+        'cursor:crosshair;z-index:20;touch-action:none;' +
+        'user-select:none;-webkit-user-select:none';
     }
-    sizeOverlay();
+    place();
 
+    // ── 4 mask panels (dark area outside selection) ──
+    function mk(id){ var d=document.createElement('div'); d.id=id;
+      d.style.cssText='position:absolute;background:rgba(0,0,0,.55);pointer-events:none;z-index:1;display:none'; return d; }
+    var mT=mk('cm-t'), mB=mk('cm-b'), mL=mk('cm-l'), mR=mk('cm-r');
+
+    // ── Selection rectangle ──
     var sel = document.createElement('div');
-    sel.id  = 'crop-sel';
-    sel.style.cssText = 'position:absolute;display:none;border:2px solid #5b6cf9;'+
-      'box-shadow:0 0 0 9999px rgba(0,0,0,.52);pointer-events:none;z-index:2;box-sizing:border-box';
+    sel.id = 'crop-sel';
+    sel.style.cssText =
+      'position:absolute;display:none;z-index:2;box-sizing:border-box;' +
+      'border:1.5px dashed #fff;outline:1px solid rgba(91,108,249,.9);pointer-events:none';
 
+    // ── Corner handles ──
+    function handle(){ var h=document.createElement('div');
+      h.style.cssText='position:absolute;width:12px;height:12px;background:#5b6cf9;border:2px solid #fff;border-radius:2px;box-sizing:border-box'; return h; }
+    var hTL=handle(),hTR=handle(),hBL=handle(),hBR=handle();
+    hTL.style.left='-6px';hTL.style.top='-6px';
+    hTR.style.right='-6px';hTR.style.top='-6px';
+    hBL.style.left='-6px';hBL.style.bottom='-6px';
+    hBR.style.right='-6px';hBR.style.bottom='-6px';
+    sel.appendChild(hTL);sel.appendChild(hTR);sel.appendChild(hBL);sel.appendChild(hBR);
+
+    // ── Badge ──
     var badge = document.createElement('div');
-    badge.id  = 'crop-badge';
-    badge.style.cssText = 'position:absolute;display:none;background:rgba(91,108,249,.9);'+
-      'color:#fff;font:700 11px/1 Inter,sans-serif;padding:4px 9px;border-radius:6px;'+
+    badge.id = 'crop-badge';
+    badge.style.cssText =
+      'position:absolute;display:none;background:rgba(91,108,249,.92);color:#fff;' +
+      'font:700 11px/1 Inter,system-ui,sans-serif;padding:5px 9px;border-radius:6px;' +
       'pointer-events:none;z-index:3;white-space:nowrap';
 
+    ov.appendChild(mT); ov.appendChild(mB); ov.appendChild(mL); ov.appendChild(mR);
     ov.appendChild(sel); ov.appendChild(badge);
     preview.appendChild(ov);
 
-    function getPos(e) {
+    // ── Pointer → overlay-local coordinates ──
+    function pos(e) {
       var r  = ov.getBoundingClientRect();
       var cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
       var cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
-      return { x:Math.max(0,Math.min(cx,r.width)), y:Math.max(0,Math.min(cy,r.height)), w:r.width, h:r.height };
+      return {
+        x: Math.max(0, Math.min(cx, r.width)),
+        y: Math.max(0, Math.min(cy, r.height)),
+        w: r.width, h: r.height
+      };
+    }
+
+    function redraw() {
+      var W = ov.offsetWidth, H = ov.offsetHeight;
+      // selection box
+      sel.style.left   = CROP.x + 'px';
+      sel.style.top    = CROP.y + 'px';
+      sel.style.width  = CROP.w + 'px';
+      sel.style.height = CROP.h + 'px';
+      sel.style.display = 'block';
+      // masks
+      mT.style.display=mB.style.display=mL.style.display=mR.style.display='block';
+      mT.style.left='0';   mT.style.top='0';   mT.style.width=W+'px';        mT.style.height=CROP.y+'px';
+      mB.style.left='0';   mB.style.top=(CROP.y+CROP.h)+'px'; mB.style.width=W+'px'; mB.style.height=(H-CROP.y-CROP.h)+'px';
+      mL.style.left='0';   mL.style.top=CROP.y+'px'; mL.style.width=CROP.x+'px'; mL.style.height=CROP.h+'px';
+      mR.style.left=(CROP.x+CROP.w)+'px'; mR.style.top=CROP.y+'px'; mR.style.width=(W-CROP.x-CROP.w)+'px'; mR.style.height=CROP.h+'px';
     }
 
     function onStart(e) {
       e.preventDefault();
-      var p=getPos(e); CROP.dragging=true;
-      CROP.sx=p.x; CROP.sy=p.y; CROP.x=p.x; CROP.y=p.y; CROP.w=0; CROP.h=0;
-      sel.style.display=badge.style.display='none';
+      var p = pos(e);
+      CROP.dragging = true;
+      CROP.sx = p.x; CROP.sy = p.y;
+      CROP.x = p.x;  CROP.y = p.y; CROP.w = 0; CROP.h = 0;
+      sel.style.display = badge.style.display = 'none';
+      mT.style.display=mB.style.display=mL.style.display=mR.style.display='none';
     }
+
     function onMove(e) {
-      if (!CROP.dragging) return; e.preventDefault();
-      var p=getPos(e);
-      CROP.x=Math.min(CROP.sx,p.x); CROP.y=Math.min(CROP.sy,p.y);
-      CROP.w=Math.abs(p.x-CROP.sx); CROP.h=Math.abs(p.y-CROP.sy);
-      if (CROP.w<2||CROP.h<2) return;
-      sel.style.cssText+='';
-      sel.style.left=CROP.x+'px'; sel.style.top=CROP.y+'px';
-      sel.style.width=CROP.w+'px'; sel.style.height=CROP.h+'px';
-      sel.style.display='block';
-      CROP.imgX=Math.round((CROP.x/p.w)*S.origW);
-      CROP.imgY=Math.round((CROP.y/p.h)*S.origH);
-      CROP.imgW=Math.round((CROP.w/p.w)*S.origW);
-      CROP.imgH=Math.round((CROP.h/p.h)*S.origH);
-      badge.textContent=CROP.imgW+' × '+CROP.imgH+' px';
-      badge.style.left=CROP.x+'px'; badge.style.top=(CROP.y+CROP.h+6)+'px';
-      badge.style.display='block';
-      var info=$('v-crop-info'); if(info) info.textContent=CROP.imgW+' × '+CROP.imgH+' px — click Apply crop';
+      if (!CROP.dragging) return;
+      e.preventDefault();
+      var p = pos(e);
+      CROP.x = Math.min(CROP.sx, p.x);
+      CROP.y = Math.min(CROP.sy, p.y);
+      CROP.w = Math.abs(p.x - CROP.sx);
+      CROP.h = Math.abs(p.y - CROP.sy);
+      if (CROP.w < 2 || CROP.h < 2) return;
+
+      redraw();
+
+      CROP.imgX = Math.round((CROP.x / p.w) * S.origW);
+      CROP.imgY = Math.round((CROP.y / p.h) * S.origH);
+      CROP.imgW = Math.round((CROP.w / p.w) * S.origW);
+      CROP.imgH = Math.round((CROP.h / p.h) * S.origH);
+
+      badge.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px';
+      var bx = Math.min(CROP.x, p.w - 90);
+      var by = (CROP.y + CROP.h + 8 > p.h - 26) ? (CROP.y - 28) : (CROP.y + CROP.h + 8);
+      badge.style.left = Math.max(0, bx) + 'px';
+      badge.style.top  = Math.max(0, by) + 'px';
+      badge.style.display = 'block';
+
+      var info = $('v-crop-info');
+      if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px selected — click "Apply crop"';
     }
+
     function onEnd() {
-      CROP.dragging=false;
-      if (CROP.w<5||CROP.h<5){sel.style.display=badge.style.display='none';_cropClean();}
+      CROP.dragging = false;
+      if (CROP.w < 5 || CROP.h < 5) {
+        sel.style.display = badge.style.display = 'none';
+        mT.style.display=mB.style.display=mL.style.display=mR.style.display='none';
+        _cropClean();
+      }
     }
-    ov.addEventListener('mousedown', onStart);
-    ov.addEventListener('touchstart',onStart,{passive:false});
+
+    ov.addEventListener('mousedown',  onStart);
+    ov.addEventListener('touchstart', onStart, {passive:false});
     document.addEventListener('mousemove', onMove);
-    document.addEventListener('touchmove', onMove,{passive:false});
-    document.addEventListener('mouseup', onEnd);
-    document.addEventListener('touchend',onEnd);
-    ov._onMove=onMove; ov._onEnd=onEnd;
-    ov._resize=sizeOverlay; window.addEventListener('resize',sizeOverlay);
+    document.addEventListener('touchmove', onMove, {passive:false});
+    document.addEventListener('mouseup',  onEnd);
+    document.addEventListener('touchend', onEnd);
+
+    ov._onMove = onMove; ov._onEnd = onEnd;
+    ov._resize = place;
+    window.addEventListener('resize', place);
   }
 
   function _cropExit() {
@@ -2069,7 +2125,8 @@ window.VBatch = (function () {
      of the displayed image. Selection is a bordered div.
   ═══════════════════════════════════════════════ */
   function _cropEnter() {
-    if (!S.origImg) return;
+    console.log("[Crop] enter, image:", !!S.origImg);
+    if (!S.origImg) { console.warn("[Crop] No image loaded"); return; }
     CROP.on = true;
     _cropClean();
     var preview = $('v-preview');
