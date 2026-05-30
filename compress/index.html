@@ -85,7 +85,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-font-smoothing:antialiased;font-size:15px}
+body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-font-smoothing:antialiased;font-size:15px;overflow-x:hidden}
 
 /* ── NAV ─────────────────────── */
 .v-nav{height:62px;background:var(--bg);border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;padding:0 36px;position:sticky;top:0;z-index:200;box-shadow:var(--sh-sm)}
@@ -117,8 +117,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-chip:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-1px);box-shadow:0 3px 8px rgba(91,108,249,.15)}
 
 /* ── PAGE ────────────────────── */
-.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1180px;margin:0 auto;align-items:flex-start}
-.v-main{flex:1;min-width:0}
+.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1180px;margin:0 auto;align-items:flex-start;width:100%;box-sizing:border-box}
+.v-main{flex:1;min-width:0;width:100%;overflow:hidden}
 .v-aside{width:284px;flex-shrink:0;display:flex;flex-direction:column;gap:14px;position:sticky;top:78px}
 
 /* ── TOOL CARD ───────────────── */
@@ -169,8 +169,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-warn-btn:hover{opacity:.85}
 
 /* ── PREVIEW ─────────────────── */
-.v-preview{background:var(--bg-dark);position:relative;overflow:visible;min-height:160px;display:flex;align-items:center;justify-content:center}
-.v-prev-img{max-width:100%;max-height:560px;object-fit:contain;display:block}
+.v-preview{background:var(--bg-dark);position:relative;overflow:visible;min-height:160px;display:flex;align-items:center;justify-content:center;width:100%;box-sizing:border-box}
+.v-prev-img{width:100%;max-width:100%;max-height:560px;object-fit:contain;display:block;box-sizing:border-box}
 .v-prev-badge{position:absolute;top:10px;right:10px;background:rgba(91,108,249,.75);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.07em;text-transform:uppercase;pointer-events:none}
 
 /* ── FINFO ───────────────────── */
@@ -810,81 +810,99 @@ body{background-image:
 }
 
 
-/* ══ MOBILE — единый чистый блок ══ */
+/* ── TOOLBAR MOBILE FIX ── */
 @media(max-width:768px){
-  /* базовый overflow */
+  /* Правый overflow */
+  .v-tool, .v-editor, .v-tb {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Иконки больше + подписи видны */
+  .v-tbb {
+    padding: 10px 6px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+  .v-tbb svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .v-tbb span {
+    display: block !important;
+    font-size: 10px !important;
+    margin-top: 4px;
+  }
+}
+
+@media(max-width:400px){
+  .v-tbb svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .v-tbb span {
+    font-size: 9px !important;
+  }
+}
+
+
+@media(max-width:768px){
   html,body{overflow-x:hidden;width:100%}
 
-  /* nav */
-  .v-nav{padding:0 16px!important;height:56px!important}
-  .v-nav-links{display:none!important}
+  /* Hero */
+  .v-hero{padding:14px 16px 8px!important;max-width:100%!important}
+  .v-hero h1{font-size:22px!important;display:block!important;letter-spacing:-.5px}
 
-  /* trust */
-  .v-trust{flex-wrap:nowrap!important;overflow-x:auto!important;justify-content:flex-start!important;padding:8px 16px!important}
-  .v-ti{flex-shrink:0!important}
-
-  /* hero */
-  .v-hero{padding:14px 16px 8px!important;max-width:100%!important;box-sizing:border-box!important}
-  .v-hero h1{font-size:22px!important;display:block!important;letter-spacing:-.5px!important}
-
-  /* page layout */
+  /* Page layout */
   .v-page{flex-direction:column!important;padding:8px 12px 40px!important}
-  .v-aside{width:100%!important;position:static!important;top:auto!important}
+  .v-aside{width:100%!important;position:static!important}
 
-  /* tool container — НЕ overflow:hidden, иначе crop ломается */
-  .v-tool{width:100%!important;box-sizing:border-box!important}
+  /* ГЛАВНЫЙ ФИХ — preview */
+  .v-preview{overflow:hidden!important;width:100%!important;max-width:100%!important}
+  .v-prev-img{width:100%!important;max-width:100%!important;max-height:280px!important;height:auto!important}
 
-  /* toolbar — крупные иконки с подписями */
-  .v-tb{padding:6px 4px!important;gap:0!important}
-  .v-tbb{flex:1!important;min-width:0!important;padding:10px 4px!important;flex-direction:column!important;align-items:center!important;gap:4px!important}
-  .v-tbb svg{width:26px!important;height:26px!important}
-  .v-tbb span{display:block!important;font-size:10px!important;white-space:nowrap!important}
+  /* Result image */
+  .v-res-img{max-width:100%!important;height:auto!important;max-height:280px!important}
 
-  /* preview — ключевой фикс */
-  .v-preview{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
-  .v-prev-img{width:100%!important;max-width:100%!important;height:auto!important;max-height:300px!important;object-fit:contain!important;display:block!important}
+  /* Trust strip */
+  .v-trust{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:8px 16px}
+  .v-ti{flex-shrink:0}
 
-  /* warn banner */
-  .v-warn{flex-wrap:wrap!important;width:100%!important;box-sizing:border-box!important}
-  .v-warn-btn{width:100%!important;text-align:center!important;margin-top:6px!important}
+  /* Toolbar */
+  .v-tbb{flex:1;min-width:0;padding:8px 4px}
+  .v-tbb span{font-size:10px}
 
-  /* panels */
-  .v-panels{padding:14px 12px!important}
+  /* Actions */
+  .v-acts{flex-direction:column}
+  .v-go,.v-ghost{width:100%;justify-content:center}
+
+  /* Result actions */
+  .v-res-hdr{flex-direction:column;align-items:flex-start}
+  .v-res-acts{width:100%;flex-direction:column}
+  .v-dl,.v-edit{width:100%;justify-content:center}
+
+  /* Panels */
   .v-2col{grid-template-columns:1fr!important}
   .v-fmts{grid-template-columns:repeat(3,1fr)!important}
   .v-rgrid{grid-template-columns:repeat(3,1fr)!important}
 
-  /* actions bar */
-  .v-acts{flex-direction:column!important;padding:12px!important}
-  .v-go{width:100%!important;min-width:0!important}
-  .v-ghost{width:100%!important;justify-content:center!important}
+  /* Batch */
+  .v-batch-grid{grid-template-columns:repeat(2,1fr)!important;padding:10px}
+  .v-batch-settings{flex-direction:column}
+  .v-batch-acts{flex-direction:column}
 
-  /* result */
-  .v-res-hdr{flex-direction:column!important;align-items:flex-start!important;gap:10px!important}
-  .v-res-acts{width:100%!important;flex-direction:column!important}
-  .v-dl,.v-edit{width:100%!important;justify-content:center!important}
-  .v-res-img{width:100%!important;max-width:100%!important;height:auto!important;max-height:300px!important}
+  /* Filename row */
+  .v-fnrow{flex-wrap:wrap}
+  .v-fndl{width:100%;text-align:center}
 
-  /* filename row */
-  .v-fnrow{flex-wrap:wrap!important;gap:8px!important}
-  .v-fnin{width:100%!important}
-  .v-fndl{width:100%!important;text-align:center!important}
-
-  /* batch */
-  .v-batch-grid{grid-template-columns:repeat(2,1fr)!important;padding:10px!important}
-  .v-batch-settings{flex-direction:column!important}
-  .v-batch-acts{flex-direction:column!important}
-
-  /* seo/faq/footer */
+  /* SEO/FAQ */
   .v-seo,.v-faq{padding:28px 16px!important}
   .v-foot{padding:20px 16px!important}
 }
-
 @media(max-width:480px){
-  .v-hero h1{font-size:18px!important}
-  .v-tbb span{font-size:9px!important}
+  .v-hero h1{font-size:19px!important}
+  .v-tbb span{display:none}
   .v-batch-grid{grid-template-columns:1fr!important}
-  .v-cont-next-grid{grid-template-columns:repeat(3,1fr)!important}
 }
 
 /* ── CONTINUE EDITING BLOCK ── */
@@ -945,7 +963,32 @@ body{background-image:
   .v-cnext-btn span { font-size: 11px; }
 }
 
-
+/* ── PREVIEW OVERFLOW FIX — финальный ── */
+@media(max-width:768px){
+  .v-tool { overflow: hidden !important; }
+  .v-preview {
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .v-prev-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 320px !important;
+    object-fit: contain !important;
+  }
+  .v-warn {
+    flex-wrap: wrap !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
+  .v-warn-btn {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
 
 
 </style>
