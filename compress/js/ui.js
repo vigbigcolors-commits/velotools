@@ -41,11 +41,14 @@
 
     var qsl = $('v-qsl');
     if (qsl) {
-      qsl.addEventListener('input', function(){
+      function onQualityChange() {
         S.quality = parseInt(this.value);
         _sliderUI(this, $('v-qnum'), this.value + '%');
         if (S.origImg) _livePreview();
-      });
+      }
+      qsl.addEventListener('input',  onQualityChange);
+      qsl.addEventListener('change', onQualityChange);
+      qsl.addEventListener('touchend', function(){ onQualityChange.call(qsl); }, { passive: true });
       _sliderUI(qsl, $('v-qnum'), '80%');
     }
 
@@ -53,20 +56,26 @@
      ['v-ef-sa','saturation'],['v-ef-hu','hue'],
      ['v-ef-sh','sharpness'], ['v-ef-dn','denoise']].forEach(function(p){
       var el = $(p[0]); if (!el) return;
-      el.addEventListener('input', function(){
+      function onEfxChange() {
         S[p[1]] = parseInt(this.value);
         var vEl = $(p[0]+'-v'); if(vEl) vEl.textContent = this.value + (p[1]==='hue'?'°':'');
         if (S.origImg && S.activePanel==='effects') _livePreview();
-      });
+      }
+      el.addEventListener('input',  onEfxChange);
+      el.addEventListener('change', onEfxChange);
+      el.addEventListener('touchend', function(){ onEfxChange.call(el); }, { passive: true });
     });
 
     var ba = $('v-blur-amt');
     if (ba) {
-      ba.addEventListener('input', function(){
+      function onBlurChange() {
         S.blurAmt = parseInt(this.value);
         var v = $('v-blur-amt-v'); if(v) v.textContent = this.value;
         if (S.origImg && S.activePanel==='blur') _livePreview();
-      });
+      }
+      ba.addEventListener('input',  onBlurChange);
+      ba.addEventListener('change', onBlurChange);
+      ba.addEventListener('touchend', function(){ onBlurChange.call(ba); }, { passive: true });
     }
 
     var rw = $('v-rw'), rh = $('v-rh');
@@ -300,7 +309,8 @@
         pb.style.width = '0%';
         gb.disabled = false;
         res.classList.add('on');
-        res.scrollIntoView({ behavior:'smooth', block:'start' });
+        var top = res.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: top, behavior: 'smooth' });
       }, 280);
 
     }).catch(function(err){
