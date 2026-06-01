@@ -175,9 +175,9 @@ body::before {
   padding:24px 20px 48px;
   display:grid;
   grid-template-columns:280px 1fr 280px;
-  grid-template-rows:auto auto;
+  grid-template-rows:1fr 1fr;
   gap:16px;
-  align-items:start;
+  align-items:stretch;
 }
 
 /* ── CARDS ── */
@@ -698,6 +698,62 @@ body.zen-mode .f-timer-wrap {
   z-index:300; white-space:nowrap;
 }
 .f-toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ══ WEIGHTLESS PLAYER ══ */
+.f-wl-section{position:relative;z-index:1;padding:0 20px 20px;max-width:1200px;margin:0 auto}
+.f-wl-card{background:var(--bg2);border:1px solid rgba(155,135,245,.25);border-radius:20px;overflow:hidden;transition:border-color .3s}
+.f-wl-card:hover{border-color:rgba(155,135,245,.45)}
+.f-wl-player{display:flex;align-items:center;gap:16px;padding:18px 22px}
+.f-wl-art{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#1a1640,#2d1f5e,#1a2840);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 4px 16px rgba(155,135,245,.25);position:relative;overflow:hidden}
+.f-wl-art::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 35%,rgba(155,135,245,.3),transparent 60%)}
+.f-wl-wave{display:flex;align-items:center;gap:2px;height:20px;margin-left:4px}
+.f-wl-wave span{width:3px;border-radius:2px;background:rgba(155,135,245,.5);animation:wl-idle 1.8s ease-in-out infinite;transform-origin:bottom}
+.f-wl-wave span:nth-child(1){height:8px;animation-delay:0s}
+.f-wl-wave span:nth-child(2){height:14px;animation-delay:.15s}
+.f-wl-wave span:nth-child(3){height:10px;animation-delay:.3s}
+.f-wl-wave span:nth-child(4){height:16px;animation-delay:.1s}
+.f-wl-wave span:nth-child(5){height:8px;animation-delay:.25s}
+.f-wl-card.playing .f-wl-wave span{background:#9b87f5;animation:wl-play 1s ease-in-out infinite}
+@keyframes wl-idle{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.5)}}
+@keyframes wl-play{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1.2)}}
+.f-wl-info{flex:1;min-width:0}
+.f-wl-track{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.f-wl-badge{font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;text-transform:uppercase;letter-spacing:.08em;background:rgba(155,135,245,.15);border:1px solid rgba(155,135,245,.3);color:#9b87f5;white-space:nowrap}
+.f-wl-artist{font-size:12px;color:var(--tx3)}
+.f-wl-ctrl{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.f-wl-btn-play{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9b87f5,#7c6be0);border:none;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(155,135,245,.4);transition:all .2s cubic-bezier(.34,1.5,.64,1);flex-shrink:0}
+.f-wl-btn-play:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(155,135,245,.6)}
+.f-wl-btn-play svg{width:18px;height:18px}
+.f-wl-vol-wrap{display:flex;align-items:center;gap:8px}
+.f-wl-vol-ico{font-size:14px;color:var(--tx3);flex-shrink:0}
+.f-wl-vol{width:80px;height:4px;-webkit-appearance:none;appearance:none;background:var(--border2);border-radius:2px;outline:none;cursor:pointer}
+.f-wl-vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#9b87f5;box-shadow:0 0 6px rgba(155,135,245,.5);cursor:pointer}
+.f-wl-warn-pill{display:flex;align-items:center;gap:6px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#f5a623;white-space:nowrap;flex-shrink:0}
+.f-wl-info-btn{width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;color:var(--tx3);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.f-wl-info-btn:hover{color:#9b87f5;border-color:rgba(155,135,245,.4)}
+.f-wl-info-btn svg{width:14px;height:14px}
+.f-wl-card.expanded .f-wl-info-btn{color:#9b87f5;border-color:rgba(155,135,245,.4);background:rgba(155,135,245,.1)}
+.f-wl-science{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+.f-wl-card.expanded .f-wl-science{max-height:600px;border-top:1px solid var(--border)}
+.f-wl-science-inner{padding:20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.f-wl-sci-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b87f5;margin-bottom:10px}
+.f-wl-sci-text{font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+.f-wl-sci-text strong{color:var(--tx)}
+.f-wl-sci-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.f-wl-sci-list li{font-size:12.5px;color:var(--tx2);line-height:1.65;padding-left:16px;position:relative}
+.f-wl-sci-list li::before{content:'→';position:absolute;left:0;color:#9b87f5;font-weight:700}
+.f-wl-sci-list strong{color:var(--tx)}
+.f-wl-sci-stats{display:flex;gap:12px;margin-top:14px}
+.f-wl-sci-stat{flex:1;background:var(--bg3);border:1px solid rgba(155,135,245,.2);border-radius:12px;padding:12px;text-align:center}
+.f-wl-sci-stat-n{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:#9b87f5;line-height:1;display:block}
+.f-wl-sci-stat-l{font-size:11px;color:var(--tx3);line-height:1.4;display:block;margin-top:4px}
+@media(max-width:768px){
+  .f-wl-section{padding:0 14px 16px}
+  .f-wl-player{gap:10px;padding:14px 16px;flex-wrap:wrap}
+  .f-wl-vol-wrap,.f-wl-warn-pill{display:none}
+  .f-wl-science-inner{grid-template-columns:1fr;gap:14px}
+  .f-wl-sci-stats{flex-direction:column}
+}
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -907,6 +963,81 @@ body.zen-mode .f-timer-wrap {
   </section>
 
 </div>
+
+
+<!-- WEIGHTLESS PLAYER -->
+<div class="f-wl-section">
+  <div class="f-wl-card" id="wl-card">
+    <div class="f-wl-player">
+      <div class="f-wl-art">🧬
+        <div class="f-wl-wave" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%)">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="f-wl-info">
+        <div class="f-wl-track">Weightless<span class="f-wl-badge">Scientific</span></div>
+        <div class="f-wl-artist">Marconi Union · The world's most relaxing track</div>
+      </div>
+      <div class="f-wl-ctrl">
+        <button class="f-wl-btn-play" id="wl-play-btn" onclick="toggleWeightless()">
+          <svg id="wl-play-ico" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="wl-stop-ico" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="f-wl-vol-wrap">
+          <span class="f-wl-vol-ico">🔊</span>
+          <input type="range" class="f-wl-vol" id="wl-vol" min="0" max="100" value="70" oninput="setWlVolume(this.value)" onchange="setWlVolume(this.value)">
+        </div>
+        <div class="f-wl-warn-pill">⚠️ Don't drive</div>
+        <button class="f-wl-info-btn" onclick="toggleWlInfo()" title="Scientific info">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="f-wl-science" id="wl-science">
+      <div class="f-wl-science-inner">
+        <div>
+          <div class="f-wl-sci-title">How it works physiologically</div>
+          <p class="f-wl-sci-text">Engineered with the <strong>British Academy of Sound Therapy</strong>. Based on <strong>acoustic entrainment</strong> — brain and body sync to external sound vibrations.</p>
+          <ul class="f-wl-sci-list">
+            <li><strong>Heart rate:</strong> Starts at 60 BPM, slows to 50. Heart auto-syncs within ~5 minutes.</li>
+            <li><strong>Cortisol:</strong> As heart rate drops, blood pressure and cortisol decrease.</li>
+            <li><strong>No repeating motifs:</strong> Brain stops predicting, analytical center disengages.</li>
+            <li><strong>Low frequencies:</strong> Bass drones imitate deep meditation — subconsciously safe.</li>
+          </ul>
+          <div style="margin-top:12px;padding:10px 12px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);border-radius:10px;font-size:12px;color:#f5a623">
+            ⚠️ <strong>Do not listen while driving.</strong> Clinically documented sedative effect.
+          </div>
+        </div>
+        <div>
+          <div class="f-wl-sci-title">Mindlab International Research</div>
+          <p class="f-wl-sci-text">Outperformed Enya, Mozart, and all standard relaxation tracks in stress conditions.</p>
+          <div class="f-wl-sci-stats">
+            <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">65%</span><span class="f-wl-sci-stat-l">reduction in overall anxiety</span></div>
+            <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">35%</span><span class="f-wl-sci-stat-l">higher calm vs Enya & classical</span></div>
+          </div>
+          <p class="f-wl-sci-text" style="margin-top:14px"><strong>Best for:</strong> Long breaks, high-anxiety days, post-session recovery.</p>
+          <p style="font-size:11px;color:var(--tx3);margin-top:8px">File: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:#9b87f5">sounds/weightless.mp3</code></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var wlAudio=null,wlPlaying=false;
+function toggleWeightless(){wlPlaying?stopWeightless():playWeightless()}
+function playWeightless(){
+  if(!wlAudio){wlAudio=new Audio('sounds/weightless.mp3');wlAudio.loop=true;wlAudio.volume=document.getElementById('wl-vol')?document.getElementById('wl-vol').value/100:0.7}
+  wlAudio.play().then(function(){wlPlaying=true;document.getElementById('wl-play-ico').style.display='none';document.getElementById('wl-stop-ico').style.display='block';var c=document.getElementById('wl-card');if(c)c.classList.add('playing')}).catch(function(){showToast('Add sounds/weightless.mp3 to enable playback')})
+}
+function stopWeightless(){
+  if(wlAudio){wlAudio.pause();wlAudio.currentTime=0}
+  wlPlaying=false;document.getElementById('wl-play-ico').style.display='block';document.getElementById('wl-stop-ico').style.display='none';
+  var c=document.getElementById('wl-card');if(c)c.classList.remove('playing')
+}
+function setWlVolume(v){if(wlAudio)wlAudio.volume=v/100}
+function toggleWlInfo(){var c=document.getElementById('wl-card');if(c)c.classList.toggle('expanded')}
+</script>
 
 <!-- ENERGY CHECK-IN MODAL -->
 <div class="f-energy-modal" id="energy-modal">
@@ -1932,15 +2063,7 @@ function escHtml(s){
 
 <script src="js/focus-assistant.js"></script>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('VT Focus Room: Оффлайн движок активирован.', reg.scope))
-        .catch(err => console.error('VT Focus Room: Ошибка регистрации SW.', err));
-    });
-  }
-</script>
+
 
 
 </body>
