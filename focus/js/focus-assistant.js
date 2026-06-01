@@ -201,7 +201,7 @@ var SVG = `<svg viewBox="0 0 60 62" xmlns="http://www.w3.org/2000/svg">
 /* ── BUILD ── */
 var wrap, tomato, tip, tipTag, tipText;
 var jumpDir = 1;
-var jumpOffset = [48, -44, 52, -48, 40];
+var jumpOffset = [-44, -52, -38, -48, -42];  /* always left */
 var jumpIdx = 0;
 var busy = false;
 var idleTimer, winkTimer, autoTipTimer;
@@ -249,15 +249,16 @@ function onHover(){
   if(busy) return;
   busy = true;
 
-  /* jump */
-  var dx = jumpOffset[jumpIdx % jumpOffset.length]; jumpIdx++;
+  var mobile = window.innerWidth < 768;
+  var dx = mobile ? -28 : (jumpOffset[jumpIdx % jumpOffset.length]); jumpIdx++;
+  var dy = mobile ? -20 : -8;
+
   var svgEl = tomato.querySelector('svg');
   svgEl.style.animation =
-    (dx>0 ? 'fa-jump-r':'fa-jump-l') +
-    ' .42s cubic-bezier(.22,1,.36,1) 1 forwards, fa-glow 3s ease-in-out infinite';
+    'fa-jump-l .42s cubic-bezier(.22,1,.36,1) 1 forwards, fa-glow 3s ease-in-out infinite';
   tomato.style.position = 'relative';
   tomato.style.left = dx+'px';
-  tomato.style.top  = '-8px';
+  tomato.style.top  = dy+'px';
 
   showNextTip();
 

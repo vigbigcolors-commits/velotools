@@ -133,10 +133,11 @@ body::before {
 }
 .f-nav-logo-mark {
   width:30px; height:30px;
-  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  background: linear-gradient(135deg,#00c9a7,#00a88a);
   border-radius:8px;
   display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 2px 10px var(--ac-glow);
+  box-shadow: 0 2px 10px rgba(0,201,167,.25);
+  flex-shrink:0;
 }
 .f-nav-logo-name { font-family:'Syne',sans-serif; font-weight:800; font-size:16px; letter-spacing:-.3px; }
 .f-nav-right { display:flex; align-items:center; gap:12px; }
@@ -250,13 +251,13 @@ body::before {
 
 .f-ring-progress {
   fill:none;
-  stroke:url(#ringGrad);
-  stroke-width:10;
+  stroke:var(--ac);
+  stroke-width:8;
   stroke-linecap:round;
   stroke-dasharray:722;
   stroke-dashoffset:0;
-  transition:stroke-dashoffset .5s ease, stroke .5s ease;
-  filter:drop-shadow(0 0 12px var(--ac)) drop-shadow(0 0 28px var(--ac-glow));
+  transition:stroke-dashoffset 1s ease;
+  opacity:.9;
 }
 .f-ring-track {
   fill:none;
@@ -601,14 +602,37 @@ body::before {
   .f-timer-wrap { grid-column:2; grid-row:1/5; }
 }
 @media(max-width:768px){
-  .f-page { grid-template-columns:1fr; gap:12px; padding:12px 14px 40px; }
-  .f-timer-wrap { grid-column:1; grid-row:1; }
-  .f-tasks { grid-column:1; }
-  .f-sounds { grid-column:1; }
-  .f-notes { grid-column:1; }
-  .f-stats { grid-column:1; }
-  .f-timer-ring-wrap { width:220px; height:220px; }
-  .f-timer-display { font-size:46px; }
+  /* flex column — timer FIRST */
+  .f-page {
+    display:flex !important;
+    flex-direction:column !important;
+    gap:12px !important;
+    padding:12px 14px 40px !important;
+  }
+  .f-timer-wrap { order:1 !important; width:100% !important; }
+  .f-tasks      { order:2 !important; width:100% !important; }
+  .f-sounds     { order:3 !important; width:100% !important; }
+  .f-stats      { order:4 !important; width:100% !important; }
+  .f-notes      { order:5 !important; width:100% !important; }
+
+  .f-timer-ring-wrap { width:200px !important; height:200px !important; }
+  .f-timer-display   { font-size:42px !important; }
+  .f-modes { flex-wrap:wrap; justify-content:center; }
+  .f-mode-btn { font-size:11px !important; padding:6px 12px !important; }
+  .f-vol-slider { height:24px !important; }
+  .f-vol-row { padding:10px 0 !important; }
+  .f-sound-grid { grid-template-columns:repeat(3,1fr) !important; }
+  .f-task-input-row { overflow:hidden !important; }
+  .f-task-input { min-width:0 !important; }
+  .f-nav { padding:0 14px !important; }
+  #fa-wrap { bottom:12px !important; right:12px !important; }
+  #fa-tomato { width:36px !important; height:36px !important; }
+  #fa-tip { max-width:200px !important; font-size:11.5px !important; }
+}
+@media(max-width:400px){
+  .f-timer-ring-wrap { width:175px !important; height:175px !important; }
+  .f-timer-display   { font-size:36px !important; }
+  .f-sound-grid { grid-template-columns:repeat(2,1fr) !important; }
 }
 
 /* ── ANIMATIONS ── */
@@ -747,6 +771,11 @@ body::before {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 10.5-3M3 3v6h6"/></svg>
       </button>
     </div>
+    <!-- Flow mode button — appears at end of focus session -->
+    <button id="btn-flow" class="f-btn-flow" onclick="enterFlowMode()" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Keep flowing +5 min
+    </button>
 
     <!-- Session dots -->
     <div class="f-session-dots" id="session-dots">
@@ -979,7 +1008,8 @@ function onTimerEnd(){
   pauseTimer();
   playAlarm();
   if(S.mode === 'focus'){
-    showEnergyModal(true);    /* post-session energy */
+    if(S.mode === 'focus') showFlowButton();
+    showEnergyModal(true);
     recordSession();
     renderStats();
     renderEnergyChart();
@@ -1351,19 +1381,39 @@ function setVolume(v){
   });
 }
 
-/* ── ALARM ── */
+/* ── ALARM — rising pleasant chime ── */
 function playAlarm(){
   try{
     var ctx = getAudioCtx();
-    [0,0.2,0.4].forEach(function(delay){
+    var master = ctx.createGain();
+    master.connect(ctx.destination);
+    master.gain.setValueAtTime(0, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(.5, ctx.currentTime+.8);
+    master.gain.linearRampToValueAtTime(.3, ctx.currentTime+1.6);
+    master.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+3.5);
+    /* rising arpeggio: C-E-G-C */
+    var notes = [261.63, 329.63, 392.00, 523.25];
+    notes.forEach(function(freq, i){
       var o = ctx.createOscillator();
       var g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = 880;
-      g.gain.setValueAtTime(.4, ctx.currentTime+delay);
-      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+delay+.3);
-      o.start(ctx.currentTime+delay);
-      o.stop(ctx.currentTime+delay+.35);
+      o.connect(g); g.connect(master);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(freq, ctx.currentTime + i*0.22);
+      o.frequency.linearRampToValueAtTime(freq*1.005, ctx.currentTime+i*0.22+0.4);
+      g.gain.setValueAtTime(.6, ctx.currentTime+i*0.22);
+      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+i*0.22+1.2);
+      o.start(ctx.currentTime+i*0.22);
+      o.stop(ctx.currentTime+i*0.22+1.3);
+      /* harmonic */
+      var o2 = ctx.createOscillator();
+      var g2 = ctx.createGain();
+      o2.connect(g2); g2.connect(master);
+      o2.type = 'sine';
+      o2.frequency.value = freq*2;
+      g2.gain.setValueAtTime(.15, ctx.currentTime+i*0.22);
+      g2.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+i*0.22+0.8);
+      o2.start(ctx.currentTime+i*0.22);
+      o2.stop(ctx.currentTime+i*0.22+0.9);
     });
   }catch(e){}
 }
@@ -1541,6 +1591,55 @@ document.addEventListener('keydown', function(e){
 
 /* ── UTILS ── */
 
+
+/* ── FLOW MODE — extend session when in flow ── */
+var flowExtensions = 0;
+function enterFlowMode(){
+  document.getElementById('btn-flow').style.display = 'none';
+  flowExtensions++;
+  S.timeLeft  = 5 * 60;
+  S.totalTime = 5 * 60;
+  S.running = true;
+  document.getElementById('play-icon').style.display  = 'none';
+  document.getElementById('pause-icon').style.display = 'block';
+  document.getElementById('timer-phase').textContent = '⚡ Flow +' + (flowExtensions*5) + ' min';
+  clearInterval(S.interval);
+  S.interval = setInterval(tick, 1000);
+  updateTimerDisplay();
+  updateRing();
+  showToast('Flow mode! +5 minutes added 🌊');
+}
+
+function showFlowButton(){
+  var btn = document.getElementById('btn-flow');
+  if(btn) btn.style.display = 'flex';
+  setTimeout(function(){
+    var b = document.getElementById('btn-flow');
+    if(b) b.style.display = 'none';
+  }, 12000);
+}
+
+/* ── ZEN MODE ── */
+function toggleZen(){
+  document.body.classList.toggle('zen-mode');
+  var btn = document.querySelector('.f-zen-btn svg');
+  if(document.body.classList.contains('zen-mode')){
+    btn.innerHTML = '<path d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3"/>';
+    showToast('Zen mode — press Escape to exit');
+  } else {
+    btn.innerHTML = '<path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>';
+  }
+}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && document.body.classList.contains('zen-mode')) toggleZen();
+});
+
+/* ── MOBILE: disable assistant flight on small screens ── */
+if(typeof window !== 'undefined'){
+  window._isMobile = window.innerWidth < 768;
+  window.addEventListener('resize', function(){ window._isMobile = window.innerWidth < 768; });
+}
+
 function toggleAcc(btn){
   var item = btn.parentElement;
   var wasOpen = item.classList.contains('open');
@@ -1644,6 +1743,65 @@ function escHtml(s){
           <p>The mechanism is called "loss aversion." Once you have a 7-day streak, the psychological cost of breaking it is much higher than the effort of doing one 25-minute session. Your brain starts protecting the streak automatically.</p>
           <p><strong>Jerry Seinfeld's method:</strong> The comedian famously wrote jokes every single day and marked each day with an X on a calendar. His only rule was "don't break the chain." This same principle applies to focus sessions.</p>
           <p><strong>Minimum viable session:</strong> On low-energy days, just do one pomodoro. One session maintains your streak, keeps the habit alive, and often leads to more sessions once you've started.</p>
+        </div>
+      </div>
+
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🧬</span>
+          <span>The neuroscience of deep work — what actually happens in your brain</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>When you enter a focused work state, your brain shifts into what neuroscientists call the "default mode network off" state. The prefrontal cortex takes over, and the areas responsible for mind-wandering go quiet. This transition takes approximately 10-15 minutes — which is exactly why the first portion of every Pomodoro session feels difficult.</p>
+          <p><strong>Myelin and mastery:</strong> Every focused, deliberate practice session triggers myelination — the wrapping of neural pathways in a fatty sheath that increases signal speed. This is the biological mechanism of skill acquisition. 25 minutes of deep, uninterrupted work produces more myelin growth than 3 hours of distracted practice.</p>
+          <p><strong>Dopamine and completion:</strong> The brain releases dopamine not just on task completion, but on the anticipation of it. The Pomodoro timer creates a predictable reward cycle. Each session end is a micro-completion, and your brain begins to associate focus with a dopamine reward — making deep work progressively less effortful over weeks.</p>
+          <p><strong>Why VeloTools Focus Room is different:</strong> Standard timers treat focus like a mechanical clock. Our Energy Pattern system gives you biofeedback about your neurological state, helping you schedule deep work when your brain is neurochemically primed for it.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">⚙️</span>
+          <span>Flow State engineering — how to enter it faster, every time</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>Mihaly Csikszentmihalyi's research on Flow State identified specific entry conditions: clear goals, immediate feedback, and a challenge level slightly above your current skill. The Pomodoro structure satisfies all three: the task is your goal, the ticking ring provides feedback, and the 25-minute constraint creates just enough pressure.</p>
+          <p><strong>The pre-session ritual:</strong> Flow states are entered more reliably through consistent pre-session rituals. Before starting the timer: close all non-essential tabs, put on your ambient sound, select your active task, and take 3 deep breaths. This 90-second ritual signals your brain that a transition is coming. After 2 weeks, your brain will begin entering focus mode during the ritual itself.</p>
+          <p><strong>Flow extension (our unique feature):</strong> Standard Pomodoro tools interrupt flow at exactly the wrong moment. VeloTools Focus Room detects session completion and offers a "Keep flowing" button — adding 5-minute extensions without resetting your mental state. This respects your cognitive architecture instead of fighting it.</p>
+          <p><strong>Brown noise and ADHD:</strong> Clinical research published in the Journal of Child Psychology shows brown noise significantly improves focus and working memory in individuals with attention difficulties. This is why we include a brown noise generator alongside ambient sounds — not as a relaxation tool, but as a cognitive performance enhancer.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">📊</span>
+          <span>Why VeloTools Focus Room beats every other free Pomodoro tool</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p><strong>No account required.</strong> Every other productivity tool requires you to create an account before accessing features. VeloTools runs entirely in your browser — your data stays on your device. Sessions, streaks, energy patterns, and journal entries are stored in your browser's localStorage and never transmitted to any server.</p>
+          <p><strong>No ads interrupting your focus.</strong> We are a tool-first product. The irony of productivity apps showing interruptive advertising is not lost on us. VeloTools Focus Room has no ads, no upsells, and no notifications you didn't ask for.</p>
+          <p><strong>Works offline.</strong> Once loaded, the entire Focus Room works without an internet connection. Your ambient sound generator, timer, task list, and journal all function locally. Losing WiFi during a deep work session will never interrupt you.</p>
+          <p><strong>The Energy Pattern system.</strong> Pomofocus, Forest, and Be Focused Pro track completed sessions and tasks. None of them track the relationship between your physiological state and your output quality. VeloTools is the only free tool that builds a personal neuroperformance baseline over time.</p>
+          <p><strong>4-7-8 breathing integration.</strong> No other Pomodoro tool includes evidence-based breathing exercises on every break. This is not a gimmick — it's the fastest way to reset the cortisol spike from sustained concentration and prepare the brain for the next session.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🗺</span>
+          <span>Building your ideal deep work day — a practical masterclass</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p><strong>Morning architecture (6am–12pm):</strong> This is your prime cognitive window for most people. Use it exclusively for deep work: complex problem-solving, writing, code architecture, strategic thinking. Schedule no meetings before 11am if possible. Do 3–4 Pomodoros during this window with ocean or brown noise.</p>
+          <p><strong>Midday recharge (12pm–2pm):</strong> Your brain's attention systems need metabolic recovery. Eat, walk, and let your default mode network (daydreaming) run. This is not wasted time — it's when your brain consolidates the morning's work into long-term memory. Do not fill this time with emails.</p>
+          <p><strong>Afternoon execution (2pm–5pm):</strong> Energy typically dips then recovers. Use this window for creative tasks, communication, and work that benefits from a more relaxed cognitive state. Cafe or lofi sounds work well here. Do 2–3 Pomodoros with shorter optional breaks.</p>
+          <p><strong>Evening wind-down (after 6pm):</strong> Use the Pomodoro timer for learning and personal projects, not client or work deliverables. Your judgment is impaired in the evening — avoid making important decisions or sending critical emails. Fire sounds create a warm, safe environment for this mode.</p>
+          <p><strong>The weekly review ritual:</strong> Every Friday, open your Focus Room and review your energy chart, streak count, and session totals. Ask: which days had the highest energy? What was I working on during my best sessions? This 10-minute reflection compounds into extraordinary self-knowledge over months.</p>
         </div>
       </div>
 
