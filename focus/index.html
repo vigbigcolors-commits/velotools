@@ -635,6 +635,49 @@ body::before {
   .f-sound-grid { grid-template-columns:repeat(2,1fr) !important; }
 }
 
+/* ── ZEN MODE (HARDCORE ISOLATION) ── */
+body.zen-mode .f-nav,
+body.zen-mode .f-tasks,
+body.zen-mode .f-stats,
+body.zen-mode .f-sounds,
+body.zen-mode .f-notes,
+body.zen-mode .f-modes,
+body.zen-mode .f-timer-bottom,
+body.zen-mode .f-seo-section,
+body.zen-mode #fa-wrap {
+  display: none !important;
+}
+
+body.zen-mode .f-page {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh;
+  padding: 0 !important;
+}
+
+/* Скрываем точный отсчет времени. Оставляем только соматическое восприятие через кольцо */
+body.zen-mode .f-timer-display {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* При наведении мыши цифры плавно появляются, если нужно свериться */
+body.zen-mode .f-timer-ring-wrap:hover .f-timer-display {
+  opacity: 1;
+}
+
+/* Убираем рамки и свечение у карточки таймера для полного погружения */
+body.zen-mode .f-timer-wrap {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.f-card { animation:fadeUp .4s ease both; }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
 .f-card { animation:fadeUp .4s ease both; }
@@ -656,6 +699,14 @@ body::before {
 }
 .f-toast.show { transform:translateX(-50%) translateY(0); }
 </style>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d2028">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+
+
+
 </head>
 <body data-theme="teal">
 
@@ -1880,5 +1931,17 @@ function escHtml(s){
 </style>
 
 <script src="js/focus-assistant.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('VT Focus Room: Оффлайн движок активирован.', reg.scope))
+        .catch(err => console.error('VT Focus Room: Ошибка регистрации SW.', err));
+    });
+  }
+</script>
+
+
 </body>
 </html>
