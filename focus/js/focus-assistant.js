@@ -251,13 +251,7 @@ function build(){
   scheduleIdle();
   scheduleWink();
 
-  /* auto show first tip after 10s */
-  setTimeout(showTip, 10000);
-
-  /* auto show every 45s if hidden */
-  setInterval(function(){
-    if(!tip.classList.contains('show')) showTip();
-  }, 45000);
+  /* tips show only on click */
 }
 
 /* ── SHOW / HIDE ── */
