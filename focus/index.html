@@ -1329,7 +1329,7 @@ function stopWeightless(){
 function setWlVolume(v){if(wlAudio)wlAudio.volume=v/100}
 function toggleWlInfo(){var c=document.getElementById('wl-card');if(c)c.classList.toggle('expanded')}
 function toggleFlacPanel(){var p=document.getElementById('wl-flac-panel');if(p)p.classList.toggle('open')}
-// Auto-open science panel after 3 seconds
+// Auto-open science panel after 7 seconds
 window.addEventListener('load',function(){setTimeout(function(){var c=document.getElementById('wl-card');if(c&&!c.classList.contains('expanded'))c.classList.add('expanded')},7000)})
 
 </script>
@@ -2308,7 +2308,8 @@ function escHtml(s){
   font-size:16px; color:var(--tx2); line-height:1.7;
 }
 
-.f-accordion { display:flex; flex-direction:column; gap:8px; }
+.f-accordion { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+@media(max-width:768px){.f-accordion{grid-template-columns:1fr;}}
 
 .f-acc-item {
   background:var(--bg3);
