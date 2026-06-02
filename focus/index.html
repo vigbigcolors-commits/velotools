@@ -530,6 +530,10 @@ body::before {
   border-radius:50%; background:var(--ac);
   box-shadow:0 0 6px var(--ac-glow); cursor:pointer;
 }
+.f-vol-slider::-moz-range-thumb {
+  width:14px; height:14px; border:none; border-radius:50%;
+  background:var(--ac); box-shadow:0 0 6px var(--ac-glow); cursor:pointer;
+}
 
 /* ── NOTES & JOURNAL ── */
 .f-notes { grid-column:3; grid-row:2; }
@@ -619,8 +623,33 @@ body::before {
   .f-timer-display   { font-size:42px !important; }
   .f-modes { flex-wrap:wrap; justify-content:center; }
   .f-mode-btn { font-size:11px !important; padding:6px 12px !important; }
-  .f-vol-slider { height:24px !important; }
-  .f-vol-row { padding:10px 0 !important; }
+  /* Vol slider: proper mobile touch target */
+  .f-vol-slider {
+    height:36px !important;
+    background:transparent !important;
+    padding:0 !important;
+  }
+  .f-vol-slider::-webkit-slider-runnable-track {
+    height:5px;
+    background:var(--border2);
+    border-radius:3px;
+  }
+  .f-vol-slider::-webkit-slider-thumb {
+    width:24px !important;
+    height:24px !important;
+    margin-top:-10px;
+  }
+  .f-vol-slider::-moz-range-track {
+    height:5px;
+    background:var(--border2);
+    border-radius:3px;
+  }
+  .f-vol-slider::-moz-range-thumb {
+    width:24px !important; height:24px !important;
+    border:none !important; background:var(--ac) !important;
+    box-shadow:0 0 6px var(--ac-glow) !important;
+  }
+  .f-vol-row { padding:4px 0 !important; align-items:center !important; }
   .f-sound-grid { grid-template-columns:repeat(3,1fr) !important; }
   .f-task-input-row { overflow:hidden !important; }
   .f-task-input { min-width:0 !important; }
@@ -749,7 +778,11 @@ body.zen-mode .f-timer-wrap {
 .f-wl-sci-stat-l{font-size:11px;color:var(--tx3);line-height:1.4;display:block;margin-top:4px}
 @media(max-width:768px){
   .f-wl-section{padding:0 14px 16px}
-  .f-wl-player{gap:10px;padding:14px 16px;flex-wrap:wrap}
+  .f-wl-player{gap:10px;padding:14px 16px;flex-wrap:wrap;align-items:center}
+  /* art + info stay on row 1, ctrl forced to its own row */
+  .f-wl-art  { order:1; flex-shrink:0; }
+  .f-wl-info { order:2; flex:1; min-width:0; }
+  .f-wl-ctrl { order:3; flex-basis:100%; display:flex; align-items:center; gap:10px; }
   .f-wl-vol-wrap,.f-wl-warn-pill{display:none}
   .f-wl-science-inner{grid-template-columns:1fr;gap:14px}
   .f-wl-sci-stats{flex-direction:column}
@@ -1016,7 +1049,7 @@ body.zen-mode .f-timer-wrap {
             <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">35%</span><span class="f-wl-sci-stat-l">higher calm vs Enya & classical</span></div>
           </div>
           <p class="f-wl-sci-text" style="margin-top:14px"><strong>Best for:</strong> Long breaks, high-anxiety days, post-session recovery.</p>
-          <p style="font-size:11px;color:var(--tx3);margin-top:8px">File: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:#9b87f5">sounds/weightless.mp3</code></p>
+          <p style="font-size:11px;color:var(--tx3);margin-top:8px">File: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:#9b87f5">sounds/weightless.flac</code></p>
         </div>
       </div>
     </div>
@@ -1027,8 +1060,8 @@ body.zen-mode .f-timer-wrap {
 var wlAudio=null,wlPlaying=false;
 function toggleWeightless(){wlPlaying?stopWeightless():playWeightless()}
 function playWeightless(){
-  if(!wlAudio){wlAudio=new Audio('sounds/weightless.mp3');wlAudio.loop=true;wlAudio.volume=document.getElementById('wl-vol')?document.getElementById('wl-vol').value/100:0.7}
-  wlAudio.play().then(function(){wlPlaying=true;document.getElementById('wl-play-ico').style.display='none';document.getElementById('wl-stop-ico').style.display='block';var c=document.getElementById('wl-card');if(c)c.classList.add('playing')}).catch(function(){showToast('Add sounds/weightless.mp3 to enable playback')})
+  if(!wlAudio){wlAudio=new Audio('sounds/weightless.flac');wlAudio.loop=true;wlAudio.volume=document.getElementById('wl-vol')?document.getElementById('wl-vol').value/100:0.7}
+  wlAudio.play().then(function(){wlPlaying=true;document.getElementById('wl-play-ico').style.display='none';document.getElementById('wl-stop-ico').style.display='block';var c=document.getElementById('wl-card');if(c)c.classList.add('playing')}).catch(function(){showToast('Add sounds/weightless.flac to enable playback')})
 }
 function stopWeightless(){
   if(wlAudio){wlAudio.pause();wlAudio.currentTime=0}
