@@ -1385,7 +1385,7 @@ function stopWeightless(){
 function setWlVolume(v){if(wlAudio)wlAudio.volume=v/100}
 function toggleWlInfo(){var c=document.getElementById('wl-card');if(c)c.classList.toggle('expanded')}
 function toggleFlacPanel(){var p=document.getElementById('wl-flac-panel');if(p)p.classList.toggle('open')}
-// Auto-open science panel after 7 seconds
+// Auto-open science panel after 3 seconds
 window.addEventListener('load',function(){setTimeout(function(){var c=document.getElementById('wl-card');if(c&&!c.classList.contains('expanded'))c.classList.add('expanded')},7000)})
 
 </script>
