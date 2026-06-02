@@ -1049,7 +1049,7 @@ body.zen-mode .f-timer-wrap {
             <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">35%</span><span class="f-wl-sci-stat-l">higher calm vs Enya & classical</span></div>
           </div>
           <p class="f-wl-sci-text" style="margin-top:14px"><strong>Best for:</strong> Long breaks, high-anxiety days, post-session recovery.</p>
-          <p style="font-size:11px;color:var(--tx3);margin-top:8px">File: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:#9b87f5">sounds/weightless.flac</code></p>
+          <p style="font-size:11px;color:var(--tx3);margin-top:8px">File: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:#9b87f5">https://pub-bae35537ac124cd69139e93db76c277e.r2.dev/weightless.flac</code></p>
         </div>
       </div>
     </div>
@@ -1060,8 +1060,8 @@ body.zen-mode .f-timer-wrap {
 var wlAudio=null,wlPlaying=false;
 function toggleWeightless(){wlPlaying?stopWeightless():playWeightless()}
 function playWeightless(){
-  if(!wlAudio){wlAudio=new Audio('sounds/weightless.flac');wlAudio.loop=true;wlAudio.volume=document.getElementById('wl-vol')?document.getElementById('wl-vol').value/100:0.7}
-  wlAudio.play().then(function(){wlPlaying=true;document.getElementById('wl-play-ico').style.display='none';document.getElementById('wl-stop-ico').style.display='block';var c=document.getElementById('wl-card');if(c)c.classList.add('playing')}).catch(function(){showToast('Add sounds/weightless.flac to enable playback')})
+  if(!wlAudio){wlAudio=new Audio('https://pub-bae35537ac124cd69139e93db76c277e.r2.dev/weightless.flac');wlAudio.loop=true;wlAudio.volume=document.getElementById('wl-vol')?document.getElementById('wl-vol').value/100:0.7}
+  wlAudio.play().then(function(){wlPlaying=true;document.getElementById('wl-play-ico').style.display='none';document.getElementById('wl-stop-ico').style.display='block';var c=document.getElementById('wl-card');if(c)c.classList.add('playing')}).catch(function(){showToast('Add https://pub-bae35537ac124cd69139e93db76c277e.r2.dev/weightless.flac to enable playback')})
 }
 function stopWeightless(){
   if(wlAudio){wlAudio.pause();wlAudio.currentTime=0}
