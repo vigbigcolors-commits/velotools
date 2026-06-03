@@ -175,10 +175,10 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--ac3) 0%,var(--ro
 
 /* COMPARE */
 #cmp-area{display:none;width:100%;height:100%;position:absolute;inset:0;align-items:center;justify-content:center;overflow:hidden;cursor:ew-resize;user-select:none;background:repeating-conic-gradient(rgba(255,255,255,.035) 0% 25%,transparent 0% 50%) 0 0/22px 22px}
-.cmp-stack{position:relative;display:inline-block;line-height:0;max-width:100%;max-height:calc(100vh - 280px)}
-.cmp-stack img{display:block;max-width:100%;max-height:calc(100vh - 280px)}
+.cmp-stack{position:relative;display:inline-block;line-height:0}
+#cmp-before-img{display:block;max-width:100%;max-height:calc(100vh - 280px)}
 .cmp-after-layer{position:absolute;top:0;left:0;width:50%;height:100%;overflow:hidden}
-.cmp-after-layer img{position:absolute;top:0;left:0;height:100%;max-height:none;width:auto}
+#cmp-after-img{position:absolute;top:0;left:0;height:100%;width:auto;max-width:none;max-height:none}
 .cmp-line{position:absolute;top:0;width:3px;height:100%;background:#fff;transform:translateX(-50%);pointer-events:none;z-index:5;box-shadow:0 0 14px rgba(0,0,0,.5)}
 .cmp-hdl{position:absolute;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:#fff;pointer-events:none;z-index:6;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 22px rgba(0,0,0,.55)}
 .cmp-hdl svg{width:20px;height:20px;stroke:#222;fill:none;stroke-width:2}

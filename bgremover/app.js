@@ -108,20 +108,17 @@ var TOOL_BTNS = {
 function setTool(t){
   S.tool=t;
   document.querySelectorAll('.tb,.ttb').forEach(function(b){ b.classList.remove('act'); });
-  (TOOL_BTNS[t]||[]).forEach(function(id){ var el=$(id); if(el) el.classList.add('act'); });
-
   var area=$('cc-area');
   area.classList.remove('tool-pan');
   dispC.classList.remove('brush-cur','zoom-in-cur','zoom-out-cur');
-
+  $('zoom-hint').style.display='none';
+  clearCursor();
+  if(!t) return;   // null = no tool selected: default cursor, nothing active, no crash
+  (TOOL_BTNS[t]||[]).forEach(function(id){ var el=$(id); if(el) el.classList.add('act'); });
   var isBrush=(t.indexOf('erase')===0 || t.indexOf('restore')===0) && t!=='smart-erase';
   if(isBrush){ dispC.classList.add('brush-cur'); }
   else if(t==='pan'){ area.classList.add('tool-pan'); }
   else if(t==='magnifier'){ updateZoomCursor(); }
-  // smart-erase keeps default crosshair via canvas default
-
-  $('zoom-hint').style.display='none';
-  clearCursor();
 }
 
 /* ---------- BACKGROUND PREVIEW (now functional) ---------- */
@@ -424,8 +421,6 @@ function setCmpPos(clientX){
   var rect=stack.getBoundingClientRect();
   var p=Math.max(0,Math.min(100,(clientX-rect.left)/rect.width*100));
   $('cmp-after-layer').style.width=p+'%';
-  $('cmp-after-img').style.width=rect.width+'px';
-  $('cmp-after-img').style.maxWidth=rect.width+'px';
   $('cmp-line').style.left=p+'%';
   $('cmp-hdl').style.left=p+'%';
 }
@@ -440,22 +435,23 @@ function initCompare(){
 }
 function refreshCompare(){
   if(!S.origData) return;
-  $('cmp-before-img').src=S.origImgEl.src;
   var W=S.imgW,H=S.imgH;
-  var c=document.createElement('canvas'); c.width=W; c.height=H;
-  var ctx=c.getContext('2d');
+  // BEFORE: rebuild from the original pixels (reliable, never a dead URL)
+  var bc=document.createElement('canvas'); bc.width=W; bc.height=H;
+  bc.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(S.origData),W,H),0,0);
+  $('cmp-before-img').src=bc.toDataURL('image/png');
+  // AFTER: composite the current cutout
+  var ac=document.createElement('canvas'); ac.width=W; ac.height=H;
   var out=new Uint8ClampedArray(W*H*4), od=S.origData, md=S.maskData;
   for(var i=0,n=W*H;i<n;i++){ var j=i*4; out[j]=od[j]; out[j+1]=od[j+1]; out[j+2]=od[j+2]; out[j+3]=md[i]; }
-  ctx.putImageData(new ImageData(out,W,H),0,0);
-  $('cmp-after-img').src=c.toDataURL('image/png');
+  ac.getContext('2d').putImageData(new ImageData(out,W,H),0,0);
+  $('cmp-after-img').src=ac.toDataURL('image/png');
+  // centre the divider once laid out
   setTimeout(function(){
-    var rect=$('cmp-stack').getBoundingClientRect();
-    $('cmp-after-img').style.width=rect.width+'px';
-    $('cmp-after-img').style.maxWidth=rect.width+'px';
     $('cmp-after-layer').style.width='50%';
     $('cmp-line').style.left='50%';
     $('cmp-hdl').style.left='50%';
-  },80);
+  },60);
 }
 
 /* ---------- TABS ---------- */
@@ -516,7 +512,7 @@ async function processFile(file){
     autoCleanup();
     S.aiMaskData=new Uint8ClampedArray(S.maskData);
 
-    URL.revokeObjectURL(origURL); URL.revokeObjectURL(resURL);
+    URL.revokeObjectURL(resURL); // keep origURL alive for the session
 
     $('cc-info').textContent=S.imgW+' × '+S.imgH;
     S.undo=[]; S.redo=[]; S.zoomLevel=1; setViewZoom(1); updateHistory();
