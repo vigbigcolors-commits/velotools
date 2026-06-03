@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free AI Background Remover Online — No Upload, No Signup | VeloTools</title>
+<meta name="description" content="Remove image backgrounds instantly with AI. Works 100% in your browser — no upload, no account, no watermarks. 18 pro editing tools: hair brush, restore, smart erase, 5x zoom magnifier, edge refinement. Free forever.">
+<meta name="keywords" content="background remover free,remove background online,transparent png maker,ai background removal,no upload background remover,product photo background remover,portrait background remover,background eraser tool 2026,remove bg free,clipping path tool">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://velotools.app/bgremover/">
+<meta property="og:title" content="Free AI Background Remover — No Upload Required">
+<meta property="og:description" content="Remove backgrounds instantly. 18 pro tools. Your photos never leave your device.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://velotools.app/bgremover/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Background Remover","description":"Free AI background remover that runs entirely in your browser. No upload, no signup, no watermarks. 18 professional editing tools.","url":"https://velotools.app/bgremover/","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["AI background removal","Hair detail brushes","Restore brush","Smart color erase","5x Zoom magnifier","Edge feather and refinement","Transparent PNG export","WebP export","No upload required","No watermarks"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this background remover work without uploading my image?","acceptedAnswer":{"@type":"Answer","text":"Yes, 100%. The entire process happens in your browser using WebAssembly. Your image pixels never leave your device."}},{"@type":"Question","name":"Is the background remover free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free forever. No signup, no watermarks, no daily limits, no subscription."}},{"@type":"Question","name":"What image formats are supported?","acceptedAnswer":{"@type":"Answer","text":"JPG, PNG, WebP, GIF, BMP, TIFF, AVIF, HEIC, SVG and ICO. Export as PNG, JPG or WebP."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#070112;--bg1:#0E0420;--bg2:#170733;--bg3:#210C46;--bg4:#2E1260;--bg5:#3A1875;
+  --brd:#341560;--brd2:#5424A0;--brd3:#7842C8;
+  --ac:#9B4FCC;--ac2:#7835A8;--ac3:#C080FF;--ac4:#D8A8FF;
+  --rose:#D89FB0;--rose2:#C4909F;--wine:#9B3858;--wine2:#6B1E3C;
+  --lav:#C4A0D4;--blush:#E8D4DC;--teal:#5DCAA5;--teal2:#3DA585;
+  --tx:#F2ECFF;--tx2:#C4A8E0;--tx3:#8868A0;--tx4:#4E3470;
+  --erase:#F08494;--restore:#74E0B0;--smart:#C080FF;--edge:#C4A0D4;--view:#80C0FF;
+  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:22px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg0);color:var(--tx);font-family:"DM Sans",system-ui,sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.5}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 100% 60% at 50% -10%,rgba(155,79,204,.16),transparent 55%),radial-gradient(ellipse 60% 50% at 88% 92%,rgba(155,56,88,.1),transparent 55%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(93,202,165,.05),transparent 55%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--brd3)}
+
+/* ===== HEADER ===== */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 30px;border-bottom:1px solid rgba(84,36,160,.35);position:sticky;top:0;z-index:200;backdrop-filter:blur(18px) saturate(140%);background:rgba(7,1,18,.82)}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;transition:opacity .2s}
+.logo:hover{opacity:.85}
+.logo-ico{width:34px;height:34px;background:linear-gradient(135deg,var(--ac2),var(--ac3));border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(155,79,204,.35)}
+.logo-ico svg{width:17px;height:17px;stroke:#fff;stroke-width:2;fill:none}
+.logo-nm{font-family:"DM Mono",monospace;font-size:15px;font-weight:400;letter-spacing:-.01em}
+.hdr-r{display:flex;align-items:center;gap:16px}
+.priv{display:flex;align-items:center;gap:6px;background:rgba(93,202,165,.08);border:1px solid rgba(93,202,165,.25);border-radius:30px;padding:5px 14px;font-size:11px;color:var(--teal);font-weight:500}
+.priv svg{width:12px;height:12px;stroke:currentColor;fill:none}
+.back{font-size:12px;color:var(--tx3);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s}
+.back:hover{color:var(--lav)}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:54px 20px 40px;position:relative;z-index:1}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(155,79,204,.1);border:1px solid rgba(155,79,204,.3);border-radius:30px;padding:6px 18px;font-size:11px;color:var(--lav);font-family:"DM Mono",monospace;letter-spacing:.07em;text-transform:uppercase;margin-bottom:22px}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--ac3);box-shadow:0 0 8px var(--ac3);animation:dotpulse 2s ease-in-out infinite}
+@keyframes dotpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+h1{font-family:"Playfair Display",serif;font-size:clamp(40px,5.8vw,68px);font-weight:400;line-height:1.04;margin-bottom:18px;letter-spacing:-.025em}
+h1 em{font-style:italic;background:linear-gradient(120deg,var(--ac3) 0%,var(--rose) 60%,var(--ac4) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--tx3);max-width:500px;margin:0 auto 26px;line-height:1.75}
+.hero-badges{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.hbadge{font-size:12px;color:var(--tx2);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:5px 13px;transition:all .2s}
+.hbadge:hover{border-color:var(--brd2);background:rgba(155,79,204,.08)}
+
+/* ===== MAIN ===== */
+.main{max-width:1280px;margin:0 auto;padding:0 18px 44px;position:relative;z-index:1}
+
+/* ===== UPLOAD ===== */
+#s-upload{border:2px dashed var(--brd2);border-radius:var(--r-xl);padding:76px 36px;text-align:center;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);background:rgba(33,12,70,.22);position:relative;overflow:hidden}
+#s-upload::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(155,79,204,.12),transparent 60%);pointer-events:none;opacity:.8}
+#s-upload:hover,#s-upload.drag{border-color:var(--ac3);background:rgba(155,79,204,.09);transform:scale(1.004)}
+#s-upload.drag{border-style:solid;box-shadow:0 0 40px rgba(155,79,204,.2)}
+.up-ico{width:72px;height:72px;margin:0 auto 22px;background:rgba(155,79,204,.12);border-radius:20px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(155,79,204,.28);box-shadow:0 0 30px rgba(155,79,204,.18)}
+.up-ico svg{width:34px;height:34px;stroke:var(--ac3);fill:none;stroke-width:1.5}
+.up-h{font-family:"Playfair Display",serif;font-size:27px;font-weight:400;margin-bottom:11px}
+.up-p{font-size:14px;color:var(--tx3);line-height:1.75}
+.up-p strong{color:var(--lav);font-weight:500}
+.up-fmts{display:flex;gap:7px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.fmt{font-size:10px;font-family:"DM Mono",monospace;color:var(--tx3);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:3px 9px}
+#file-input{display:none}
+
+/* ===== PROCESSING ===== */
+#s-proc{display:none;text-align:center;padding:88px 20px}
+.sp{width:90px;height:90px;margin:0 auto 30px;position:relative}
+.sp div{position:absolute;inset:0;border-radius:50%;border:2px solid transparent}
+.sp1{border-top-color:var(--ac3)!important;animation:spinr 1s linear infinite}
+.sp2{inset:12px;border-right-color:var(--rose)!important;animation:spinr 1.7s linear infinite reverse}
+.sp3{inset:26px;border-bottom-color:var(--teal)!important;animation:spinr 2.3s linear infinite}
+@keyframes spinr{to{transform:rotate(360deg)}}
+.proc-h{font-family:"Playfair Display",serif;font-size:27px;font-weight:400;margin-bottom:9px}
+.proc-p{font-size:13px;color:var(--tx3);margin-bottom:26px}
+.pb{height:4px;background:rgba(84,36,160,.3);border-radius:3px;max-width:380px;margin:0 auto 11px;overflow:hidden}
+.pb-f{height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac3),var(--rose));width:0%;transition:width .4s;border-radius:3px;box-shadow:0 0 10px rgba(192,128,255,.4)}
+.pb-l{font-size:12px;color:var(--tx3);font-family:"DM Mono",monospace}
+
+/* ===== ERROR ===== */
+#s-err{display:none;text-align:center;padding:64px 20px}
+.err-ico{font-size:36px;margin-bottom:18px}
+.err-msg{font-size:15px;color:var(--rose);margin-bottom:22px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+/* ===== EDITOR ===== */
+#s-edit{display:none}
+.ed{display:flex;flex-direction:column;background:var(--bg1);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--brd);box-shadow:0 0 70px rgba(155,79,204,.1);position:relative}
+
+/* TOP TOOLBAR (NEW - main tools, large) */
+.toptb{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--brd);flex-wrap:wrap}
+.toptb-group{display:flex;align-items:center;gap:4px;padding:0 8px;border-right:1px solid var(--brd)}
+.toptb-group:last-child{border-right:none}
+.ttb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:58px;height:54px;padding:6px 10px;border-radius:var(--r-md);border:1px solid transparent;background:transparent;color:var(--tx2);cursor:pointer;transition:all .15s;position:relative}
+.ttb:hover{background:var(--bg3);color:var(--tx)}
+.ttb.act{background:rgba(155,79,204,.18);color:var(--ac3);border-color:rgba(192,128,255,.35);box-shadow:0 0 16px rgba(155,79,204,.25)}
+.ttb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+.ttb span{font-size:10px;font-weight:500;line-height:1;white-space:nowrap}
+.ttb.disabled{opacity:.35;pointer-events:none}
+.ttb-erase.act{color:var(--erase);border-color:rgba(240,132,148,.4);background:rgba(240,132,148,.12)}
+.ttb-restore.act{color:var(--restore);border-color:rgba(116,224,176,.4);background:rgba(116,224,176,.12)}
+.ttb-smart.act{color:var(--smart);border-color:rgba(192,128,255,.4);background:rgba(192,128,255,.12)}
+.ttb-view.act{color:var(--view);border-color:rgba(128,192,255,.4);background:rgba(128,192,255,.12)}
+
+/* MAIN WORK AREA */
+.work{display:grid;grid-template-columns:74px 1fr 296px;min-height:560px}
+
+/* LEFT SIDEBAR (full toolset, LARGE icons) */
+.lb{background:var(--bg2);border-right:1px solid var(--brd);padding:12px 8px;display:flex;flex-direction:column;gap:4px;align-items:center;overflow-y:auto;overflow-x:hidden}
+.lb-ghead{font-size:9px;font-family:"DM Mono",monospace;color:var(--tx4);text-transform:uppercase;letter-spacing:.12em;text-align:center;padding:7px 0 4px;width:100%;font-weight:600}
+.tb{width:58px;height:56px;border-radius:var(--r-md);border:1px solid transparent;background:transparent;color:var(--tx2);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all .15s;position:relative;flex-shrink:0}
+.tb:hover{background:var(--bg3);color:var(--tx)}
+.tb.act{background:rgba(155,79,204,.18);color:var(--ac3);border-color:rgba(192,128,255,.3);box-shadow:inset 0 0 0 1px rgba(192,128,255,.2),0 0 14px rgba(155,79,204,.22)}
+.tb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
+.tb span{font-size:9px;color:inherit;font-weight:500;line-height:1}
+.g-erase .tb.act{color:var(--erase);border-color:rgba(240,132,148,.35);background:rgba(240,132,148,.1);box-shadow:inset 0 0 0 1px rgba(240,132,148,.25),0 0 14px rgba(240,132,148,.18)}
+.g-rest .tb.act{color:var(--restore);border-color:rgba(116,224,176,.35);background:rgba(116,224,176,.1);box-shadow:inset 0 0 0 1px rgba(116,224,176,.25),0 0 14px rgba(116,224,176,.18)}
+.g-smart .tb.act{color:var(--smart)}
+.g-edge .tb.act{color:var(--edge)}
+.g-view .tb.act{color:var(--view);border-color:rgba(128,192,255,.35);background:rgba(128,192,255,.1)}
+.lb-sep{width:42px;height:1px;background:var(--brd);margin:4px 0;flex-shrink:0}
+
+/* CANVAS CENTER */
+.cc{background:#0a0518;display:flex;flex-direction:column;overflow:hidden;position:relative;min-height:0}
+.cc-top{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--brd);background:var(--bg2);flex-shrink:0;gap:10px;flex-wrap:wrap}
+.ctabs{display:flex;gap:2px;background:rgba(0,0,0,.35);border-radius:var(--r-sm);padding:3px}
+.ctab{padding:6px 16px;font-size:12px;font-weight:500;color:var(--tx3);background:transparent;border:none;border-radius:6px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.ctab.act{background:var(--bg4);color:var(--tx)}
+.cc-zoom{display:flex;align-items:center;gap:6px}
+.zbtn{width:26px;height:26px;border-radius:6px;border:1px solid var(--brd);background:transparent;color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.zbtn:hover{background:var(--bg3);color:var(--tx)}
+.zbtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.zlevel{font-size:11px;font-family:"DM Mono",monospace;color:var(--tx2);min-width:42px;text-align:center}
+.cc-info{font-size:10px;font-family:"DM Mono",monospace;color:var(--tx4)}
+.cc-area{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:repeating-conic-gradient(rgba(255,255,255,.035) 0% 25%,transparent 0% 50%) 0 0/22px 22px}
+.canvases{position:relative;display:inline-block;line-height:0;transform-origin:center center}
+#disp-c{display:block;max-width:100%;max-height:calc(100vh - 280px);image-rendering:auto}
+#ov-c{position:absolute;top:0;left:0;pointer-events:none;display:block}
+.cc-area.brush-active{cursor:none}
+.cc-area.tool-pan{cursor:grab}
+.cc-area.tool-pan.panning{cursor:grabbing}
+.cc-area.tool-mag{cursor:none}
+
+/* COMPARE - rebuilt with img elements */
+#cmp-area{display:none;width:100%;height:100%;position:absolute;inset:0;align-items:center;justify-content:center;overflow:hidden;cursor:ew-resize;user-select:none;background:repeating-conic-gradient(rgba(255,255,255,.035) 0% 25%,transparent 0% 50%) 0 0/22px 22px}
+.cmp-stack{position:relative;display:inline-block;line-height:0;max-width:100%;max-height:calc(100vh - 280px)}
+.cmp-stack img{display:block;max-width:100%;max-height:calc(100vh - 280px)}
+.cmp-after-layer{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
+.cmp-after-layer img{position:absolute;top:0;left:0;width:100%;height:100%}
+.cmp-line{position:absolute;top:0;width:3px;height:100%;background:#fff;transform:translateX(-50%);pointer-events:none;z-index:5;box-shadow:0 0 12px rgba(0,0,0,.4)}
+.cmp-hdl{position:absolute;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:#fff;pointer-events:none;z-index:6;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 22px rgba(0,0,0,.55)}
+.cmp-hdl svg{width:20px;height:20px;stroke:#222;fill:none;stroke-width:2}
+.cmp-lbl{position:absolute;top:14px;font-size:10px;font-family:"DM Mono",monospace;background:rgba(0,0,0,.7);color:#fff;padding:4px 11px;border-radius:5px;pointer-events:none;z-index:7;letter-spacing:.05em}
+
+/* MAGNIFIER */
+#mag{display:none;position:absolute;width:220px;height:220px;border-radius:50%;overflow:hidden;border:3px solid var(--ac3);box-shadow:0 0 0 5px rgba(192,128,255,.15),0 6px 30px rgba(155,79,204,.55);pointer-events:none;z-index:40}
+#mag::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.08),transparent 55%);pointer-events:none}
+#mag-c{width:220px;height:220px;display:block;image-rendering:pixelated}
+.mag-lbl{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);font-size:10px;font-family:"DM Mono",monospace;color:var(--ac3);white-space:nowrap;background:rgba(7,1,18,.92);padding:3px 10px;border-radius:5px}
+
+/* RIGHT SIDEBAR */
+.rb{background:var(--bg2);border-left:1px solid var(--brd);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+.rb-s{padding:15px 15px;border-bottom:1px solid var(--brd)}
+.rb-t{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.13em;color:var(--tx4);font-family:"DM Mono",monospace;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.rb-t svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.brush-prev-wrap{display:flex;align-items:center;justify-content:center;height:70px;background:repeating-conic-gradient(rgba(255,255,255,.04) 0% 25%,transparent 0% 50%) 0 0/12px 12px;border-radius:var(--r-md);margin-bottom:12px;border:1px solid var(--brd)}
+#brush-prev{border-radius:50%;background:radial-gradient(circle,rgba(192,128,255,.6),rgba(192,128,255,.2));border:1.5px solid rgba(192,128,255,.85);transition:all .12s}
+.sl-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.sl-lbl{font-size:12px;color:var(--tx3);width:62px;flex-shrink:0}
+.sl-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:5px;background:var(--brd2);border-radius:3px;outline:none;cursor:pointer}
+.sl-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac3));cursor:pointer;box-shadow:0 0 8px rgba(155,79,204,.5);transition:transform .1s}
+.sl-row input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.sl-row input[type=range]::-moz-range-thumb{width:17px;height:17px;border:none;border-radius:50%;background:var(--ac);cursor:pointer}
+.sl-val{font-size:11px;font-family:"DM Mono",monospace;color:var(--tx2);width:36px;text-align:right;flex-shrink:0}
+.sw-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:11px}
+.sw{width:100%;aspect-ratio:1;border-radius:var(--r-sm);cursor:pointer;border:2px solid transparent;transition:all .18s;position:relative}
+.sw:hover{transform:scale(1.1)}
+.sw.act{border-color:var(--ac3);box-shadow:0 0 10px rgba(192,128,255,.45)}
+.sw-check{background:repeating-conic-gradient(rgba(255,255,255,.08) 0% 25%,rgba(255,255,255,.02) 0% 50%) 0 0/11px 11px}
+.cr-row{display:flex;gap:9px;align-items:center}
+.cr-row input[type=color]{width:40px;height:32px;border:1px solid var(--brd2);border-radius:var(--r-sm);background:none;cursor:pointer;padding:2px}
+.cr-row label{font-size:12px;color:var(--tx3)}
+.dl-btn{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:var(--r-md);border:1px solid var(--brd);background:transparent;color:var(--tx);font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;width:100%;margin-bottom:8px}
+.dl-btn:hover{background:var(--bg3);border-color:var(--brd2);transform:translateX(2px)}
+.dl-btn.pr{background:linear-gradient(135deg,var(--ac2),var(--ac));border-color:var(--ac);color:#fff;box-shadow:0 2px 14px rgba(155,79,204,.3)}
+.dl-btn.pr:hover{background:linear-gradient(135deg,var(--ac),var(--ac3))}
+.dl-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.dl-sub{font-size:10px;opacity:.6;margin-left:auto;font-family:"DM Mono",monospace}
+.new-btn{width:100%;padding:10px;border-radius:var(--r-md);background:transparent;border:1px solid var(--brd);color:var(--tx3);font-size:12px;cursor:pointer;transition:all .2s;margin-top:5px}
+.new-btn:hover{border-color:var(--rose);color:var(--tx)}
+.kbd-list{display:flex;flex-direction:column;gap:6px}
+.kl{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--tx3)}
+kbd{font-family:"DM Mono",monospace;font-size:9px;background:var(--bg4);border:1px solid var(--brd2);border-radius:5px;padding:2px 7px;color:var(--tx2)}
+
+/* ===== SEO ===== */
+.seo{max-width:1180px;margin:0 auto;padding:0 18px 84px;position:relative;z-index:1}
+.seo-block{margin-bottom:60px}
+.seo h2{font-family:"Playfair Display",serif;font-size:clamp(28px,3.6vw,42px);font-weight:400;margin-bottom:15px;line-height:1.18}
+.seo h2 em{font-style:italic;color:var(--lav)}
+.seo-lead{font-size:15px;color:var(--tx3);max-width:680px;line-height:1.8;margin-bottom:30px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px}
+.ic{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-lg);padding:22px;transition:all .22s;position:relative;overflow:hidden}
+.ic::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(155,79,204,.5),transparent)}
+.ic:hover{border-color:var(--brd2);background:var(--bg3);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.ic-ico{width:46px;height:46px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:22px}
+.ip{background:rgba(155,79,204,.12);border:1px solid rgba(155,79,204,.22)}
+.ir{background:rgba(216,159,176,.1);border:1px solid rgba(216,159,176,.2)}
+.it{background:rgba(93,202,165,.08);border:1px solid rgba(93,202,165,.16)}
+.iw{background:rgba(155,56,88,.12);border:1px solid rgba(155,56,88,.22)}
+.ic h3{font-size:15px;font-weight:500;margin-bottom:8px;color:var(--tx)}
+.ic p{font-size:13px;color:var(--tx3);line-height:1.7}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:30px}
+.st{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-md);padding:20px;text-align:center;position:relative;overflow:hidden}
+.st::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac2),var(--ac3),var(--rose))}
+.sn{font-family:"DM Mono",monospace;font-size:34px;font-weight:300;color:var(--ac3);display:block;line-height:1}
+.sl{font-size:11px;color:var(--tx3);margin-top:6px;display:block}
+.tip{display:flex;gap:15px;align-items:flex-start;padding:18px;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-md);margin-bottom:11px;transition:all .2s}
+.tip:hover{border-color:var(--brd2)}
+.tn{font-family:"DM Mono",monospace;font-size:24px;font-weight:300;color:var(--ac);flex-shrink:0;line-height:1;margin-top:2px}
+.tip h4{font-size:14px;font-weight:500;margin-bottom:5px}
+.tip p{font-size:13px;color:var(--tx3);line-height:1.68}
+.faq-item{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r-md);overflow:hidden;margin-bottom:8px;transition:border-color .2s}
+.faq-item[open]{border-color:var(--brd2)}
+.faq-item summary{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;font-size:14px;font-weight:500;list-style:none;user-select:none;gap:12px}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary svg{width:16px;height:16px;stroke:var(--tx3);fill:none;stroke-width:2;flex-shrink:0;transition:transform .3s}
+.faq-item[open] summary svg{transform:rotate(180deg);stroke:var(--ac3)}
+.faq-item .fa{padding:0 18px 16px;font-size:13px;color:var(--tx3);line-height:1.78}
+.div{height:1px;background:linear-gradient(90deg,transparent,var(--brd2) 50%,transparent);margin:54px 0}
+
+/* ===== FOOTER ===== */
+.footer{text-align:center;padding:26px;border-top:1px solid var(--brd);font-size:12px;color:var(--tx4);position:relative;z-index:1}
+.footer a{color:var(--lav);text-decoration:none}
+.footer a:hover{color:var(--ac3)}
+.fbs{display:flex;gap:11px;justify-content:center;margin-top:9px;flex-wrap:wrap}
+.fb{font-size:10px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:4px 10px;color:var(--tx3)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1000px){.work{grid-template-columns:64px 1fr}.rb{display:none}.sr{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.hdr{padding:11px 15px}.hero{padding:34px 15px 26px}.toptb{gap:3px;padding:8px}.ttb{min-width:48px;height:48px;padding:4px 6px}.ttb span{font-size:9px}.work{grid-template-columns:54px 1fr}.tb{width:48px;height:50px}}
+
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <a class="logo" href="/">
+    <div class="logo-ico"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="logo-nm">velotools</span>
+  </a>
+  <div class="hdr-r">
+    <div class="priv"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Runs in browser</div>
+    <a class="back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>All tools</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-tag"><span class="hero-dot"></span>Free forever &middot; No signup &middot; No watermarks</div>
+  <h1>Remove any <em>background</em><br>in seconds</h1>
+  <p class="hero-sub">AI-powered removal that runs entirely in your browser. Your photos never leave your device &mdash; ever.</p>
+  <div class="hero-badges">
+    <span class="hbadge">&#10022; AI Powered</span>
+    <span class="hbadge">&#128274; 100% Private</span>
+    <span class="hbadge">&#9889; Instant</span>
+    <span class="hbadge">&#127912; 18 Pro Tools</span>
+    <span class="hbadge">&#128208; HD Export</span>
+  </div>
+</section>
+
+<main class="main">
+  <input type="file" id="file-input" accept="image/*">
+
+  <div id="s-upload" role="button" tabindex="0" aria-label="Upload image">
+    <div class="up-ico"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
+    <p class="up-h">Drop your image here</p>
+    <p class="up-p">or <strong>click to browse</strong> &middot; paste with Ctrl+V<br>Supports all major image formats</p>
+    <div class="up-fmts"><span class="fmt">JPG</span><span class="fmt">PNG</span><span class="fmt">WebP</span><span class="fmt">GIF</span><span class="fmt">BMP</span><span class="fmt">TIFF</span><span class="fmt">AVIF</span><span class="fmt">HEIC</span><span class="fmt">SVG</span><span class="fmt">ICO</span></div>
+  </div>
+
+  <div id="s-proc">
+    <div class="sp"><div class="sp1"></div><div class="sp2"></div><div class="sp3"></div></div>
+    <p class="proc-h">Removing background</p>
+    <p class="proc-p" id="proc-st">Initializing AI model&hellip;</p>
+    <div class="pb"><div class="pb-f" id="pb-f"></div></div>
+    <p class="pb-l" id="pb-l">0%</p>
+  </div>
+
+  <div id="s-err">
+    <p class="err-ico">&#9888;&#65039;</p>
+    <p class="err-msg" id="err-msg">Processing failed.</p>
+    <button class="new-btn" style="max-width:200px;margin:0 auto;display:block" onclick="gotoUpload()">Try again</button>
+  </div>
+
+  <div id="s-edit">
+    <div class="ed">
+
+      <!-- TOP TOOLBAR: most-used tools, large -->
+      <div class="toptb">
+        <div class="toptb-group">
+          <button class="ttb ttb-smart" id="tt-smart" onclick="setTool('smart-erase')" title="Smart Erase (S)"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M9 12l2 2 4-4"/></svg><span>Smart</span></button>
+          <button class="ttb ttb-erase" id="tt-erase" onclick="setTool('erase-hard')" title="Eraser (E)"><svg viewBox="0 0 24 24"><path d="M20 20H7L3 16l13-13 4 4-10.5 10.5"/><path d="M6.5 17.5l10-10"/></svg><span>Erase</span></button>
+          <button class="ttb ttb-restore" id="tt-restore" onclick="setTool('restore-hard')" title="Restore (R)"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/></svg><span>Restore</span></button>
+          <button class="ttb ttb-view" id="tt-mag" onclick="setTool('magnifier')" title="Magnifier (Z)"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></svg><span>Zoom</span></button>
+        </div>
+        <div class="toptb-group">
+          <button class="ttb" onclick="autoRefine()" title="Auto Refine Edges"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Refine</span></button>
+          <button class="ttb" onclick="edgeFeather()" title="Feather Edges"><svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/></svg><span>Feather</span></button>
+        </div>
+        <div class="toptb-group">
+          <button class="ttb" id="tt-undo" onclick="doUndo()" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/></svg><span>Undo</span></button>
+          <button class="ttb" id="tt-redo" onclick="doRedo()" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.1"/></svg><span>Redo</span></button>
+          <button class="ttb" onclick="doReset()" title="Reset to AI result"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 9A9 9 0 1 1 4 15"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+
+      <div class="work">
+
+        <!-- LEFT TOOLBAR: full set, large icons -->
+        <div class="lb">
+          <div class="g-smart" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="lb-ghead" style="color:#9B6FE0">Smart</div>
+            <button class="tb" id="t-smart" onclick="setTool('smart-erase')" title="Smart Erase"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M9 12l2 2 4-4"/></svg><span>Smart</span></button>
+            <button class="tb" id="t-refine" onclick="autoRefine()" title="Auto Refine"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Refine</span></button>
+            <button class="tb" id="t-invert" onclick="maskInvert()" title="Invert Mask"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor" stroke="none"/></svg><span>Invert</span></button>
+          </div>
+          <div class="lb-sep"></div>
+          <div class="g-erase" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="lb-ghead" style="color:#F08494">Erase</div>
+            <button class="tb" id="t-erase-hard" onclick="setTool('erase-hard')" title="Hard Eraser"><svg viewBox="0 0 24 24"><path d="M20 20H7L3 16l13-13 4 4-10.5 10.5"/><path d="M6.5 17.5l10-10"/></svg><span>Hard</span></button>
+            <button class="tb" id="t-erase-soft" onclick="setTool('erase-soft')" title="Soft Eraser"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6" opacity=".4"/><circle cx="12" cy="12" r="9" opacity=".15"/></svg><span>Soft</span></button>
+            <button class="tb" id="t-erase-hair" onclick="setTool('erase-hair')" title="Hair Eraser"><svg viewBox="0 0 24 24"><path d="M3 12c0-3 4-9 9-9s9 6 9 9-4 6-9 6"/><line x1="12" y1="21" x2="12" y2="15"/></svg><span>Hair</span></button>
+          </div>
+          <div class="lb-sep"></div>
+          <div class="g-rest" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="lb-ghead" style="color:#74E0B0">Restore</div>
+            <button class="tb" id="t-rest-hard" onclick="setTool('restore-hard')" title="Restore"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/></svg><span>Hard</span></button>
+            <button class="tb" id="t-rest-soft" onclick="setTool('restore-soft')" title="Soft Restore"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6" opacity=".4"/><polyline points="1 4 1 10 7 10"/></svg><span>Soft</span></button>
+            <button class="tb" id="t-rest-hair" onclick="setTool('restore-hair')" title="Hair Restore"><svg viewBox="0 0 24 24"><path d="M6 3c0 7 3 9 3 12s-3 5-3 5M12 3c0 7 3 9 3 12s-3 5-3 5M18 3c0 7 3 9 3 12s-3 5-3 5"/></svg><span>Hair</span></button>
+          </div>
+          <div class="lb-sep"></div>
+          <div class="g-edge" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="lb-ghead" style="color:#C4A0D4">Edge</div>
+            <button class="tb" onclick="edgeSmooth()" title="Smooth Edges"><svg viewBox="0 0 24 24"><path d="M3 17c3-3 6-9 9-9s6 6 9 9"/></svg><span>Smth</span></button>
+            <button class="tb" onclick="edgeFeather()" title="Feather"><svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/></svg><span>Feath</span></button>
+            <button class="tb" onclick="edgeExpand()" title="Expand Mask"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><span>Expnd</span></button>
+            <button class="tb" onclick="edgeContract()" title="Contract Mask"><svg viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg><span>Cont</span></button>
+          </div>
+          <div class="lb-sep"></div>
+          <div class="g-view" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="lb-ghead" style="color:#80C0FF">View</div>
+            <button class="tb" id="t-mag" onclick="setTool('magnifier')" title="Magnifier"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></svg><span>Zoom</span></button>
+            <button class="tb" id="t-pan" onclick="setTool('pan')" title="Pan"><svg viewBox="0 0 24 24"><path d="M18 11V6.5a2 2 0 0 0-4 0V11"/><path d="M14 10.5a2 2 0 0 0-4 0V14"/><path d="M10 12.5a2 2 0 0 0-4 0V17a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-5"/></svg><span>Pan</span></button>
+          </div>
+        </div>
+
+        <!-- CENTER -->
+        <div class="cc">
+          <div class="cc-top">
+            <div class="ctabs">
+              <button class="ctab act" id="ctab-e" onclick="switchTab('edit')">Edit</button>
+              <button class="ctab" id="ctab-c" onclick="switchTab('compare')">Before / After</button>
+            </div>
+            <div class="cc-zoom">
+              <button class="zbtn" onclick="zoomOut()" title="Zoom out"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+              <span class="zlevel" id="zlevel">100%</span>
+              <button class="zbtn" onclick="zoomIn()" title="Zoom in"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+              <button class="zbtn" onclick="zoomFit()" title="Fit"><svg viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/></svg></button>
+            </div>
+            <span class="cc-info" id="cc-info">&mdash; &times; &mdash;</span>
+          </div>
+          <div class="cc-area" id="cc-area">
+            <div class="canvases" id="canvases">
+              <canvas id="disp-c"></canvas>
+              <canvas id="ov-c"></canvas>
+            </div>
+            <div id="cmp-area">
+              <div class="cmp-stack" id="cmp-stack">
+                <img id="cmp-before-img" alt="Before">
+                <div class="cmp-after-layer" id="cmp-after-layer">
+                  <img id="cmp-after-img" alt="After">
+                </div>
+                <div class="cmp-line" id="cmp-line"></div>
+                <div class="cmp-hdl" id="cmp-hdl"><svg viewBox="0 0 24 24"><polyline points="9 18 3 12 9 6"/><polyline points="15 6 21 12 15 18"/></svg></div>
+                <span class="cmp-lbl" style="left:14px">Before</span>
+                <span class="cmp-lbl" style="right:14px">After</span>
+              </div>
+            </div>
+            <div id="mag">
+              <canvas id="mag-c" width="220" height="220"></canvas>
+              <div class="mag-lbl">5&times; zoom</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div class="rb">
+          <div class="rb-s">
+            <div class="rb-t"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6"/></svg>Brush Settings</div>
+            <div class="brush-prev-wrap"><div id="brush-prev" style="width:30px;height:30px"></div></div>
+            <div class="sl-row"><span class="sl-lbl">Size</span><input type="range" id="sl-size" min="2" max="120" value="30"><span class="sl-val" id="sv-size">30</span></div>
+            <div class="sl-row"><span class="sl-lbl">Opacity</span><input type="range" id="sl-op" min="5" max="100" value="85"><span class="sl-val" id="sv-op">85%</span></div>
+            <div class="sl-row"><span class="sl-lbl">Hardness</span><input type="range" id="sl-hard" min="1" max="100" value="70"><span class="sl-val" id="sv-hard">70%</span></div>
+          </div>
+          <div class="rb-s">
+            <div class="rb-t"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>Preview Background</div>
+            <div class="sw-grid">
+              <div class="sw sw-check act" id="sw-0" onclick="setBg('transparent',0)" title="Transparent"></div>
+              <div class="sw" id="sw-1" style="background:#ffffff" onclick="setBg('#ffffff',1)" title="White"></div>
+              <div class="sw" id="sw-2" style="background:#111111" onclick="setBg('#111111',2)" title="Black"></div>
+              <div class="sw" id="sw-3" style="background:#C4A0D4" onclick="setBg('#C4A0D4',3)" title="Lavender"></div>
+              <div class="sw" id="sw-4" style="background:#9B3858" onclick="setBg('#9B3858',4)" title="Wine"></div>
+              <div class="sw" id="sw-5" style="background:#3A1875" onclick="setBg('#3A1875',5)" title="Violet"></div>
+              <div class="sw" id="sw-6" style="background:#5DCAA5" onclick="setBg('#5DCAA5',6)" title="Teal"></div>
+              <div class="sw" id="sw-7" style="background:#E8D4DC" onclick="setBg('#E8D4DC',7)" title="Blush"></div>
+              <div class="sw" id="sw-8" style="background:#1C2E3E" onclick="setBg('#1C2E3E',8)" title="Navy"></div>
+              <div class="sw" id="sw-9" style="background:linear-gradient(135deg,#3A1875,#C4909F)" onclick="setBg('grad',9)" title="Gradient"></div>
+            </div>
+            <div class="cr-row"><input type="color" id="custom-bg-col" value="#2A1050"><label for="custom-bg-col">Custom color</label></div>
+          </div>
+          <div class="rb-s">
+            <div class="rb-t"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>Export</div>
+            <button class="dl-btn pr" onclick="doDownload('png')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download PNG<span class="dl-sub">Transparent</span></button>
+            <button class="dl-btn" onclick="doDownload('jpg-white')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>JPG White bg<span class="dl-sub">E-commerce</span></button>
+            <button class="dl-btn" onclick="doDownload('jpg-bg')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>JPG Current bg<span class="dl-sub">Custom</span></button>
+            <button class="dl-btn" onclick="doDownload('webp')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>WebP<span class="dl-sub">Smallest</span></button>
+            <button class="new-btn" onclick="gotoUpload()">&#8617; New image</button>
+          </div>
+          <div class="rb-s">
+            <div class="rb-t"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01"/></svg>Shortcuts</div>
+            <div class="kbd-list">
+              <div class="kl"><span>Eraser</span><kbd>E</kbd></div>
+              <div class="kl"><span>Restore</span><kbd>R</kbd></div>
+              <div class="kl"><span>Smart erase</span><kbd>S</kbd></div>
+              <div class="kl"><span>Hair brush</span><kbd>H</kbd></div>
+              <div class="kl"><span>Magnifier</span><kbd>Z</kbd></div>
+              <div class="kl"><span>Pan</span><kbd>Space</kbd></div>
+              <div class="kl"><span>Undo</span><kbd>Ctrl+Z</kbd></div>
+              <div class="kl"><span>Redo</span><kbd>Ctrl+Shift+Z</kbd></div>
+              <div class="kl"><span>Brush size</span><kbd>[ ]</kbd></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="seo">
+  <div class="div"></div>
+  <div class="seo-block">
+    <h2>Why our background remover is <em>different</em></h2>
+    <p class="seo-lead">Every other online tool uploads your image to a server. We don't. Our AI runs entirely in your browser using WebAssembly &mdash; no upload, no privacy risk, no daily limits, no waiting in a queue.</p>
+    <div class="sr">
+      <div class="st"><span class="sn">0</span><span class="sl">Bytes sent to servers</span></div>
+      <div class="st"><span class="sn">18</span><span class="sl">Professional tools</span></div>
+      <div class="st"><span class="sn">5&times;</span><span class="sl">Zoom magnifier</span></div>
+      <div class="st"><span class="sn">&#8734;</span><span class="sl">Free images</span></div>
+    </div>
+    <div class="cg">
+      <div class="ic"><div class="ic-ico ip">&#128274;</div><h3>100% Private</h3><p>Images are processed locally on your device. They never touch our servers or any third party. Ideal for sensitive business and personal photos.</p></div>
+      <div class="ic"><div class="ic-ico ir">&#9889;</div><h3>No Rate Limits</h3><p>Process 1 or 1,000 images &mdash; we don't count. No daily credits, no subscription, no account required. Just upload and go.</p></div>
+      <div class="ic"><div class="ic-ico it">&#127912;</div><h3>Pro-Grade Editing</h3><p>AI gives a perfect first pass. Then manual tools let you refine every edge &mdash; down to individual hair strands &mdash; with a 5&times; magnifier.</p></div>
+      <div class="ic"><div class="ic-ico iw">&#128444;&#65039;</div><h3>Any Format</h3><p>JPG, PNG, WebP, GIF, BMP, TIFF, AVIF, HEIC, SVG, ICO &mdash; all supported. Export as transparent PNG, JPG, or WebP.</p></div>
+    </div>
+  </div>
+  <div class="seo-block">
+    <h2>Who uses background removal <em>tools</em></h2>
+    <p class="seo-lead">From solo creators to professional photographers, background removal is one of the most common image editing tasks in 2026. Here's who relies on it daily.</p>
+    <div class="cg">
+      <div class="ic"><div class="ic-ico ip">&#128717;&#65039;</div><h3>E-commerce Sellers</h3><p>Amazon, Etsy, and Shopify require clean white backgrounds for product listings. Remove backgrounds from product photos in seconds &mdash; no Photoshop subscription needed.</p></div>
+      <div class="ic"><div class="ic-ico ir">&#128247;</div><h3>Portrait Photographers</h3><p>Replace busy or distracting backgrounds behind people. Our hair-detail brushes handle the complex edges that automated AI alone struggles with.</p></div>
+      <div class="ic"><div class="ic-ico it">&#128188;</div><h3>LinkedIn Headshots</h3><p>Create clean professional headshots with neutral backgrounds for profiles and CVs. No expensive studio session required.</p></div>
+      <div class="ic"><div class="ic-ico iw">&#127912;</div><h3>Graphic Designers</h3><p>Remove backgrounds from logos, icons, and design elements to create transparent PNGs ready to drop into any project.</p></div>
+      <div class="ic"><div class="ic-ico ip">&#127968;</div><h3>Real Estate</h3><p>Clean up property listing photos &mdash; remove cluttered backgrounds and replace with clean professional settings.</p></div>
+      <div class="ic"><div class="ic-ico ir">&#128241;</div><h3>Social Media Creators</h3><p>Make eye-catching posts with custom backgrounds for Instagram, TikTok, and Pinterest. Stand out in the feed.</p></div>
+    </div>
+  </div>
+  <div class="seo-block">
+    <h2>How our <em>AI</em> background removal works</h2>
+    <p class="seo-lead">Understanding the technology helps you get the best possible results. Here's exactly what happens when you upload an image.</p>
+    <div class="tip"><span class="tn">01</span><div><h4>The AI model loads once, runs forever</h4><p>On your first use, a neural network model downloads to your browser cache. Every future use is instant. The model was trained on millions of images and understands the difference between foreground and background at a semantic level &mdash; not just by color.</p></div></div>
+    <div class="tip"><span class="tn">02</span><div><h4>Alpha matting handles complex edges</h4><p>Our AI calculates partial transparency at every edge pixel using alpha matting. This is how hair, fur, and semi-transparent objects look natural instead of hard-edged and artificial.</p></div></div>
+    <div class="tip"><span class="tn">03</span><div><h4>Manual refinement perfects the result</h4><p>AI handles roughly 90% of the work. The remaining 10% &mdash; missed strands, ambiguous edges &mdash; is where the manual tools come in. The hair brush, feather, and 5&times; magnifier let you verify and perfect every detail.</p></div></div>
+    <div class="tip"><span class="tn">04</span><div><h4>Export in the exact format you need</h4><p>PNG preserves transparency for Photoshop, Figma, and Canva. JPG with a white background is perfect for e-commerce. WebP balances quality and tiny file size for fast websites.</p></div></div>
+  </div>
+  <div class="seo-block">
+    <h2>Pro tips for <em>perfect</em> cutouts</h2>
+    <p class="seo-lead">Getting professional results from an AI background remover is part technique. These methods are used by retouchers at e-commerce agencies worldwide.</p>
+    <div class="cg">
+      <div class="ic"><div class="ic-ico ip">&#128161;</div><h3>Start with good source photos</h3><p>High contrast between subject and background gives the AI more to work with. A person against a plain wall is always easier than the same person against dense foliage.</p></div>
+      <div class="ic"><div class="ic-ico ir">&#128269;</div><h3>Always check at 5&times; zoom</h3><p>Use the Magnifier before downloading. Problems invisible at full view &mdash; halo fringing, missed strands &mdash; become obvious when zoomed in. This single step separates amateur from pro.</p></div>
+      <div class="ic"><div class="ic-ico it">&#128129;</div><h3>Use the Hair brush for strands</h3><p>For fine hair, switch to the Hair brush and reduce opacity to 40-60%. Paint along the edge to create natural-looking semi-transparent hair tips instead of a hard cut.</p></div>
+      <div class="ic"><div class="ic-ico iw">&#127754;</div><h3>Feather soft subjects</h3><p>For fluffy animals, smoke, or fabric edges, apply Feather after removal. This softly blurs the mask edge and removes the harsh "cut out" look entirely.</p></div>
+    </div>
+  </div>
+  <div class="seo-block">
+    <h2>Frequently asked <em>questions</em></h2>
+    <details class="faq-item"><summary>Does this tool really work without uploading my image?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; 100%. The entire background removal process happens in your browser using WebAssembly. Your image pixels never leave your device. You can even turn off your internet after the page loads and the tool still works perfectly.</div></details>
+    <details class="faq-item"><summary>Is it really free? What's the catch?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It's genuinely free forever &mdash; no catch. No signup, no watermarks, no daily limits, no subscription. We built it as part of the VeloTools suite of free browser-based utilities.</div></details>
+    <details class="faq-item"><summary>What image formats are supported?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">We support JPG, JPEG, PNG, WebP, GIF (first frame), BMP, TIFF, AVIF, HEIC (on supported browsers), SVG, and ICO. If your format isn't listed, convert it to PNG first using any free converter.</div></details>
+    <details class="faq-item"><summary>Is there a limit on image size or quantity?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No limits at all. Process as many images as you want, as large as your device memory allows. No credits, no daily caps, no subscription required.</div></details>
+    <details class="faq-item"><summary>Can I use the results commercially?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Your edited images are entirely yours &mdash; no watermarks, no licensing restrictions. Use them for e-commerce listings, marketing, client work, or anything else.</div></details>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
+  <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>
+</footer>
+
+<script>
+
+// ============================================================
+// VeloTools Background Remover - Professional Engine
+// ============================================================
+'use strict';
+
+// ===== STATE =====
+var STATE = {
+  origData: null,      // original RGBA pixels
+  maskData: null,      // current alpha mask (0-255 per pixel)
+  aiMaskData: null,    // pristine AI result mask (for reset)
+  origImgEl: null,     // original image element
+  imgW: 0, imgH: 0,
+  bg: 'transparent',
+  tool: 'erase-hard',
+  brushSize: 30,
+  brushOpacity: 0.85,
+  brushHardness: 0.7,
+  isDrawing: false,
+  lastX: 0, lastY: 0,
+  undo: [],
+  redo: [],
+  needsRender: false,
+  zoom: 1,
+  removeBg: null,      // lazy-loaded function
+  mouseInCanvas: false
+};
+
+// ===== DOM =====
+var $ = function(id){ return document.getElementById(id); };
+var dispC, dispCtx, ovC, ovCtx, magC, magCtx;
+
+function initRefs() {
+  dispC = $('disp-c'); dispCtx = dispC.getContext('2d', {willReadFrequently:true});
+  ovC = $('ov-c'); ovCtx = ovC.getContext('2d');
+  magC = $('mag-c'); magCtx = magC.getContext('2d');
+}
+
+// ===== RENDER LOOP (fixes jitter) =====
+function renderLoop() {
+  if(STATE.needsRender) { renderNow(); STATE.needsRender = false; }
+  requestAnimationFrame(renderLoop);
+}
+function requestRender() { STATE.needsRender = true; }
+
+function renderNow() {
+  var s = STATE;
+  if(!s.origData || !s.maskData) return;
+  dispC.width = s.imgW; dispC.height = s.imgH;
+
+  // Build composite
+  var out = new Uint8ClampedArray(s.imgW * s.imgH * 4);
+  var od = s.origData, md = s.maskData;
+  for(var i=0, n=s.imgW*s.imgH; i<n; i++) {
+    var j = i*4;
+    out[j]   = od[j];
+    out[j+1] = od[j+1];
+    out[j+2] = od[j+2];
+    out[j+3] = md[i];
+  }
+
+  dispCtx.clearRect(0,0,s.imgW,s.imgH);
+  if(s.bg === 'transparent') {
+    // checker shown via CSS behind canvas
+  } else if(s.bg === 'grad') {
+    var g = dispCtx.createLinearGradient(0,0,s.imgW,s.imgH);
+    g.addColorStop(0,'#3A1875'); g.addColorStop(1,'#C4909F');
+    dispCtx.fillStyle = g; dispCtx.fillRect(0,0,s.imgW,s.imgH);
+  } else {
+    dispCtx.fillStyle = s.bg; dispCtx.fillRect(0,0,s.imgW,s.imgH);
+  }
+  dispCtx.putImageData(new ImageData(out, s.imgW, s.imgH), 0, 0);
+
+  // sync overlay size
+  syncOverlay();
+}
+
+function syncOverlay() {
+  var w = dispC.offsetWidth, h = dispC.offsetHeight;
+  if(ovC.width !== w || ovC.height !== h) {
+    ovC.width = w; ovC.height = h;
+    ovC.style.width = w+'px'; ovC.style.height = h+'px';
+  }
+}
+
+// ===== TOOL SELECTION =====
+function setTool(t) {
+  STATE.tool = t;
+  // Clear all active states
+  document.querySelectorAll('.tb,.ttb').forEach(function(b){ b.classList.remove('act'); });
+  // Map tool to button IDs (both top and left)
+  var ids = TOOL_BTN_MAP[t] || [];
+  ids.forEach(function(id){ var el = $(id); if(el) el.classList.add('act'); });
+  // Cursor mode
+  var area = $('cc-area');
+  area.classList.remove('brush-active','tool-pan','tool-mag');
+  var isBrush = (t.indexOf('erase')>=0 || t.indexOf('restore')>=0) && t !== 'smart-erase';
+  if(isBrush) area.classList.add('brush-active');
+  else if(t === 'pan') area.classList.add('tool-pan');
+  else if(t === 'magnifier') area.classList.add('tool-mag');
+  // Magnifier visibility
+  $('mag').style.display = (t === 'magnifier') ? 'block' : 'none';
+  // Smart erase uses crosshair
+  if(t === 'smart-erase') area.style.cursor = 'crosshair';
+  clearCursor();
+}
+
+var TOOL_BTN_MAP = {
+  'smart-erase': ['t-smart','tt-smart'],
+  'erase-hard': ['t-erase-hard','tt-erase'],
+  'erase-soft': ['t-erase-soft'],
+  'erase-hair': ['t-erase-hair'],
+  'restore-hard': ['t-rest-hard','tt-restore'],
+  'restore-soft': ['t-rest-soft'],
+  'restore-hair': ['t-rest-hair'],
+  'magnifier': ['t-mag','tt-mag'],
+  'pan': ['t-pan']
+};
+
+// ===== BACKGROUND PREVIEW =====
+function setBg(color, idx) {
+  STATE.bg = color;
+  for(var i=0;i<=9;i++){ var el=$('sw-'+i); if(el) el.classList.remove('act'); }
+  if(idx !== null && idx !== undefined){ var sw=$('sw-'+idx); if(sw) sw.classList.add('act'); }
+  requestRender();
+}
+
+// ===== BRUSH PREVIEW =====
+function updateBrushPreview() {
+  var bp = $('brush-prev');
+  if(!bp) return;
+  var sz = Math.max(8, Math.min(64, STATE.brushSize));
+  bp.style.width = sz+'px'; bp.style.height = sz+'px';
+  bp.style.background = 'radial-gradient(circle,rgba(192,128,255,'+STATE.brushOpacity+'),rgba(192,128,255,'+(STATE.brushOpacity*0.3)+'))';
+}
+
+// ===== CANVAS COORDINATES =====
+function getXY(e) {
+  var rect = dispC.getBoundingClientRect();
+  var cx = e.touches ? e.touches[0].clientX : e.clientX;
+  var cy = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: (cx - rect.left) / rect.width * STATE.imgW,
+    y: (cy - rect.top) / rect.height * STATE.imgH,
+    sx: cx - rect.left,
+    sy: cy - rect.top
+  };
+}
+
+// ===== BRUSH PAINTING =====
+function paintAt(x, y) {
+  var s = STATE;
+  if(!s.maskData) return;
+  var isErase = s.tool.indexOf('erase') === 0;
+  var isHair = s.tool.indexOf('-hair') >= 0;
+  var isSoft = s.tool.indexOf('-soft') >= 0 || isHair;
+  var r = isHair ? Math.max(2, s.brushSize*0.15) : Math.max(2, s.brushSize*0.5);
+  var x0=Math.max(0,Math.floor(x-r-1)), x1=Math.min(s.imgW-1,Math.ceil(x+r+1));
+  var y0=Math.max(0,Math.floor(y-r-1)), y1=Math.min(s.imgH-1,Math.ceil(y+r+1));
+  var md = s.maskData;
+  for(var py=y0; py<=y1; py++){
+    var rowBase = py*s.imgW;
+    for(var px=x0; px<=x1; px++){
+      var dx=px-x, dy=py-y;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      if(d>r) continue;
+      var a=1;
+      if(isSoft){
+        var t=d/r;
+        a=Math.max(0, 1 - t*t*(3-2*t));
+        a*=(0.4 + s.brushHardness*0.6);
+      }
+      var str=a*s.brushOpacity*255;
+      var idx=rowBase+px;
+      if(isErase) md[idx]=Math.max(0, md[idx]-str);
+      else md[idx]=Math.min(255, md[idx]+str);
+    }
+  }
+}
+
+function interpolate(x1,y1,x2,y2){
+  var d=Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+  var isHair = STATE.tool.indexOf('-hair')>=0;
+  var step=Math.max(0.5, isHair ? 1 : STATE.brushSize*0.12);
+  var steps=Math.max(1, Math.ceil(d/step));
+  for(var i=0;i<=steps;i++){
+    var t=i/steps;
+    paintAt(x1+(x2-x1)*t, y1+(y2-y1)*t);
+  }
+}
+
+// ===== BRUSH CURSOR (custom, replaces system crosshair) =====
+function drawCursor(sx, sy) {
+  syncOverlay();
+  ovCtx.clearRect(0,0,ovC.width,ovC.height);
+  var t = STATE.tool;
+  var isBrush = (t.indexOf('erase')>=0 || t.indexOf('restore')>=0) && t!=='smart-erase';
+  if(!isBrush) return;
+  var isHair = t.indexOf('-hair')>=0;
+  var isErase = t.indexOf('erase')===0;
+  var scale = dispC.offsetWidth / STATE.imgW;
+  var r = (isHair ? Math.max(2,STATE.brushSize*0.15) : STATE.brushSize*0.5) * scale;
+  r = Math.max(4, r);
+  var col = isErase ? '240,132,148' : '116,224,176';
+  // outer ring
+  ovCtx.beginPath();
+  ovCtx.arc(sx, sy, r, 0, Math.PI*2);
+  ovCtx.strokeStyle = 'rgba('+col+',0.95)';
+  ovCtx.lineWidth = 1.5;
+  ovCtx.stroke();
+  // soft inner fill
+  ovCtx.beginPath();
+  ovCtx.arc(sx, sy, r, 0, Math.PI*2);
+  ovCtx.fillStyle = 'rgba('+col+',0.08)';
+  ovCtx.fill();
+  // center dot
+  ovCtx.beginPath();
+  ovCtx.arc(sx, sy, 1.5, 0, Math.PI*2);
+  ovCtx.fillStyle = 'rgba('+col+',0.9)';
+  ovCtx.fill();
+}
+function clearCursor(){ if(ovCtx) ovCtx.clearRect(0,0,ovC.width,ovC.height); }
+
+// ===== CANVAS EVENTS =====
+function onPointerDown(e){
+  if(!STATE.origData) return;
+  if(STATE.tool==='pan') return;
+  var p=getXY(e);
+  if(STATE.tool==='smart-erase'){ pushUndo(); smartErase(p.x,p.y); requestRender(); return; }
+  if(STATE.tool==='magnifier'){ moveMag(e); return; }
+  pushUndo();
+  STATE.isDrawing=true;
+  STATE.lastX=p.x; STATE.lastY=p.y;
+  paintAt(p.x,p.y);
+  requestRender();
+  e.preventDefault();
+}
+function onPointerMove(e){
+  if(!STATE.origData) return;
+  var p=getXY(e);
+  drawCursor(p.sx, p.sy);
+  if(STATE.tool==='magnifier'){ moveMag(e); return; }
+  if(!STATE.isDrawing) return;
+  interpolate(STATE.lastX,STATE.lastY,p.x,p.y);
+  STATE.lastX=p.x; STATE.lastY=p.y;
+  requestRender();
+  e.preventDefault();
+}
+function onPointerUp(){ STATE.isDrawing=false; }
+function onPointerLeave(){
+  STATE.isDrawing=false;
+  STATE.mouseInCanvas=false;
+  clearCursor();
+}
+function onPointerEnter(){ STATE.mouseInCanvas=true; }
+
+// ===== MAGNIFIER =====
+function moveMag(e){
+  var area=$('cc-area');
+  var rect=area.getBoundingClientRect();
+  var ex=e.clientX-rect.left, ey=e.clientY-rect.top;
+  var mag=$('mag');
+  mag.style.display='block';
+  var mw=220,pad=18;
+  var lx=ex+24, ly=ey-mw-24;
+  if(lx+mw>rect.width-pad) lx=ex-mw-24;
+  if(ly<pad) ly=ey+24;
+  if(lx<pad) lx=pad;
+  mag.style.left=Math.max(pad,Math.min(rect.width-mw-pad,lx))+'px';
+  mag.style.top=Math.max(pad,Math.min(rect.height-mw-pad,ly))+'px';
+  var p=getXY(e);
+  var zoom=5;
+  var sw=mw/zoom, sh=mw/zoom;
+  magCtx.clearRect(0,0,mw,mw);
+  magCtx.imageSmoothingEnabled=false;
+  // draw checker bg in magnifier
+  magCtx.fillStyle='#1a1030';
+  magCtx.fillRect(0,0,mw,mw);
+  try {
+    magCtx.drawImage(dispC, p.x-sw/2, p.y-sh/2, sw, sh, 0, 0, mw, mw);
+  } catch(err){}
+  // crosshair
+  magCtx.strokeStyle='rgba(255,255,255,0.55)';
+  magCtx.lineWidth=1;
+  magCtx.beginPath();
+  magCtx.moveTo(mw/2,mw/2-16); magCtx.lineTo(mw/2,mw/2+16);
+  magCtx.moveTo(mw/2-16,mw/2); magCtx.lineTo(mw/2+16,mw/2);
+  magCtx.stroke();
+}
+
+// ===== SMART ERASE (color-based) =====
+function smartErase(x,y){
+  var s=STATE;
+  var xi=Math.max(0,Math.min(s.imgW-1,Math.round(x)));
+  var yi=Math.max(0,Math.min(s.imgH-1,Math.round(y)));
+  var pi=(yi*s.imgW+xi)*4;
+  var sr=s.origData[pi], sg=s.origData[pi+1], sb=s.origData[pi+2];
+  var tol=58;
+  var od=s.origData, md=s.maskData;
+  for(var i=0,n=s.imgW*s.imgH;i<n;i++){
+    var p=i*4;
+    var dr=od[p]-sr, dg=od[p+1]-sg, db=od[p+2]-sb;
+    var d=Math.sqrt(dr*dr+dg*dg+db*db);
+    if(d<tol) md[i]=Math.max(0, md[i]-((1-d/tol)*255*s.brushOpacity));
+  }
+}
+
+// ===== EDGE OPERATIONS =====
+function edgeSmooth(){
+  var s=STATE; if(!s.maskData) return; pushUndo();
+  var tmp=new Uint8ClampedArray(s.maskData), md=s.maskData;
+  for(var y=1;y<s.imgH-1;y++) for(var x=1;x<s.imgW-1;x++){
+    var i=y*s.imgW+x, sum=0;
+    for(var dy=-1;dy<=1;dy++) for(var dx=-1;dx<=1;dx++) sum+=md[(y+dy)*s.imgW+(x+dx)];
+    tmp[i]=sum/9;
+  }
+  s.maskData=tmp; requestRender();
+}
+function edgeFeather(){
+  var s=STATE; if(!s.maskData) return; pushUndo();
+  var tmp=new Uint8ClampedArray(s.maskData), md=s.maskData, r=3;
+  for(var y=r;y<s.imgH-r;y++) for(var x=r;x<s.imgW-r;x++){
+    var sum=0,c=0;
+    for(var dy=-r;dy<=r;dy++) for(var dx=-r;dx<=r;dx++){
+      if(dx*dx+dy*dy>r*r) continue;
+      sum+=md[(y+dy)*s.imgW+(x+dx)]; c++;
+    }
+    tmp[y*s.imgW+x]=sum/c;
+  }
+  s.maskData=tmp; requestRender();
+}
+function edgeExpand(){
+  var s=STATE; if(!s.maskData) return; pushUndo();
+  var tmp=new Uint8ClampedArray(s.maskData), md=s.maskData;
+  for(var y=2;y<s.imgH-2;y++) for(var x=2;x<s.imgW-2;x++){
+    var m=md[y*s.imgW+x];
+    if(m>=250) continue;
+    for(var dy=-2;dy<=2;dy++) for(var dx=-2;dx<=2;dx++){ var v=md[(y+dy)*s.imgW+(x+dx)]; if(v>m)m=v; }
+    tmp[y*s.imgW+x]=m;
+  }
+  s.maskData=tmp; requestRender();
+}
+function edgeContract(){
+  var s=STATE; if(!s.maskData) return; pushUndo();
+  var tmp=new Uint8ClampedArray(s.maskData), md=s.maskData;
+  for(var y=2;y<s.imgH-2;y++) for(var x=2;x<s.imgW-2;x++){
+    var m=md[y*s.imgW+x];
+    if(m<=5) continue;
+    for(var dy=-2;dy<=2;dy++) for(var dx=-2;dx<=2;dx++){ var v=md[(y+dy)*s.imgW+(x+dx)]; if(v<m)m=v; }
+    tmp[y*s.imgW+x]=m;
+  }
+  s.maskData=tmp; requestRender();
+}
+function maskInvert(){
+  var s=STATE; if(!s.maskData) return; pushUndo();
+  for(var i=0;i<s.maskData.length;i++) s.maskData[i]=255-s.maskData[i];
+  requestRender();
+}
+function autoRefine(){ edgeSmooth(); edgeFeather(); }
+
+// ===== UNDO / REDO =====
+function pushUndo(){
+  STATE.undo.push(new Uint8ClampedArray(STATE.maskData));
+  if(STATE.undo.length>50) STATE.undo.shift();
+  STATE.redo=[];
+  updateHistoryButtons();
+}
+function doUndo(){
+  if(!STATE.undo.length) return;
+  STATE.redo.push(new Uint8ClampedArray(STATE.maskData));
+  STATE.maskData=STATE.undo.pop();
+  requestRender(); updateHistoryButtons();
+}
+function doRedo(){
+  if(!STATE.redo.length) return;
+  STATE.undo.push(new Uint8ClampedArray(STATE.maskData));
+  STATE.maskData=STATE.redo.pop();
+  requestRender(); updateHistoryButtons();
+}
+function doReset(){
+  if(!STATE.aiMaskData) return; pushUndo();
+  STATE.maskData=new Uint8ClampedArray(STATE.aiMaskData);
+  requestRender();
+}
+function updateHistoryButtons(){
+  ['tt-undo'].forEach(function(id){var el=$(id); if(el) el.classList.toggle('disabled', STATE.undo.length===0);});
+  ['tt-redo'].forEach(function(id){var el=$(id); if(el) el.classList.toggle('disabled', STATE.redo.length===0);});
+}
+
+// ===== ZOOM =====
+function setZoom(z){
+  STATE.zoom=Math.max(0.25,Math.min(5,z));
+  var cv=$('canvases');
+  cv.style.transform='scale('+STATE.zoom+')';
+  $('zlevel').textContent=Math.round(STATE.zoom*100)+'%';
+  syncOverlay();
+}
+function zoomIn(){ setZoom(STATE.zoom*1.25); }
+function zoomOut(){ setZoom(STATE.zoom/1.25); }
+function zoomFit(){ setZoom(1); }
+
+// ===== DOWNLOAD =====
+function doDownload(type){
+  var s=STATE; if(!s.origData) return;
+  var c=document.createElement('canvas'); c.width=s.imgW; c.height=s.imgH;
+  var ctx=c.getContext('2d');
+  if(type==='jpg-white'){ ctx.fillStyle='#fff'; ctx.fillRect(0,0,s.imgW,s.imgH); }
+  else if(type==='jpg-bg'){
+    if(s.bg==='grad'){var g=ctx.createLinearGradient(0,0,s.imgW,s.imgH);g.addColorStop(0,'#3A1875');g.addColorStop(1,'#C4909F');ctx.fillStyle=g;}
+    else if(s.bg!=='transparent') ctx.fillStyle=s.bg;
+    else ctx.fillStyle='#fff';
+    ctx.fillRect(0,0,s.imgW,s.imgH);
+  }
+  var out=new Uint8ClampedArray(s.imgW*s.imgH*4);
+  for(var i=0,n=s.imgW*s.imgH;i<n;i++){var j=i*4;out[j]=s.origData[j];out[j+1]=s.origData[j+1];out[j+2]=s.origData[j+2];out[j+3]=s.maskData[i];}
+  ctx.putImageData(new ImageData(out,s.imgW,s.imgH),0,0);
+  var fmt=type==='png'?'image/png':type==='webp'?'image/webp':'image/jpeg';
+  var ext=type==='png'?'.png':type==='webp'?'.webp':'.jpg';
+  c.toBlob(function(blob){
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.download='velotools-bg-removed'+ext;
+    a.href=url; a.click();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  }, fmt, 0.95);
+}
+
+// ===== COMPARE SLIDER (rebuilt with img) =====
+var cmpDrag=false;
+function setCmpPos(clientX){
+  var stack=$('cmp-stack');
+  var rect=stack.getBoundingClientRect();
+  var p=Math.max(0,Math.min(100,(clientX-rect.left)/rect.width*100));
+  $('cmp-after-layer').style.width=p+'%';
+  $('cmp-after-img').style.width=rect.width+'px';
+  $('cmp-line').style.left=p+'%';
+  $('cmp-hdl').style.left=p+'%';
+}
+function initCompare(){
+  var area=$('cmp-area');
+  area.addEventListener('mousedown',function(e){cmpDrag=true;setCmpPos(e.clientX);e.preventDefault();});
+  document.addEventListener('mousemove',function(e){if(cmpDrag)setCmpPos(e.clientX);});
+  document.addEventListener('mouseup',function(){cmpDrag=false;});
+  area.addEventListener('touchstart',function(e){cmpDrag=true;setCmpPos(e.touches[0].clientX);},{passive:true});
+  document.addEventListener('touchmove',function(e){if(cmpDrag)setCmpPos(e.touches[0].clientX);},{passive:true});
+  document.addEventListener('touchend',function(){cmpDrag=false;});
+}
+
+// ===== TABS =====
+function switchTab(tab){
+  $('ctab-e').classList.toggle('act',tab==='edit');
+  $('ctab-c').classList.toggle('act',tab==='compare');
+  $('canvases').style.display=tab==='edit'?'inline-block':'none';
+  $('cmp-area').style.display=tab==='compare'?'flex':'none';
+  if(tab==='compare') refreshCompare();
+}
+
+function refreshCompare(){
+  var s=STATE; if(!s.origData) return;
+  // before = original
+  $('cmp-before-img').src = s.origImgEl.src;
+  // after = current composite as data URL
+  var c=document.createElement('canvas'); c.width=s.imgW; c.height=s.imgH;
+  var ctx=c.getContext('2d');
+  var out=new Uint8ClampedArray(s.imgW*s.imgH*4);
+  for(var i=0,n=s.imgW*s.imgH;i<n;i++){var j=i*4;out[j]=s.origData[j];out[j+1]=s.origData[j+1];out[j+2]=s.origData[j+2];out[j+3]=s.maskData[i];}
+  ctx.putImageData(new ImageData(out,s.imgW,s.imgH),0,0);
+  $('cmp-after-img').src=c.toDataURL('image/png');
+  // reset slider to middle
+  setTimeout(function(){
+    var stack=$('cmp-stack');
+    var rect=stack.getBoundingClientRect();
+    $('cmp-after-img').style.width=rect.width+'px';
+    $('cmp-after-layer').style.width='50%';
+    $('cmp-line').style.left='50%';
+    $('cmp-hdl').style.left='50%';
+  },60);
+}
+
+// ===== STAGE SWITCHER =====
+function show(id){
+  ['s-upload','s-proc','s-err','s-edit'].forEach(function(sid){
+    $(sid).style.display = sid===id ? (sid==='s-edit'?'block':'block') : 'none';
+  });
+}
+function gotoUpload(){ show('s-upload'); $('file-input').value=''; }
+
+// ===== PROCESS FILE (the core - background removal) =====
+async function processFile(file){
+  if(!file){ return; }
+  show('s-proc');
+  $('pb-f').style.width='0%';
+  $('pb-l').textContent='0%';
+  $('proc-st').textContent='Loading AI model…';
+
+  try {
+    // Lazy-load the background removal library
+    if(!STATE.removeBg){
+      $('proc-st').textContent='Loading AI engine…';
+      var mod = await import('https://esm.sh/@imgly/background-removal@1.7.0');
+      STATE.removeBg = mod.removeBackground;
+    }
+
+    // Run AI background removal
+    var resultBlob = await STATE.removeBg(file, {
+      device: 'gpu',
+      model: 'isnet_fp16',
+      output: { format: 'image/png', quality: 0.9 },
+      progress: function(key, current, total){
+        var p = total>0 ? Math.round(current/total*100) : 0;
+        $('pb-f').style.width = p+'%';
+        $('pb-l').textContent = p+'%';
+        if(key && key.indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (one-time, ~10MB)…';
+        else if(key && key.indexOf('compute')>=0) $('proc-st').textContent='Analyzing image with AI…';
+      }
+    });
+
+    $('proc-st').textContent='Finalizing…';
+
+    // Load original
+    var origURL = URL.createObjectURL(file);
+    var origImg = new Image();
+    origImg.crossOrigin='anonymous';
+    await new Promise(function(res,rej){ origImg.onload=res; origImg.onerror=rej; origImg.src=origURL; });
+
+    // Load AI result
+    var resURL = URL.createObjectURL(resultBlob);
+    var resImg = new Image();
+    await new Promise(function(res,rej){ resImg.onload=res; resImg.onerror=rej; resImg.src=resURL; });
+
+    STATE.imgW = origImg.naturalWidth;
+    STATE.imgH = origImg.naturalHeight;
+    STATE.origImgEl = origImg;
+
+    // Extract original RGBA
+    var sc=document.createElement('canvas'); sc.width=STATE.imgW; sc.height=STATE.imgH;
+    var sctx=sc.getContext('2d',{willReadFrequently:true});
+    sctx.drawImage(origImg,0,0);
+    STATE.origData = sctx.getImageData(0,0,STATE.imgW,STATE.imgH).data;
+
+    // Extract AI mask (alpha channel of result)
+    var rc=document.createElement('canvas'); rc.width=STATE.imgW; rc.height=STATE.imgH;
+    var rctx=rc.getContext('2d',{willReadFrequently:true});
+    rctx.drawImage(resImg,0,0);
+    var rd=rctx.getImageData(0,0,STATE.imgW,STATE.imgH).data;
+    STATE.maskData=new Uint8ClampedArray(STATE.imgW*STATE.imgH);
+    STATE.aiMaskData=new Uint8ClampedArray(STATE.imgW*STATE.imgH);
+    for(var i=0,n=STATE.imgW*STATE.imgH;i<n;i++){
+      STATE.maskData[i]=rd[i*4+3];
+      STATE.aiMaskData[i]=rd[i*4+3];
+    }
+
+    URL.revokeObjectURL(origURL);
+    URL.revokeObjectURL(resURL);
+
+    $('cc-info').textContent=STATE.imgW+' × '+STATE.imgH;
+    STATE.undo=[]; STATE.redo=[];
+    STATE.zoom=1; setZoom(1);
+    updateHistoryButtons();
+    requestRender();
+    show('s-edit');
+    setTool('erase-hard');
+
+  } catch(err){
+    console.error('BG removal error:', err);
+    $('err-msg').textContent = (err && err.message) ? ('Error: '+err.message) : 'Could not process this image. Please try a different file or check your connection.';
+    show('s-err');
+  }
+}
+
+// ===== UPLOAD HANDLERS =====
+function initUpload(){
+  var zone=$('s-upload'), inp=$('file-input');
+  zone.addEventListener('click', function(){ inp.click(); });
+  zone.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); inp.click(); } });
+  inp.addEventListener('change', function(){ if(inp.files[0]) processFile(inp.files[0]); });
+  zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', function(){ zone.classList.remove('drag'); });
+  zone.addEventListener('drop', function(e){ e.preventDefault(); zone.classList.remove('drag'); var f=e.dataTransfer.files[0]; if(f) processFile(f); });
+  document.addEventListener('paste', function(e){ if(!e.clipboardData) return; var f=Array.from(e.clipboardData.files).find(function(f){return f.type.indexOf('image/')===0;}); if(f) processFile(f); });
+}
+
+// ===== KEYBOARD (standard hotkeys) =====
+function initKeyboard(){
+  document.addEventListener('keydown', function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    // Undo: Ctrl+Z (standard everywhere)
+    if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='z' && !e.shiftKey){ e.preventDefault(); doUndo(); return; }
+    // Redo: Ctrl+Shift+Z OR Ctrl+Y (standard)
+    if((e.ctrlKey||e.metaKey) && (e.key.toLowerCase()==='y' || (e.key.toLowerCase()==='z' && e.shiftKey))){ e.preventDefault(); doRedo(); return; }
+    if(e.ctrlKey||e.metaKey) return;
+    var k=e.key.toLowerCase();
+    if(k==='e') setTool('erase-hard');
+    else if(k==='r') setTool('restore-hard');
+    else if(k==='z') setTool('magnifier');
+    else if(k==='s') setTool('smart-erase');
+    else if(k==='b') setTool('erase-soft');
+    else if(k==='h') setTool('erase-hair');
+    else if(k===' '){ e.preventDefault(); setTool('pan'); }
+    else if(k==='['){ STATE.brushSize=Math.max(2,STATE.brushSize-5); $('sl-size').value=STATE.brushSize; $('sv-size').textContent=STATE.brushSize; updateBrushPreview(); }
+    else if(k===']'){ STATE.brushSize=Math.min(120,STATE.brushSize+5); $('sl-size').value=STATE.brushSize; $('sv-size').textContent=STATE.brushSize; updateBrushPreview(); }
+    else if(k==='+'||k==='='){ zoomIn(); }
+    else if(k==='-'){ zoomOut(); }
+  });
+}
+
+// ===== SLIDERS =====
+function initSliders(){
+  $('sl-size').addEventListener('input', function(){
+    STATE.brushSize=parseInt(this.value);
+    $('sv-size').textContent=STATE.brushSize;
+    updateBrushPreview();
+  });
+  $('sl-op').addEventListener('input', function(){
+    STATE.brushOpacity=parseInt(this.value)/100;
+    $('sv-op').textContent=this.value+'%';
+    updateBrushPreview();
+  });
+  $('sl-hard').addEventListener('input', function(){
+    STATE.brushHardness=parseInt(this.value)/100;
+    $('sv-hard').textContent=this.value+'%';
+  });
+  var cc=$('custom-bg-col');
+  if(cc) cc.addEventListener('input', function(){ setBg(this.value,null); });
+}
+
+// ===== CANVAS EVENT BINDING =====
+function initCanvas(){
+  dispC.addEventListener('mousedown', onPointerDown);
+  dispC.addEventListener('mousemove', onPointerMove);
+  dispC.addEventListener('mouseup', onPointerUp);
+  dispC.addEventListener('mouseleave', onPointerLeave);
+  dispC.addEventListener('mouseenter', onPointerEnter);
+  dispC.addEventListener('touchstart', function(e){e.preventDefault();onPointerDown(e);},{passive:false});
+  dispC.addEventListener('touchmove', function(e){e.preventDefault();onPointerMove(e);},{passive:false});
+  dispC.addEventListener('touchend', onPointerUp);
+  window.addEventListener('resize', function(){ syncOverlay(); });
+}
+
+// ===== EXPOSE GLOBALS =====
+window.setTool=setTool; window.setBg=setBg; window.doUndo=doUndo; window.doRedo=doRedo;
+window.doReset=doReset; window.doDownload=doDownload; window.gotoUpload=gotoUpload;
+window.switchTab=switchTab; window.maskInvert=maskInvert; window.autoRefine=autoRefine;
+window.edgeSmooth=edgeSmooth; window.edgeFeather=edgeFeather; window.edgeExpand=edgeExpand;
+window.edgeContract=edgeContract; window.zoomIn=zoomIn; window.zoomOut=zoomOut; window.zoomFit=zoomFit;
+
+// ===== INIT =====
+function init(){
+  initRefs();
+  initUpload();
+  initSliders();
+  initKeyboard();
+  initCanvas();
+  initCompare();
+  updateBrushPreview();
+  renderLoop();
+  show('s-upload');
+  setTool('erase-hard');
+}
+
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+else init();
+
+</script>
+</body>
+</html>
