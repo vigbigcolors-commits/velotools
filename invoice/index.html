@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Invoice Generator — Professional Templates, PDF Export | VeloTools</title>
+<meta name="description" content="Create professional invoices for free. 5 beautiful templates, logo upload, automatic calculations, PDF and PNG export. For freelancers, agencies, and businesses.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://velotools.app/invoice/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hdr">
+  <a class="logo" href="/">
+    <div class="logo-ico"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="logo-nm">velotools</span>
+  </a>
+  <div class="hdr-r">
+    <div class="hdr-badge"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Free invoice builder</div>
+    <a class="back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>All tools</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-tag"><span class="hero-dot"></span>Free forever &middot; No signup &middot; PDF export</div>
+  <h1>Create a professional <em>invoice</em><br>in minutes</h1>
+  <p class="hero-sub">5 beautiful templates. Logo upload. Auto-calculations. Send as PDF or PNG — no account needed, no watermarks.</p>
+  <div class="hero-badges">
+    <span class="hbadge">&#128196; 5 Templates</span>
+    <span class="hbadge">&#128444; PDF Export</span>
+    <span class="hbadge">&#128181; Auto-calculate</span>
+    <span class="hbadge">&#128274; Private</span>
+  </div>
+</section>
+
+<main class="main" id="app-main">
+<div class="tool">
+
+  <!-- ===== LEFT: EDITOR ===== -->
+  <div class="editor" id="editor">
+
+    <!-- Template Selector -->
+    <div class="template-bar">
+      <div class="tb-label">Template</div>
+      <div class="tmpl-btns" id="tmpl-btns">
+        <button class="tmpl-btn act" data-tmpl="classic"  title="Classic Business"><div class="tb-preview tb-classic"></div><span>Classic</span></button>
+        <button class="tmpl-btn" data-tmpl="minimal"  title="Minimal Clean"><div class="tb-preview tb-minimal"></div><span>Minimal</span></button>
+        <button class="tmpl-btn" data-tmpl="stripe"   title="Side Stripe"><div class="tb-preview tb-stripe"></div><span>Stripe</span></button>
+        <button class="tmpl-btn" data-tmpl="elegant"  title="Elegant"><div class="tb-preview tb-elegant"></div><span>Elegant</span></button>
+        <button class="tmpl-btn" data-tmpl="bold"     title="Bold Agency"><div class="tb-preview tb-bold"></div><span>Bold</span></button>
+      </div>
+    </div>
+
+    <!-- Accent color -->
+    <div class="accent-row">
+      <span class="arc-label">Accent colour</span>
+      <div class="arc-swatches" id="arc-swatches">
+        <div class="arc-sw act" style="background:#c83919" data-col="#c83919"></div>
+        <div class="arc-sw" style="background:#e76245" data-col="#e76245"></div>
+        <div class="arc-sw" style="background:#883b25" data-col="#883b25"></div>
+        <div class="arc-sw" style="background:#1f4761" data-col="#1f4761"></div>
+        <div class="arc-sw" style="background:#296a92" data-col="#296a92"></div>
+        <div class="arc-sw" style="background:#2d3b6f" data-col="#2d3b6f"></div>
+        <div class="arc-sw" style="background:#1a5e3a" data-col="#1a5e3a"></div>
+        <div class="arc-sw" style="background:#333333" data-col="#333333"></div>
+        <input type="color" id="arc-custom" value="#c83919" title="Custom colour" class="arc-custom">
+      </div>
+    </div>
+
+    <!-- Editor Tabs -->
+    <div class="ed-tabs" id="ed-tabs">
+      <button class="ed-tab act" data-panel="from">Your Info</button>
+      <button class="ed-tab" data-panel="to">Client</button>
+      <button class="ed-tab" data-panel="items">Items</button>
+      <button class="ed-tab" data-panel="payment">Payment</button>
+    </div>
+
+    <!-- ---- PANEL: YOUR INFO ---- -->
+    <div class="ed-panel" id="panel-from">
+      <div class="logo-upload-area" id="logo-area" onclick="document.getElementById('logo-file').click()">
+        <div class="lu-icon" id="lu-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Upload logo</span>
+          <span class="lu-hint">PNG · JPG · SVG</span>
+        </div>
+        <img id="logo-preview" class="logo-preview" src="" alt="" style="display:none">
+      </div>
+      <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="onLogoUpload(this)">
+      <button class="remove-logo" id="remove-logo" style="display:none" onclick="removeLogo()">Remove logo</button>
+
+      <div class="fg">
+        <label>Your name / Company</label>
+        <input type="text" id="from-name" placeholder="Your Name or Studio">
+      </div>
+      <div class="f2">
+        <div class="fg"><label>Email</label><input type="email" id="from-email" placeholder="you@example.com"></div>
+        <div class="fg"><label>Phone</label><input type="tel" id="from-phone" placeholder="+1 555 000 0000"></div>
+      </div>
+      <div class="fg"><label>Address</label><input type="text" id="from-address" placeholder="Street address"></div>
+      <div class="f2">
+        <div class="fg"><label>City / State</label><input type="text" id="from-city" placeholder="New York, NY"></div>
+        <div class="fg"><label>Country</label><input type="text" id="from-country" placeholder="United States"></div>
+      </div>
+      <div class="fg"><label>Website</label><input type="url" id="from-website" placeholder="https://yoursite.com"></div>
+      <div class="fg"><label>Tax / VAT number</label><input type="text" id="from-tax-id" placeholder="e.g. VAT123456789"></div>
+    </div>
+
+    <!-- ---- PANEL: CLIENT ---- -->
+    <div class="ed-panel" id="panel-to" style="display:none">
+      <div class="fg"><label>Client name</label><input type="text" id="to-name" placeholder="Client Full Name"></div>
+      <div class="fg"><label>Company</label><input type="text" id="to-company" placeholder="Client Company Ltd."></div>
+      <div class="f2">
+        <div class="fg"><label>Email</label><input type="email" id="to-email" placeholder="client@company.com"></div>
+        <div class="fg"><label>Phone</label><input type="tel" id="to-phone" placeholder="+1 555 000 0000"></div>
+      </div>
+      <div class="fg"><label>Address</label><input type="text" id="to-address" placeholder="Client street address"></div>
+      <div class="f2">
+        <div class="fg"><label>City / State</label><input type="text" id="to-city" placeholder="Los Angeles, CA"></div>
+        <div class="fg"><label>Country</label><input type="text" id="to-country" placeholder="United States"></div>
+      </div>
+      <div class="fg"><label>Client Tax / VAT</label><input type="text" id="to-tax-id" placeholder="Client VAT number (optional)"></div>
+
+      <div class="section-divider">Invoice Details</div>
+
+      <div class="f2">
+        <div class="fg"><label>Invoice #</label><input type="text" id="inv-number" placeholder="INV-001"></div>
+        <div class="fg"><label>PO Number</label><input type="text" id="inv-po" placeholder="Optional"></div>
+      </div>
+      <div class="f2">
+        <div class="fg"><label>Invoice Date</label><input type="date" id="inv-date"></div>
+        <div class="fg"><label>Due Date</label><input type="date" id="inv-due"></div>
+      </div>
+      <div class="fg">
+        <label>Currency</label>
+        <select id="inv-currency">
+          <option value="USD">USD — US Dollar ($)</option>
+          <option value="EUR">EUR — Euro (€)</option>
+          <option value="GBP">GBP — British Pound (£)</option>
+          <option value="CAD">CAD — Canadian Dollar (C$)</option>
+          <option value="AUD">AUD — Australian Dollar (A$)</option>
+          <option value="JPY">JPY — Japanese Yen (¥)</option>
+          <option value="CHF">CHF — Swiss Franc (CHF)</option>
+          <option value="NOK">NOK — Norwegian Krone (kr)</option>
+          <option value="SEK">SEK — Swedish Krona (kr)</option>
+          <option value="DKK">DKK — Danish Krone (kr)</option>
+          <option value="AED">AED — UAE Dirham (د.إ)</option>
+          <option value="SAR">SAR — Saudi Riyal (﷼)</option>
+          <option value="RUB">RUB — Russian Ruble (₽)</option>
+          <option value="CNY">CNY — Chinese Yuan (¥)</option>
+          <option value="INR">INR — Indian Rupee (₹)</option>
+          <option value="BRL">BRL — Brazilian Real (R$)</option>
+          <option value="MXN">MXN — Mexican Peso (MX$)</option>
+          <option value="SGD">SGD — Singapore Dollar (S$)</option>
+          <option value="HKD">HKD — Hong Kong Dollar (HK$)</option>
+          <option value="AMD">AMD — Armenian Dram (֏)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ---- PANEL: ITEMS ---- -->
+    <div class="ed-panel" id="panel-items" style="display:none">
+      <div id="items-list"></div>
+      <button class="add-item-btn" onclick="addItem()">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add line item
+      </button>
+
+      <div class="section-divider">Totals</div>
+
+      <div class="f2">
+        <div class="fg">
+          <label>Discount</label>
+          <div class="input-suffix"><input type="number" id="inv-discount" min="0" max="100" step="0.1" value="0" placeholder="0"><span>%</span></div>
+        </div>
+        <div class="fg">
+          <label>Shipping / Handling</label>
+          <div class="input-prefix"><span id="ship-symbol">$</span><input type="number" id="inv-shipping" min="0" step="0.01" value="0" placeholder="0.00"></div>
+        </div>
+      </div>
+
+      <div class="tax-block">
+        <div class="f2">
+          <div class="fg"><label>Tax 1 name</label><input type="text" id="tax1-name" placeholder="VAT / GST / Tax" value="Tax"></div>
+          <div class="fg">
+            <label>Rate</label>
+            <div class="input-suffix"><input type="number" id="tax1-rate" min="0" max="100" step="0.1" value="0" placeholder="0"><span>%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tax-block" id="tax2-block" style="display:none">
+        <div class="f2">
+          <div class="fg"><label>Tax 2 name</label><input type="text" id="tax2-name" placeholder="e.g. Local Tax" value="Tax 2"></div>
+          <div class="fg">
+            <label>Rate</label>
+            <div class="input-suffix"><input type="number" id="tax2-rate" min="0" max="100" step="0.1" value="0" placeholder="0"><span>%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="add-tax-btn" id="add-tax-btn" onclick="toggleTax2()">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add second tax
+      </button>
+    </div>
+
+    <!-- ---- PANEL: PAYMENT & NOTES ---- -->
+    <div class="ed-panel" id="panel-payment" style="display:none">
+      <div class="fg"><label>Payment terms</label>
+        <select id="inv-terms">
+          <option value="Due on receipt">Due on receipt</option>
+          <option value="Net 7" selected>Net 7 — due in 7 days</option>
+          <option value="Net 14">Net 14 — due in 14 days</option>
+          <option value="Net 30">Net 30 — due in 30 days</option>
+          <option value="Net 60">Net 60 — due in 60 days</option>
+          <option value="Net 90">Net 90 — due in 90 days</option>
+          <option value="custom">Custom (set due date manually)</option>
+        </select>
+      </div>
+
+      <div class="fg">
+        <label>Accepted payment methods</label>
+        <div class="payment-methods">
+          <label class="pm-check"><input type="checkbox" value="Bank Transfer" checked onchange="updatePayments()"><span>Bank Transfer</span></label>
+          <label class="pm-check"><input type="checkbox" value="PayPal" onchange="updatePayments()"><span>PayPal</span></label>
+          <label class="pm-check"><input type="checkbox" value="Stripe" onchange="updatePayments()"><span>Stripe</span></label>
+          <label class="pm-check"><input type="checkbox" value="Wise" onchange="updatePayments()"><span>Wise</span></label>
+          <label class="pm-check"><input type="checkbox" value="Crypto" onchange="updatePayments()"><span>Crypto</span></label>
+          <label class="pm-check"><input type="checkbox" value="Check" onchange="updatePayments()"><span>Check</span></label>
+          <label class="pm-check"><input type="checkbox" value="Cash" onchange="updatePayments()"><span>Cash</span></label>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Bank / payment details</label>
+        <textarea id="inv-bank" rows="4" placeholder="Bank name: ...&#10;Account number: ...&#10;IBAN / SWIFT: ...&#10;PayPal: you@email.com"></textarea>
+      </div>
+
+      <div class="fg">
+        <label>Notes to client</label>
+        <textarea id="inv-notes" rows="3" placeholder="Thank you for your business! It's a pleasure working with you."></textarea>
+      </div>
+
+      <div class="fg">
+        <label>Terms &amp; conditions</label>
+        <textarea id="inv-tc" rows="3" placeholder="Payment is due within the period stated above. Late payments may incur a 1.5% monthly fee."></textarea>
+      </div>
+
+      <div class="fg">
+        <label>Footer line</label>
+        <input type="text" id="inv-footer" placeholder="© 2026 Your Name. All rights reserved.">
+      </div>
+    </div>
+
+    <!-- Export bar -->
+    <div class="export-bar">
+      <button class="exp-pdf" onclick="downloadPDF()">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Download PDF
+      </button>
+      <button class="exp-png" onclick="downloadPNG()">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Download PNG
+      </button>
+      <button class="exp-reset" onclick="resetInvoice()" title="Reset all fields">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 9A9 9 0 1 1 4 15"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== RIGHT: PREVIEW ===== -->
+  <div class="preview-outer" id="preview-outer">
+    <div class="preview-scale-wrap" id="preview-scale-wrap">
+      <!-- ============================
+           THE INVOICE (printable)
+           ============================ -->
+      <div id="invoice" class="invoice tmpl-classic">
+
+        <!-- CLASSIC & BOLD: full header -->
+        <div class="inv-header">
+          <div class="inv-header-left">
+            <img id="inv-logo" src="" alt="" class="inv-logo" style="display:none">
+            <div class="inv-from-block">
+              <div class="inv-company-name" id="inv-from-name">Your Company</div>
+              <div class="inv-from-details" id="inv-from-details"></div>
+            </div>
+          </div>
+          <div class="inv-header-right">
+            <div class="inv-title">INVOICE</div>
+            <div class="inv-meta" id="inv-meta"></div>
+          </div>
+        </div>
+
+        <!-- ELEGANT: centered header -->
+        <div class="inv-elegant-header">
+          <img id="inv-logo-e" src="" alt="" class="inv-logo-e" style="display:none">
+          <div class="inv-elegant-ornament"><span>— ✦ —</span></div>
+          <div class="inv-elegant-name" id="inv-elegant-name">Your Name</div>
+          <div class="inv-elegant-details" id="inv-elegant-details"></div>
+          <div class="inv-elegant-ornament inv-elegant-bottom"><span>— ✦ —</span></div>
+          <div class="inv-elegant-inv-row">
+            <span class="inv-elegant-label">INVOICE</span>
+            <span class="inv-elegant-meta" id="inv-elegant-meta"></span>
+          </div>
+        </div>
+
+        <!-- MINIMAL: simple header -->
+        <div class="inv-minimal-header">
+          <div class="inv-minimal-left">
+            <img id="inv-logo-m" src="" alt="" class="inv-logo-m" style="display:none">
+            <div class="inv-minimal-name" id="inv-minimal-name">Your Name</div>
+            <div class="inv-minimal-details" id="inv-minimal-details"></div>
+          </div>
+          <div class="inv-minimal-right">
+            <div class="inv-minimal-title">Invoice</div>
+            <div class="inv-minimal-meta" id="inv-minimal-meta"></div>
+          </div>
+        </div>
+
+        <!-- STRIPE: left sidebar + main area -->
+        <div class="inv-stripe-wrap">
+          <div class="inv-stripe-sidebar">
+            <img id="inv-logo-s" src="" alt="" class="inv-logo-s" style="display:none">
+            <div class="inv-stripe-company" id="inv-stripe-company">Your Company</div>
+            <div class="inv-stripe-from" id="inv-stripe-from"></div>
+            <div class="inv-stripe-inv-label">INVOICE</div>
+            <div class="inv-stripe-meta" id="inv-stripe-meta"></div>
+          </div>
+          <div class="inv-stripe-main">
+            <!-- content injected here from shared blocks -->
+          </div>
+        </div>
+
+        <!-- ---- SHARED: Bill To ---- -->
+        <div class="inv-bill-to" id="inv-bill-to-wrap">
+          <div class="inv-section-label">Bill To</div>
+          <div class="inv-bill-name" id="inv-bill-name"></div>
+          <div class="inv-bill-details" id="inv-bill-details"></div>
+        </div>
+
+        <!-- ---- SHARED: Items Table ---- -->
+        <div class="inv-table-wrap">
+          <table class="inv-table" id="inv-table">
+            <thead>
+              <tr>
+                <th class="col-desc">Description</th>
+                <th class="col-qty">Qty</th>
+                <th class="col-unit">Unit</th>
+                <th class="col-rate">Rate</th>
+                <th class="col-amount">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="inv-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- ---- SHARED: Totals ---- -->
+        <div class="inv-totals-wrap">
+          <div class="inv-totals" id="inv-totals">
+            <div class="inv-total-row"><span>Subtotal</span><span id="t-subtotal">$0.00</span></div>
+            <div class="inv-total-row" id="t-discount-row" style="display:none"><span id="t-discount-label">Discount</span><span id="t-discount">-$0.00</span></div>
+            <div class="inv-total-row" id="t-tax1-row" style="display:none"><span id="t-tax1-label">Tax</span><span id="t-tax1">$0.00</span></div>
+            <div class="inv-total-row" id="t-tax2-row" style="display:none"><span id="t-tax2-label">Tax 2</span><span id="t-tax2">$0.00</span></div>
+            <div class="inv-total-row" id="t-ship-row" style="display:none"><span>Shipping</span><span id="t-shipping">$0.00</span></div>
+            <div class="inv-total-final"><span>Total</span><span id="t-total">$0.00</span></div>
+          </div>
+        </div>
+
+        <!-- ---- SHARED: Footer ---- -->
+        <div class="inv-footer-block">
+          <div class="inv-footer-left">
+            <div class="inv-notes-block" id="inv-notes-block" style="display:none">
+              <div class="inv-section-label">Notes</div>
+              <div class="inv-notes-text" id="inv-notes-text"></div>
+            </div>
+            <div class="inv-payment-block" id="inv-payment-block" style="display:none">
+              <div class="inv-section-label">Payment</div>
+              <div class="inv-payment-methods" id="inv-payment-methods"></div>
+              <div class="inv-bank-text" id="inv-bank-text"></div>
+            </div>
+          </div>
+          <div class="inv-footer-right">
+            <div class="inv-tc-block" id="inv-tc-block" style="display:none">
+              <div class="inv-section-label">Terms</div>
+              <div class="inv-tc-text" id="inv-tc-text"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-footer-line" id="inv-footer-line"></div>
+
+      </div><!-- /invoice -->
+    </div><!-- /preview-scale-wrap -->
+  </div><!-- /preview-outer -->
+
+</div><!-- /tool -->
+</main>
+
+<!-- ===== SEO ===== -->
+<section class="seo">
+  <div class="div"></div>
+  <div class="seo-block">
+    <h2>The professional invoice builder <em>freelancers love</em></h2>
+    <p class="seo-lead">Built for designers, developers, photographers, consultants, and every kind of independent professional. Every template is print-ready and client-impressive.</p>
+    <div class="sr">
+      <div class="st"><span class="sn">5</span><span class="sl">Invoice templates</span></div>
+      <div class="st"><span class="sn">20+</span><span class="sl">Currency options</span></div>
+      <div class="st"><span class="sn">PDF</span><span class="sl">Print quality</span></div>
+      <div class="st"><span class="sn">0</span><span class="sl">Watermarks</span></div>
+    </div>
+    <div class="cg">
+      <div class="ic"><div class="ic-ico">&#127912;</div><h3>5 Distinct Designs</h3><p>Classic, Minimal, Side Stripe, Elegant, and Bold. Each tells a different story — pick the one that matches your brand and client expectations.</p></div>
+      <div class="ic"><div class="ic-ico">&#128444;&#65039;</div><h3>PDF & PNG Export</h3><p>Print to PDF directly from your browser with perfect quality. Export PNG for sending via email or messaging apps.</p></div>
+      <div class="ic"><div class="ic-ico">&#128181;</div><h3>Automatic Calculations</h3><p>Subtotal, discounts, multiple tax rates, shipping — all calculated instantly as you type. No spreadsheet needed.</p></div>
+      <div class="ic"><div class="ic-ico">&#127758;</div><h3>20+ Currencies</h3><p>USD, EUR, GBP, AED, JPY, AMD and 14 more. The correct currency symbol appears everywhere automatically.</p></div>
+    </div>
+  </div>
+  <div class="seo-block">
+    <h2>Frequently asked <em>questions</em></h2>
+    <details class="faq-item"><summary>Is this completely free?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Free forever, no signup, no watermarks, no subscription. We will never add a watermark to your invoice.</div></details>
+    <details class="faq-item"><summary>How do I save my invoice as PDF?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Click "Download PDF". Your browser's print dialog opens — select "Save as PDF" as the destination. This gives you perfect print-quality output at A4 size.</div></details>
+    <details class="faq-item"><summary>Is my data saved?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Your invoice data is saved automatically in your browser's local storage. It persists between sessions but never leaves your device — completely private.</div></details>
+    <details class="faq-item"><summary>Can I use my own logo?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Upload a PNG, JPG, or SVG logo in "Your Info". It appears in the invoice preview and exports with all download formats.</div></details>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
+  <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

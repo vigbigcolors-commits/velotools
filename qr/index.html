@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free QR Code Generator — Custom Styles, Logo, SVG Export | VeloTools</title>
+<meta name="description" content="Generate beautiful QR codes for URL, WiFi, vCard, Email, SMS and more. Custom colors, gradients, logo, dot styles. Export PNG, SVG. 100% free, no signup, works in browser.">
+<meta name="keywords" content="qr code generator free,custom qr code,qr code with logo,qr code wifi,qr code vcard,qr code design,svg qr code,free qr generator 2026">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://velotools.app/qr/">
+<meta property="og:title" content="Free QR Code Generator — Custom Styles & Logo | VeloTools">
+<meta property="og:description" content="Beautiful QR codes with custom colors, gradients, logo. URL, WiFi, vCard, Email and more. Free forever.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools QR Code Generator","description":"Free QR code generator with custom styles, logo, gradients. Supports URL, WiFi, vCard, Email, SMS, Phone, Text, Location.","url":"https://velotools.app/qr/","applicationCategory":"DesignApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hdr">
+  <a class="logo" href="/">
+    <div class="logo-ico"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="logo-nm">velotools</span>
+  </a>
+  <div class="hdr-r">
+    <div class="priv"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>100% Private</div>
+    <a class="back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>All tools</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-tag"><span class="hero-dot"></span>Free forever &middot; No signup &middot; Instant</div>
+  <h1>Generate a beautiful <em>QR code</em><br>in seconds</h1>
+  <p class="hero-sub">Custom colors, gradients, logo, 8 QR types. Export PNG or SVG. Your data never leaves your browser.</p>
+  <div class="hero-badges">
+    <span class="hbadge">&#10022; 8 QR Types</span>
+    <span class="hbadge">&#127912; Custom Styles</span>
+    <span class="hbadge">&#128444; SVG Export</span>
+    <span class="hbadge">&#128274; 100% Private</span>
+  </div>
+</section>
+
+<main class="main">
+<div class="tool">
+
+  <!-- LEFT: INPUT PANEL -->
+  <div class="input-panel">
+    <div class="panel-head">QR Content</div>
+
+    <!-- Type selector -->
+    <div class="type-tabs" id="type-tabs">
+      <button class="type-tab act" data-type="url"      title="Website URL">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>URL</span>
+      </button>
+      <button class="type-tab" data-type="text"     title="Plain text">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Text</span>
+      </button>
+      <button class="type-tab" data-type="wifi"     title="Wi-Fi network">
+        <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        <span>WiFi</span>
+      </button>
+      <button class="type-tab" data-type="vcard"    title="Contact card">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>vCard</span>
+      </button>
+      <button class="type-tab" data-type="email"    title="Email address">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Email</span>
+      </button>
+      <button class="type-tab" data-type="phone"    title="Phone number">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+        <span>Phone</span>
+      </button>
+      <button class="type-tab" data-type="sms"      title="SMS message">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>SMS</span>
+      </button>
+      <button class="type-tab" data-type="location" title="GPS location">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Location</span>
+      </button>
+    </div>
+
+    <!-- Dynamic forms -->
+    <div id="form-url" class="qr-form">
+      <label class="fl">Website URL</label>
+      <input class="fi" id="f-url" type="url" placeholder="https://example.com" autofocus>
+    </div>
+
+    <div id="form-text" class="qr-form" style="display:none">
+      <label class="fl">Text content</label>
+      <textarea class="fi fi-ta" id="f-text" placeholder="Enter any text, up to 2000 characters…" rows="5"></textarea>
+      <div class="char-count"><span id="char-count">0</span> / 2000</div>
+    </div>
+
+    <div id="form-wifi" class="qr-form" style="display:none">
+      <label class="fl">Network Name (SSID)</label>
+      <input class="fi" id="f-wifi-ssid" type="text" placeholder="My WiFi Network">
+      <label class="fl">Password</label>
+      <div class="fi-pass-wrap">
+        <input class="fi fi-pass" id="f-wifi-pass" type="password" placeholder="Network password">
+        <button class="pass-eye" id="pass-eye" title="Show/hide password" onclick="togglePassword()">
+          <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <label class="fl">Security</label>
+      <div class="seg" id="wifi-security">
+        <button class="seg-btn act" data-val="WPA">WPA/WPA2</button>
+        <button class="seg-btn" data-val="WEP">WEP</button>
+        <button class="seg-btn" data-val="nopass">Open</button>
+      </div>
+      <label class="fl check-row"><input type="checkbox" id="f-wifi-hidden"><span>Hidden network</span></label>
+    </div>
+
+    <div id="form-vcard" class="qr-form" style="display:none">
+      <div class="f2col">
+        <div><label class="fl">First name</label><input class="fi" id="f-vc-first" type="text" placeholder="John"></div>
+        <div><label class="fl">Last name</label><input class="fi" id="f-vc-last" type="text" placeholder="Doe"></div>
+      </div>
+      <label class="fl">Organization</label>
+      <input class="fi" id="f-vc-org" type="text" placeholder="Company name">
+      <label class="fl">Job title</label>
+      <input class="fi" id="f-vc-title" type="text" placeholder="Designer">
+      <label class="fl">Phone</label>
+      <input class="fi" id="f-vc-phone" type="tel" placeholder="+1 555 000 0000">
+      <label class="fl">Email</label>
+      <input class="fi" id="f-vc-email" type="email" placeholder="john@example.com">
+      <label class="fl">Website</label>
+      <input class="fi" id="f-vc-url" type="url" placeholder="https://example.com">
+      <label class="fl">Address</label>
+      <input class="fi" id="f-vc-addr" type="text" placeholder="123 Main St, City, Country">
+    </div>
+
+    <div id="form-email" class="qr-form" style="display:none">
+      <label class="fl">To (email address)</label>
+      <input class="fi" id="f-email-to" type="email" placeholder="recipient@example.com">
+      <label class="fl">Subject</label>
+      <input class="fi" id="f-email-subj" type="text" placeholder="Hello!">
+      <label class="fl">Message (optional)</label>
+      <textarea class="fi fi-ta" id="f-email-body" rows="3" placeholder="Email body…"></textarea>
+    </div>
+
+    <div id="form-phone" class="qr-form" style="display:none">
+      <label class="fl">Phone number</label>
+      <input class="fi" id="f-phone" type="tel" placeholder="+1 555 000 0000">
+      <p class="f-hint">Include country code for international use</p>
+    </div>
+
+    <div id="form-sms" class="qr-form" style="display:none">
+      <label class="fl">Phone number</label>
+      <input class="fi" id="f-sms-phone" type="tel" placeholder="+1 555 000 0000">
+      <label class="fl">Message (optional)</label>
+      <textarea class="fi fi-ta" id="f-sms-msg" rows="3" placeholder="Pre-filled message…"></textarea>
+    </div>
+
+    <div id="form-location" class="qr-form" style="display:none">
+      <label class="fl">Latitude</label>
+      <input class="fi" id="f-lat" type="number" step="any" placeholder="48.8566">
+      <label class="fl">Longitude</label>
+      <input class="fi" id="f-lng" type="number" step="any" placeholder="2.3522">
+      <button class="locate-btn" id="locate-btn" onclick="useMyLocation()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+        Use my location
+      </button>
+    </div>
+
+    <!-- QR data display -->
+    <div class="qr-data-row" id="qr-data-row" style="display:none">
+      <span class="qr-data-label">QR data:</span>
+      <code class="qr-data-val" id="qr-data-val"></code>
+    </div>
+  </div>
+
+  <!-- CENTER: PREVIEW -->
+  <div class="preview-panel">
+    <div class="panel-head">Preview</div>
+    <div class="preview-wrap" id="preview-wrap">
+      <div id="qr-canvas-wrap"></div>
+      <div class="preview-placeholder" id="preview-placeholder">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="16" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>
+        <p>Your QR code will appear here</p>
+      </div>
+    </div>
+
+    <!-- Error correction badge -->
+    <div class="ec-badge" id="ec-badge">
+      <span class="ec-dot"></span>
+      <span id="ec-label">Error correction: H (30%)</span>
+    </div>
+
+    <!-- Preset styles -->
+    <div class="presets-label">Quick presets</div>
+    <div class="presets">
+      <button class="preset act" id="preset-0" onclick="applyPreset(0)" title="Classic">
+        <div class="preset-swatch" style="background:#000;border:2px solid #e0e0e0"></div>
+        <span>Classic</span>
+      </button>
+      <button class="preset" id="preset-1" onclick="applyPreset(1)" title="Dark">
+        <div class="preset-swatch" style="background:#fff;border:2px solid #222"></div>
+        <span>Dark</span>
+      </button>
+      <button class="preset" id="preset-2" onclick="applyPreset(2)" title="Violet">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#7C3480,#C87AFF)"></div>
+        <span>Violet</span>
+      </button>
+      <button class="preset" id="preset-3" onclick="applyPreset(3)" title="Ocean">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#0F4C81,#00BFFF)"></div>
+        <span>Ocean</span>
+      </button>
+      <button class="preset" id="preset-4" onclick="applyPreset(4)" title="Sunset">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#FF6B35,#F7C948)"></div>
+        <span>Sunset</span>
+      </button>
+      <button class="preset" id="preset-5" onclick="applyPreset(5)" title="Forest">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#1B5E20,#66BB6A)"></div>
+        <span>Forest</span>
+      </button>
+    </div>
+
+    <!-- Export -->
+    <div class="export-section">
+      <div class="panel-head" style="margin-bottom:10px">Export</div>
+      <div class="export-grid">
+        <button class="exp-btn exp-main" onclick="downloadQR('png','512')">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          PNG 512px
+        </button>
+        <button class="exp-btn" onclick="downloadQR('png','1024')">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          PNG 1024px
+        </button>
+        <button class="exp-btn" onclick="downloadQR('svg')">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          SVG Vector
+        </button>
+        <button class="exp-btn" onclick="copyQR()">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="copy-label">Copy PNG</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: STYLE PANEL -->
+  <div class="style-panel">
+    <div class="panel-head">Style</div>
+
+    <!-- Dot style -->
+    <div class="sp-section">
+      <div class="sp-label">Dot style</div>
+      <div class="dot-styles" id="dot-styles">
+        <button class="ds act" data-dot="square"         title="Square"><div class="ds-ico ds-square"></div><span>Square</span></button>
+        <button class="ds" data-dot="dots"              title="Dots"><div class="ds-ico ds-dots"></div><span>Dots</span></button>
+        <button class="ds" data-dot="rounded"           title="Rounded"><div class="ds-ico ds-rounded"></div><span>Round</span></button>
+        <button class="ds" data-dot="extra-rounded"     title="Extra rounded"><div class="ds-ico ds-extra"></div><span>Extra</span></button>
+        <button class="ds" data-dot="classy"            title="Classy"><div class="ds-ico ds-classy"></div><span>Classy</span></button>
+        <button class="ds" data-dot="classy-rounded"    title="Classy rounded"><div class="ds-ico ds-classyr"></div><span>Classy+</span></button>
+      </div>
+    </div>
+
+    <!-- Corner style -->
+    <div class="sp-section">
+      <div class="sp-label">Corner style</div>
+      <div class="corner-styles" id="corner-styles">
+        <button class="cs act" data-corner="square"         title="Square"><div class="cs-ico cs-square"></div><span>Square</span></button>
+        <button class="cs" data-corner="extra-rounded"     title="Rounded"><div class="cs-ico cs-rounded"></div><span>Round</span></button>
+        <button class="cs" data-corner="dot"               title="Dot"><div class="cs-ico cs-dot"></div><span>Dot</span></button>
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div class="sp-section">
+      <div class="sp-label-row">
+        <span class="sp-label">Foreground</span>
+        <label class="toggle-wrap">
+          <input type="checkbox" id="grad-toggle" onchange="toggleGradient()">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span class="toggle-lbl">Gradient</span>
+        </label>
+      </div>
+      <div class="color-row">
+        <div class="cp-wrap">
+          <input type="color" id="col-fg" value="#000000" title="Foreground color">
+          <span class="cp-lbl">Color 1</span>
+        </div>
+        <div class="cp-wrap grad-only" id="grad-col2-wrap" style="display:none">
+          <input type="color" id="col-fg2" value="#7C3480" title="Gradient color 2">
+          <span class="cp-lbl">Color 2</span>
+        </div>
+      </div>
+      <div class="grad-opts grad-only" id="grad-opts" style="display:none">
+        <div class="seg" id="grad-type">
+          <button class="seg-btn act" data-val="linear">Linear</button>
+          <button class="seg-btn" data-val="radial">Radial</button>
+        </div>
+        <div class="sl-row" id="grad-angle-row">
+          <span class="sl-lbl">Angle</span>
+          <input type="range" id="sl-grad-angle" min="0" max="360" value="0">
+          <span class="sl-val" id="sv-grad-angle">0°</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label-row">
+        <span class="sp-label">Background</span>
+        <label class="toggle-wrap">
+          <input type="checkbox" id="bg-transparent" onchange="toggleBgTransparent()">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span class="toggle-lbl">Transparent</span>
+        </label>
+      </div>
+      <div class="cp-wrap" id="bg-col-wrap">
+        <input type="color" id="col-bg" value="#ffffff" title="Background color">
+        <span class="cp-lbl">Background</span>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="sp-section">
+      <div class="sp-label">Logo / image</div>
+      <div class="logo-upload-area" id="logo-area" onclick="$('logo-file').click()">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span id="logo-label">Click to upload logo</span>
+      </div>
+      <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="onLogoUpload(this)">
+      <div class="logo-controls" id="logo-controls" style="display:none">
+        <div class="sl-row">
+          <span class="sl-lbl">Size</span>
+          <input type="range" id="sl-logo-size" min="10" max="40" value="25">
+          <span class="sl-val" id="sv-logo-size">25%</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Margin</span>
+          <input type="range" id="sl-logo-margin" min="0" max="15" value="5">
+          <span class="sl-val" id="sv-logo-margin">5</span>
+        </div>
+        <button class="remove-logo" onclick="removeLogo()">Remove logo</button>
+      </div>
+    </div>
+
+    <!-- Size & margin -->
+    <div class="sp-section">
+      <div class="sp-label">Size &amp; margin</div>
+      <div class="sl-row">
+        <span class="sl-lbl">Size</span>
+        <input type="range" id="sl-size" min="200" max="600" value="300" step="10">
+        <span class="sl-val" id="sv-size">300</span>
+      </div>
+      <div class="sl-row">
+        <span class="sl-lbl">Margin</span>
+        <input type="range" id="sl-margin" min="0" max="50" value="16">
+        <span class="sl-val" id="sv-margin">16</span>
+      </div>
+    </div>
+
+    <!-- Error correction -->
+    <div class="sp-section">
+      <div class="sp-label">Error correction</div>
+      <div class="seg" id="ec-level">
+        <button class="seg-btn" data-val="L" title="7%">L</button>
+        <button class="seg-btn" data-val="M" title="15%">M</button>
+        <button class="seg-btn" data-val="Q" title="25%">Q</button>
+        <button class="seg-btn act" data-val="H" title="30% — best for logos">H</button>
+      </div>
+      <p class="f-hint">H = 30% damage recovery. Best when using a logo.</p>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<!-- SEO content -->
+<section class="seo">
+  <div class="div"></div>
+
+  <div class="seo-block">
+    <h2>The most powerful free <em>QR generator</em></h2>
+    <p class="seo-lead">Most QR generators give you a black square. Ours gives you a designed asset — with custom colors, gradients, dot styles, and your logo. Fully free, no limits, no watermarks, no signup.</p>
+    <div class="sr">
+      <div class="st"><span class="sn">8</span><span class="sl">QR content types</span></div>
+      <div class="st"><span class="sn">6</span><span class="sl">Dot styles</span></div>
+      <div class="st"><span class="sn">&#8734;</span><span class="sl">Free QR codes</span></div>
+      <div class="st"><span class="sn">SVG</span><span class="sl">Vector export</span></div>
+    </div>
+    <div class="cg">
+      <div class="ic"><div class="ic-ico">&#127912;</div><h3>Full Design Control</h3><p>Choose from 6 dot styles, 3 corner types, gradients, custom colors, and your own logo. Every QR code is a design asset, not just a black square.</p></div>
+      <div class="ic"><div class="ic-ico">&#9889;</div><h3>Instant Preview</h3><p>See your QR code update live as you type. No Generate button — every change is reflected instantly in the preview.</p></div>
+      <div class="ic"><div class="ic-ico">&#128444;&#65039;</div><h3>SVG Vector Export</h3><p>Export as SVG for infinite resolution — perfect for print, billboards, packaging. Also export PNG at 512px or 1024px.</p></div>
+      <div class="ic"><div class="ic-ico">&#128274;</div><h3>100% Private</h3><p>QR codes are generated entirely in your browser. Your URLs, WiFi passwords, and contact info never touch our servers.</p></div>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>8 QR code types <em>explained</em></h2>
+    <p class="seo-lead">Different QR types encode different data formats optimized for each use case. Choose the right type for the best scanning experience.</p>
+    <div class="tip-list">
+      <div class="tip"><span class="tn">URL</span><div><h4>Website links</h4><p>The most common type. Encodes a URL — opens directly in the phone's browser on scan. Always include https:// for best compatibility.</p></div></div>
+      <div class="tip"><span class="tn">WiFi</span><div><h4>Network credentials</h4><p>Scan to connect to WiFi automatically — no password typing required. Supports WPA/WPA2, WEP, and open networks. Perfect for cafés, hotels, offices.</p></div></div>
+      <div class="tip"><span class="tn">vCard</span><div><h4>Digital business card</h4><p>Scan to save a complete contact — name, phone, email, organization, website, and address. Opens the native contacts app on any smartphone.</p></div></div>
+      <div class="tip"><span class="tn">Email</span><div><h4>Pre-filled email</h4><p>Scan opens a new email with address, subject, and body pre-filled. Great for customer support, feedback forms, or event registration.</p></div></div>
+      <div class="tip"><span class="tn">SMS</span><div><h4>Pre-filled text message</h4><p>Opens the messaging app with a number and optional pre-written message. Useful for SMS marketing opt-ins and quick contact.</p></div></div>
+      <div class="tip"><span class="tn">Location</span><div><h4>GPS coordinates</h4><p>Opens Google Maps (or native maps app) to a specific lat/lng location. Perfect for events, storefronts, or anything with an address.</p></div></div>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>Pro tips for <em>scannable</em> QR codes</h2>
+    <p class="seo-lead">A beautiful QR code that can't be scanned is useless. Follow these rules to keep your QR functional while looking great.</p>
+    <div class="cg">
+      <div class="ic ic-tip"><div class="ic-ico">&#128161;</div><h3>Keep contrast high</h3><p>Foreground should always be darker than background (or vice versa). A contrast ratio below 3:1 causes scan failures on older devices.</p></div>
+      <div class="ic ic-tip"><div class="ic-ico">&#127775;</div><h3>Use H error correction with logos</h3><p>Error correction H allows 30% of the QR to be covered — exactly what a center logo does. Always use H when adding a logo.</p></div>
+      <div class="ic ic-tip"><div class="ic-ico">&#128269;</div><h3>Test before printing</h3><p>Always scan your QR code with at least two different phones before printing. Download the SVG for sharp edges at any print size.</p></div>
+      <div class="ic ic-tip"><div class="ic-ico">&#128208;</div><h3>Keep URLs short</h3><p>Shorter URLs = simpler QR patterns = more reliable scans. Use a URL shortener for long links — this also enables scan analytics.</p></div>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>Frequently asked <em>questions</em></h2>
+    <details class="faq-item"><summary>Are these QR codes free to use commercially?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes, completely free for any commercial use — product packaging, marketing materials, business cards, menus, anything. No watermarks, no attribution required.</div></details>
+    <details class="faq-item"><summary>Do QR codes expire?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Static QR codes (what we generate here) never expire. They're just encoded data — as long as the destination URL exists and the QR is readable, it works forever.</div></details>
+    <details class="faq-item"><summary>What's the minimum print size for a QR code?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Minimum recommended size is 2×2 cm (0.8 inch) for scanning at arm's length. For larger scan distances (e.g. posters), scale proportionally — 3 meters away needs roughly 15×15 cm.</div></details>
+    <details class="faq-item"><summary>Why use SVG instead of PNG?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">SVG is vector — it's infinitely scalable with no pixelation. Use SVG for print, signage, and anything larger than a business card. Use PNG for digital use (websites, social media, email).</div></details>
+    <details class="faq-item"><summary>Can I add a logo to my QR code?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Upload any image in the Logo section. We recommend keeping it under 30% of the QR size and using H error correction (already selected by default) so the QR remains scannable.</div></details>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
+  <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>
+</footer>
+
+<script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
