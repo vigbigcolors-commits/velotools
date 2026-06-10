@@ -295,7 +295,7 @@ function smartErase(x,y){
 
   var pi=start*4;
   var sr=od[pi],sg=od[pi+1],sb=od[pi+2];
-  var tol=45;
+  var tol=65;
 
   // BFS flood fill — efficient with head pointer (no O(n²) shift)
   var visited=new Uint8Array(W*H);
@@ -310,15 +310,19 @@ function smartErase(x,y){
     var cp=curr*4;
     var dr=od[cp]-sr, dg=od[cp+1]-sg, db=od[cp+2]-sb;
     var dist=Math.sqrt(dr*dr+dg*dg+db*db);
-    if(dist>tol||md[curr]<10) continue;
 
-    // smooth fade at tolerance boundary — no hard edge
-    var strength=1-(dist/tol);
-    erased.push(curr);
-    var v=md[curr]-Math.round(strength*255);
-    md[curr]=v<0?0:v;
+    // stop expanding if color too different from seed
+    if(dist>tol) continue;
 
-    // 4-connected neighbors
+    // erase only if pixel is still visible
+    if(md[curr]>0){
+      var strength=1-(dist/tol);
+      erased.push(curr);
+      var v=md[curr]-Math.round(strength*255);
+      md[curr]=v<0?0:v;
+    }
+
+    // always expand to neighbors (even through transparent — catches gradients)
     if(cx>0   &&!visited[curr-1]){ visited[curr-1]=1; queue[qTail++]=curr-1; }
     if(cx<W-1 &&!visited[curr+1]){ visited[curr+1]=1; queue[qTail++]=curr+1; }
     if(cy>0   &&!visited[curr-W]){ visited[curr-W]=1; queue[qTail++]=curr-W; }
