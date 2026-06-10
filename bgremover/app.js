@@ -88,8 +88,9 @@ function applyDisplaySize(){
   dispC.style.height=dispH+'px';
   ovC.style.width=dispW+'px';
   ovC.style.height=dispH+'px';
-  ovC.width=Math.max(1,Math.round(dispW));
-  ovC.height=Math.max(1,Math.round(dispH));
+  // only reassign width/height if changed — reassigning clears the canvas
+  var nw=Math.max(1,Math.round(dispW)), nh=Math.max(1,Math.round(dispH));
+  if(ovC.width!==nw || ovC.height!==nh){ ovC.width=nw; ovC.height=nh; }
   // center canvas when smaller than the scroll area; scroll when larger
   var mw=Math.max(0,Math.floor((area.clientWidth -dispW)/2));
   var mh=Math.max(0,Math.floor((area.clientHeight-dispH)/2));
@@ -280,26 +281,109 @@ function initWheelZoom(){
 }
 
 /* ---------- SMART ERASE ---------- */
+/* Connected flood-fill (Magic Wand Contiguous):
+   - only removes pixels CONNECTED to the clicked point
+   - does NOT touch same-colored pixels elsewhere (e.g. skin ≠ bg)
+   - smooths the new edge after fill to eliminate jaggies */
 function smartErase(x,y){
   if(!S.origData||!S.maskData) return;
-  var W=S.imgW,H=S.imgH;
+  var W=S.imgW,H=S.imgH,od=S.origData,md=S.maskData;
   var xi=Math.max(0,Math.min(W-1,Math.round(x)));
   var yi=Math.max(0,Math.min(H-1,Math.round(y)));
-  var pi=(yi*W+xi)*4;
-  var sr=S.origData[pi],sg=S.origData[pi+1],sb=S.origData[pi+2];
-  var tol=60, od=S.origData, md=S.maskData;
-  for(var i=0,n=W*H;i<n;i++){
-    var p=i*4, dr=od[p]-sr, dg=od[p+1]-sg, db=od[p+2]-sb;
-    var d=Math.sqrt(dr*dr+dg*dg+db*db);
-    if(d<tol){ var v=md[i]-((1-d/tol)*255); md[i]=v<0?0:v; }
+  var start=yi*W+xi;
+  if(md[start]<10) return; // clicked on already-transparent pixel
+
+  var pi=start*4;
+  var sr=od[pi],sg=od[pi+1],sb=od[pi+2];
+  var tol=45;
+
+  // BFS flood fill — efficient with head pointer (no O(n²) shift)
+  var visited=new Uint8Array(W*H);
+  var queue=new Int32Array(W*H);
+  var qHead=0,qTail=0;
+  queue[qTail++]=start; visited[start]=1;
+  var erased=[];
+
+  while(qHead<qTail){
+    var curr=queue[qHead++];
+    var cy=Math.floor(curr/W), cx=curr%W;
+    var cp=curr*4;
+    var dr=od[cp]-sr, dg=od[cp+1]-sg, db=od[cp+2]-sb;
+    var dist=Math.sqrt(dr*dr+dg*dg+db*db);
+    if(dist>tol||md[curr]<10) continue;
+
+    // smooth fade at tolerance boundary — no hard edge
+    var strength=1-(dist/tol);
+    erased.push(curr);
+    var v=md[curr]-Math.round(strength*255);
+    md[curr]=v<0?0:v;
+
+    // 4-connected neighbors
+    if(cx>0   &&!visited[curr-1]){ visited[curr-1]=1; queue[qTail++]=curr-1; }
+    if(cx<W-1 &&!visited[curr+1]){ visited[curr+1]=1; queue[qTail++]=curr+1; }
+    if(cy>0   &&!visited[curr-W]){ visited[curr-W]=1; queue[qTail++]=curr-W; }
+    if(cy<H-1 &&!visited[curr+W]){ visited[curr+W]=1; queue[qTail++]=curr+W; }
   }
+
+  // 1-pass edge anti-alias on the boundary of erased region
+  var tmp=new Uint8ClampedArray(md);
+  for(var i=0;i<erased.length;i++){
+    var idx=erased[i];
+    var cy2=Math.floor(idx/W), cx2=idx%W;
+    if(cx2<1||cx2>W-2||cy2<1||cy2>H-2) continue;
+    // only smooth transition pixels (not fully erased)
+    if(md[idx]>0&&md[idx]<240){
+      tmp[idx]=Math.round(
+        (md[idx]*4+md[idx-1]+md[idx+1]+md[idx-W]+md[idx+W])/8
+      );
+    }
+  }
+  S.maskData=tmp;
 }
 
 /* ---------- REFINE ---------- */
+/* Each click removes a thin layer of fringe that matches background color.
+   Very gentle — press multiple times to accumulate. */
 function autoRefine(){
   if(!S.maskData||!S.origData) return;
   pushUndo();
-  alphaMatteRefine();
+  var W=S.imgW,H=S.imgH,md=S.maskData,od=S.origData;
+  var tmp=new Uint8ClampedArray(md);
+  var R=2; // only look 2px away from background — tight edge only
+
+  for(var y=R;y<H-R;y++){
+    for(var x=R;x<W-R;x++){
+      var idx=y*W+x, a=md[idx];
+      if(a===0) continue;
+
+      // collect background color from nearby transparent pixels
+      var bgR=0,bgG=0,bgB=0,bgN=0;
+      for(var dy=-R;dy<=R;dy++){
+        for(var dx=-R;dx<=R;dx++){
+          var ni=(y+dy)*W+(x+dx);
+          if(md[ni]<15){
+            bgR+=od[ni*4]; bgG+=od[ni*4+1]; bgB+=od[ni*4+2]; bgN++;
+          }
+        }
+      }
+      if(bgN<2) continue; // must be right at the edge
+      bgR/=bgN; bgG/=bgN; bgB/=bgN;
+
+      var p=idx*4;
+      var dr=od[p]-bgR, dg=od[p+1]-bgG, db=od[p+2]-bgB;
+      var dist=Math.sqrt(dr*dr+dg*dg+db*db);
+
+      // tol=30: only very close matches — no false positives on real subject
+      var tol=30;
+      if(dist<tol){
+        var similarity=1-(dist/tol);        // 1=identical to bg, 0=just at threshold
+        var reduction=similarity*0.25;      // max 25% alpha removed per click — very gentle
+        var newA=Math.round(a*(1-reduction));
+        tmp[idx]=Math.min(a,newA);
+      }
+    }
+  }
+  S.maskData=tmp;
   requestRender();
 }
 function featherMask(r){
