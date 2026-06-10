@@ -214,9 +214,14 @@ function paintAt(x,y){
       if(isSoft){
         var tt=d/r; a=Math.max(0,1-tt*tt*(3-2*tt))*(0.35+S.brushHardness*0.65);
       } else {
-        // hard brush: 1-pixel anti-aliased edge to eliminate jaggies
-        var edge=r-d;
-        a=edge>=1?1:Math.max(0,edge);
+        // hardness controls edge sharpness: 100%=sharp, lower=softer gradient
+        var softStart=r*S.brushHardness;
+        if(d<=softStart){
+          a=1;
+        } else {
+          var tt2=(d-softStart)/Math.max(0.001,r-softStart);
+          a=Math.max(0,1-tt2*tt2*(3-2*tt2));
+        }
       }
       var str=a*S.brushOpacity*255,idx=rb+px;
       if(isErase){ var v=md[idx]-str; md[idx]=v<0?0:v; }
@@ -226,7 +231,7 @@ function paintAt(x,y){
 }
 function interpolate(x1,y1,x2,y2){
   var d=Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-  var step=Math.max(0.5,S.brushSize*0.12);
+  var step=Math.max(0.3,S.brushSize*0.06);
   var steps=Math.max(1,Math.ceil(d/step));
   for(var i=0;i<=steps;i++){ var t=i/steps; paintAt(x1+(x2-x1)*t,y1+(y2-y1)*t); }
 }
@@ -295,7 +300,6 @@ function autoRefine(){
   if(!S.maskData||!S.origData) return;
   pushUndo();
   alphaMatteRefine();
-  featherMask(1);
   requestRender();
 }
 function featherMask(r){
