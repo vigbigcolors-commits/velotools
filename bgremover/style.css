@@ -134,7 +134,8 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--ac3) 0%,var(--ro
 .ttb-restore.act{color:var(--restore);border-color:rgba(94,232,184,.5);background:linear-gradient(135deg,rgba(94,232,184,.2),rgba(94,232,184,.1));box-shadow:0 0 16px rgba(94,232,184,.3)}
 .ttb-smart:hover{color:var(--smart)}
 .ttb-smart.act{color:var(--smart);border-color:rgba(200,122,255,.5)}
-.ttb-view:hover{color:var(--view)}
+.ttb-new:hover{color:var(--rose)}
+.ttb-new.act{color:var(--rose)}
 .ttb-view.act{color:var(--view);border-color:rgba(128,200,255,.5);background:linear-gradient(135deg,rgba(128,200,255,.2),rgba(128,200,255,.1));box-shadow:0 0 16px rgba(128,200,255,.3)}
 
 /* Zoom controls */

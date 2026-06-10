@@ -210,8 +210,14 @@ function paintAt(x,y){
     for(var px=x0;px<=x1;px++){
       var d2=(px-x)*(px-x)+dyy;
       if(d2>rr) continue;
-      var d=Math.sqrt(d2),a=1;
-      if(isSoft){ var tt=d/r; a=Math.max(0,1-tt*tt*(3-2*tt))*(0.35+S.brushHardness*0.65); }
+      var d=Math.sqrt(d2),a;
+      if(isSoft){
+        var tt=d/r; a=Math.max(0,1-tt*tt*(3-2*tt))*(0.35+S.brushHardness*0.65);
+      } else {
+        // hard brush: 1-pixel anti-aliased edge to eliminate jaggies
+        var edge=r-d;
+        a=edge>=1?1:Math.max(0,edge);
+      }
       var str=a*S.brushOpacity*255,idx=rb+px;
       if(isErase){ var v=md[idx]-str; md[idx]=v<0?0:v; }
       else{ var w=md[idx]+str; md[idx]=w>255?255:w; }
@@ -366,8 +372,9 @@ function alphaMatteRefine(){
       var t=((pr-gr)*vx+(pg-gg)*vy+(pb-gb)*vz)/len2;
       t=t<0?0:t>1?1:t;
       var est=Math.round(t*255);
-      // blend estimate with the model's alpha (trust model 50%) — conservative
-      md[idx]=Math.round(a*0.5 + est*0.5);
+      // Refine only REMOVES fringe — never increases alpha (never adds background back)
+      var newA=Math.min(a, Math.round(a*0.6 + est*0.4));
+      md[idx]=newA;
     }
   }
   S.maskData=md;
