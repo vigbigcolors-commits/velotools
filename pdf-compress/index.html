@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free PDF Compressor Online — Reduce PDF Size Without Losing Quality | VeloTools</title>
+<meta name="description" content="Compress PDF files online for free. Reduce PDF size by up to 90% directly in your browser — no upload to servers, no registration, no watermarks. Batch compression supported.">
+<meta name="keywords" content="compress pdf online free,reduce pdf size,pdf compressor no upload,pdf file size reducer,compress pdf without losing quality,batch pdf compressor,pdf size reducer 2026,free pdf compressor browser">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://velotools.app/pdf-compressor/">
+<meta property="og:title" content="Free PDF Compressor — Reduce PDF Size in Browser, No Upload">
+<meta property="og:description" content="Compress PDFs up to 90% smaller. No server upload, completely private. Batch processing, 4 quality presets, grayscale mode.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools PDF Compressor","description":"Free browser-based PDF compressor. Reduce file size without uploading. Supports batch processing, multiple quality levels, grayscale mode.","url":"https://velotools.app/pdf-compressor/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["PDF compression up to 90%","No server upload","Batch processing","4 quality presets","Grayscale mode","Metadata removal","Free forever"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this PDF compressor upload my files to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All compression happens entirely in your browser using JavaScript. Your PDF files never leave your device."}},{"@type":"Question","name":"How much can I compress a PDF?","acceptedAnswer":{"@type":"Answer","text":"Typically 40–90% for image-heavy PDFs. Text-only PDFs compress less. Use the Screen preset for maximum compression."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"The practical limit depends on your device memory. Most PDFs up to 100MB compress without issues."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hdr">
+  <a class="logo" href="/">
+    <div class="logo-ico"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="logo-nm">velotools</span>
+  </a>
+  <div class="hdr-r">
+    <div class="hdr-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>No upload · 100% private</div>
+    <a class="back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>All tools</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="hero-dot"></span>Free forever &middot; No signup &middot; No upload</div>
+    <h1>Compress any <em>PDF file</em><br>up to 90% smaller</h1>
+    <p class="hero-sub">Reduce PDF size directly in your browser — no servers, no registration, no watermarks. Batch compress up to 20 files at once.</p>
+    <div class="hero-badges">
+      <span class="hbadge">&#128274; 100% Private</span>
+      <span class="hbadge">&#9889; Instant</span>
+      <span class="hbadge">&#128196; Batch &times;20</span>
+      <span class="hbadge">&#127775; Up to 90% smaller</span>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="hv-card hv-before">
+      <div class="hv-label">Before</div>
+      <svg class="hv-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <div class="hv-size">12.4 MB</div>
+    </div>
+    <div class="hv-arrow">
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <span>-82%</span>
+    </div>
+    <div class="hv-card hv-after">
+      <div class="hv-label">After</div>
+      <svg class="hv-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <div class="hv-size hv-size-small">2.2 MB</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MAIN TOOL ===== -->
+<main class="main">
+<div class="tool-wrap">
+
+  <!-- Settings panel -->
+  <aside class="settings-panel" id="settings-panel">
+    <div class="sp-head">Compression Settings</div>
+
+    <div class="sp-section">
+      <div class="sp-label">Preset</div>
+      <div class="presets-grid" id="presets-grid">
+        <button class="preset-btn" data-preset="screen" title="Smallest file. Best for screen viewing.">
+          <div class="pb-icon">&#128190;</div>
+          <div class="pb-name">Screen</div>
+          <div class="pb-desc">72 dpi · JPEG 40%</div>
+          <div class="pb-save">~85% smaller</div>
+        </button>
+        <button class="preset-btn act" data-preset="web" title="Good balance of size and quality.">
+          <div class="pb-icon">&#127760;</div>
+          <div class="pb-name">Web</div>
+          <div class="pb-desc">96 dpi · JPEG 65%</div>
+          <div class="pb-save">~70% smaller</div>
+        </button>
+        <button class="preset-btn" data-preset="print" title="Suitable for printing.">
+          <div class="pb-icon">&#128438;</div>
+          <div class="pb-name">Print</div>
+          <div class="pb-desc">150 dpi · JPEG 80%</div>
+          <div class="pb-save">~50% smaller</div>
+        </button>
+        <button class="preset-btn" data-preset="archive" title="Maximum quality, minimal compression.">
+          <div class="pb-icon">&#128736;</div>
+          <div class="pb-name">Archive</div>
+          <div class="pb-desc">200 dpi · JPEG 90%</div>
+          <div class="pb-save">~30% smaller</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label-row">
+        <span class="sp-label">Image quality</span>
+        <span class="sp-val" id="quality-val">65%</span>
+      </div>
+      <input type="range" class="sp-slider" id="sl-quality" min="10" max="95" value="65">
+      <div class="sp-slider-labels"><span>Smallest</span><span>Balanced</span><span>Sharpest</span></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label-row">
+        <span class="sp-label">Resolution (DPI)</span>
+        <span class="sp-val" id="dpi-val">96</span>
+      </div>
+      <div class="dpi-btns" id="dpi-btns">
+        <button class="dpi-btn" data-dpi="72">72</button>
+        <button class="dpi-btn act" data-dpi="96">96</button>
+        <button class="dpi-btn" data-dpi="150">150</button>
+        <button class="dpi-btn" data-dpi="200">200</button>
+        <button class="dpi-btn" data-dpi="300">300</button>
+      </div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label">Options</div>
+      <label class="opt-toggle">
+        <input type="checkbox" id="opt-grayscale" onchange="settingChanged()">
+        <span class="ot-track"><span class="ot-thumb"></span></span>
+        <div class="ot-text">
+          <span class="ot-name">Grayscale mode</span>
+          <span class="ot-hint">Removes colour data · extra 10–20% saving</span>
+        </div>
+      </label>
+      <label class="opt-toggle">
+        <input type="checkbox" id="opt-metadata" checked onchange="settingChanged()">
+        <span class="ot-track"><span class="ot-thumb"></span></span>
+        <div class="ot-text">
+          <span class="ot-name">Strip metadata</span>
+          <span class="ot-hint">Removes author, title, creation date</span>
+        </div>
+      </label>
+      <label class="opt-toggle">
+        <input type="checkbox" id="opt-annotations" onchange="settingChanged()">
+        <span class="ot-track"><span class="ot-thumb"></span></span>
+        <div class="ot-text">
+          <span class="ot-name">Remove annotations</span>
+          <span class="ot-hint">Strips comments and form fields</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="sp-section sp-section-info">
+      <div class="sp-info-icon">&#128161;</div>
+      <p>Best results on image-heavy PDFs (scans, photos, presentations). Text-only PDFs compress less.</p>
+    </div>
+  </aside>
+
+  <!-- Main area -->
+  <div class="main-area">
+
+    <!-- Upload zone -->
+    <div class="upload-zone" id="upload-zone" role="button" tabindex="0" aria-label="Upload PDF files">
+      <input type="file" id="file-input" accept=".pdf,application/pdf" multiple>
+      <div class="uz-content">
+        <div class="uz-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6M9 15l3-3 3 3"/></svg>
+        </div>
+        <div class="uz-text">
+          <p class="uz-h">Drop your PDF files here</p>
+          <p class="uz-p">or <strong>click to browse</strong> &middot; Up to 20 files at once</p>
+        </div>
+        <div class="uz-formats"><span class="fmt">PDF</span><span class="fmt-note">Max ~100MB per file</span></div>
+      </div>
+    </div>
+
+    <!-- File list -->
+    <div id="file-list" class="file-list" style="display:none"></div>
+
+    <!-- Batch actions -->
+    <div id="batch-bar" class="batch-bar" style="display:none">
+      <div class="bb-summary" id="bb-summary"></div>
+      <div class="bb-actions">
+        <button class="bb-compress" id="btn-compress-all" onclick="compressAll()">
+          <svg viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="21" y2="3"/><line x1="3" y1="21" x2="14" y2="10"/></svg>
+          Compress All
+        </button>
+        <button class="bb-download" id="btn-download-all" onclick="downloadAll()" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download All (ZIP)
+        </button>
+        <button class="bb-clear" onclick="clearAll()">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+          Clear
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+</div><!-- /tool-wrap -->
+</main>
+
+<!-- ===== SEO ===== -->
+<section class="seo">
+
+  <div class="seo-divider">
+    <div class="sdl"></div>
+    <div class="sdi"><svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.5"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="9" x2="12" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></div>
+    <div class="sdl"></div>
+  </div>
+
+  <!-- Block 1 -->
+  <div class="seo-block">
+    <span class="seo-eyebrow">Free PDF Compressor</span>
+    <h2>Reduce PDF file size without <em>losing quality</em></h2>
+    <p class="seo-lead">Our browser-based PDF compressor uses advanced image re-encoding to dramatically shrink file sizes — without uploading a single byte to any server. Works on any PDF: scanned documents, presentations, reports, portfolios.</p>
+    <div class="seo-stats">
+      <div class="ss"><div class="ss-n">90%</div><div class="ss-l">Max compression</div><div class="ss-s">Screen preset</div></div>
+      <div class="ss"><div class="ss-n">20</div><div class="ss-l">Files at once</div><div class="ss-s">Batch mode</div></div>
+      <div class="ss"><div class="ss-n">0</div><div class="ss-l">Server uploads</div><div class="ss-s">100% private</div></div>
+      <div class="ss"><div class="ss-n">&#8734;</div><div class="ss-l">Free files</div><div class="ss-s">No limits</div></div>
+    </div>
+    <div class="seo-cards">
+      <div class="sc"><div class="sc-icon">&#128274;</div><h3>100% Private</h3><p>Your PDFs never leave your device. Compression runs entirely in your browser using JavaScript. Ideal for sensitive documents, contracts, and financial reports.</p></div>
+      <div class="sc"><div class="sc-icon">&#9889;</div><h3>Instant Results</h3><p>No queue, no waiting for a server. Compression starts immediately and runs on your CPU. A 10-page PDF typically compresses in under 5 seconds.</p></div>
+      <div class="sc"><div class="sc-icon">&#128196;</div><h3>Batch Processing</h3><p>Drop up to 20 PDFs at once. Each file compresses independently with a real-time progress bar. Download individually or grab everything as a single ZIP.</p></div>
+      <div class="sc"><div class="sc-icon">&#127775;</div><h3>4 Quality Presets</h3><p>Screen (smallest), Web (balanced), Print (sharp), Archive (quality). Or dial in the exact JPEG quality and DPI you need with manual controls.</p></div>
+    </div>
+  </div>
+
+  <!-- Block 2 -->
+  <div class="seo-block">
+    <span class="seo-eyebrow">When to use each preset</span>
+    <h2>The right compression level for <em>every use case</em></h2>
+    <p class="seo-lead">Different situations call for different compression strategies. Choosing the wrong preset wastes space or degrades your document unnecessarily.</p>
+    <div class="seo-presets-explain">
+      <div class="spe">
+        <div class="spe-header">
+          <div class="spe-icon">&#128190;</div>
+          <div>
+            <div class="spe-name">Screen</div>
+            <div class="spe-specs">72 DPI · JPEG 40% · ~85% smaller</div>
+          </div>
+          <div class="spe-badge spe-badge-max">Maximum compression</div>
+        </div>
+        <p>Optimised for reading on screens only. Perfect for PDFs shared via email, Slack, WhatsApp, or uploaded to web portals where file size limits apply. Not suitable for printing.</p>
+        <div class="spe-usecases">
+          <span>Email attachments</span><span>Website uploads</span><span>Messaging apps</span><span>Cloud storage</span>
+        </div>
+      </div>
+      <div class="spe">
+        <div class="spe-header">
+          <div class="spe-icon">&#127760;</div>
+          <div>
+            <div class="spe-name">Web</div>
+            <div class="spe-specs">96 DPI · JPEG 65% · ~70% smaller</div>
+          </div>
+          <div class="spe-badge spe-badge-balanced">Balanced</div>
+        </div>
+        <p>The best all-round choice for most documents. Excellent screen quality with significant size reduction. Works well for presentations, reports, brochures, and client proposals.</p>
+        <div class="spe-usecases">
+          <span>Client proposals</span><span>Presentations</span><span>Reports</span><span>Portfolios</span>
+        </div>
+      </div>
+      <div class="spe">
+        <div class="spe-header">
+          <div class="spe-icon">&#128438;</div>
+          <div>
+            <div class="spe-name">Print</div>
+            <div class="spe-specs">150 DPI · JPEG 80% · ~50% smaller</div>
+          </div>
+          <div class="spe-badge spe-badge-print">Print-ready</div>
+        </div>
+        <p>Good balance for documents that will be both viewed digitally and printed on a home or office printer. Text remains sharp, photos look good at A4/Letter size.</p>
+        <div class="spe-usecases">
+          <span>Office printing</span><span>Flyers</span><span>Brochures</span><span>Contracts</span>
+        </div>
+      </div>
+      <div class="spe">
+        <div class="spe-header">
+          <div class="spe-icon">&#128736;</div>
+          <div>
+            <div class="spe-name">Archive</div>
+            <div class="spe-specs">200 DPI · JPEG 90% · ~30% smaller</div>
+          </div>
+          <div class="spe-badge spe-badge-quality">High quality</div>
+        </div>
+        <p>Minimal quality loss, conservative compression. Use when you need to keep a high-fidelity copy for long-term storage or professional printing, but still want some size reduction.</p>
+        <div class="spe-usecases">
+          <span>Legal documents</span><span>Photography</span><span>Professional print</span><span>Archiving</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 3 -->
+  <div class="seo-block">
+    <span class="seo-eyebrow">How it works</span>
+    <h2>How our browser PDF compressor <em>works</em></h2>
+    <p class="seo-lead">Unlike most online tools, we don't send your files to a server. Here's exactly what happens inside your browser when you compress a PDF.</p>
+    <div class="seo-steps">
+      <div class="seo-step"><div class="ss-num">01</div><div class="ss-body"><h4>PDF is loaded into browser memory</h4><p>The PDF file is read using the FileReader API — entirely locally. The raw bytes never touch a network connection. The PDF.js engine parses the document structure, detecting all pages, fonts, and images.</p></div></div>
+      <div class="seo-step"><div class="ss-num">02</div><div class="ss-body"><h4>Each page is rendered to a canvas</h4><p>Every page is drawn onto an HTML Canvas element at your chosen DPI. Lower DPI means a smaller canvas, which directly reduces the output file size. This is the main lever for compression.</p></div></div>
+      <div class="seo-step"><div class="ss-num">03</div><div class="ss-body"><h4>Canvas is encoded as JPEG</h4><p>The rendered canvas is converted to a JPEG image at your chosen quality percentage (10–95%). JPEG compression is lossy but extremely efficient — this is where most of the size reduction comes from.</p></div></div>
+      <div class="seo-step"><div class="ss-num">04</div><div class="ss-body"><h4>New PDF is assembled with pdf-lib</h4><p>All compressed page images are assembled into a new, clean PDF using the pdf-lib library. Metadata, annotations, and embedded fonts from the original are removed or retained based on your settings.</p></div></div>
+    </div>
+  </div>
+
+  <!-- Block 4 -->
+  <div class="seo-block">
+    <span class="seo-eyebrow">Tips</span>
+    <h2>Get the most out of <em>PDF compression</em></h2>
+    <div class="seo-tips-grid">
+      <div class="stg"><div class="stg-icon">&#128247;</div><h3>Scanned documents compress best</h3><p>Scanned PDFs are essentially images inside a PDF wrapper — they compress 70–90% with the Screen or Web preset. This is the primary use case for PDF compression.</p></div>
+      <div class="stg"><div class="stg-icon">&#128203;</div><h3>Use grayscale for black & white docs</h3><p>If your document doesn't need colour (contracts, letters, reports), enable Grayscale mode. It removes all colour data and adds an extra 10–20% compression on top of the JPEG reduction.</p></div>
+      <div class="stg"><div class="stg-icon">&#128190;</div><h3>Text PDFs compress less</h3><p>Native text-based PDFs (created in Word, InDesign, etc.) don't have large image data to compress. You'll still see some reduction from metadata removal, but expect 10–30% rather than 80%+.</p></div>
+      <div class="stg"><div class="stg-icon">&#128268;</div><h3>ZIP download for multiple files</h3><p>When compressing a batch of files, use "Download All (ZIP)" — it packages all compressed PDFs into a single archive. No need to download and rename each file manually.</p></div>
+    </div>
+  </div>
+
+  <!-- Block 5: FAQ -->
+  <div class="seo-block">
+    <span class="seo-eyebrow">FAQ</span>
+    <h2>Frequently asked questions about <em>PDF compression</em></h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Does this PDF compressor upload my files to a server?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Absolutely not. Every step of the compression process happens in your browser using JavaScript. Your PDF file never leaves your device and is never sent to any server, anywhere. You can verify this by turning off your internet connection after the page loads — compression still works perfectly.</div></details>
+      <details class="faq-item"><summary>How much can I reduce a PDF file size?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It depends on the content. Image-heavy PDFs (scanned documents, photo books, presentations with photos) typically compress 50–90%. The Screen preset with a scanned document often achieves 85% or more. Text-only PDFs compress 10–25% mainly from metadata removal.</div></details>
+      <details class="faq-item"><summary>Will compression reduce the quality of my PDF?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes — PDF compression involves a quality trade-off. The Web preset (65% JPEG quality, 96 DPI) is barely noticeable on screen. The Screen preset (40% JPEG, 72 DPI) shows some quality reduction at close zoom. Use the Archive preset if quality preservation is critical.</div></details>
+      <details class="faq-item"><summary>Is there a file size limit?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">There's no hard limit — the only constraint is your device's available memory. Most PDFs up to 100MB process without issues. Very large files (200MB+) may be slow or cause memory warnings on older devices.</div></details>
+      <details class="faq-item"><summary>Can I compress multiple PDF files at once?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Drag and drop up to 20 PDF files at once, or select multiple files in the file picker. Each file shows its own progress bar and compression result. Download them individually or all together as a ZIP archive.</div></details>
+      <details class="faq-item"><summary>What does "Strip metadata" do?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">PDFs contain hidden metadata: author name, creation date, modification date, application used to create the file, and sometimes GPS coordinates. Stripping metadata removes this personal information and slightly reduces file size.</div></details>
+      <details class="faq-item"><summary>Why does my text PDF barely compress?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Our compressor works by re-rendering pages as JPEG images. This is extremely effective for image-heavy PDFs but less so for text-only PDFs, because clean text renders as efficient vector data rather than image data. For text PDFs, the main savings come from metadata removal.</div></details>
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
+  <div class="fbs"><span class="fb">No upload</span><span class="fb">No signup</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
