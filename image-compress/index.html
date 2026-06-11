@@ -1,35 +1,253 @@
 <!DOCTYPE html>
+<!--
+  © 2024–2026 VeloTools · velotools.app/image-compress/
+  All Rights Reserved. Unauthorized reproduction prohibited.
+  Fingerprint: VT-IMGCOMP-v3.1
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Free Image Compressor — Compress & Convert 15 Images at Once | JPG PNG WebP AVIF</title>
-<meta name="keywords" content="image compressor, bulk image compressor, compress multiple images, batch image compressor, free image compressor, compress jpg, png to webp, jpg to webp, avif converter, resize image online, crop image, compress images online free, no upload image compressor, private image compressor">
-<meta name="description" content="Free online image compressor — compress up to 15 images at once, instantly. No waiting, no queue, no sign-up. Convert JPG, PNG, WebP, AVIF. Resize, crop, rotate, blur. Up to 90% smaller. 100% private — files never leave your browser.">
-<meta name="keywords" content="image compressor online free,compress image,jpg to webp,png to webp,image converter,resize image online,free image editor">
-<meta property="og:title" content="Free Image Compressor & Converter — VeloTools">
-<meta property="og:description" content="Compress JPG, PNG, WebP online for free. No sign-up, no limits, 100% private.">
-<meta property="og:url" content="https://velotools.app/image-compress/">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="robots" content="index,follow">
+
+<!-- ═══ TITLE: primary keyword first, ≤65 chars ═══ -->
+<title>Free Image Compressor — No Upload, Instant &amp; Private | VeloTools</title>
+
+<!-- ═══ DESCRIPTION: 140–155 chars, action-oriented ═══ -->
+<meta name="description" content="Compress JPG, PNG, WebP and AVIF online for free — up to 90% smaller, instantly. Batch compress 15 images at once. No upload, no sign-up, 100% private. Runs entirely in your browser.">
+
+<!-- ═══ NO KEYWORDS — Google ignores them; duplicate hurts ═══ -->
+<!-- Keywords meta intentionally omitted (Google 2009+ ignores them) -->
+
+<!-- ═══ CANONICAL + CRAWL ═══ -->
 <link rel="canonical" href="https://velotools.app/image-compress/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="sitemap" type="application/xml" href="https://velotools.app/sitemap.xml">
+
+<!-- ═══ OPEN GRAPH — social sharing (all fields) ═══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://velotools.app/image-compress/">
+<meta property="og:site_name" content="VeloTools">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Free Image Compressor — No Upload, Instant &amp; Private | VeloTools">
+<meta property="og:description" content="Compress JPG, PNG, WebP and AVIF up to 90% smaller. Batch compress 15 images. No upload, no sign-up — files never leave your browser. Free forever.">
+<meta property="og:image" content="https://velotools.app/og/image-compress.png">
+<meta property="og:image:secure_url" content="https://velotools.app/og/image-compress.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VeloTools Image Compressor — Free, Private, Instant">
+
+<!-- ═══ TWITTER / X CARD ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@velotools">
+<meta name="twitter:title" content="Free Image Compressor — No Upload | VeloTools">
+<meta name="twitter:description" content="Compress JPG, PNG, WebP, AVIF up to 90% smaller. Batch mode. 100% private — files never leave your browser. Free forever.">
+<meta name="twitter:image" content="https://velotools.app/og/image-compress.png">
+<meta name="twitter:image:alt" content="VeloTools Free Image Compressor">
+
+<!-- ═══ COPYRIGHT + TECHNICAL ═══ -->
+<meta name="author" content="VeloTools">
+<meta name="copyright" content="© 2024–2026 VeloTools. All Rights Reserved.">
+<meta name="dcterms.rights" content="Copyright © 2024–2026 VeloTools. All Rights Reserved.">
+<meta name="theme-color" content="#141f1c">
+<meta name="msapplication-TileColor" content="#141f1c">
+<meta name="application-name" content="VeloTools Image Compressor">
+
+<!-- ═══ SCHEMA 1: WebApplication — rich snippet with stars ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "VeloTools Image Compressor",
+  "alternateName": "Free Image Compressor Online",
+  "url": "https://velotools.app/image-compress/",
+  "description": "Free browser-based image compressor and converter. Compress JPG, PNG, WebP, AVIF up to 90% smaller without uploading files. Batch process 15 images. No sign-up required.",
+  "applicationCategory": "MultimediaApplication",
+  "applicationSubCategory": "Image Compression Tool",
+  "operatingSystem": "Any modern browser (Chrome, Firefox, Safari, Edge)",
+  "browserRequirements": "Requires JavaScript enabled",
+  "permissions": "No file upload required — all processing is local",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "VeloTools",
+    "url": "https://velotools.app"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "1287",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "featureList": [
+    "Compress up to 15 images simultaneously in batch mode",
+    "Instant processing — no upload, no queue, no waiting",
+    "Convert between JPG, PNG, WebP, AVIF, and GIF",
+    "Adjustable compression quality per format",
+    "Resize to exact pixel dimensions with aspect ratio lock",
+    "Crop with rule-of-thirds guide",
+    "Rotate 90/180/270 and flip horizontal/vertical",
+    "8 visual effect presets plus manual brightness/contrast/saturation",
+    "Gaussian blur, pixelate, and sharpen filters",
+    "Before/after comparison slider",
+    "Live preview on every change",
+    "ZIP download for batch results",
+    "100% private — files never leave your device",
+    "Works offline once loaded"
+  ]
+}
+</script>
+
+<!-- ═══ SCHEMA 2: BreadcrumbList — navigation trail ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "VeloTools",
+      "item": "https://velotools.app"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Image Compressor",
+      "item": "https://velotools.app/image-compress/"
+    }
+  ]
+}
+</script>
+
+<!-- ═══ SCHEMA 3: HowTo — step-by-step (featured snippet) ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to compress an image online for free without uploading",
+  "description": "Compress JPG, PNG, WebP or AVIF images instantly in your browser — no upload, no sign-up.",
+  "totalTime": "PT1M",
+  "tool": {
+    "@type": "HowToTool",
+    "name": "VeloTools Image Compressor",
+    "url": "https://velotools.app/image-compress/"
+  },
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Upload your image",
+      "text": "Drag and drop or click to choose your image. Supports JPG, PNG, WebP, AVIF, and GIF. No file size limit.",
+      "url": "https://velotools.app/image-compress/#step-upload"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Adjust compression settings",
+      "text": "Set quality (80% recommended for photos), choose output format (WebP saves 30% more than JPEG), and optionally resize or apply effects. Live preview shows changes instantly.",
+      "url": "https://velotools.app/image-compress/#step-settings"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Process the image",
+      "text": "Click Compress. The result appears below in under a second with a before/after comparison and the exact file size savings.",
+      "url": "https://velotools.app/image-compress/#step-process"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Download your compressed image",
+      "text": "Rename the file if needed and click Download. The compressed file is saved directly to your device.",
+      "url": "https://velotools.app/image-compress/#step-download"
+    }
+  ]
+}
+</script>
+
+<!-- ═══ SCHEMA 4: FAQPage — People Also Ask ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does PNG compression show 0% savings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PNG uses lossless compression — the quality slider has no effect. To reduce PNG file size, convert to WebP (25–35% smaller, full transparency preserved) or AVIF (up to 50% smaller)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my images uploaded to a server when using this compressor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All processing happens locally in your browser via the Canvas API. Files never leave your device. The tool even works offline once the page is loaded."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I compress images for a website to improve page speed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Convert to WebP at 80% quality and resize to exact display dimensions. This typically reduces file sizes 70–85% and directly improves Google PageSpeed and Core Web Vitals scores. Use Batch mode for multiple images."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the maximum image file size I can compress?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no file size limit — only your device memory is the constraint. For files above 100MB, Chrome or Edge performs best. Batch mode handles up to 15 images simultaneously."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does converting PNG to WebP lose transparency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WebP and AVIF both fully support alpha transparency. PNG transparency is preserved exactly when converting to WebP or AVIF. Converting to JPEG replaces transparency with white, as JPEG does not support transparency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compress multiple images at once for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Switch to Batch mode and drop up to 15 images at once. All images compress in parallel and you can download them together as a ZIP archive. Batch compression is completely free with no account or daily limit required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to compress private or sensitive images?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — this is among the safest options available. Files never leave your computer and are never sent to any server. Screenshots, scanned IDs, contracts, and confidential client images stay completely private. The tool works even when disconnected from the internet."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- ═══ PRELOAD + FONTS ═══ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/main.css">
 
-
 <!-- JSZip for batch ZIP download -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Image Compressor & Converter","applicationCategory":"MultimediaApplication","applicationSubCategory":"Image Editor","url":"https://velotools.app/image-compress/","description":"Free online image compressor and converter. Compress up to 15 images at once instantly. Convert JPG, PNG, WebP, AVIF. Resize, crop, rotate, blur, effects. 100% private — runs in your browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"operatingSystem":"Any modern browser (Chrome, Firefox, Safari, Edge)","browserRequirements":"Requires JavaScript. Works on desktop and mobile.","permissions":"No file upload — all processing is local","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"1287","bestRating":"5"},"featureList":["Compress up to 15 images simultaneously","Instant processing — no upload, no queue, no waiting","Convert between JPG, PNG, WebP, AVIF, GIF","Adjustable compression quality per format","Resize to exact pixel dimensions","Crop with rule-of-thirds guide","Rotate 90/180/270 and flip","8 effect presets plus manual adjustments","Gaussian blur, pixelate, sharpen","Magnifier zoom for pixel-precision","Before/After comparison slider","Live preview on every change","ZIP download for batch results","Rename files before download","100% private — files never leave your device"]}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"HowTo","name":"How to compress an image online for free","step":[{"@type":"HowToStep","position":1,"name":"Upload","text":"Drag and drop or click to choose. JPG, PNG, WebP, AVIF, GIF. No file size limit."},{"@type":"HowToStep","position":2,"name":"Choose settings","text":"Adjust quality (80% recommended), select output format, resize or apply effects. Live preview shows changes instantly."},{"@type":"HowToStep","position":3,"name":"Process","text":"Click process. Result appears below with before/after comparison and file size comparison."},{"@type":"HowToStep","position":4,"name":"Download","text":"Rename the file and download. Continue editing the result if needed."}]}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does PNG compression show 0% savings?","acceptedAnswer":{"@type":"Answer","text":"PNG is lossless — quality settings have no effect. Convert to WebP for 25-35% smaller files with full transparency preserved."}},{"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens in your browser via Canvas API. Files never leave your device."}},{"@type":"Question","name":"What is the maximum file size?","acceptedAnswer":{"@type":"Answer","text":"No file size limit — only your device memory is the constraint."}},{"@type":"Question","name":"Does converting PNG to WebP lose transparency?","acceptedAnswer":{"@type":"Answer","text":"No. WebP supports full alpha transparency. PNG transparency is fully preserved when converting to WebP."}},{"@type":"Question","name":"How many images can I process at once?","acceptedAnswer":{"@type":"Answer","text":"Batch mode processes up to 15 images simultaneously with progress tracking and ZIP download — free, with no account or daily limit."}},{"@type":"Question","name":"Why is it so fast with no upload?","acceptedAnswer":{"@type":"Answer","text":"Nothing is uploaded. The compressor runs as JavaScript in your browser, so images process on your own device instantly — no upload, no queue, no download step."}},{"@type":"Question","name":"Is it safe to compress private or sensitive images?","acceptedAnswer":{"@type":"Answer","text":"Yes. Files never leave your computer and are never sent to any server, so sensitive screenshots, documents, and client images stay fully private. It even works offline once loaded."}}]}
-</script>
 
 
 <style>
@@ -233,8 +451,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-qrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .v-qlbl{font-size:14px;font-weight:600;color:var(--tx)}
 .v-qnum{font-size:28px;font-weight:800;color:var(--ac);min-width:60px;text-align:right;line-height:1}
-.v-slider{width:100%;-webkit-appearance:none;height:6px;border-radius:6px;background:linear-gradient(to right,var(--ac) 80%,var(--br-2) 80%);outline:none;cursor:pointer;margin-bottom:6px}
-.v-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:var(--ac);border-radius:50%;border:3px solid #fff;box-shadow:0 1px 8px rgba(91,108,249,.45);cursor:pointer;transition:transform .15s}
+.v-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;background:linear-gradient(to right,var(--ac) 80%,var(--br-2) 80%);outline:none;cursor:pointer;margin-bottom:6px}
+.v-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;background:var(--ac);border-radius:50%;border:3px solid #fff;box-shadow:0 1px 8px rgba(91,108,249,.45);cursor:pointer;transition:transform .15s}
 .v-slider::-webkit-slider-thumb:hover{transform:scale(1.22)}
 .v-hints{display:flex;justify-content:space-between;font-size:11px;color:var(--tx-3)}
 .v-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
@@ -278,8 +496,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-ebtn.on span,.v-ebtn:hover span{color:var(--ac)}
 .v-adj{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .v-adj label{font-size:12px;color:var(--tx-2);width:90px;flex-shrink:0}
-.v-adj-sl{flex:1;-webkit-appearance:none;height:5px;border-radius:5px;background:var(--br-2);outline:none;cursor:pointer}
-.v-adj-sl::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;background:var(--ac);border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(91,108,249,.35);cursor:pointer}
+.v-adj-sl{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:var(--br-2);outline:none;cursor:pointer}
+.v-adj-sl::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:17px;height:17px;background:var(--ac);border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(91,108,249,.35);cursor:pointer}
 .v-adj-val{font-size:12px;font-weight:700;color:var(--ac);width:36px;text-align:right}
 
 /* Blur */
@@ -406,6 +624,14 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-seo-in h2{font-size:27px;font-weight:800;color:var(--tx);letter-spacing:-.6px;margin-bottom:12px}
 .v-seo-in h3{font-size:18px;font-weight:700;color:var(--tx);margin:26px 0 9px}
 .v-seo-in p{font-size:15px;color:var(--tx-2);line-height:1.85;margin-bottom:12px}
+/* Step-by-step block */
+.vp-steps{display:flex;flex-direction:column;gap:4px;margin-bottom:40px}
+.vp-step{display:flex;gap:0;align-items:stretch}
+.vp-step-n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ac);width:52px;min-width:52px;padding-top:20px;text-align:right;padding-right:16px;letter-spacing:.06em;flex-shrink:0}
+.vp-step-body{flex:1;padding:18px 22px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-left:2px solid transparent;border-radius:0 10px 10px 0;margin-bottom:5px;transition:all .2s}
+.vp-step:hover .vp-step-body{border-left-color:var(--ac);transform:translateX(4px);background:rgba(62,207,142,.05)}
+.vp-step-body h3{font-size:14px;font-weight:700;color:var(--tx);margin:0 0 5px}
+.vp-step-body p{font-size:13px;color:var(--tx-2);line-height:1.72;margin:0}
 .v-steps{display:flex;flex-direction:column;gap:12px;margin:14px 0}
 .v-step{display:flex;gap:12px;align-items:flex-start}
 .v-sn{width:26px;height:26px;min-width:26px;background:var(--ac);border-radius:50%;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
@@ -481,7 +707,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-preview.zoom-on .v-prev-img{cursor:zoom-in}
 /* ── BEFORE/AFTER FIX (clip-path) ─ */
 .v-ba{position:relative;overflow:hidden;cursor:ew-resize;user-select:none;-webkit-user-select:none;line-height:0;display:block}
-.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark);vertical-align:top}
+.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark)}
 .v-ba-top{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;min-width:unset!important;object-fit:contain}
 .v-ba-handle{position:absolute;top:0;bottom:0;transform:translateX(-50%);z-index:10;pointer-events:none;width:0}
 .v-ba-line{position:absolute;top:0;bottom:0;left:0;width:2px;background:#fff;transform:translateX(-50%)}
@@ -588,7 +814,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 
 /* ── BA FIX (clip-path approach) ── */
 .v-ba{position:relative;overflow:hidden;cursor:ew-resize;user-select:none;-webkit-user-select:none;line-height:0;display:block}
-.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark);vertical-align:top}
+.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark)}
 .v-ba-top{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;object-fit:contain}
 .v-ba-handle{position:absolute;top:0;bottom:0;transform:translateX(-50%);z-index:10;pointer-events:none;width:0}
 .v-ba-line{position:absolute;top:0;bottom:0;left:0;width:2px;background:#fff;transform:translateX(-50%)}
@@ -660,12 +886,11 @@ html,body{background:var(--bg-main)}
 
 
 /* NAV — glass */
-.v-nav{background:rgba(9,9,11,.72)!important;-webkit-border-bottom:1px solid var(--br)}
+.v-nav{background:rgba(9,9,11,.72)!important;border-bottom:1px solid var(--br)}
 
 /* TRUST bar — glass */
 .v-trust{background:rgba(255,255,255,.02)!important;border-bottom:1px solid var(--br);border:1px solid var(--br)!important;
   border-radius:var(--radius-lg)!important;
-  -webkit-
   box-shadow:0 24px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.04)!important}
 
 /* MODE TABS */
@@ -773,7 +998,7 @@ html,body{background:var(--bg-main)}
 
 /* Block 2 — Bento */
 .vp-bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px}
-.vp-card{background:var(--bg-panel);border:1px solid var(--br);border-radius:var(--radius-lg);padding:26px 22px;-webkit-transition:transform .2s,border-color .2s,box-shadow .2s}
+.vp-card{background:var(--bg-panel);border:1px solid var(--br);border-radius:var(--radius-lg);padding:26px 22px;-webkit-transition:transform .2s,border-color .2s,box-shadow .2s;transition:transform .2s,border-color .2s,box-shadow .2s}
 .vp-card:hover{transform:translateY(-4px);border-color:var(--border-glow);box-shadow:0 16px 44px rgba(0,0,0,.45)}
 .vp-ico{width:46px;height:46px;border-radius:12px;background:var(--ac-l);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
 .vp-ico svg{width:24px;height:24px;color:var(--ac)}
@@ -999,7 +1224,7 @@ html,body{background:var(--bg-main)}
 
 <div class="v-hero">
   <nav class="v-bc" aria-label="Breadcrumb"><a href="/">VeloTools</a><span>›</span><span>Image Compressor &amp; Converter</span></nav>
-  <h1>Image Compressor &amp; Converter<br><span>Free. Private. Instant.</span></h1>
+  <h1>Free Image Compressor<br><span>No Upload. Instant. Private.</span></h1>
   <p class="v-hero-sub">Compress JPG, PNG, WebP up to 90% smaller. Convert to WebP or AVIF. Resize, rotate, effects, blur, batch processing. Everything runs in your browser — files never leave your device.</p>
   <div class="v-chips">
     <a class="v-chip" href="#compress">JPG to WebP</a>
@@ -1385,7 +1610,7 @@ html,body{background:var(--bg-main)}
     <div class="v-batch-settings">
       <div class="v-batch-set-grp">
         <label for="vb-qsl">Quality — <span id="vb-qnum">80%</span></label>
-        <input type="range" id="vb-qsl" min="10" max="100" value="80" style="width:160px;-webkit-appearance:none;height:5px;border-radius:5px;background:linear-gradient(to right,var(--ac) 80%,var(--br-2) 80%);outline:none;cursor:pointer" aria-label="Batch quality">
+        <input type="range" id="vb-qsl" min="10" max="100" value="80" style="width:160px;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:linear-gradient(to right,var(--ac) 80%,var(--br-2) 80%);outline:none;cursor:pointer" aria-label="Batch quality">
       </div>
       <div class="v-batch-set-grp">
         <label for="vb-fmt">Output format</label>
@@ -1453,43 +1678,43 @@ html,body{background:var(--bg-main)}
   <div class="v-seo-in">
 
     <!-- ░░ BLOCK 1 — HERO HOOK ░░ -->
-    <div class="vp-hook">
+    <div class="vp-hook" id="step-upload">
       <span class="vp-eyebrow">100% in-browser · No uploads · Free forever</span>
-      <h2 class="vp-h1">Flawless image compression.<br><span class="vp-grad">Zero server uploads.</span></h2>
+      <h2 class="vp-h1">Compress images online<br><span class="vp-grad">without uploading a single file.</span></h2>
       <p class="vp-lede">Compress and convert JPG, PNG, WebP, and AVIF up to 90% smaller — without a single byte ever leaving your device. Professional-grade results, instant processing, and complete privacy, all running locally inside your browser.</p>
       <button class="vp-cta" onclick="document.querySelector('.v-tool').scrollIntoView({behavior:'smooth',block:'center'})">Start compressing — it's free</button>
     </div>
 
     <!-- ░░ BLOCK 2 — BENTO FEATURES ░░ -->
-    <h2 class="vp-h2">Pro-grade tools in your browser</h2>
-    <p class="vp-sub">Everything you'd expect from desktop software — conversion, batch processing, precision cropping — with nothing to install and nothing to upload.</p>
+    <h2 class="vp-h2" id="step-settings">Free image tools — compress, convert, resize in one place</h2>
+    <p class="vp-sub">Everything you'd expect from desktop software — format conversion, batch processing, precision cropping — with nothing to install and nothing to upload.</p>
     <div class="vp-bento">
-      <div class="vp-card">
+      <div class="vp-card" id="compress-jpg">
         <div class="vp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h11l-3-3M20 17H9l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Format conversion</h3>
-        <p>Convert freely between JPG, PNG, WebP, AVIF, and GIF. One-click presets for the most popular conversions, with per-format quality control.</p>
+        <h3>Compress JPG &amp; PNG free online</h3>
+        <p>Reduce JPG and PNG file sizes up to 90% with adjustable quality. Choose 80% for the ideal balance — visually identical, dramatically smaller. Per-format quality control included.</p>
       </div>
-      <div class="vp-card">
+      <div class="vp-card" id="batch-compress">
         <div class="vp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></div>
-        <h3>Batch processing</h3>
-        <p>Drop up to 15 images at once and compress them all in parallel. Download the whole set as a single ZIP — a feature that's usually paid elsewhere.</p>
+        <h3>Batch compress 15 images at once — free</h3>
+        <p>Drop up to 15 images at once and compress them all in parallel. Download the whole set as a single ZIP — a feature that's usually paid elsewhere. No daily limit, no account required.</p>
       </div>
-      <div class="vp-card">
+      <div class="vp-card" id="resize-image">
         <div class="vp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Smart cropping</h3>
-        <p>Crop with a rule-of-thirds guide and live pixel readout. Zoom in with a magnifier for precision, then rotate or flip — all pixel-perfect, lossless.</p>
+        <h3>Resize &amp; crop images without quality loss</h3>
+        <p>Resize to exact pixel dimensions with aspect ratio lock. Crop with a rule-of-thirds guide and live pixel readout. Zoom with a magnifier for precision — all pixel-perfect, lossless.</p>
       </div>
-      <div class="vp-card">
+      <div class="vp-card" id="blur-censor">
         <div class="vp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5l8-3z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Total privacy</h3>
-        <p>Your files are processed on your own machine and never sent to any server. Ideal for confidential screenshots, IDs, contracts, and client work.</p>
+        <h3>Blur, censor &amp; apply effects privately</h3>
+        <p>Gaussian blur for backgrounds, pixelate to censor faces and sensitive data. 8 effect presets plus manual brightness, contrast, saturation — processed entirely on your device.</p>
       </div>
     </div>
 
     <!-- ░░ BLOCK 3 — PRIVACY DEEP DIVE ░░ -->
-    <div class="vp-split">
+    <div class="vp-split" id="privacy-section">
       <div class="vp-split-text">
-        <h2 class="vp-h2" style="text-align:left">Your files never leave your device.</h2>
+        <h2 class="vp-h2" style="text-align:left">Your images never leave your device — ever.</h2>
         <p>Most online compressors work by uploading your image to a remote server, processing it there, and sending it back. That means your private photos briefly live on someone else's hardware — and you simply have to trust they're deleted.</p>
         <p>VeloTools takes a fundamentally different approach. The entire engine runs as JavaScript in your browser using the <strong>HTML5 Canvas API</strong>. When you drop an image, it's decoded, re-compressed, and re-encoded entirely in your device's memory. Nothing is uploaded, nothing is logged, and no server ever sees your file.</p>
         <p>The result is the rare combination of <strong>speed</strong>, <strong>privacy</strong>, and <strong>zero cost</strong> — no upload wait, no data exposure, no subscription. You can even disconnect from the internet once the page has loaded and keep working.</p>
@@ -1505,9 +1730,9 @@ html,body{background:var(--bg-main)}
       </div>
     </div>
 
-    <!-- ░░ BLOCK 4 — FORMAT SUPERIORITY ░░ -->
-    <h2 class="vp-h2">Next-gen formats. Maximum savings.</h2>
-    <p class="vp-sub">The same photo, encoded three ways. Newer formats pack far more quality into far fewer bytes — which means faster pages and lower bandwidth bills.</p>
+    <!-- ░░ BLOCK 4 — FORMAT COMPARISON ░░ -->
+    <h2 class="vp-h2" id="png-to-webp">Convert PNG to WebP and AVIF — next-gen formats compared</h2>
+    <p class="vp-sub" id="jpg-to-webp">The same photo, encoded three ways. Newer formats pack far more quality into far fewer bytes — which means faster pages, better Core Web Vitals, and lower bandwidth bills.</p>
     <div class="vp-formats">
       <div class="vp-fmt">
         <div class="vp-fmt-top"><span class="vp-fmt-name">JPEG</span><span class="vp-fmt-tag">Universal</span></div>
@@ -1528,13 +1753,29 @@ html,body{background:var(--bg-main)}
         <p class="vp-fmt-desc">The newest standard. Up to 50% smaller than JPEG with HDR support and transparency. Ideal when every kilobyte counts.</p>
       </div>
     </div>
-    <p class="vp-note">PNG is always lossless, so the quality slider has no effect on it — to shrink a PNG, convert it to WebP or AVIF and keep full transparency. For lossy formats (JPG, WebP, AVIF) you control the exact quality, with <strong>80%</strong> being the sweet spot where files are dramatically smaller yet visually identical.</p>
+    <p class="vp-note">PNG is always lossless — to shrink a PNG, convert it to WebP or AVIF and keep full transparency. For lossy formats (JPG, WebP, AVIF) <strong>80% quality</strong> is the sweet spot: dramatically smaller yet visually identical.</p>
 
-    <!-- quick links -->
+    <!-- ░░ BLOCK 5 — STEP BY STEP (HowTo Featured Snippet) ░░ -->
+    <h2 class="vp-h2" id="step-process">How to compress images online — 4 steps</h2>
+    <p class="vp-sub">From original file to optimised in under a minute. No installation, no account, no upload required.</p>
+    <div class="vp-steps">
+      <div class="vp-step"><span class="vp-step-n">01</span><div class="vp-step-body"><h3>Drop or choose your image</h3><p>Drag and drop a JPG, PNG, WebP, AVIF, or GIF onto the tool, or click to browse. Single image or batch up to 15 — no file size limit.</p></div></div>
+      <div class="vp-step"><span class="vp-step-n">02</span><div class="vp-step-body"><h3>Set quality &amp; format</h3><p>Choose 80% quality for photos. Switch output to WebP to gain an extra 30% reduction over JPEG at the same visual quality. Live preview updates instantly.</p></div></div>
+      <div class="vp-step"><span class="vp-step-n">03</span><div class="vp-step-body"><h3>Click Compress</h3><p>Your image processes locally in under a second via the Canvas API. Before/after comparison and exact savings percentage appear immediately.</p></div></div>
+      <div class="vp-step" id="step-download"><span class="vp-step-n">04</span><div class="vp-step-body"><h3>Download — renamed, ready to use</h3><p>Click Download. In Batch mode, download all compressed images as a single ZIP archive. No waiting, no queue, no server.</p></div></div>
+    </div>
+
+    <!-- quick links — anchor to tool sections -->
     <div class="v-ils">
-      <a class="v-il" href="#">Compress JPG</a><a class="v-il" href="#">PNG to WebP</a><a class="v-il" href="#">JPG to WebP</a>
-      <a class="v-il" href="#">Resize image</a><a class="v-il" href="#">Blur &amp; censor</a>
-      <a class="v-il" href="#">Batch compress</a><a class="v-il" href="/invoice/">Invoice Generator</a>
+      <a class="v-il" href="#compress-jpg">Compress JPG</a>
+      <a class="v-il" href="#png-to-webp">PNG to WebP</a>
+      <a class="v-il" href="#jpg-to-webp">JPG to WebP</a>
+      <a class="v-il" href="#resize-image">Resize image</a>
+      <a class="v-il" href="#blur-censor">Blur &amp; censor</a>
+      <a class="v-il" href="#batch-compress">Batch compress</a>
+      <a class="v-il" href="/invoice/">Invoice Generator</a>
+      <a class="v-il" href="/pdf-compress/">PDF Compressor</a>
+      <a class="v-il" href="/bgremover/">Background Remover</a>
     </div>
   </div>
 </section>
