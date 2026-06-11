@@ -43,9 +43,9 @@
    Background: #1f444c with #133e46 grid cells
 ═══════════════════════════════════════════ */
 :root {
-  --bg:        #1f444c;
-  --bg2:       #1a3d46;
-  --bg3:       #102e35;
+  --bg:        #10343c;
+  --bg2:       #0e2e35;
+  --bg3:       #0a2228;
   --bg4:       #265260;
   --surface:   #1c5a64;
   --surface2:  #245e6e;
@@ -109,8 +109,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .v-hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(14,135,157,.18);border:1px solid rgba(14,135,157,.4);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:800;color:var(--mint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;animation:fadeUp .5s ease both;}
 .v-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px rgba(0,230,208,1);animation:pulse 2s ease-in-out infinite}
 .v-hero h1{font-size:clamp(26px,3.8vw,50px);font-weight:900;letter-spacing:-1.8px;line-height:1.08;color:var(--tx);margin-bottom:16px;animation:fadeUp .5s .08s ease both;}
-.v-hero h1 .accent-split{color:var(--tx2);font-weight:800;}
-.v-hero h1 em{font-style:normal;display:block;margin-top:8px;background:linear-gradient(135deg, #00f0e0 0%, #0e879d 38%, var(--sky) 72%, var(--sand) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.v-hero h1 .accent-split{color:#1db6d3;font-weight:800;}
+.v-hero h1 em{font-style:normal;display:block;margin-top:8px;color:#42adff;background:none;-webkit-background-clip:unset;-webkit-text-fill-color:unset;background-clip:unset;}
 .v-hero-sub{font-size:17px;color:var(--tx2);line-height:1.7;max-width:600px;margin:0 auto 24px;animation:fadeUp .5s .16s ease both;}
 .v-stats{display:flex;justify-content:center;align-items:center;gap:0;margin:0 auto 32px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:14px;max-width:560px;overflow:hidden;box-shadow:var(--shadow);animation:fadeUp .5s .24s ease both;}
 .v-stat{flex:1;padding:16px 20px;text-align:center;border-right:1px solid var(--border);}
@@ -124,7 +124,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .v-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 60%);border-radius:inherit;pointer-events:none;}
 .v-card-glow{position:absolute;bottom:-40px;right:-40px;width:140px;height:140px;border-radius:50%;opacity:0;transition:opacity .3s;pointer-events:none;filter:blur(40px);}
 .v-card:hover{transform:translateY(-8px);border-color:var(--border2);background:var(--surface2);box-shadow:var(--shadow-lg);}
-.v-card:hover .v-card-glow{opacity:.4}
+.v-card:hover .v-card-glow{opacity:0}
 .v-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
 .v-card-ico{position:relative;width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 2px 2px rgba(255,255,255,.22),inset 0 -4px 8px rgba(0,0,0,.35),0 8px 20px rgba(0,0,0,.45);transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s;will-change:transform;overflow:hidden;}
 .v-card-ico::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.28),transparent 55%);pointer-events:none;}
@@ -135,12 +135,117 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .v-card-name{font-size:20px;font-weight:900;color:var(--tx);margin-bottom:10px;letter-spacing:-.3px}
 .v-card-desc{font-size:14px;color:var(--tx2);line-height:1.6;margin-bottom:20px;flex:1}
 .v-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;letter-spacing:.02em;align-self:flex-start;text-transform:uppercase;}
+/* ── Image Compressor — forest green #2b4b3c ── */
+.c-mint{background:#2b4b3c}
+.c-mint:hover{background:#325747;box-shadow:0 0 0 1px rgba(0,230,208,.35),0 12px 40px rgba(0,230,208,.22),0 24px 64px rgba(0,0,0,.5)}
 .c-mint .v-card-ico{background:linear-gradient(145deg,#00f0e0,#009e90)}.c-mint .v-card-ico svg{stroke:#04211f}.c-mint .v-card-glow{background:var(--mint)}.c-mint .v-badge{background:rgba(0,230,208,.15);color:var(--mint);border:1px solid rgba(0,230,208,.3)}
+/* deco: white L-bracket top-right */
+.c-mint::after{content:'';position:absolute;top:18px;right:18px;width:22px;height:22px;border-top:1.5px solid rgba(255,255,255,.28);border-right:1.5px solid rgba(255,255,255,.28);border-radius:0 5px 0 0;pointer-events:none;z-index:0}
+
+/* ── Invoice Generator — dark brown #5a3321 ── */
+.c-sage{background:#5a3321}
+.c-sage:hover{background:#683c27;box-shadow:0 0 0 1px rgba(153,204,153,.32),0 12px 40px rgba(153,204,153,.2),0 24px 64px rgba(0,0,0,.5)}
 .c-sage .v-card-ico{background:linear-gradient(145deg,#b6e0b6,#6fa86f)}.c-sage .v-card-ico svg{stroke:#16331a}.c-sage .v-card-glow{background:var(--sage)}.c-sage .v-badge{background:rgba(153,204,153,.15);color:var(--sage);border:1px solid rgba(153,204,153,.3)}
+/* deco: black dot-grid bottom-left */
+.c-sage::after{content:'';position:absolute;bottom:0;left:0;width:80px;height:80px;background-image:radial-gradient(circle,rgba(0,0,0,.28) 1.5px,transparent 1.5px);background-size:12px 12px;border-radius:0 0 0 var(--r-lg);pointer-events:none;z-index:0}
+
+/* ── Background Remover — dark purple #4c3463 ── */
+.c-sand{background:#4c3463}
+.c-sand:hover{background:#593b73;box-shadow:0 0 0 1px rgba(229,202,161,.32),0 12px 40px rgba(229,202,161,.2),0 24px 64px rgba(0,0,0,.5)}
 .c-sand .v-card-ico{background:linear-gradient(145deg,#f3dcb4,#caa063)}.c-sand .v-card-ico svg{stroke:#3a2c12}.c-sand .v-card-glow{background:var(--sand)}.c-sand .v-badge{background:rgba(229,202,161,.15);color:var(--sand);border:1px solid rgba(229,202,161,.3)}
+/* deco: white partial circle bottom-right */
+.c-sand::after{content:'';position:absolute;bottom:-18px;right:-18px;width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);pointer-events:none;z-index:0}
+
+/* ── QR Code Generator — navy #214084 ── */
+.c-sky{background:#214084}
+.c-sky:hover{background:#274d99;box-shadow:0 0 0 1px rgba(92,211,255,.35),0 12px 40px rgba(92,211,255,.22),0 24px 64px rgba(0,0,0,.5)}
 .c-sky .v-card-ico{background:linear-gradient(145deg,#7ddcff,#2a9fd6)}.c-sky .v-card-ico svg{stroke:#06283a}.c-sky .v-card-glow{background:var(--sky)}.c-sky .v-badge{background:rgba(92,211,255,.15);color:var(--sky);border:1px solid rgba(92,211,255,.3)}
+/* deco: white dot grid top-right (echoes QR pattern) */
+.c-sky::after{content:'';position:absolute;top:0;right:0;width:72px;height:72px;background-image:radial-gradient(circle,rgba(255,255,255,.22) 1.5px,transparent 1.5px);background-size:11px 11px;border-radius:0 var(--r-lg) 0 0;pointer-events:none;z-index:0}
+
+/* ── Focus Room — dark teal #227768 ── */
+.c-coral{background:#227768}
+.c-coral:hover{background:#298a79;box-shadow:0 0 0 1px rgba(255,107,87,.32),0 12px 40px rgba(255,107,87,.2),0 24px 64px rgba(0,0,0,.5)}
 .c-coral .v-card-ico{background:linear-gradient(145deg,#ff8a79,#e0432e)}.c-coral .v-card-ico svg{stroke:#3d0f08}.c-coral .v-card-glow{background:var(--coral)}.c-coral .v-badge{background:rgba(255,107,87,.15);color:var(--coral);border:1px solid rgba(255,107,87,.3)}
+/* deco: three black horizontal bars bottom-right (like audio waveform) */
+.c-coral::after{content:'';position:absolute;bottom:22px;right:20px;width:28px;height:18px;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.22) 0,rgba(0,0,0,.22) 2px,transparent 2px,transparent 8px);pointer-events:none;z-index:0}
+
+/* ── PDF Compressor — forest green #40603d ── */
+.c-gold{background:#40603d}
+.c-gold:hover{background:#4c7248;box-shadow:0 0 0 1px rgba(255,207,92,.32),0 12px 40px rgba(255,207,92,.2),0 24px 64px rgba(0,0,0,.5)}
 .c-gold .v-card-ico{background:linear-gradient(145deg,#ffd97a,#e0a92e)}.c-gold .v-card-ico svg{stroke:#3d2c06}.c-gold .v-card-glow{background:var(--gold)}.c-gold .v-badge{background:rgba(255,207,92,.15);color:var(--gold);border:1px solid rgba(255,207,92,.3)}
+/* deco: white corner L-bracket bottom-left */
+.c-gold::after{content:'';position:absolute;bottom:18px;left:18px;width:22px;height:22px;border-bottom:1.5px solid rgba(255,255,255,.25);border-left:1.5px solid rgba(255,255,255,.25);border-radius:0 0 0 5px;pointer-events:none;z-index:0}
+
+/* ── RETRO STAMP ICONS — universal override for all cards ──
+   Warm parchment · double inset ring · engraving SVG stroke
+   Placed after per-card rules → wins the cascade cleanly */
+.v-card .v-card-ico{background:#ede6d4;border:1.5px solid rgba(20,12,6,.18);box-shadow:inset 0 0 0 3.5px rgba(20,12,6,.07),inset 0 0 0 5px #ede6d4,inset 0 0 0 6.5px rgba(20,12,6,.12),0 8px 24px rgba(0,0,0,.5)}
+.v-card .v-card-ico::after{background:linear-gradient(145deg,rgba(255,255,255,.45) 0%,transparent 55%)}
+.v-card .v-card-ico svg{stroke:#1a1208;stroke-width:2.4;filter:drop-shadow(0 1px 0 rgba(255,255,255,.25))}
+.v-card:hover .v-card-ico{box-shadow:inset 0 0 0 3.5px rgba(20,12,6,.07),inset 0 0 0 5px #ede6d4,inset 0 0 0 6.5px rgba(20,12,6,.12),0 10px 28px rgba(0,0,0,.55)}
+
+/* top-center light beam on hover — replaces blob */
+.v-card:hover::before{background:radial-gradient(ellipse 75% 45% at 50% 0%,rgba(255,255,255,.11) 0%,transparent 70%)}
+
+/* reset base ico transform — animations take over per class */
+.c-mint:hover .v-card-ico,
+.c-sage:hover .v-card-ico,
+.c-sand:hover .v-card-ico,
+.c-sky:hover .v-card-ico,
+.c-coral:hover .v-card-ico,
+.c-gold:hover .v-card-ico{transform:none}
+
+/* ── ICON ANIMATIONS ──────────────────────────────────── */
+
+/* 1. Image Compressor — lens tilt scan */
+@keyframes ico-tilt{
+  0%,100%{transform:rotate(-7deg) scale(1.05)}
+  50%{transform:rotate(7deg) scale(1.05)}
+}
+.c-mint:hover .v-card-ico{animation:ico-tilt .9s ease-in-out infinite}
+
+/* 2. Invoice Generator — rubber stamp bounce */
+@keyframes ico-stamp{
+  0%{transform:scale(1) translateY(0)}
+  25%{transform:scale(1.1) translateY(-8px)}
+  55%{transform:scale(.96) translateY(3px)}
+  75%{transform:scale(1.04) translateY(-2px)}
+  100%{transform:scale(1) translateY(0)}
+}
+.c-sage:hover .v-card-ico{animation:ico-stamp .75s cubic-bezier(.36,0,.66,-.56) infinite}
+
+/* 3. Background Remover — ghostly breathe */
+@keyframes ico-breathe{
+  0%,100%{transform:scale(1.04);opacity:1}
+  50%{transform:scale(1.14);opacity:.75}
+}
+.c-sand:hover .v-card-ico{animation:ico-breathe 1.4s ease-in-out infinite}
+
+/* 4. QR Code — radar scan flash */
+@keyframes ico-flash{
+  0%,100%{filter:brightness(1) drop-shadow(0 1px 0 rgba(255,255,255,.25))}
+  40%{filter:brightness(1.5) drop-shadow(0 0 8px rgba(92,211,255,.9))}
+  60%{filter:brightness(1) drop-shadow(0 1px 0 rgba(255,255,255,.25))}
+}
+.c-sky:hover .v-card-ico svg{animation:ico-flash 1.1s ease-in-out infinite}
+.c-sky:hover .v-card-ico{transform:scale(1.06)}
+
+/* 5. Focus Room — clock tick rotation */
+@keyframes ico-tick{
+  0%{transform:scale(1.06) rotate(0deg)}
+  100%{transform:scale(1.06) rotate(360deg)}
+}
+.c-coral:hover .v-card-ico{animation:ico-tick 4s linear infinite}
+
+/* 6. PDF Compressor — squeeze compress */
+@keyframes ico-squeeze{
+  0%,100%{transform:scale(1.06) scaleY(1)}
+  35%{transform:scale(1.06) scaleY(.78)}
+  60%{transform:scale(1.06) scaleY(1.08)}
+  80%{transform:scale(1.06) scaleY(.97)}
+}
+.c-gold:hover .v-card-ico{animation:ico-squeeze 1s ease-in-out infinite}
 .v-ad-wrap{display:flex;justify-content:center;padding:24px 48px;background:rgba(0,0,0,.1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1;}
 .v-ad{width:100%;max-width:728px;height:90px;background:rgba(0,0,0,.15);border:1px dashed var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--tx3);letter-spacing:.06em;}
 .v-section{position:relative;z-index:1;padding:72px 48px;border-top:1px solid var(--border);}
@@ -207,6 +312,80 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 @media(max-width:1024px){.v-tools-grid{grid-template-columns:repeat(2,1fr)}.v-feat-grid{grid-template-columns:repeat(2,1fr)}.v-highlights{grid-template-columns:repeat(2,1fr)}.v-compare-head,.v-compare-row{grid-template-columns:2fr 1fr 1fr}.v-compare-head .col-no-show,.v-compare-row .col-no-show{display:none}.v-audience-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.v-nav{padding:0 20px}.v-nav-links{display:none}.v-hero{padding:24px 20px 0}.v-hero h1{letter-spacing:-1.2px}.v-stats{max-width:100%;margin:0 20px 32px}.v-tools-wrap{padding:0 20px 48px}.v-tools-grid{grid-template-columns:1fr;gap:16px}.v-card{padding:24px}.v-section{padding:48px 20px}.v-feat-grid{grid-template-columns:1fr}.v-guide-grid{grid-template-columns:1fr}.v-highlights{grid-template-columns:repeat(2,1fr)}.v-compare-head,.v-compare-row{grid-template-columns:2fr 1fr 1fr}.v-faq{padding:48px 20px}.v-foot{padding:28px 20px}.v-trust{padding:12px 20px;gap:14px}.v-ad-wrap{padding:20px}.v-audience-grid{grid-template-columns:1fr}}
+
+/* ══════════════════════════════════════
+   HERO TEXT — TOOLS VIBRATION
+══════════════════════════════════════ */
+.accent-split{display:inline-block;color:#27d7f8;font-weight:800}
+.hero-tools{color:#ffffff;display:inline-block}
+@keyframes tools-vibe{
+  0%,80%,100%{transform:translateX(0) rotate(0deg)}
+  83%{transform:translateX(-2.5px) rotate(-.4deg)}
+  86%{transform:translateX(3px) rotate(.6deg)}
+  89%{transform:translateX(-2px) rotate(-.3deg)}
+  92%{transform:translateX(1.5px) rotate(.2deg)}
+  95%{transform:translateX(-.5px)}
+}
+.hero-tools{animation:tools-vibe 5s ease-in-out infinite}
+
+/* ══════════════════════════════════════
+   GLASS CARDS
+══════════════════════════════════════ */
+/* .v-card-top needs position:relative for glow to anchor to icon area */
+.v-card-top{position:relative}
+
+/* Real colored glass — more transparent */
+.v-card.c-mint,.v-card.c-sage,.v-card.c-sand,
+.v-card.c-sky,.v-card.c-coral,.v-card.c-gold{
+  background:rgba(33,141,163,.10);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(33,141,163,.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(33,141,163,.15),
+    0 8px 32px rgba(0,0,0,.4);
+}
+
+/* Diagonal glass shine — top-left highlight like real glass */
+.v-card.c-mint::before,.v-card.c-sage::before,.v-card.c-sand::before,
+.v-card.c-sky::before,.v-card.c-coral::before,.v-card.c-gold::before{
+  background:linear-gradient(138deg,rgba(255,255,255,.2) 0%,rgba(255,255,255,.07) 30%,transparent 58%);
+}
+
+/* Hover — bright #26e6f7 glow, override all per-card colored glows */
+.v-card.c-mint:hover,.v-card.c-sage:hover,.v-card.c-sand:hover,
+.v-card.c-sky:hover,.v-card.c-coral:hover,.v-card.c-gold:hover{
+  background:rgba(33,141,163,.3);
+  border-color:rgba(38,230,247,.65);
+  box-shadow:
+    0 0 0 1px rgba(38,230,247,.4),
+    0 0 32px rgba(38,230,247,.35),
+    0 16px 48px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.32),
+    inset 0 -1px 0 rgba(38,230,247,.15);
+}
+
+/* Reposition glow div from bottom-right → behind icon (top-left) */
+.v-card-glow{
+  top:-28px;left:-28px;
+  bottom:auto;right:auto;
+  width:110px;height:110px;
+  background:rgba(38,230,247,.35) !important;
+  filter:blur(26px);
+}
+.v-card:hover .v-card-glow{opacity:.8}
+
+/* Unique per-card decorations (restored) */
+.c-mint::after{content:'';position:absolute;top:18px;right:18px;bottom:auto;left:auto;width:22px;height:22px;border-top:1.5px solid rgba(255,255,255,.35);border-right:1.5px solid rgba(255,255,255,.35);border-bottom:none;border-left:none;border-radius:0 5px 0 0;background:none;background-image:none;pointer-events:none;z-index:1}
+.c-sage::after{content:'';position:absolute;bottom:0;left:0;top:auto;right:auto;width:80px;height:80px;border-top:none;border-right:none;border-bottom:none;border-left:none;border-radius:0 0 0 var(--r-lg);background:none;background-image:radial-gradient(circle,rgba(0,0,0,.3) 1.5px,transparent 1.5px);background-size:12px 12px;pointer-events:none;z-index:1}
+.c-sand::after{content:'';position:absolute;bottom:-18px;right:-18px;top:auto;left:auto;width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);border-top:1.5px solid rgba(255,255,255,.25);background:none;background-image:none;pointer-events:none;z-index:1}
+.c-sky::after{content:'';position:absolute;top:0;right:0;bottom:auto;left:auto;width:72px;height:72px;border-radius:0 var(--r-lg) 0 0;border:none;background:none;background-image:radial-gradient(circle,rgba(255,255,255,.28) 1.5px,transparent 1.5px);background-size:11px 11px;pointer-events:none;z-index:1}
+.c-coral::after{content:'';position:absolute;bottom:22px;right:20px;top:auto;left:auto;width:28px;height:18px;border:none;border-radius:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 2px,transparent 2px,transparent 8px);background-image:none;background-image:repeating-linear-gradient(to bottom,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 2px,transparent 2px,transparent 8px);pointer-events:none;z-index:1}
+.c-gold::after{content:'';position:absolute;bottom:18px;left:18px;top:auto;right:auto;width:22px;height:22px;border-bottom:1.5px solid rgba(255,255,255,.3);border-left:1.5px solid rgba(255,255,255,.3);border-top:none;border-right:none;border-radius:0 0 0 5px;background:none;background-image:none;pointer-events:none;z-index:1}
+
+/* Card name — second word teal accent */
+.v-name-a{color:#22d3e3}
 </style>
 </head>
 <body>
@@ -243,7 +422,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
     6 free tools · browser-only · no upload · always free
   </div>
   <h1>
-    <span class="accent-split">Free online tools.</span>
+    <span class="accent-split">Free online <span class="hero-tools">tools</span>.</span>
     <em>No upload. No account. Instant.</em>
   </h1>
   <p class="v-hero-sub">Professional image compression, invoice generation, QR codes, background removal and PDF compression — all running directly in your browser. Your files never leave your device.</p>
@@ -260,7 +439,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <div class="v-card-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
         <span class="v-card-arr" aria-hidden="true">↗</span>
       </div>
-      <h3 class="v-card-name">Image Compressor</h3>
+      <h3 class="v-card-name">Image <span class="v-name-a">Compressor</span></h3>
       <p class="v-card-desc">Compress JPG, PNG, WebP and AVIF up to 90% smaller — no upload required. Convert to WebP or AVIF for next-gen format savings. Batch compress 15 images at once, resize, crop, rotate, blur and apply effects. Free forever.</p>
       <span class="v-badge">🔥 Most popular</span>
     </a>
@@ -271,7 +450,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <div class="v-card-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
         <span class="v-card-arr" aria-hidden="true">↗</span>
       </div>
-      <h3 class="v-card-name">Invoice Generator</h3>
+      <h3 class="v-card-name">Invoice <span class="v-name-a">Generator</span></h3>
       <p class="v-card-desc">Create professional PDF invoices in 60 seconds — free, no watermark, no account. 10 elegant templates, custom logo, automatic tax calculations, 20+ currencies. Built for freelancers and small businesses. Your data never leaves your browser.</p>
       <span class="v-badge">⭐ Featured</span>
     </a>
@@ -282,7 +461,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <div class="v-card-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
         <span class="v-card-arr" aria-hidden="true">↗</span>
       </div>
-      <h3 class="v-card-name">Background Remover</h3>
+      <h3 class="v-card-name">Background <span class="v-name-a">Remover</span></h3>
       <p class="v-card-desc">AI removes any background instantly in your browser — no server upload, completely private. Product photos, portraits, logos — clean transparent PNG output in one click. No subscription, no per-image limits, free forever.</p>
       <span class="v-badge">✨ AI powered</span>
     </a>
@@ -293,7 +472,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <div class="v-card-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="14" y="19" width="3" height="3"/><rect x="19" y="14" width="3" height="3"/><rect x="19" y="19" width="3" height="3"/></svg></div>
         <span class="v-card-arr" aria-hidden="true">↗</span>
       </div>
-      <h3 class="v-card-name">QR Code Generator</h3>
+      <h3 class="v-card-name">QR Code <span class="v-name-a">Generator</span></h3>
       <p class="v-card-desc">Generate custom QR codes for URLs, WiFi passwords, contact cards (vCard), Email, SMS, and phone numbers — free, no signup. Custom colors and logo. Download as scalable SVG or high-resolution PNG. Instant, private, free forever.</p>
       <span class="v-badge">⚡ Instant</span>
     </a>
@@ -304,7 +483,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <div class="v-card-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <span class="v-card-arr" aria-hidden="true">↗</span>
       </div>
-      <h3 class="v-card-name">Focus Room</h3>
+      <h3 class="v-card-name">Focus <span class="v-name-a">Room</span></h3>
       <p class="v-card-desc">Lofi music, ambient white noise, and a Pomodoro timer built into one distraction-free workspace. Scientifically proven deep work method — no ads, no accounts, no subscriptions. Free productivity environment for remote workers.</p>
       <span class="v-badge">🕐 Deep work</span>
     </a>
@@ -315,7 +494,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <div class="v-card-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15l3-3 3 3"/></svg></div>
         <span class="v-card-arr" aria-hidden="true">↗</span>
       </div>
-      <h3 class="v-card-name">PDF Compressor</h3>
+      <h3 class="v-card-name">PDF <span class="v-name-a">Compressor</span></h3>
       <p class="v-card-desc">Reduce PDF file size up to 90% without quality loss — directly in your browser. No upload, no server, no account. Batch compress up to 20 PDFs at once. 4 quality presets for screen, web, print, and archive. Free forever.</p>
       <span class="v-badge">🔒 100% private</span>
     </a>
