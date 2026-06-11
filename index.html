@@ -188,6 +188,14 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 /* top-center light beam on hover — replaces blob */
 .v-card:hover::before{background:radial-gradient(ellipse 75% 45% at 50% 0%,rgba(255,255,255,.11) 0%,transparent 70%)}
 
+/* ── COLORFUL ICON STROKES — .v-card.c-* = 3 classes → beats universal 2-class rule ── */
+.v-card.c-mint .v-card-ico svg{stroke:#00d9c0;color:#00d9c0;filter:drop-shadow(0 0 4px rgba(0,217,192,.55))}
+.v-card.c-sage .v-card-ico svg{stroke:#ff7a3d;color:#ff7a3d;filter:drop-shadow(0 0 4px rgba(255,122,61,.55))}
+.v-card.c-sand .v-card-ico svg{stroke:#b866ff;color:#b866ff;filter:drop-shadow(0 0 4px rgba(184,102,255,.55))}
+.v-card.c-sky  .v-card-ico svg{stroke:#2fb8ff;color:#2fb8ff;filter:drop-shadow(0 0 4px rgba(47,184,255,.55))}
+.v-card.c-coral .v-card-ico svg{stroke:#ff4d4d;color:#ff4d4d;filter:drop-shadow(0 0 4px rgba(255,77,77,.55))}
+.v-card.c-gold .v-card-ico svg{stroke:#ffb800;color:#ffb800;filter:drop-shadow(0 0 4px rgba(255,184,0,.55))}
+
 /* reset base ico transform — animations take over per class */
 .c-mint:hover .v-card-ico,
 .c-sage:hover .v-card-ico,
@@ -378,7 +386,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 
 /* Unique per-card decorations (restored) */
 .c-mint::after{content:'';position:absolute;top:18px;right:18px;bottom:auto;left:auto;width:22px;height:22px;border-top:1.5px solid rgba(255,255,255,.35);border-right:1.5px solid rgba(255,255,255,.35);border-bottom:none;border-left:none;border-radius:0 5px 0 0;background:none;background-image:none;pointer-events:none;z-index:1}
-.c-sage::after{content:'';position:absolute;bottom:0;left:0;top:auto;right:auto;width:80px;height:80px;border-top:none;border-right:none;border-bottom:none;border-left:none;border-radius:0 0 0 var(--r-lg);background:none;background-image:radial-gradient(circle,rgba(0,0,0,.3) 1.5px,transparent 1.5px);background-size:12px 12px;pointer-events:none;z-index:1}
+.c-sage::after{content:'';position:absolute;bottom:0;right:0;top:auto;left:auto;width:80px;height:80px;border-top:none;border-right:none;border-bottom:none;border-left:none;border-radius:0 0 var(--r-lg) 0;background:none;background-image:radial-gradient(circle,rgba(0,0,0,.3) 1.5px,transparent 1.5px);background-size:12px 12px;pointer-events:none;z-index:1}
 .c-sand::after{content:'';position:absolute;bottom:-18px;right:-18px;top:auto;left:auto;width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);border-top:1.5px solid rgba(255,255,255,.25);background:none;background-image:none;pointer-events:none;z-index:1}
 .c-sky::after{content:'';position:absolute;top:0;right:0;bottom:auto;left:auto;width:72px;height:72px;border-radius:0 var(--r-lg) 0 0;border:none;background:none;background-image:radial-gradient(circle,rgba(255,255,255,.28) 1.5px,transparent 1.5px);background-size:11px 11px;pointer-events:none;z-index:1}
 .c-coral::after{content:'';position:absolute;bottom:22px;right:20px;top:auto;left:auto;width:28px;height:18px;border:none;border-radius:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 2px,transparent 2px,transparent 8px);background-image:none;background-image:repeating-linear-gradient(to bottom,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 2px,transparent 2px,transparent 8px);pointer-events:none;z-index:1}
