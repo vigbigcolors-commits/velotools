@@ -235,6 +235,30 @@
         "@type": "Answer",
         "text": "Yes — this is among the safest options available. Files never leave your computer and are never sent to any server. Screenshots, scanned IDs, contracts, and confidential client images stay completely private. The tool works even when disconnected from the internet."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert camera RAW (CR2, NEF, ARW, DNG) to JPG or PNG?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every camera RAW file (CR2, CR3, NEF, ARW, DNG, RAF, RW2, ORF, PEF) embeds a full-resolution JPEG preview generated in-camera. VeloTools reads the file locally, extracts that embedded preview, and loads it into the editor, where it can be compressed, resized, or converted to JPG, PNG, WebP, AVIF or SVG like any other image. If no usable preview is found, a clear message is shown. Nothing is ever uploaded to a server."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert SVG to PNG, or PNG to SVG?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. SVG to PNG, JPG or WebP renders your vector file to a raster image at full size using the Canvas API. PNG or JPG to SVG wraps the image as a single-file scalable SVG container with the picture embedded inside, staying lossless and opening correctly in browsers and design tools like Figma or Illustrator."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "JPG vs PNG vs WebP vs AVIF — which format should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JPG suits photos where small file size matters more than perfect edges. PNG suits screenshots, logos, and anything needing transparency or sharp text, but stays larger because it's lossless. WebP gives JPG-like quality at 25-35% smaller size with full transparency support, making it the safest modern default for websites. AVIF compresses up to 50% smaller than JPG but encodes more slowly and has slightly less universal support. For most web use, convert to WebP; for maximum compression, choose AVIF."
+      }
     }
   ]
 }
@@ -418,6 +442,20 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 /* ── PNG WARN ────────────────── */
 .v-warn{display:none;align-items:center;gap:10px;padding:11px 16px;background:var(--am-bg);border-left:3px solid var(--am);font-size:13px;color:var(--tx-2)}
 .v-warn.on{display:flex}
+.v-raw-info{background:var(--ac-l);border-left:3px solid var(--ac)}
+.v-raw-info svg{color:var(--ac);flex-shrink:0}
+
+/* RAW decode loading state — swap dropzone copy without touching layout */
+.v-dz-h2-raw,.v-dz-p-raw{display:none}
+.v-dz.raw-loading .v-dz-h2-default,
+.v-dz.raw-loading .v-dz-p-default,
+.v-dz.raw-loading .v-dz-btn-default,
+.v-dz.raw-loading .v-dz-fmt-default,
+.v-dz.raw-loading .v-dz-badges-default{display:none}
+.v-dz.raw-loading .v-dz-h2-raw,
+.v-dz.raw-loading .v-dz-p-raw{display:block}
+.v-dz.raw-loading .v-dz-ico{animation:vRawSpin 1s linear infinite}
+@keyframes vRawSpin{to{transform:rotate(360deg)}}
 .v-warn strong{color:var(--tx)}
 .v-warn-btn{background:var(--am);color:#fff;border:none;padding:5px 13px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap;flex-shrink:0;transition:opacity .15s}
 .v-warn-btn:hover{opacity:.85}
@@ -651,16 +689,20 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-il:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l)}
 
 /* ── FAQ ─────────────────────── */
-.v-faq{padding:56px 36px;border-top:1px solid var(--br);background:var(--bg-2)}
-.v-faq-in{max-width:800px;margin:0 auto}
-.v-faq-in h2{font-size:27px;font-weight:800;color:var(--tx);letter-spacing:-.6px;margin-bottom:22px}
-.v-fi{border-bottom:1px solid var(--br)}
-.v-fq{width:100%;background:none;border:none;padding:18px 0;text-align:left;font-size:15px;font-weight:600;color:var(--tx);cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:var(--font);transition:color .14s;gap:10px}
+.v-faq{padding:64px 36px;border-top:1px solid var(--br);background:var(--bg-2)}
+.v-faq-in{max-width:840px;margin:0 auto}
+.v-faq-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ac);background:var(--ac-l);border:1px solid rgba(91,108,249,.25);border-radius:20px;padding:5px 13px;margin-bottom:14px}
+.v-faq-in h2{font-size:30px;font-weight:800;color:var(--tx);letter-spacing:-.7px;margin-bottom:10px}
+.v-faq-sub{font-size:14.5px;color:var(--tx-2);line-height:1.75;max-width:680px;margin-bottom:30px}
+.v-fi{border:1px solid var(--br);border-radius:13px;background:var(--bg);margin-bottom:10px;transition:border-color .18s,box-shadow .18s;overflow:hidden}
+.v-fi:hover{border-color:var(--br-2)}
+.v-fi.op{border-color:rgba(91,108,249,.45)!important;box-shadow:0 6px 24px rgba(91,108,249,.1)}
+.v-fq{width:100%;background:none;border:none;padding:18px 20px;text-align:left;font-size:15px;font-weight:700;color:var(--tx);cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:var(--font);transition:color .14s;gap:14px}
 .v-fq:hover{color:var(--ac)}
-.v-fqico{width:24px;height:24px;border:1.5px solid var(--br-2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--tx-2);flex-shrink:0;transition:all .18s}
+.v-fqico{width:28px;height:28px;border:1.5px solid var(--br-2);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;color:var(--tx-2);flex-shrink:0;transition:all .18s}
 .v-fi.op .v-fqico{background:var(--ac);border-color:var(--ac);color:#fff;transform:rotate(45deg)}
-.v-fa{display:none;padding:0 0 17px;font-size:14px;color:var(--tx-2);line-height:1.85;border-left:2px solid var(--ac-l);padding-left:16px}
-.v-fi.op .v-fa{display:block}
+.v-fa{display:none;padding:0 20px 19px;font-size:14px;color:var(--tx-2);line-height:1.85;border-left:2px solid var(--ac-l);margin:0 20px;padding-left:16px;padding-top:2px}
+.v-fi.op .v-fa{display:block;margin:0 20px 18px;padding:2px 0 0 16px}
 
 /* ── FOOTER ──────────────────── */
 .v-foot{background:var(--bg);border-top:1px solid var(--br);padding:28px 36px}
@@ -958,6 +1000,7 @@ html,body{background:var(--bg-main)}
 /* HINT boxes */
 .v-hint,.v-hint-ac{background:var(--ac-l)!important;border:1px solid var(--br)!important;color:var(--tx-2)!important}
 .v-warn{background:var(--am-bg)!important;border:1px solid rgba(245,166,35,.3)!important}
+.v-raw-info{background:var(--ac-l)!important;border:1px solid rgba(91,108,249,.3)!important;border-left:3px solid var(--ac)!important}
 
 /* SIDEBAR feature cards */
 .v-sc{border-top:1px solid var(--br)!important}
@@ -1269,21 +1312,29 @@ html,body{background:var(--bg-main)}
       <div class="v-dz-ico">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
       </div>
-      <h2>Drop an image here to start</h2>
-      <p>Compress, convert, resize, rotate, effects or blur any image</p>
-      <button class="v-dz-btn" onclick="event.stopPropagation();document.getElementById('v-fi').click()">
+      <h2 class="v-dz-h2-default">Drop an image here to start</h2>
+      <h2 class="v-dz-h2-raw">Reading RAW preview…</h2>
+      <p class="v-dz-p-default">Compress, convert, resize, rotate, effects or blur any image</p>
+      <p class="v-dz-p-raw">Extracting the embedded JPEG preview from your camera file — this happens entirely on your device.</p>
+      <button class="v-dz-btn v-dz-btn-default" onclick="event.stopPropagation();document.getElementById('v-fi').click()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Choose an image
       </button>
-      <div class="v-dz-fmt">JPG · PNG · WebP · AVIF · GIF · BMP · TIFF · SVG · RAW — any size</div>
-      <div class="v-dz-badges"><span class="v-dz-bdg">✓ No file limit</span><span class="v-dz-bdg">✓ No upload</span><span class="v-dz-bdg">✓ 100% private</span></div>
+      <div class="v-dz-fmt v-dz-fmt-default">JPG · PNG · WebP · AVIF · GIF · BMP · TIFF · SVG · RAW — any size</div>
+      <div class="v-dz-badges v-dz-badges-default"><span class="v-dz-bdg">✓ No file limit</span><span class="v-dz-bdg">✓ No upload</span><span class="v-dz-bdg">✓ 100% private</span></div>
     </div>
     <input type="file" id="v-fi" accept="image/*,.svg,.cr2,.cr3,.nef,.nrw,.arw,.dng,.raf,.rw2,.orf,.pef,.srw,.raw" style="display:none" onchange="loadFile(this.files[0])">
 
-    <!-- RAW FORMAT NOTICE -->
+    <!-- RAW: preview successfully extracted -->
+    <div class="v-warn v-raw-info" id="v-raw-notice" role="status" style="margin:14px 0">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <span id="v-raw-notice-text"></span>
+    </div>
+
+    <!-- RAW: no usable preview found -->
     <div class="v-warn" id="v-raw-warn" role="alert" style="margin:14px 0">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span><strong>RAW file detected</strong> (<span id="v-raw-warn-name"></span>) — your browser can't decode camera RAW directly. Export a JPEG or TIFF from your camera/editing app, then upload that to convert it to JPG, PNG, WebP or AVIF here.</span>
+      <span><strong>No preview found in RAW file</strong> (<span id="v-raw-warn-name"></span>) — VeloTools couldn't locate a decodable JPEG preview inside this file. Export a JPEG or TIFF from your camera/editing app, then upload that to convert it to JPG, PNG, WebP or AVIF here.</span>
     </div>
 
     <!-- EDITOR -->
@@ -1423,7 +1474,7 @@ html,body{background:var(--bg-main)}
               <span>RAW → JPG / PNG</span>
               <span class="v-raw-card-tag">CR2 · NEF · ARW · DNG · RAF · RW2 · ORF</span>
             </div>
-            <p>Drop a camera RAW file in the upload zone — VeloTools will try to open it. If your browser can decode it, convert straight to JPG, PNG, WebP or AVIF using the buttons above. If not, you'll get a clear message telling you to export a JPEG/TIFF from your camera app first — no silent failures.</p>
+            <p>Drop a camera RAW file in the upload zone. VeloTools reads the file locally and extracts the full-resolution JPEG preview that your camera embeds inside every RAW — then you can compress, resize, or convert that preview straight to JPG, PNG, WebP, AVIF or SVG using the buttons above. Nothing is uploaded, and if no usable preview exists you'll get a clear message instead of a silent failure.</p>
           </div>
         </section>
 
@@ -1808,7 +1859,9 @@ html,body{background:var(--bg-main)}
 <!-- FAQ -->
 <section class="v-faq">
   <div class="v-faq-in">
+    <div class="v-faq-tag">⚡ Help center</div>
     <h2>Frequently asked questions</h2>
+    <p class="v-faq-sub">Everything about compressing, converting and editing JPG, PNG, WebP, AVIF, GIF, SVG and camera RAW files directly in your browser — privacy, speed, formats, batch processing and image quality, answered.</p>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Why does PNG show 0% savings?<div class="v-fqico">+</div></button><div class="v-fa">PNG uses lossless compression — quality settings have no effect because PNG always produces mathematically lossless output. Use Convert → WebP (25–35% smaller, full transparency preserved) or AVIF to reduce PNG file size.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Are my images uploaded to a server?<div class="v-fqico">+</div></button><div class="v-fa">No. All processing happens locally in your browser via JavaScript and the Canvas API. Files never leave your device. VeloTools has no server for image processing. The tool works offline once loaded.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">How do I compress images for a website?<div class="v-fqico">+</div></button><div class="v-fa">Use Convert → WebP at 80% quality. Resize to exact display dimensions. This typically reduces file sizes by 70–85% and directly improves Core Web Vitals and Google PageSpeed scores. For bulk website optimization, use Batch mode.</div></div>
@@ -1820,6 +1873,9 @@ html,body{background:var(--bg-main)}
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Why is it so fast — no upload progress bar?<div class="v-fqico">+</div></button><div class="v-fa">Because nothing is uploaded. The entire compressor runs as JavaScript inside your browser, so your image is processed on your own device the instant you choose settings. There is no upload, no server queue, and no download step — which is why even large photos feel instant.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Is it safe to compress private or sensitive images here?<div class="v-fqico">+</div></button><div class="v-fa">Yes — this is one of the safest ways to do it. Your files never leave your computer and are never sent to any server, so screenshots, scanned documents, IDs, or confidential client images stay fully private. You can even disconnect from the internet after the page loads and it will still work.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Do I lose quality when I crop or rotate?<div class="v-fqico">+</div></button><div class="v-fa">No. Crop and rotate are pixel-perfect operations — they re-map the original pixels without re-compressing, so there is no quality loss from those steps. Any compression only happens when you choose a lossy output format like JPG, WebP, or AVIF, and you control exactly how much with the quality slider.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Can I convert camera RAW (CR2, NEF, ARW, DNG) to JPG or PNG?<div class="v-fqico">+</div></button><div class="v-fa">Yes. Every camera RAW file (CR2, CR3, NEF, ARW, DNG, RAF, RW2, ORF, PEF) embeds a full-resolution JPEG preview generated in-camera. VeloTools reads the RAW file locally, extracts that embedded preview, and loads it into the editor — from there you can compress, resize, or convert it to JPG, PNG, WebP, AVIF or SVG using the same tools as any other image. If a file has no usable embedded preview, you'll see a clear message instead of a silent failure. Nothing is ever uploaded to a server.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Can I convert SVG to PNG, or PNG to SVG?<div class="v-fqico">+</div></button><div class="v-fa">Yes. SVG → PNG/JPG/WebP renders your vector file to a raster image at its native size using the Canvas API — ideal for using logos and icons where SVG isn't supported. PNG/JPG → SVG wraps your image as a single-file scalable SVG container with the picture embedded inside, so it stays lossless and opens correctly in browsers and design tools like Figma or Illustrator.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">JPG vs PNG vs WebP vs AVIF — which format should I use?<div class="v-fqico">+</div></button><div class="v-fa"><strong>JPG</strong> is best for photos where small file size matters more than perfect edges. <strong>PNG</strong> is best for screenshots, logos, and anything needing transparency or sharp text, but it's lossless so files stay larger. <strong>WebP</strong> gives JPG-like quality at 25–35% smaller size with full transparency support — the safest modern default for websites. <strong>AVIF</strong> compresses even further (up to 50% smaller than JPG) but encodes slightly slower and has marginally less universal support in older software. For most web use, convert to WebP; for maximum compression on supported platforms, choose AVIF.</div></div>
   </div>
 </section>
 
@@ -2014,6 +2070,140 @@ window.VConverter = (function () {
 
   return { resolveMime:resolveMime, encode:encode, ext:ext, fmtBytes:fmtBytes };
 })();
+
+/**
+ * VeloTools — raw-decoder.js
+ * Extracts the embedded preview JPEG from camera RAW containers
+ * (CR2, CR3, NEF, ARW, DNG, RW2, ORF, PEF, RAF, ...) using pure JS —
+ * no WASM, no network, no dependencies. Works in every browser.
+ *
+ * Most RAW formats are TIFF-based and store one or more full-size
+ * preview/thumbnail JPEGs inside their IFD/SubIFD chain (tags 0x201/0x202
+ * "JPEGInterchangeFormat", or strips with Compression 6/7). For formats
+ * that aren't plain TIFF (CR3, RAF), we fall back to scanning the raw
+ * bytes for JPEG SOI/EOI markers — every RAW preview is itself a
+ * standards-compliant JPEG, so this always finds it.
+ *
+ * The largest *decodable* candidate is used. Some "JPEG-compressed"
+ * strips are actually 12/14-bit lossless-JPEG sensor data (SOF3) that
+ * <img> cannot render — those are skipped automatically because we try
+ * each candidate in size order and move on if decoding fails.
+ */
+window.VRaw = (function () {
+  'use strict';
+
+  var TYPE_SIZE = {1:1,2:1,3:2,4:4,5:8,6:1,7:1,8:2,9:4,10:8,11:4,12:8};
+
+  /** Walk a TIFF IFD chain (CR2 / NEF / ARW / DNG / RW2 / ORF / PEF). */
+  function tiffJpegs(buf) {
+    var out = [];
+    try {
+      var dv = new DataView(buf);
+      var bom = dv.getUint16(0);
+      if (bom !== 0x4949 && bom !== 0x4D4D) return out; // not TIFF-based
+      var little = bom === 0x4949;
+      function u16(o){ return dv.getUint16(o, little); }
+      function u32(o){ return dv.getUint32(o, little); }
+      if (u16(2) !== 42) return out;
+
+      var visited = {};
+      function scalar(entry){
+        return entry.type === 3 ? u16(entry.valOff) : u32(entry.valOff);
+      }
+      function pushJpeg(off, len){
+        if (off > 0 && len > 0 && off + len <= buf.byteLength) out.push({offset:off, length:len});
+      }
+      function readIFD(off){
+        if (off <= 0 || off + 2 > buf.byteLength || visited[off]) return;
+        visited[off] = true;
+        var n = u16(off);
+        var maxN = Math.floor((buf.byteLength - off - 6) / 12);
+        if (n > maxN) n = Math.max(0, maxN);
+        var map = {};
+        for (var i = 0; i < n; i++) {
+          var eo = off + 2 + i * 12;
+          var tag = u16(eo), type = u16(eo + 2), count = u32(eo + 4);
+          map[tag] = { type:type, count:count, valOff: eo + 8 };
+        }
+        // Embedded JPEG thumbnail/preview (most common location)
+        if (map[0x201] && map[0x202]) pushJpeg(scalar(map[0x201]), scalar(map[0x202]));
+        // Old-style strip stored as JPEG (Compression 6 = JPEG, 7 = lossless JPEG)
+        if (map[0x103] && map[0x111] && map[0x117]) {
+          var comp = scalar(map[0x103]);
+          if (comp === 6 || comp === 7) pushJpeg(scalar(map[0x111]), scalar(map[0x117]));
+        }
+        // SubIFDs (0x14A) — CR2/NEF/DNG store full-res preview here
+        if (map[0x14a]) {
+          var e = map[0x14a], cnt = e.count;
+          var base = (cnt * 4 > 4) ? u32(e.valOff) : e.valOff;
+          for (var k = 0; k < cnt; k++) readIFD(u32(base + k * 4));
+        }
+        // Exif sub-IFD (0x8769)
+        if (map[0x8769]) readIFD(u32(map[0x8769].valOff));
+        // Next IFD in chain
+        readIFD(u32(off + 2 + n * 12));
+      }
+      readIFD(u32(4));
+    } catch (e) { /* malformed TIFF — fall through to brute force */ }
+    return out;
+  }
+
+  /** Scan raw bytes for complete JPEG segments (SOI...EOI). Catches CR3 / RAF. */
+  function bruteJpegs(buf, minSize) {
+    var b = new Uint8Array(buf), out = [], len = b.length;
+    for (var i = 0; i < len - 3; i++) {
+      if (b[i] === 0xFF && b[i+1] === 0xD8 && b[i+2] === 0xFF) {
+        for (var j = i + 2; j < len - 1; j++) {
+          if (b[j] === 0xFF && b[j+1] === 0xD9) {
+            var L = j + 2 - i;
+            if (L >= minSize) out.push({offset:i, length:L});
+            i = j;
+            break;
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  /** Returns Promise<Blob[]> — candidate JPEG previews, largest first. */
+  function extractPreviews(file) {
+    return file.arrayBuffer().then(function (buf) {
+      var cands = tiffJpegs(buf);
+      if (!cands.length) cands = bruteJpegs(buf, 20000);
+      cands.sort(function (a, b) { return b.length - a.length; });
+      return cands.slice(0, 5).map(function (c) {
+        return new Blob([buf.slice(c.offset, c.offset + c.length)], { type:'image/jpeg' });
+      });
+    });
+  }
+
+  /** Returns Promise<{img:Image, blob:Blob, url:string, width:number, height:number}>
+   *  Tries each candidate preview until one actually decodes. */
+  function decode(file) {
+    return extractPreviews(file).then(function (blobs) {
+      return new Promise(function (resolve, reject) {
+        if (!blobs.length) return reject(new Error('No embedded preview found in RAW file'));
+        var i = 0;
+        function tryNext() {
+          if (i >= blobs.length) return reject(new Error('No decodable preview in RAW file'));
+          var blob = blobs[i++];
+          var url = URL.createObjectURL(blob);
+          var img = new Image();
+          img.onload = function () {
+            resolve({ img:img, blob:blob, url:url, width:img.naturalWidth, height:img.naturalHeight });
+          };
+          img.onerror = function () { URL.revokeObjectURL(url); tryNext(); };
+          img.src = url;
+        }
+        tryNext();
+      });
+    });
+  }
+
+  return { decode:decode, extractPreviews:extractPreviews };
+})();
+
 
 /**
  * VeloTools — image-processor.js
@@ -2411,56 +2601,98 @@ window.VBatch = (function () {
 
   window.loadFile = function(file) {
     if (!file) return;
-    var isRaw = !file.type.startsWith('image/') && RAW_EXT.test(file.name || '');
+    var isRaw = RAW_EXT.test(file.name || '');
     if (!file.type.startsWith('image/') && !isRaw) return;
-    _hideRawWarn();
+    _hideRawWarn(); _hideRawNotice();
     S.reset();
-    S.file    = file;
-    S.fileMime = file.type || (isRaw ? 'image/x-raw' : 'image/jpeg');
     _resetAdj(); _resetRot(); _resetEfx();
     _cropClean();
+
+    if (isRaw) {
+      _showRawLoading(true);
+      window.VRaw.decode(file).then(function (r) {
+        _showRawLoading(false);
+        S.file     = { name: file.name, size: r.blob.size };
+        S.fileMime = 'image/jpeg';
+        S.origUrl  = r.url;
+        _applyLoadedImage(r.img, file.name, r.blob.size, 'image/jpeg');
+        _showRawNotice(file, r.width, r.height);
+      }).catch(function () {
+        _showRawLoading(false);
+        _showRawWarn(file);
+      });
+      return;
+    }
+
+    S.file     = file;
+    S.fileMime = file.type || 'image/jpeg';
 
     var reader = new FileReader();
     reader.onload = function(e) {
       S.origUrl = e.target.result;
       var img = new Image();
       img.onload = function() {
-        S.origImg = img;
-        S.origW   = img.width;
-        S.origH   = img.height;
-        S.ar      = img.width / img.height;
-        S.targetW = img.width;
-        S.targetH = img.height;
-        var rw = $('v-rw'), rh = $('v-rh');
-        if (rw) rw.value = img.width;
-        if (rh) rh.value = img.height;
-
-        $('v-dz').style.display = 'none';
-        $('v-editor').classList.add('on');
-
-        var pi = $('v-prev-img');
-        if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
-        // Hide both placeholders once an image is loaded
-        var ph1 = $('v-prev-placeholder'); if (ph1) ph1.style.display = 'none';
-        var ph2 = document.querySelector('.v-preview-placeholder'); if (ph2) ph2.style.display = 'none';
-
-        _setFInfo('v-fi-orig', file.name, file.size, img.width, img.height, file.type, null, null);
-        $('v-result').classList.remove('on');
-        _checkPNG();
-        switchPanel('compress', $('v-tb-compress'));
+        _applyLoadedImage(img, file.name, file.size, file.type);
       };
       img.onerror = function(){
-        if (isRaw) _showRawWarn(file);
+        alert('Could not read this image. The file may be corrupted or in an unsupported format.');
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   };
 
-  /* ─── RAW fallback notice ─────────────────────── */
+  /** Shared "image is ready" step — wires it into the editor + live preview. */
+  function _applyLoadedImage(img, fileName, fileSize, fileType) {
+    S.origImg = img;
+    S.origW   = img.width;
+    S.origH   = img.height;
+    S.ar      = img.width / img.height;
+    S.targetW = img.width;
+    S.targetH = img.height;
+    var rw = $('v-rw'), rh = $('v-rh');
+    if (rw) rw.value = img.width;
+    if (rh) rh.value = img.height;
+
+    $('v-dz').style.display = 'none';
+    $('v-editor').classList.add('on');
+
+    var pi = $('v-prev-img');
+    if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
+    var ph1 = $('v-prev-placeholder'); if (ph1) ph1.style.display = 'none';
+    var ph2 = document.querySelector('.v-preview-placeholder'); if (ph2) ph2.style.display = 'none';
+
+    _setFInfo('v-fi-orig', fileName, fileSize, img.width, img.height, fileType, null, null);
+    $('v-result').classList.remove('on');
+    _checkPNG();
+    switchPanel('compress', $('v-tb-compress'));
+  }
+
+  /* ─── RAW preview extraction: notices & loading state ─── */
+  function _showRawLoading(on) {
+    var dz = $('v-dz');
+    if (on) {
+      if (dz) dz.classList.add('raw-loading');
+    } else {
+      if (dz) dz.classList.remove('raw-loading');
+    }
+  }
+  function _showRawNotice(file, w, h) {
+    var n = $('v-raw-notice');
+    if (!n) return;
+    var t = $('v-raw-notice-text');
+    if (t) t.innerHTML = '<strong>RAW preview loaded</strong> — showing the ' + w + '×' + h +
+      ' JPEG preview embedded in <strong>' + file.name + '</strong> by your camera. ' +
+      'All edits, compression and format conversion below apply to this preview, not the original sensor data.';
+    n.classList.add('on');
+  }
+  function _hideRawNotice() {
+    var n = $('v-raw-notice');
+    if (n) n.classList.remove('on');
+  }
   function _showRawWarn(file) {
     var w = $('v-raw-warn');
-    if (!w) { alert('RAW file detected ('+file.name+'), but your browser can\'t preview camera RAW formats. Export a JPEG/TIFF from your camera app and upload that instead.'); return; }
+    if (!w) { alert('RAW file detected ('+file.name+'), but no usable preview image could be found inside it. Export a JPEG/TIFF from your camera app and upload that instead.'); return; }
     var nm = $('v-raw-warn-name');
     if (nm) nm.textContent = file.name;
     w.classList.add('on');
@@ -3376,6 +3608,7 @@ window.VBatch = (function () {
     S.reset();
     _resetAdj(); _resetRot(); _resetEfx();
     _hideRawWarn();
+    _hideRawNotice();
 
     /* Reset UI */
     var editor = $('v-editor');

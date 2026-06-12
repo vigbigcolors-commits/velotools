@@ -92,53 +92,93 @@
 
   window.loadFile = function(file) {
     if (!file) return;
-    var isRaw = !file.type.startsWith('image/') && RAW_EXT.test(file.name || '');
+    var isRaw = RAW_EXT.test(file.name || '');
     if (!file.type.startsWith('image/') && !isRaw) return;
-    _hideRawWarn();
+    _hideRawWarn(); _hideRawNotice();
     S.reset();
-    S.file    = file;
-    S.fileMime = file.type || (isRaw ? 'image/x-raw' : 'image/jpeg');
     _resetAdj(); _resetRot(); _resetEfx();
     _cropClean();
+
+    if (isRaw) {
+      _showRawLoading(true);
+      window.VRaw.decode(file).then(function (r) {
+        _showRawLoading(false);
+        S.file     = { name: file.name, size: r.blob.size };
+        S.fileMime = 'image/jpeg';
+        S.origUrl  = r.url;
+        _applyLoadedImage(r.img, file.name, r.blob.size, 'image/jpeg');
+        _showRawNotice(file, r.width, r.height);
+      }).catch(function () {
+        _showRawLoading(false);
+        _showRawWarn(file);
+      });
+      return;
+    }
+
+    S.file     = file;
+    S.fileMime = file.type || 'image/jpeg';
 
     var reader = new FileReader();
     reader.onload = function(e) {
       S.origUrl = e.target.result;
       var img = new Image();
       img.onload = function() {
-        S.origImg = img;
-        S.origW   = img.width;
-        S.origH   = img.height;
-        S.ar      = img.width / img.height;
-        S.targetW = img.width;
-        S.targetH = img.height;
-        var rw = $('v-rw'), rh = $('v-rh');
-        if (rw) rw.value = img.width;
-        if (rh) rh.value = img.height;
-
-        $('v-dz').style.display = 'none';
-        $('v-editor').classList.add('on');
-
-        var pi = $('v-prev-img');
-        if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
-
-        _setFInfo('v-fi-orig', file.name, file.size, img.width, img.height, file.type, null, null);
-        $('v-result').classList.remove('on');
-        _checkPNG();
-        switchPanel('compress', $('v-tb-compress'));
+        _applyLoadedImage(img, file.name, file.size, file.type);
       };
       img.onerror = function(){
-        if (isRaw) _showRawWarn(file);
+        alert('Could not read this image. The file may be corrupted or in an unsupported format.');
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   };
 
-  /* ─── RAW fallback notice ─────────────────────── */
+  /** Shared "image is ready" step — wires it into the editor + live preview. */
+  function _applyLoadedImage(img, fileName, fileSize, fileType) {
+    S.origImg = img;
+    S.origW   = img.width;
+    S.origH   = img.height;
+    S.ar      = img.width / img.height;
+    S.targetW = img.width;
+    S.targetH = img.height;
+    var rw = $('v-rw'), rh = $('v-rh');
+    if (rw) rw.value = img.width;
+    if (rh) rh.value = img.height;
+
+    $('v-dz').style.display = 'none';
+    $('v-editor').classList.add('on');
+
+    var pi = $('v-prev-img');
+    if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
+
+    _setFInfo('v-fi-orig', fileName, fileSize, img.width, img.height, fileType, null, null);
+    $('v-result').classList.remove('on');
+    _checkPNG();
+    switchPanel('compress', $('v-tb-compress'));
+  }
+
+  /* ─── RAW preview extraction: notices & loading state ─── */
+  function _showRawLoading(on) {
+    var dz = $('v-dz');
+    if (!dz) return;
+    dz.classList.toggle('raw-loading', !!on);
+  }
+  function _showRawNotice(file, w, h) {
+    var n = $('v-raw-notice');
+    if (!n) return;
+    var t = $('v-raw-notice-text');
+    if (t) t.innerHTML = '<strong>RAW preview loaded</strong> — showing the ' + w + '×' + h +
+      ' JPEG preview embedded in <strong>' + file.name + '</strong> by your camera. ' +
+      'All edits, compression and format conversion below apply to this preview, not the original sensor data.';
+    n.classList.add('on');
+  }
+  function _hideRawNotice() {
+    var n = $('v-raw-notice');
+    if (n) n.classList.remove('on');
+  }
   function _showRawWarn(file) {
     var w = $('v-raw-warn');
-    if (!w) { alert('RAW file detected ('+file.name+'), but your browser can\'t preview camera RAW formats. Export a JPEG/TIFF from your camera app and upload that instead.'); return; }
+    if (!w) { alert('RAW file detected ('+file.name+'), but no usable preview image could be found inside it. Export a JPEG/TIFF from your camera app and upload that instead.'); return; }
     var nm = $('v-raw-warn-name');
     if (nm) nm.textContent = file.name;
     w.classList.add('on');
