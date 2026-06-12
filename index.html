@@ -177,24 +177,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 /* deco: white corner L-bracket bottom-left */
 .c-gold::after{content:'';position:absolute;bottom:18px;left:18px;width:22px;height:22px;border-bottom:1.5px solid rgba(255,255,255,.25);border-left:1.5px solid rgba(255,255,255,.25);border-radius:0 0 0 5px;pointer-events:none;z-index:0}
 
-/* ── RETRO STAMP ICONS — universal override for all cards ──
-   Warm parchment · double inset ring · engraving SVG stroke
-   Placed after per-card rules → wins the cascade cleanly */
-.v-card .v-card-ico{background:#ede6d4;border:1.5px solid rgba(20,12,6,.18);box-shadow:inset 0 0 0 3.5px rgba(20,12,6,.07),inset 0 0 0 5px #ede6d4,inset 0 0 0 6.5px rgba(20,12,6,.12),0 8px 24px rgba(0,0,0,.5)}
-.v-card .v-card-ico::after{background:linear-gradient(145deg,rgba(255,255,255,.45) 0%,transparent 55%)}
-.v-card .v-card-ico svg{stroke:#1a1208;stroke-width:2.4;filter:drop-shadow(0 1px 0 rgba(255,255,255,.25))}
-.v-card:hover .v-card-ico{box-shadow:inset 0 0 0 3.5px rgba(20,12,6,.07),inset 0 0 0 5px #ede6d4,inset 0 0 0 6.5px rgba(20,12,6,.12),0 10px 28px rgba(0,0,0,.55)}
-
 /* top-center light beam on hover — replaces blob */
 .v-card:hover::before{background:radial-gradient(ellipse 75% 45% at 50% 0%,rgba(255,255,255,.11) 0%,transparent 70%)}
-
-/* ── COLORFUL ICON STROKES — .v-card.c-* = 3 classes → beats universal 2-class rule ── */
-.v-card.c-mint .v-card-ico svg{stroke:#00d9c0;color:#00d9c0;filter:drop-shadow(0 0 4px rgba(0,217,192,.55))}
-.v-card.c-sage .v-card-ico svg{stroke:#ff7a3d;color:#ff7a3d;filter:drop-shadow(0 0 4px rgba(255,122,61,.55))}
-.v-card.c-sand .v-card-ico svg{stroke:#b866ff;color:#b866ff;filter:drop-shadow(0 0 4px rgba(184,102,255,.55))}
-.v-card.c-sky  .v-card-ico svg{stroke:#2fb8ff;color:#2fb8ff;filter:drop-shadow(0 0 4px rgba(47,184,255,.55))}
-.v-card.c-coral .v-card-ico svg{stroke:#ff4d4d;color:#ff4d4d;filter:drop-shadow(0 0 4px rgba(255,77,77,.55))}
-.v-card.c-gold .v-card-ico svg{stroke:#ffb800;color:#ffb800;filter:drop-shadow(0 0 4px rgba(255,184,0,.55))}
 
 /* reset base ico transform — animations take over per class */
 .c-mint:hover .v-card-ico,
