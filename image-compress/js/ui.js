@@ -88,11 +88,16 @@
   /* ═══════════════════════════════════════════════
      LOAD FILE
   ═══════════════════════════════════════════════ */
+  var RAW_EXT = /\.(cr2|cr3|nef|nrw|arw|srf|sr2|dng|raf|rw2|orf|pef|srw|x3f|raw)$/i;
+
   window.loadFile = function(file) {
-    if (!file || !file.type.startsWith('image/')) return;
+    if (!file) return;
+    var isRaw = !file.type.startsWith('image/') && RAW_EXT.test(file.name || '');
+    if (!file.type.startsWith('image/') && !isRaw) return;
+    _hideRawWarn();
     S.reset();
     S.file    = file;
-    S.fileMime = file.type || 'image/jpeg';
+    S.fileMime = file.type || (isRaw ? 'image/x-raw' : 'image/jpeg');
     _resetAdj(); _resetRot(); _resetEfx();
     _cropClean();
 
@@ -122,10 +127,26 @@
         _checkPNG();
         switchPanel('compress', $('v-tb-compress'));
       };
+      img.onerror = function(){
+        if (isRaw) _showRawWarn(file);
+      };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   };
+
+  /* ─── RAW fallback notice ─────────────────────── */
+  function _showRawWarn(file) {
+    var w = $('v-raw-warn');
+    if (!w) { alert('RAW file detected ('+file.name+'), but your browser can\'t preview camera RAW formats. Export a JPEG/TIFF from your camera app and upload that instead.'); return; }
+    var nm = $('v-raw-warn-name');
+    if (nm) nm.textContent = file.name;
+    w.classList.add('on');
+  }
+  function _hideRawWarn() {
+    var w = $('v-raw-warn');
+    if (w) w.classList.remove('on');
+  }
 
   /* ═══════════════════════════════════════════════
      LIVE PREVIEW
@@ -829,7 +850,7 @@
     var saved  = (origSize && newSize && origSize > newSize) ? Math.round((1 - newSize / origSize) * 100) : null;
     var noSave = (origSize && newSize && saved <= 0);
     var fl = (fmt || '').split('/')[1] || '';
-    fl = fl.replace('jpeg','JPG').replace('png','PNG').replace('webp','WebP').replace('avif','AVIF').toUpperCase();
+    fl = fl.replace('jpeg','JPG').replace('png','PNG').replace('webp','WebP').replace('avif','AVIF').replace('svg+xml','SVG').toUpperCase();
     var el = $(elId); if (!el) return;
     el.innerHTML =
       '<span class="v-tag v-tag-lbl">' + (elId.includes('res') ? 'RESULT' : 'ORIGINAL') + ':</span>' +

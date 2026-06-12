@@ -867,6 +867,12 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 
 /* Popular conversion pairs */
 .v-conv-pairs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:4px}
+.v-raw-card{margin-top:14px;padding:14px 16px;background:var(--bg-2);border:1px solid var(--br);border-radius:11px}
+.v-raw-card-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--tx);margin-bottom:6px;flex-wrap:wrap}
+.v-raw-card-h svg{color:var(--ac);flex-shrink:0}
+.v-raw-card-tag{margin-left:auto;font-size:10.5px;font-weight:600;color:var(--tx-3);letter-spacing:.02em}
+.v-raw-card p{font-size:12.5px;color:var(--tx-2);line-height:1.6;margin:0}
+@media(max-width:600px){.v-raw-card-tag{margin-left:0;width:100%}}
 .v-conv-pair{padding:11px 8px;border-radius:10px;border:1.5px solid var(--br-2);background:linear-gradient(135deg,rgba(91,108,249,.05),rgba(14,166,110,.05));font-size:13px;font-weight:700;color:var(--tx);cursor:pointer;font-family:var(--font);transition:all .15s;text-align:center}
 .v-conv-pair:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-2px);box-shadow:0 4px 12px rgba(91,108,249,.18)}
 @media(max-width:600px){.v-conv-pairs{grid-template-columns:repeat(2,1fr)}}
@@ -1269,10 +1275,16 @@ html,body{background:var(--bg-main)}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Choose an image
       </button>
-      <div class="v-dz-fmt">JPG · PNG · WebP · AVIF · GIF · BMP · TIFF — any size</div>
+      <div class="v-dz-fmt">JPG · PNG · WebP · AVIF · GIF · BMP · TIFF · SVG · RAW — any size</div>
       <div class="v-dz-badges"><span class="v-dz-bdg">✓ No file limit</span><span class="v-dz-bdg">✓ No upload</span><span class="v-dz-bdg">✓ 100% private</span></div>
     </div>
-    <input type="file" id="v-fi" accept="image/*" style="display:none" onchange="loadFile(this.files[0])">
+    <input type="file" id="v-fi" accept="image/*,.svg,.cr2,.cr3,.nef,.nrw,.arw,.dng,.raf,.rw2,.orf,.pef,.srw,.raw" style="display:none" onchange="loadFile(this.files[0])">
+
+    <!-- RAW FORMAT NOTICE -->
+    <div class="v-warn" id="v-raw-warn" role="alert" style="margin:14px 0">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span><strong>RAW file detected</strong> (<span id="v-raw-warn-name"></span>) — your browser can't decode camera RAW directly. Export a JPEG or TIFF from your camera/editing app, then upload that to convert it to JPG, PNG, WebP or AVIF here.</span>
+    </div>
 
     <!-- EDITOR -->
     <div class="v-editor" id="v-editor">
@@ -1380,6 +1392,7 @@ html,body{background:var(--bg-main)}
             <button class="v-fmt"    id="v-fmt-webp"  onclick="setFmt('image/webp',this)">WebP<small>Modern</small></button>
             <button class="v-fmt"    id="v-fmt-avif"  onclick="setFmt('image/avif',this)">AVIF<small>Smallest</small></button>
             <button class="v-fmt"    id="v-fmt-gif"   onclick="setFmt('image/gif',this)">GIF<small>Legacy</small></button>
+            <button class="v-fmt"    id="v-fmt-svg"   onclick="setFmt('image/svg+xml',this)">SVG<small>Vector wrap</small></button>
           </div>
           <div id="v-conv-quality" style="margin-top:16px">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -1398,8 +1411,20 @@ html,body{background:var(--bg-main)}
             <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">AVIF → WebP</button>
             <button class="v-conv-pair" onclick="setFmt('image/jpeg',document.getElementById('v-fmt-jpg'))">WebP → JPG</button>
             <button class="v-conv-pair" onclick="setFmt('image/png',document.getElementById('v-fmt-png'))">WebP → PNG</button>
+            <button class="v-conv-pair" onclick="setFmt('image/png',document.getElementById('v-fmt-png'))">SVG → PNG</button>
+            <button class="v-conv-pair" onclick="setFmt('image/svg+xml',document.getElementById('v-fmt-svg'))">PNG → SVG</button>
           </div>
-          <div class="v-hint v-hint-ac">💡 <strong>WebP</strong> is 25–40% smaller than JPG/PNG at equal quality. <strong>AVIF</strong> up to 50% smaller than JPG. Tip: click a pair above, then press the big button to convert.</div>
+          <div class="v-hint v-hint-ac">💡 <strong>WebP</strong> is 25–40% smaller than JPG/PNG at equal quality. <strong>AVIF</strong> up to 50% smaller than JPG. <strong>SVG</strong> output wraps the result as a scalable single-file vector container — great for design tools. Tip: click a pair above, then press the big button to convert.</div>
+
+          <!-- RAW INFO CARD -->
+          <div class="v-raw-card">
+            <div class="v-raw-card-h">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>RAW → JPG / PNG</span>
+              <span class="v-raw-card-tag">CR2 · NEF · ARW · DNG · RAF · RW2 · ORF</span>
+            </div>
+            <p>Drop a camera RAW file in the upload zone — VeloTools will try to open it. If your browser can decode it, convert straight to JPG, PNG, WebP or AVIF using the buttons above. If not, you'll get a clear message telling you to export a JPEG/TIFF from your camera app first — no silent failures.</p>
+          </div>
         </section>
 
         <!-- RESIZE -->
@@ -1945,7 +1970,8 @@ window.VConverter = (function () {
 
   var EXT = {
     'image/jpeg':'jpg','image/png':'png',
-    'image/webp':'webp','image/avif':'avif','image/gif':'gif'
+    'image/webp':'webp','image/avif':'avif','image/gif':'gif',
+    'image/svg+xml':'svg'
   };
 
   function resolveMime(format, fileMime) {
@@ -1953,8 +1979,22 @@ window.VConverter = (function () {
     return format;
   }
 
+  /** Wrap a rasterized canvas into a single-file SVG (embedded PNG).
+   *  Lossless, opens in any browser/editor, scales as a vector container. */
+  function encodeSVGWrapper(canvas) {
+    var dataURL = canvas.toDataURL('image/png');
+    var w = canvas.width, h = canvas.height;
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+
+              '" viewBox="0 0 '+w+' '+h+
+              '"><image width="'+w+'" height="'+h+'" href="'+dataURL+'"/></svg>';
+    return new Blob([svg], { type:'image/svg+xml' });
+  }
+
   /** Returns Promise<Blob> */
   function encode(canvas, mime, quality) {
+    if (mime === 'image/svg+xml') {
+      return Promise.resolve(encodeSVGWrapper(canvas));
+    }
     if (mime === 'image/gif') mime = 'image/png'; // fallback
     var q = (mime === 'image/png') ? undefined : quality / 100;
     return new Promise(function (res, rej) {
@@ -2367,11 +2407,16 @@ window.VBatch = (function () {
   /* ═══════════════════════════════════════════════
      LOAD FILE
   ═══════════════════════════════════════════════ */
+  var RAW_EXT = /\.(cr2|cr3|nef|nrw|arw|srf|sr2|dng|raf|rw2|orf|pef|srw|x3f|raw)$/i;
+
   window.loadFile = function(file) {
-    if (!file || !file.type.startsWith('image/')) return;
+    if (!file) return;
+    var isRaw = !file.type.startsWith('image/') && RAW_EXT.test(file.name || '');
+    if (!file.type.startsWith('image/') && !isRaw) return;
+    _hideRawWarn();
     S.reset();
     S.file    = file;
-    S.fileMime = file.type || 'image/jpeg';
+    S.fileMime = file.type || (isRaw ? 'image/x-raw' : 'image/jpeg');
     _resetAdj(); _resetRot(); _resetEfx();
     _cropClean();
 
@@ -2404,10 +2449,26 @@ window.VBatch = (function () {
         _checkPNG();
         switchPanel('compress', $('v-tb-compress'));
       };
+      img.onerror = function(){
+        if (isRaw) _showRawWarn(file);
+      };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   };
+
+  /* ─── RAW fallback notice ─────────────────────── */
+  function _showRawWarn(file) {
+    var w = $('v-raw-warn');
+    if (!w) { alert('RAW file detected ('+file.name+'), but your browser can\'t preview camera RAW formats. Export a JPEG/TIFF from your camera app and upload that instead.'); return; }
+    var nm = $('v-raw-warn-name');
+    if (nm) nm.textContent = file.name;
+    w.classList.add('on');
+  }
+  function _hideRawWarn() {
+    var w = $('v-raw-warn');
+    if (w) w.classList.remove('on');
+  }
 
   /* ═══════════════════════════════════════════════
      LIVE PREVIEW
@@ -3314,6 +3375,7 @@ window.VBatch = (function () {
     /* Reset state */
     S.reset();
     _resetAdj(); _resetRot(); _resetEfx();
+    _hideRawWarn();
 
     /* Reset UI */
     var editor = $('v-editor');
@@ -3446,7 +3508,7 @@ window.VBatch = (function () {
     var saved  = (origSize && newSize && origSize > newSize) ? Math.round((1 - newSize / origSize) * 100) : null;
     var noSave = (origSize && newSize && saved <= 0);
     var fl = (fmt || '').split('/')[1] || '';
-    fl = fl.replace('jpeg','JPG').replace('png','PNG').replace('webp','WebP').replace('avif','AVIF').toUpperCase();
+    fl = fl.replace('jpeg','JPG').replace('png','PNG').replace('webp','WebP').replace('avif','AVIF').replace('svg+xml','SVG').toUpperCase();
     var el = $(elId); if (!el) return;
     el.innerHTML =
       '<span class="v-tag v-tag-lbl">' + (elId.includes('res') ? 'RESULT' : 'ORIGINAL') + ':</span>' +
