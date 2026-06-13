@@ -82,6 +82,22 @@
         <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <span>Location</span>
       </button>
+      <button class="type-tab" data-type="event" title="Calendar event">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Event</span>
+      </button>
+      <button class="type-tab" data-type="crypto" title="Crypto payment">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 8h3.2a2 2 0 0 1 0 4H9.5m0 0h3.6a2 2 0 0 1 0 4H9.5M11 6v2m0 8v2"/></svg>
+        <span>Crypto</span>
+      </button>
+      <button class="type-tab" data-type="zoom" title="Video meeting link">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>
+        <span>Meeting</span>
+      </button>
+      <button class="type-tab" data-type="app" title="App download link">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        <span>App</span>
+      </button>
     </div>
 
     <!-- Dynamic forms -->
@@ -165,6 +181,51 @@
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
         Use my location
       </button>
+    </div>
+
+    <div id="form-event" class="qr-form" style="display:none">
+      <label class="fl">Event title</label>
+      <input class="fi" id="f-ev-title" type="text" placeholder="Team meeting">
+      <div class="f2col">
+        <div><label class="fl">Starts</label><input class="fi" id="f-ev-start" type="datetime-local"></div>
+        <div><label class="fl">Ends</label><input class="fi" id="f-ev-end" type="datetime-local"></div>
+      </div>
+      <label class="fl">Location</label>
+      <input class="fi" id="f-ev-loc" type="text" placeholder="Office, room 4 or video link">
+      <label class="fl">Description (optional)</label>
+      <textarea class="fi fi-ta" id="f-ev-desc" rows="3" placeholder="Agenda, notes…"></textarea>
+    </div>
+
+    <div id="form-crypto" class="qr-form" style="display:none">
+      <label class="fl">Coin</label>
+      <div class="seg" id="crypto-coin">
+        <button class="seg-btn act" data-val="bitcoin">Bitcoin</button>
+        <button class="seg-btn" data-val="ethereum">Ethereum</button>
+        <button class="seg-btn" data-val="litecoin">Litecoin</button>
+      </div>
+      <label class="fl">Wallet address</label>
+      <input class="fi" id="f-crypto-addr" type="text" placeholder="bc1q...">
+      <div class="f2col">
+        <div><label class="fl">Amount (optional)</label><input class="fi" id="f-crypto-amount" type="number" step="any" placeholder="0.01"></div>
+        <div><label class="fl">Label (optional)</label><input class="fi" id="f-crypto-label" type="text" placeholder="Donation"></div>
+      </div>
+      <p class="f-hint">Scannable by most crypto wallet apps to pre-fill payment details.</p>
+    </div>
+
+    <div id="form-zoom" class="qr-form" style="display:none">
+      <label class="fl">Meeting link</label>
+      <input class="fi" id="f-zoom-url" type="url" placeholder="https://zoom.us/j/123456789">
+      <label class="fl">Meeting ID (optional)</label>
+      <input class="fi" id="f-zoom-id" type="text" placeholder="123 456 789">
+      <label class="fl">Passcode (optional)</label>
+      <input class="fi" id="f-zoom-pass" type="text" placeholder="Passcode">
+      <p class="f-hint">Works with Zoom, Google Meet, Teams — paste any meeting link.</p>
+    </div>
+
+    <div id="form-app" class="qr-form" style="display:none">
+      <label class="fl">App link</label>
+      <input class="fi" id="f-app-url" type="url" placeholder="https://apps.apple.com/app/id... or play.google.com/store/apps/...">
+      <p class="f-hint">Paste your App Store or Google Play link — scanning opens the app page directly.</p>
     </div>
 
     <!-- QR data display -->

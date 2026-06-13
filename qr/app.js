@@ -64,7 +64,7 @@ function bindTypeTabs(){
 }
 
 function showForm(type){
-  ['url','text','wifi','vcard','email','phone','sms','location'].forEach(function(t){
+  ['url','text','wifi','vcard','email','phone','sms','location','event','crypto','zoom','app'].forEach(function(t){
     var el = $('form-'+t);
     if(el) el.style.display = (t===type) ? '' : 'none';
   });
@@ -168,8 +168,51 @@ function buildData(){
       if(isNaN(lat)||isNaN(lng)) return '';
       return 'geo:'+lat.toFixed(6)+','+lng.toFixed(6);
     }
+    case 'event': {
+      var title = $('f-ev-title').value.trim();
+      var start = $('f-ev-start').value;
+      if(!title || !start) return '';
+      var end = $('f-ev-end').value || start;
+      var lines = ['BEGIN:VEVENT'];
+      lines.push('SUMMARY:'+title);
+      lines.push('DTSTART:'+toICSDate(start));
+      lines.push('DTEND:'+toICSDate(end));
+      if($('f-ev-loc').value.trim())  lines.push('LOCATION:'+$('f-ev-loc').value.trim());
+      if($('f-ev-desc').value.trim()) lines.push('DESCRIPTION:'+$('f-ev-desc').value.trim().replace(/\n/g,'\\n'));
+      lines.push('END:VEVENT');
+      return lines.join('\n');
+    }
+    case 'crypto': {
+      var addr = $('f-crypto-addr').value.trim();
+      if(!addr) return '';
+      var coin = getSegValue('crypto-coin') || 'bitcoin';
+      var scheme = { bitcoin:'bitcoin', ethereum:'ethereum', litecoin:'litecoin' }[coin];
+      var params = [];
+      var amount = $('f-crypto-amount').value.trim();
+      var label  = $('f-crypto-label').value.trim();
+      if(amount) params.push('amount='+amount);
+      if(label)  params.push('label='+encodeURIComponent(label));
+      return scheme+':'+addr+(params.length?'?'+params.join('&'):'');
+    }
+    case 'zoom': {
+      var zurl = $('f-zoom-url').value.trim();
+      if(!zurl) return '';
+      var extra = [];
+      if($('f-zoom-id').value.trim())   extra.push('ID: '+$('f-zoom-id').value.trim());
+      if($('f-zoom-pass').value.trim()) extra.push('Passcode: '+$('f-zoom-pass').value.trim());
+      return zurl; // extra info shown to user but not encoded — QR stays a clean clickable link
+    }
+    case 'app': {
+      var aurl = $('f-app-url').value.trim();
+      return aurl;
+    }
   }
   return '';
+}
+
+function toICSDate(localDateTime){
+  // "2026-06-13T10:30" -> "20260613T103000"
+  return localDateTime.replace(/[-:]/g,'').slice(0,15)+'00';
 }
 
 function escapeWifi(str){
@@ -194,10 +237,6 @@ function createQR(){
 /* ---------- UPDATE QR ---------- */
 function updateQR(){
   var data = buildData();
-  if(!data){
-    $('qr-data-row').style.display = 'none';
-    return;
-  }
   updateDataDisplay(data);
 
   if(!Q.qrInstance){
