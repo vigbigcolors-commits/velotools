@@ -57,7 +57,8 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--ac3) 0%,var(--ro
 .main{max-width:1320px;margin:0 auto;padding:0 18px 50px;position:relative;z-index:1}
 
 /* TOOL LAYOUT */
-.tool{display:grid;grid-template-columns:320px 1fr 280px;gap:16px;align-items:start}
+.tool{display:grid;grid-template-columns:320px 1fr 280px;gap:16px;align-items:start;min-width:0}
+.tool>*{min-width:0}
 
 /* PANELS */
 .panel-head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--tx4);font-family:"DM Mono",monospace;margin-bottom:14px}
