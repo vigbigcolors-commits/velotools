@@ -157,6 +157,8 @@
     var rpct = $('v-rpct'), rpctn = $('v-rpctn');
     if (rpct)  rpct.value  = 100;
     if (rpctn) rpctn.value = 100;
+    var rpi = $('v-rpct-info');
+    if (rpi) rpi.textContent = '→ ' + img.width + ' × ' + img.height + ' px';
 
     $('v-dz').style.display = 'none';
     $('v-editor').classList.add('on');
@@ -242,8 +244,11 @@
     S.activePanel = id;
 
     if (id === 'crop') {
-      // Сброс превью на чистый оригинал — иначе в crop остаётся
-      // картинка из blur/effects, и юзер режет "вслепую".
+      // Убиваем ВСЕ висящие live-preview (внешний дебаунс ui.js + внутренний
+      // процессора). Иначе pending-запрос из blur/effects дорисует картинку
+      // поверх оригинала уже ПОСЛЕ входа в crop — это и был баг.
+      clearTimeout(_liveTimer);
+      P.cancelLive();
       var pi = $('v-prev-img');
       if (pi && S.origUrl) pi.src = S.origUrl;
       _cropEnter();
@@ -329,10 +334,26 @@
     if (rw) rw.value = S.targetW;
     if (rh) rh.value = S.targetH;
     var sl = $('v-rpct'), nin = $('v-rpctn');
-    if (sl)  sl.value  = pct;
+    if (sl)  { sl.value = pct; _pctSlUI(sl); }
     if (nin) nin.value = pct;
+    _updPctInfo();
     if (S.origImg) _livePreview();
   };
+
+  /** Заливка трека слайдера процента (0–200 → 0–100% ширины). */
+  function _pctSlUI(sl) {
+    if (!sl) return;
+    var v = parseInt(sl.value);
+    var pct = ((v - 5) / 195) * 100;
+    sl.style.background = 'linear-gradient(to right,var(--ac) ' + pct + '%,var(--br-2) ' + pct + '%)';
+  }
+
+  /** Живой фидбэк итогового размера — в resize-превью масштаб не виден
+   *  (img растянут CSS), поэтому показываем числа явно. */
+  function _updPctInfo() {
+    var info = $('v-rpct-info');
+    if (info) info.textContent = '→ ' + (S.targetW||S.origW) + ' × ' + (S.targetH||S.origH) + ' px';
+  }
 
   /** Пересчитать значение процента из текущих targetW/origW (для синхронизации
    *  поля при ручном вводе W/H или пресете). */
@@ -340,8 +361,9 @@
     if (!S.origW) return;
     var pct = Math.round(S.targetW / S.origW * 100);
     var sl = $('v-rpct'), nin = $('v-rpctn');
-    if (sl)  sl.value  = pct;
+    if (sl)  { sl.value = pct; _pctSlUI(sl); }
     if (nin) nin.value = pct;
+    _updPctInfo();
   }
 
   window.autoWebP = function() {
@@ -783,10 +805,15 @@
 
   window.editResult = function() {
     if (!S.resultUrl || !S.resultBlob) return;
+    // Гасим висящие live-preview, иначе отложенный запрос из прошлой
+    // обработки перерисует превью устаревшей картинкой.
+    clearTimeout(_liveTimer);
+    P.cancelLive();
     var nm  = ($('v-fnin').value || 'result') + '.' + S.resultExt;
+    var resultUrlSnapshot = S.resultUrl;
     S.file  = new File([S.resultBlob], nm, { type: S.resultBlob.type });
     S.fileMime  = S.resultBlob.type;
-    S.origUrl   = S.resultUrl;
+    S.origUrl   = resultUrlSnapshot;
     S.rotation  = null;
     var img = new Image();
     img.onload = function() {
@@ -796,12 +823,19 @@
       var rw = $('v-rw'), rh = $('v-rh');
       if (rw) rw.value = img.width;
       if (rh) rh.value = img.height;
+      var rpct = $('v-rpct'), rpctn = $('v-rpctn');
+      if (rpct)  { rpct.value = 100; _pctSlUI(rpct); }
+      if (rpctn) rpctn.value = 100;
+      _updPctInfo();
       var pi = $('v-prev-img');
       if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
       _setFInfo('v-fi-orig', S.file.name, S.file.size, img.width, img.height, S.file.type, null, null);
       $('v-result').classList.remove('on');
       S.resultBlob = null; S.resultUrl = null;
       _checkPNG();
+      // Сброс панели на compress — иначе остаёшься в той же панели
+      // с устаревшими настройками от прошлого результата.
+      switchPanel('compress', $('v-tb-compress'));
       window.scrollTo({ top: $('v-editor').getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
     };
     img.src = S.origUrl;

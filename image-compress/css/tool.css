@@ -177,7 +177,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 /* Resize percentage */
 .v-pctrow{display:flex;align-items:center;gap:10px;margin-top:14px}
 .v-pctlbl{font-size:12px;font-weight:600;color:var(--tx-2);width:42px;flex-shrink:0}
-.v-pctsl{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:var(--br-2);outline:none;cursor:pointer;touch-action:none}
+.v-pctsl{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:linear-gradient(to right,var(--ac) 48.7%,var(--br-2) 48.7%);outline:none;cursor:pointer;touch-action:none}
 .v-pctsl::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--ac);border-radius:50%;border:2px solid #fff;box-shadow:0 1px 6px rgba(91,108,249,.4);cursor:pointer}
 .v-pctsl::-moz-range-thumb{width:18px;height:18px;background:var(--ac);border-radius:50%;border:2px solid #fff;box-shadow:0 1px 6px rgba(91,108,249,.4);cursor:pointer}
 .v-pctin{width:58px;border:1.5px solid var(--br-2);border-radius:8px;padding:7px 8px;font-size:13px;font-weight:700;color:var(--tx);background:var(--bg);font-family:var(--font);outline:none;text-align:right;transition:border-color .15s}

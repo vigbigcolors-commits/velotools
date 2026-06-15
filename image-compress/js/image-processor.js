@@ -83,18 +83,37 @@ window.VProcessor = (function () {
     });
   }
 
-  /** Debounced live preview */
+  /** Debounced live preview с защитой от гонки.
+   *  Каждый запрос получает номер поколения. Если за время асинхронной
+   *  обработки (Image.onload + encode) пришёл новый запрос ИЛИ был вызван
+   *  cancelLive() — устаревший результат НЕ пишется в превью.
+   *  Это убирает баг "в crop остаётся блюр": pending-таймер из blur-панели
+   *  больше не может дорисовать картинку поверх. */
   var _t = null;
+  var _gen = 0;
   function livePreview(img, state, targetEl, ms) {
     clearTimeout(_t);
+    var myGen = ++_gen;
     _t = setTimeout(function () {
+      if (myGen !== _gen) return;            // устарел ещё до старта
       process(img, state).then(function (r) {
+        if (myGen !== _gen) {                 // устарел во время обработки
+          URL.revokeObjectURL(URL.createObjectURL(r.blob));
+          return;
+        }
         var url = URL.createObjectURL(r.blob);
         var old = targetEl.src;
         targetEl.src = url;
         if (old && old.startsWith('blob:')) URL.revokeObjectURL(old);
       }).catch(function(){});
     }, ms || 130);
+  }
+
+  /** Жёстко отменить любой висящий/выполняющийся live-preview.
+   *  Вызывается при входе в crop и при любой смене панели. */
+  function cancelLive() {
+    clearTimeout(_t);
+    _gen++;
   }
 
   /**
@@ -125,5 +144,5 @@ window.VProcessor = (function () {
     return src;
   }
 
-  return { process:process, livePreview:livePreview };
+  return { process:process, livePreview:livePreview, cancelLive:cancelLive };
 })();
