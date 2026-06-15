@@ -1505,6 +1505,13 @@ html,body{background:var(--bg-main)}
                 <input type="number" class="v-din" id="v-rh" placeholder="Height px" min="1" aria-label="Height">
               </div>
               <div style="margin-top:6px;font-size:11px;color:var(--tx-3)">🔗 Aspect ratio locked. Empty = keep original.</div>
+              <div class="v-pctrow">
+                <span class="v-pctlbl">Scale</span>
+                <input type="range" class="v-pctsl" id="v-rpct" min="5" max="200" value="100" aria-label="Resize percentage">
+                <input type="number" class="v-pctin" id="v-rpctn" min="5" max="200" value="100" aria-label="Resize percentage value">
+                <span class="v-pctsym">%</span>
+              </div>
+              <div style="margin-top:5px;font-size:11px;color:var(--tx-3)">100% = original size. Below 100% shrinks, above enlarges.</div>
             </div>
             <div>
               <span class="v-plbl">Quick resize</span>

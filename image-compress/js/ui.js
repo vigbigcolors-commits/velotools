@@ -82,6 +82,16 @@
     if (rw) rw.addEventListener('input', _onW);
     if (rh) rh.addEventListener('input', _onH);
 
+    var rpct = $('v-rpct'), rpctn = $('v-rpctn');
+    if (rpct) {
+      rpct.addEventListener('input', function(){ window.pctResize(this.value); });
+      rpct.addEventListener('change', function(){ window.pctResize(this.value); });
+      rpct.addEventListener('touchend', function(){ window.pctResize(rpct.value); }, { passive: true });
+    }
+    if (rpctn) {
+      rpctn.addEventListener('input', function(){ window.pctResize(this.value); });
+    }
+
     if (window.VBatch) VBatch.init();
   });
 
@@ -144,6 +154,9 @@
     var rw = $('v-rw'), rh = $('v-rh');
     if (rw) rw.value = img.width;
     if (rh) rh.value = img.height;
+    var rpct = $('v-rpct'), rpctn = $('v-rpctn');
+    if (rpct)  rpct.value  = 100;
+    if (rpctn) rpctn.value = 100;
 
     $('v-dz').style.display = 'none';
     $('v-editor').classList.add('on');
@@ -194,10 +207,12 @@
   var _liveTimer = null;
   function _livePreview() {
     if (!S.origImg) return;
+    // Один дебаунс. Раньше было два вложенных setTimeout (здесь + в
+    // P.livePreview) = ~280мс, слайдер ощущался как "не реагирует".
     clearTimeout(_liveTimer);
     _liveTimer = setTimeout(function(){
       P.livePreview(S.origImg, _snap(), $('v-prev-img'), 0);
-    }, 140);
+    }, 60);
   }
 
   function _snap() {
@@ -227,6 +242,10 @@
     S.activePanel = id;
 
     if (id === 'crop') {
+      // Сброс превью на чистый оригинал — иначе в crop остаётся
+      // картинка из blur/effects, и юзер режет "вслепую".
+      var pi = $('v-prev-img');
+      if (pi && S.origUrl) pi.src = S.origUrl;
       _cropEnter();
     } else {
       _cropExit();
@@ -297,7 +316,33 @@
     if (rw) rw.value = w;
     if (rh) rh.value = h;
     if (lb) lb.classList.remove('on');
+    _syncPct();
   };
+
+  /** Resize по проценту от оригинала. Сохраняет пропорции всегда. */
+  window.pctResize = function(pct) {
+    if (!S.origImg) return;
+    pct = Math.max(5, Math.min(200, parseInt(pct) || 100));
+    S.targetW = Math.max(1, Math.round(S.origW * pct / 100));
+    S.targetH = Math.max(1, Math.round(S.origH * pct / 100));
+    var rw = $('v-rw'), rh = $('v-rh');
+    if (rw) rw.value = S.targetW;
+    if (rh) rh.value = S.targetH;
+    var sl = $('v-rpct'), nin = $('v-rpctn');
+    if (sl)  sl.value  = pct;
+    if (nin) nin.value = pct;
+    if (S.origImg) _livePreview();
+  };
+
+  /** Пересчитать значение процента из текущих targetW/origW (для синхронизации
+   *  поля при ручном вводе W/H или пресете). */
+  function _syncPct() {
+    if (!S.origW) return;
+    var pct = Math.round(S.targetW / S.origW * 100);
+    var sl = $('v-rpct'), nin = $('v-rpctn');
+    if (sl)  sl.value  = pct;
+    if (nin) nin.value = pct;
+  }
 
   window.autoWebP = function() {
     S.format = 'image/webp';
@@ -314,12 +359,14 @@
     S.targetW = w;
     if (S.lockAR) { S.targetH = Math.round(w / S.ar); var rh = $('v-rh'); if(rh) rh.value = S.targetH; }
     else { S.targetH = parseInt($('v-rh').value) || S.origH; }
+    _syncPct();
   }
   function _onH() {
     var h = parseInt($('v-rh').value) || S.origH;
     S.targetH = h;
     if (S.lockAR) { S.targetW = Math.round(h * S.ar); var rw = $('v-rw'); if(rw) rw.value = S.targetW; }
     else { S.targetW = parseInt($('v-rw').value) || S.origW; }
+    _syncPct();
   }
 
   /* ═══════════════════════════════════════════════

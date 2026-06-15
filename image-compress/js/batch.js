@@ -178,12 +178,16 @@ window.VBatch = (function () {
           results[i] = { blob:blob, name:baseName+'_velo.'+extStr, mime:mime, origSize:files[i].size };
           if(card){ card.classList.add('done'); }
           if(stat) stat.textContent = (isRaw ? '✓ Done (from RAW preview) — ' : '✓ Done — ') + fmtB(blob.size);
-          // Individual download button
+          // Individual download button — удаляем старую, если карточка
+          // уже обрабатывалась (повторный Process all не должен плодить кнопки)
+          var info = card.querySelector('.v-bcard-info');
+          var oldBtn = info.querySelector('.v-bcard-dl');
+          if (oldBtn) oldBtn.remove();
           var btn2 = document.createElement('button');
           btn2.className='v-bcard-dl';
           btn2.textContent='⬇ Download';
           btn2.addEventListener('click', (function(r){ return function(){ dlOne(r); }; })(results[i]));
-          card.querySelector('.v-bcard-info').appendChild(btn2);
+          info.appendChild(btn2);
           resolve();
         }, mime, q);
       }).catch(function(err){

@@ -26,6 +26,8 @@ window.VProcessor = (function () {
         var ctx = canvas.getContext('2d');
 
         /* 1 — rotation / flip */
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx.save();
         ctx.translate(canvas.width/2, canvas.height/2);
         if (rot==='r90')  ctx.rotate(Math.PI/2);
@@ -40,7 +42,11 @@ window.VProcessor = (function () {
           if (f) ctx.filter = f;
         }
 
-        ctx.drawImage(img, -tw/2, -th/2, tw, th);
+        // Многошаговое уменьшение: одношаговый downscale >2× даёт алиасинг
+        // (рваные линии — фатально для штриховых рисунков). Уменьшаем
+        // поэтапно вдвое, пока не приблизимся к цели.
+        var srcForDraw = _downscaleSource(img, tw, th);
+        ctx.drawImage(srcForDraw, -tw/2, -th/2, tw, th);
         ctx.restore();
         ctx.filter = 'none';
 
@@ -89,6 +95,34 @@ window.VProcessor = (function () {
         if (old && old.startsWith('blob:')) URL.revokeObjectURL(old);
       }).catch(function(){});
     }, ms || 130);
+  }
+
+  /**
+   * Поэтапное уменьшение вдвое до целевого размера.
+   * Если уменьшение слабее 2× — возвращаем оригинал (хватит one-pass).
+   * Иначе режем размер пополам за проход — браузерный bilinear на
+   * шаге 2× почти не теряет качество, в отличие от резкого 5–10× downscale.
+   */
+  function _downscaleSource(img, tw, th) {
+    var sw = img.width, sh = img.height;
+    if (tw >= sw || th >= sh) return img;          // апскейл/равно — не трогаем
+    if (sw / tw < 2 && sh / th < 2) return img;    // мягкое уменьшение — one-pass ок
+
+    var curW = sw, curH = sh;
+    var src = img;
+    // Останавливаемся, когда следующий шаг /2 уже меньше цели
+    while (curW / 2 >= tw && curH / 2 >= th) {
+      curW = Math.round(curW / 2);
+      curH = Math.round(curH / 2);
+      var c = document.createElement('canvas');
+      c.width = curW; c.height = curH;
+      var cx = c.getContext('2d');
+      cx.imageSmoothingEnabled = true;
+      cx.imageSmoothingQuality = 'high';
+      cx.drawImage(src, 0, 0, curW, curH);
+      src = c;
+    }
+    return src;
   }
 
   return { process:process, livePreview:livePreview };
