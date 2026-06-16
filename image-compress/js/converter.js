@@ -5,6 +5,7 @@
 window.VConverter = (function () {
   'use strict';
 
+  var U = window.VCore;
   var EXT = {
     'image/jpeg':'jpg','image/png':'png',
     'image/webp':'webp','image/avif':'avif','image/gif':'gif',
@@ -43,11 +44,5 @@ window.VConverter = (function () {
 
   function ext(mime) { return EXT[mime] || mime.split('/')[1] || 'jpg'; }
 
-  function fmtBytes(b) {
-    if (b < 1024)    return b + ' B';
-    if (b < 1048576) return Math.round(b/1024) + ' KB';
-    return (b/1048576).toFixed(1) + ' MB';
-  }
-
-  return { resolveMime:resolveMime, encode:encode, ext:ext, fmtBytes:fmtBytes };
+  return { resolveMime:resolveMime, encode:encode, ext:ext, fmtBytes:U.fmtBytes };
 })();

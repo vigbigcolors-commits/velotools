@@ -10,10 +10,10 @@
   var P  = window.VProcessor;
   var E  = window.VEffects;
   var C  = window.VConverter;
-
-  function $(id)  { return document.getElementById(id); }
-  function $$(s)  { return document.querySelectorAll(s); }
-  function px(n)  { return Math.round(n) + 'px'; }
+  var U  = window.VCore;
+  var $  = U.$;
+  var $$ = U.$$;
+  var px = U.px;
 
   /* ─── CROP STATE ──────────────────────────────── */
   var CROP = {
@@ -791,10 +791,7 @@
     if (!S.resultBlob) return;
     var nm = ($('v-fnin').value || 'compressed').trim();
     var ex = $('v-fnext').textContent.replace('.', '');
-    var a  = document.createElement('a');
-    a.href     = S.resultUrl;
-    a.download = nm + '.' + ex;
-    a.click();
+    U.downloadBlob(S.resultBlob, nm + '.' + ex);
   };
 
   window.editResult = function() {
@@ -945,11 +942,7 @@
      HELPERS
   ═══════════════════════════════════════════════ */
   function _sliderUI(sl, numEl, text) {
-    if (!sl) return;
-    if (numEl) numEl.textContent = text;
-    var v = parseInt(sl.value);
-    var pct = ((v - 10) / 90) * 100;
-    sl.style.background = 'linear-gradient(to right,var(--ac) ' + pct + '%,var(--br-2) ' + pct + '%)';
+    U.updateSliderTrack(sl, numEl, text);
   }
 
   function _checkPNG() {

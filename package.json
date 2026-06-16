@@ -1,0 +1,33 @@
+{
+  "name": "velotools",
+  "version": "1.0.0",
+  "description": "Client-side productivity and utility web tools.",
+  "private": true,
+  "scripts": {
+    "lint": "eslint \"**/*.js\"",
+    "lint:fix": "eslint \"**/*.js\" --fix",
+    "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,css,html,json,md}\"",
+    "test": "vitest run --globals",
+    "test:watch": "vitest --globals"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigbigcolors-commits/velotools.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vigbigcolors-commits/velotools/issues"
+  },
+  "homepage": "https://github.com/vigbigcolors-commits/velotools#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.4",
+    "vitest": "^4.1.9"
+  }
+}

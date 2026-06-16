@@ -6,6 +6,7 @@
 window.VBatch = (function () {
   'use strict';
 
+  var U = window.VCore;
   var files = [];
   var results = [];
   var rawCache = {}; // i -> {img,blob,url,width,height} | null (decode failed)
@@ -45,10 +46,10 @@ window.VBatch = (function () {
       card.className = 'v-bcard' + (isRaw ? ' v-bcard-raw' : '');
       card.id = 'vbc-'+i;
 
-      var thumbHtml, metaText = fmtB(f.size);
+      var thumbHtml, metaText = U.fmtBytes(f.size);
       if (isRaw && rawCache[i] && rawCache[i].url) {
         thumbHtml = '<div class="v-bcard-imgwrap"><img class="v-bcard-img" src="'+rawCache[i].url+'" alt="'+f.name+'"><span class="v-bcard-rawtag">RAW</span></div>';
-        metaText = fmtB(f.size) + ' · ' + rawCache[i].width + '×' + rawCache[i].height + ' preview';
+        metaText = U.fmtBytes(f.size) + ' · ' + rawCache[i].width + '×' + rawCache[i].height + ' preview';
       } else if (isRaw && rawCache[i] === null) {
         thumbHtml = '<div class="v-bcard-imgwrap"><div class="v-bcard-raw-ph"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>No preview</span></div><span class="v-bcard-rawtag">RAW</span></div>';
       } else if (isRaw) {
@@ -206,33 +207,26 @@ window.VBatch = (function () {
     if(sumEl){
       sumEl.classList.add('on');
       sumEl.innerHTML =
-        '<div>✓ <strong>'+total+' images</strong> processed — saved <strong>'+saved+'%</strong> total ('+fmtB(sumOrig)+' → '+fmtB(sumNew)+')</div>'+
+        '<div>✓ <strong>'+total+' images</strong> processed — saved <strong>'+saved+'%</strong> total ('+U.fmtBytes(sumOrig)+' → '+U.fmtBytes(sumNew)+')</div>'+
         '<button class="v-dl" onclick="VBatch.dlAll()" style="padding:8px 16px;font-size:13px">⬇ Download all as ZIP</button>';
     }
   }
 
   function dlOne(r) {
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(r.blob);
-    a.download = r.name;
-    a.click();
+    U.downloadBlob(r.blob, r.name);
   }
 
   function dlAll() {
     var valid = results.filter(Boolean);
     if (!valid.length) return;
     if (typeof JSZip === 'undefined') {
-      // Fallback: download individually
       valid.forEach(function(r){ dlOne(r); });
       return;
     }
     var zip = new JSZip();
     valid.forEach(function(r){ zip.file(r.name, r.blob); });
     zip.generateAsync({ type:'blob' }).then(function(content){
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(content);
-      a.download = 'velotools_batch.zip';
-      a.click();
+      U.downloadBlob(content, 'velotools_batch.zip');
     });
   }
 
@@ -246,12 +240,6 @@ window.VBatch = (function () {
     if(sum) sum.classList.remove('on');
     var cnt = document.getElementById('vb-count');
     if(cnt) cnt.textContent='';
-  }
-
-  function fmtB(b){
-    if(b<1024) return b+' B';
-    if(b<1048576) return Math.round(b/1024)+' KB';
-    return (b/1048576).toFixed(1)+' MB';
   }
 
   return { init:init, addFiles:addFiles, processAll:processAll, dlAll:dlAll, clearAll:clearAll };
