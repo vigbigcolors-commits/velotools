@@ -82,14 +82,14 @@
     if (rw) rw.addEventListener('input', _onW);
     if (rh) rh.addEventListener('input', _onH);
 
+    /* Scale % slider + number field */
     var rpct = $('v-rpct'), rpctn = $('v-rpctn');
     if (rpct) {
-      rpct.addEventListener('input', function(){ window.pctResize(this.value); });
-      rpct.addEventListener('change', function(){ window.pctResize(this.value); });
-      rpct.addEventListener('touchend', function(){ window.pctResize(rpct.value); }, { passive: true });
+      rpct.addEventListener('input', function(){ pctResize(this.value); });
+      rpct.addEventListener('change', function(){ pctResize(this.value); });
     }
     if (rpctn) {
-      rpctn.addEventListener('input', function(){ window.pctResize(this.value); });
+      rpctn.addEventListener('input', function(){ pctResize(this.value); });
     }
 
     if (window.VBatch) VBatch.init();
@@ -154,11 +154,11 @@
     var rw = $('v-rw'), rh = $('v-rh');
     if (rw) rw.value = img.width;
     if (rh) rh.value = img.height;
+    /* Scale % reset */
     var rpct = $('v-rpct'), rpctn = $('v-rpctn');
-    if (rpct)  rpct.value  = 100;
+    if (rpct)  { rpct.value = 100; _pctSlUI(rpct); }
     if (rpctn) rpctn.value = 100;
-    var rpi = $('v-rpct-info');
-    if (rpi) rpi.textContent = '→ ' + img.width + ' × ' + img.height + ' px';
+    _updPctInfo();
 
     $('v-dz').style.display = 'none';
     $('v-editor').classList.add('on');
@@ -209,12 +209,10 @@
   var _liveTimer = null;
   function _livePreview() {
     if (!S.origImg) return;
-    // Один дебаунс. Раньше было два вложенных setTimeout (здесь + в
-    // P.livePreview) = ~280мс, слайдер ощущался как "не реагирует".
+    // Один дебаунс. Раньше: здесь 140мс + процессор 130мс = 270мс.
+    // Теперь: прямой вызов, дебаунс только в процессоре (80мс).
     clearTimeout(_liveTimer);
-    _liveTimer = setTimeout(function(){
-      P.livePreview(S.origImg, _snap(), $('v-prev-img'), 0);
-    }, 60);
+    P.livePreview(S.origImg, _snap(), $('v-prev-img'), 80);
   }
 
   function _snap() {
@@ -244,10 +242,8 @@
     S.activePanel = id;
 
     if (id === 'crop') {
-      // Убиваем ВСЕ висящие live-preview (внешний дебаунс ui.js + внутренний
-      // процессора). Иначе pending-запрос из blur/effects дорисует картинку
-      // поверх оригинала уже ПОСЛЕ входа в crop — это и был баг.
-      clearTimeout(_liveTimer);
+      // Убиваем pending live-preview из blur/effects.
+      // Без этого отложенный blur-запрос дорисует картинку поверх оригинала.
       P.cancelLive();
       var pi = $('v-prev-img');
       if (pi && S.origUrl) pi.src = S.origUrl;
@@ -324,8 +320,8 @@
     _syncPct();
   };
 
-  /** Resize по проценту от оригинала. Сохраняет пропорции всегда. */
-  window.pctResize = function(pct) {
+  /* Resize по проценту от оригинала */
+  function pctResize(pct) {
     if (!S.origImg) return;
     pct = Math.max(5, Math.min(200, parseInt(pct) || 100));
     S.targetW = Math.max(1, Math.round(S.origW * pct / 100));
@@ -338,25 +334,9 @@
     if (nin) nin.value = pct;
     _updPctInfo();
     if (S.origImg) _livePreview();
-  };
-
-  /** Заливка трека слайдера процента (0–200 → 0–100% ширины). */
-  function _pctSlUI(sl) {
-    if (!sl) return;
-    var v = parseInt(sl.value);
-    var pct = ((v - 5) / 195) * 100;
-    sl.style.background = 'linear-gradient(to right,var(--ac) ' + pct + '%,var(--br-2) ' + pct + '%)';
   }
 
-  /** Живой фидбэк итогового размера — в resize-превью масштаб не виден
-   *  (img растянут CSS), поэтому показываем числа явно. */
-  function _updPctInfo() {
-    var info = $('v-rpct-info');
-    if (info) info.textContent = '→ ' + (S.targetW||S.origW) + ' × ' + (S.targetH||S.origH) + ' px';
-  }
-
-  /** Пересчитать значение процента из текущих targetW/origW (для синхронизации
-   *  поля при ручном вводе W/H или пресете). */
+  /* Синхронизация поля % из текущих targetW/origW */
   function _syncPct() {
     if (!S.origW) return;
     var pct = Math.round(S.targetW / S.origW * 100);
@@ -364,6 +344,20 @@
     if (sl)  { sl.value = pct; _pctSlUI(sl); }
     if (nin) nin.value = pct;
     _updPctInfo();
+  }
+
+  /* Живой фидбэк размера — число px под слайдером */
+  function _updPctInfo() {
+    var info = $('v-rpct-info');
+    if (info) info.textContent = (S.targetW||S.origW) + ' \u00d7 ' + (S.targetH||S.origH) + ' px';
+  }
+
+  /* Заливка трека слайдера % */
+  function _pctSlUI(sl) {
+    if (!sl) return;
+    var v = parseInt(sl.value);
+    var pct = ((v - 5) / 195) * 100;
+    sl.style.background = 'linear-gradient(to right,var(--ac) ' + pct + '%,var(--br-2) ' + pct + '%)';
   }
 
   window.autoWebP = function() {
@@ -805,15 +799,13 @@
 
   window.editResult = function() {
     if (!S.resultUrl || !S.resultBlob) return;
-    // Гасим висящие live-preview, иначе отложенный запрос из прошлой
-    // обработки перерисует превью устаревшей картинкой.
-    clearTimeout(_liveTimer);
+    /* Убиваем висящий live-preview — иначе pending-запрос
+       из прошлой обработки перерисует превью обратно. */
     P.cancelLive();
     var nm  = ($('v-fnin').value || 'result') + '.' + S.resultExt;
-    var resultUrlSnapshot = S.resultUrl;
     S.file  = new File([S.resultBlob], nm, { type: S.resultBlob.type });
     S.fileMime  = S.resultBlob.type;
-    S.origUrl   = resultUrlSnapshot;
+    S.origUrl   = S.resultUrl;
     S.rotation  = null;
     var img = new Image();
     img.onload = function() {
@@ -823,6 +815,7 @@
       var rw = $('v-rw'), rh = $('v-rh');
       if (rw) rw.value = img.width;
       if (rh) rh.value = img.height;
+      /* Сброс Scale % */
       var rpct = $('v-rpct'), rpctn = $('v-rpctn');
       if (rpct)  { rpct.value = 100; _pctSlUI(rpct); }
       if (rpctn) rpctn.value = 100;
@@ -833,8 +826,7 @@
       $('v-result').classList.remove('on');
       S.resultBlob = null; S.resultUrl = null;
       _checkPNG();
-      // Сброс панели на compress — иначе остаёшься в той же панели
-      // с устаревшими настройками от прошлого результата.
+      /* Сброс на compress — чтобы не остаться на resize/blur с устаревшими настройками */
       switchPanel('compress', $('v-tb-compress'));
       window.scrollTo({ top: $('v-editor').getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
     };

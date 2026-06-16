@@ -174,7 +174,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-psz{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
 .v-szb{padding:5px 11px;border-radius:7px;border:1px solid var(--br-2);background:var(--bg-2);font-size:11px;font-weight:600;color:var(--tx-2);cursor:pointer;font-family:var(--font);transition:all .14s}
 .v-szb:hover{border-color:var(--ac);color:var(--ac)}
-/* Resize percentage */
+/* Scale % row */
 .v-pctrow{display:flex;align-items:center;gap:10px;margin-top:14px}
 .v-pctlbl{font-size:12px;font-weight:600;color:var(--tx-2);width:42px;flex-shrink:0}
 .v-pctsl{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:linear-gradient(to right,var(--ac) 48.7%,var(--br-2) 48.7%);outline:none;cursor:pointer;touch-action:none}
@@ -387,7 +387,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
   .v-seo,.v-faq{padding:36px 16px}
   .v-foot{padding:24px 16px}
   .v-trust{gap:12px;padding:9px 16px}
-  /* Слайдеры выше — палец на тач-экране должен попадать без промаха */
+  /* Слайдеры: увеличенный трек и thumb для пальца */
   .v-slider{height:10px}
   .v-slider::-webkit-slider-thumb{width:28px;height:28px}
   .v-slider::-moz-range-thumb{width:28px;height:28px}
@@ -412,7 +412,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-preview.zoom-on .v-prev-img{cursor:zoom-in}
 /* ── BEFORE/AFTER FIX (clip-path) ─ */
 .v-ba{position:relative;overflow:hidden;cursor:ew-resize;user-select:none;-webkit-user-select:none;line-height:0;display:block}
-.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark);vertical-align:top}
+.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark)}
 .v-ba-top{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;min-width:unset!important;object-fit:contain}
 .v-ba-handle{position:absolute;top:0;bottom:0;transform:translateX(-50%);z-index:10;pointer-events:none;width:0}
 .v-ba-line{position:absolute;top:0;bottom:0;left:0;width:2px;background:#fff;transform:translateX(-50%)}
@@ -519,7 +519,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 
 /* ── BA FIX (clip-path approach) ── */
 .v-ba{position:relative;overflow:hidden;cursor:ew-resize;user-select:none;-webkit-user-select:none;line-height:0;display:block}
-.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark);vertical-align:top}
+.v-ba-layer{display:block;width:100%;max-height:420px;object-fit:contain;background:var(--bg-dark)}
 .v-ba-top{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;object-fit:contain}
 .v-ba-handle{position:absolute;top:0;bottom:0;transform:translateX(-50%);z-index:10;pointer-events:none;width:0}
 .v-ba-line{position:absolute;top:0;bottom:0;left:0;width:2px;background:#fff;transform:translateX(-50%)}

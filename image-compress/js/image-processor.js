@@ -1,17 +1,17 @@
 /**
- * VeloTools — image-processor.js
+ * VeloTools — image-processor.js v7.3
  * Canvas-based: resize, rotate, flip, CSS filters, pixel effects.
  * Returns Promise<{blob, mime, canvas}>.
+ *
+ * v7.3 changes:
+ *   - cancelLive() — kills pending live previews (prevents blur→crop race)
+ *   - _downscaleSource() — multi-step downscale for quality resize
+ *   - ms=0 no longer silently becomes 130ms
+ *   - imageSmoothingQuality = 'high'
  */
 window.VProcessor = (function () {
   'use strict';
 
-  /**
-   * Main processing pipeline.
-   * @param {HTMLImageElement} img
-   * @param {Object} s  — snapshot of VState
-   * @returns {Promise<{blob,mime,canvas}>}
-   */
   function process(img, s) {
     return new Promise(function (resolve, reject) {
       try {
@@ -25,7 +25,6 @@ window.VProcessor = (function () {
         canvas.height = rotated ? tw : th;
         var ctx = canvas.getContext('2d');
 
-        /* 1 — rotation / flip */
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.save();
@@ -36,27 +35,21 @@ window.VProcessor = (function () {
         if (rot==='fh')   ctx.scale(-1,1);
         if (rot==='fv')   ctx.scale(1,-1);
 
-        /* 2 — CSS filter (brightness/contrast/sat/hue) */
         if (s.activePanel === 'effects') {
           var f = VEffects.cssFilter(s);
           if (f) ctx.filter = f;
         }
 
-        // Многошаговое уменьшение: одношаговый downscale >2× даёт алиасинг
-        // (рваные линии — фатально для штриховых рисунков). Уменьшаем
-        // поэтапно вдвое, пока не приблизимся к цели.
         var srcForDraw = _downscaleSource(img, tw, th);
         ctx.drawImage(srcForDraw, -tw/2, -th/2, tw, th);
         ctx.restore();
         ctx.filter = 'none';
 
-        /* 3 — pixel-level effects */
         if (s.activePanel === 'effects') {
           VEffects.applySharpen(ctx, canvas.width, canvas.height, s.sharpness);
           VEffects.applyDenoise(ctx, canvas.width, canvas.height, s.denoise);
         }
 
-        /* 4 — blur panel */
         if (s.activePanel === 'blur') {
           if (s.blurType === 'gaussian') {
             ctx.filter = 'blur('+s.blurAmt+'px)';
@@ -73,7 +66,6 @@ window.VProcessor = (function () {
           }
         }
 
-        /* 5 — encode */
         var mime = VConverter.resolveMime(s.format, s.fileMime);
         VConverter.encode(canvas, mime, s.quality).then(function (blob) {
           resolve({ blob:blob, mime:mime, canvas:canvas });
@@ -83,53 +75,37 @@ window.VProcessor = (function () {
     });
   }
 
-  /** Debounced live preview с защитой от гонки.
-   *  Каждый запрос получает номер поколения. Если за время асинхронной
-   *  обработки (Image.onload + encode) пришёл новый запрос ИЛИ был вызван
-   *  cancelLive() — устаревший результат НЕ пишется в превью.
-   *  Это убирает баг "в crop остаётся блюр": pending-таймер из blur-панели
-   *  больше не может дорисовать картинку поверх. */
+  /* Live preview with generation-based race protection.
+     Each request gets a generation number. If a newer request arrives
+     or cancelLive() is called before the async result lands, the stale
+     result is silently dropped — never written to the preview <img>. */
   var _t = null;
   var _gen = 0;
   function livePreview(img, state, targetEl, ms) {
     clearTimeout(_t);
     var myGen = ++_gen;
     _t = setTimeout(function () {
-      if (myGen !== _gen) return;            // устарел ещё до старта
+      if (myGen !== _gen) return;
       process(img, state).then(function (r) {
-        if (myGen !== _gen) {                 // устарел во время обработки
-          URL.revokeObjectURL(URL.createObjectURL(r.blob));
-          return;
-        }
+        if (myGen !== _gen) return;
         var url = URL.createObjectURL(r.blob);
         var old = targetEl.src;
         targetEl.src = url;
         if (old && old.startsWith('blob:')) URL.revokeObjectURL(old);
       }).catch(function(){});
-    }, ms || 130);
+    }, (ms != null) ? ms : 130);
   }
 
-  /** Жёстко отменить любой висящий/выполняющийся live-preview.
-   *  Вызывается при входе в crop и при любой смене панели. */
   function cancelLive() {
     clearTimeout(_t);
     _gen++;
   }
 
-  /**
-   * Поэтапное уменьшение вдвое до целевого размера.
-   * Если уменьшение слабее 2× — возвращаем оригинал (хватит one-pass).
-   * Иначе режем размер пополам за проход — браузерный bilinear на
-   * шаге 2× почти не теряет качество, в отличие от резкого 5–10× downscale.
-   */
   function _downscaleSource(img, tw, th) {
     var sw = img.width, sh = img.height;
-    if (tw >= sw || th >= sh) return img;          // апскейл/равно — не трогаем
-    if (sw / tw < 2 && sh / th < 2) return img;    // мягкое уменьшение — one-pass ок
-
-    var curW = sw, curH = sh;
-    var src = img;
-    // Останавливаемся, когда следующий шаг /2 уже меньше цели
+    if (tw >= sw || th >= sh) return img;
+    if (sw / tw < 2 && sh / th < 2) return img;
+    var curW = sw, curH = sh, src = img;
     while (curW / 2 >= tw && curH / 2 >= th) {
       curW = Math.round(curW / 2);
       curH = Math.round(curH / 2);
