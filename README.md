@@ -1,26 +1,29 @@
-# VeloTools
+# Velotools
 
-Browser-based utility tools (image compression, PDF compression, QR generation, invoice builder, focus tools, and background removal).
+A collection of high-performance image processing utilities designed to simplify daily digital tasks.
 
-## Project setup
+## Features
 
-```bash
-npm install
-```
+**Image Compression:** Optimize file sizes without compromising quality.
 
-## Quality checks
+**Batch Processing:** Efficiently handle large volumes of files with integrated ZIP/7z support.
 
-```bash
-npm run lint
-npm run lint:fix
-npm run format
-npm run format:check
-npm test
-npm run test:watch
-```
+**Advanced Editing:** Tools for precise cropping, zooming, and metadata manipulation.
 
-## Notes
+**Format Conversion:** Seamless conversion between all standard image formats.
 
-- This project is currently static-first (HTML/CSS/JS, no build step required to run in browser).
-- `image-compress` loads modular scripts from `image-compress/js/` (shared helpers in `core-utils.js`).
-- ESLint is configured in a soft-adoption mode (warnings are expected while we progressively tighten rules).
+## Getting Started
+
+To begin using Velotools, ensure you have the necessary dependencies installed. Detailed instructions will follow in the documentation.
+
+## Usage
+
+Basic examples will be provided here as the project matures.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request or open an issue.
+
+## License
+
+MIT License
