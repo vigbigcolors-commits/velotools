@@ -394,6 +394,7 @@ function bindColorPickers(){
 }
 
 /* ---------- GRADIENT TOGGLE ---------- */
+// eslint-disable-next-line no-unused-vars
 function toggleGradient(){
   Q.gradient = $('grad-toggle').checked;
   $('grad-col2-wrap').style.display = Q.gradient ? '' : 'none';
@@ -402,6 +403,7 @@ function toggleGradient(){
 }
 
 /* ---------- BG TRANSPARENT TOGGLE ---------- */
+// eslint-disable-next-line no-unused-vars
 function toggleBgTransparent(){
   Q.bgTransparent = $('bg-transparent').checked;
   $('bg-col-wrap').style.opacity = Q.bgTransparent ? '0.35' : '1';
@@ -409,6 +411,7 @@ function toggleBgTransparent(){
 }
 
 /* ---------- LOGO ---------- */
+// eslint-disable-next-line no-unused-vars
 function onLogoUpload(input){
   var file = input.files[0];
   if(!file) return;
@@ -424,6 +427,7 @@ function onLogoUpload(input){
   };
   reader.readAsDataURL(file);
 }
+// eslint-disable-next-line no-unused-vars
 function removeLogo(){
   Q.logoData = null;
   $('logo-file').value = '';
@@ -441,6 +445,7 @@ function setEcLevel(level){
 }
 
 /* ---------- PRESETS ---------- */
+// eslint-disable-next-line no-unused-vars
 function applyPreset(idx){
   var p = PRESETS[idx]; if(!p) return;
   // update state
@@ -474,6 +479,7 @@ function updatePresetHighlight(idx){
 }
 
 /* ---------- LOCATION ---------- */
+// eslint-disable-next-line no-unused-vars
 function useMyLocation(){
   var btn = $('locate-btn');
   btn.classList.add('loading');
@@ -494,12 +500,14 @@ function useMyLocation(){
 }
 
 /* ---------- PASSWORD TOGGLE ---------- */
+// eslint-disable-next-line no-unused-vars
 function togglePassword(){
   var inp = $('f-wifi-pass');
   inp.type = inp.type === 'password' ? 'text' : 'password';
 }
 
 /* ---------- DOWNLOAD ---------- */
+// eslint-disable-next-line no-unused-vars
 function downloadQR(format, size){
   if(!Q.qrInstance) return;
   var filename = 'velotools-qr-'+Q.type;
@@ -514,6 +522,7 @@ function downloadQR(format, size){
 }
 
 /* ---------- COPY TO CLIPBOARD ---------- */
+// eslint-disable-next-line no-unused-vars
 function copyQR(){
   if(!Q.qrInstance) return;
   var label = $('copy-label');
@@ -533,7 +542,7 @@ function copyQR(){
           label.textContent = '✓ Copied!';
           setTimeout(function(){ label.textContent='Copy PNG'; }, 2000);
         });
-      } catch(e) {
+      } catch(_e) {
         // fallback: download
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');

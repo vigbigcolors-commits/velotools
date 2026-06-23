@@ -995,6 +995,16 @@ html,body{background:var(--bg-main)}
 .v-fmt.on{background:rgba(255,255,255,.10)!important;border-color:transparent!important;color:#fff!important;box-shadow:0 1px 6px rgba(0,0,0,.3)}
 .v-fmt.on small{color:rgba(255,255,255,.7)!important}
 
+/* ADVANCED WebP panel */
+.v-adv{border:1px solid var(--br-2);border-radius:10px;overflow:hidden;margin-top:14px}
+.v-adv-hdr{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--tx-2);background:var(--bg-2);user-select:none;transition:background .15s}
+.v-adv-hdr:hover{background:var(--br)}
+.v-adv-arr{margin-left:auto;transition:transform .2s}
+.v-adv-hdr[aria-expanded="true"] .v-adv-arr{transform:rotate(180deg)}
+.v-adv-body{padding:14px 16px;border-top:1px solid var(--br-2)}
+.v-lossless-lbl{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--tx-2);font-weight:600;margin-top:4px}
+.v-effort-steps{display:flex;justify-content:space-between;font-size:10px;color:var(--tx-3);padding:2px 0;letter-spacing:.03em}
+
 /* SLIDERS — neon track */
 .v-slider{background:var(--bg-3)!important;height:7px;border-radius:99px}
 .v-slider::-webkit-slider-thumb{background:var(--ac)!important;border:3px solid var(--bg-main)!important;box-shadow:0 0 12px rgba(99,102,241,.6)!important}
@@ -1445,6 +1455,39 @@ html,body{background:var(--bg-main)}
             </div>
           </div>
           <div class="v-hint v-hint-ac">💡 <strong>At 80%:</strong> visually identical to original, 60–80% smaller file. <span id="v-png-tip" style="display:none;color:var(--am)"><strong>PNG is lossless</strong> — use Convert → WebP to reduce PNG size.</span></div>
+
+          <!-- ADVANCED WebP / AVIF SETTINGS -->
+          <div class="v-adv" id="v-adv">
+            <div class="v-adv-hdr" onclick="vToggleAdv(this)" role="button" tabindex="0" aria-expanded="false">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+              Advanced WebP / AVIF settings
+              <span style="margin-left:4px;font-size:10px;background:var(--ac);color:#fff;padding:1px 7px;border-radius:20px;font-weight:700">NEW</span>
+              <svg class="v-adv-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="v-adv-body" id="v-adv-body" style="display:none">
+              <div class="v-2col" style="gap:20px">
+                <div id="v-effort-row">
+                  <div class="v-qrow">
+                    <span class="v-qlbl">Compression Effort</span>
+                    <span style="font-size:20px;font-weight:800;color:var(--ac)" id="v-effort-num">4</span>
+                  </div>
+                  <input type="range" class="v-slider" id="v-effort-sl" min="1" max="6" value="4" step="1" aria-label="Compression effort">
+                  <div class="v-hints"><span>Faster</span><span id="v-effort-lbl">Balanced</span><span>Smaller file</span></div>
+                  <div class="v-effort-steps"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+                  <div style="margin-top:6px;font-size:11px;color:var(--tx-3)">Simulates <code style="background:var(--bg-2);padding:1px 5px;border-radius:4px">cwebp -m 6</code>. Higher = smaller file, slightly slower. WebP/AVIF only.</div>
+                </div>
+                <div style="padding-top:4px">
+                  <span class="v-plbl">Lossless mode</span>
+                  <label class="v-lossless-lbl">
+                    <input type="checkbox" id="v-webp-lossless" style="width:16px;height:16px;accent-color:var(--ac);cursor:pointer">
+                    <span>Lossless WebP</span>
+                  </label>
+                  <div style="font-size:11px;color:var(--tx-3);margin-top:6px">Pixel-perfect output — every pixel preserved exactly. Larger file than lossy. WebP only.</div>
+                  <div style="font-size:11px;color:var(--tx-3);margin-top:8px;padding-top:8px;border-top:1px solid var(--br-2)">Effort 6 + 80% quality ≈ <code style="background:var(--bg-2);padding:1px 5px;border-radius:4px">cwebp -q 80 -m 6</code></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- CONVERT -->

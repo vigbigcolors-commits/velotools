@@ -13,6 +13,8 @@ window.VState = {
   brightness: 100, contrast: 100, saturation: 100,
   hue: 0, sharpness: 0, denoise: 0,
   activePanel: 'compress',
+  /* advanced WebP/AVIF settings */
+  webpEffort: 4, webpLossless: false,
   /* result */
   resultBlob: null, resultUrl: null, resultExt: 'jpg',
 
@@ -22,7 +24,8 @@ window.VState = {
       fileMime:'image/jpeg',quality:80,format:'original',rotation:null,
       lockAR:true,targetW:0,targetH:0,blurType:'gaussian',blurAmt:5,
       brightness:100,contrast:100,saturation:100,hue:0,sharpness:0,denoise:0,
-      activePanel:'compress',resultBlob:null,resultUrl:null,resultExt:'jpg'
+      activePanel:'compress',webpEffort:4,webpLossless:false,
+      resultBlob:null,resultUrl:null,resultExt:'jpg'
     });
   }
 };

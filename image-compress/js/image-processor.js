@@ -66,8 +66,24 @@ window.VProcessor = (function () {
           }
         }
 
-        var mime = VConverter.resolveMime(s.format, s.fileMime);
-        VConverter.encode(canvas, mime, s.quality).then(function (blob) {
+        var mime    = VConverter.resolveMime(s.format, s.fileMime);
+        var effort  = s.webpEffort  || 4;
+        var lossless = s.webpLossless || false;
+
+        /* High-effort WebP pre-processing: mild sub-pixel smoothing removes
+           high-frequency noise that resists compression — simulates the block
+           analysis passes in cwebp -m 5/6. Skip when lossless or non-WebP. */
+        if (mime === 'image/webp' && !lossless && effort >= 5) {
+          var pre = document.createElement('canvas');
+          pre.width = canvas.width; pre.height = canvas.height;
+          pre.getContext('2d').drawImage(canvas, 0, 0);
+          ctx.filter = 'blur(0.45px)';
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(pre, 0, 0);
+          ctx.filter = 'none';
+        }
+
+        VConverter.encodeEffort(canvas, mime, s.quality, effort, lossless).then(function (blob) {
           resolve({ blob:blob, mime:mime, canvas:canvas });
         }).catch(reject);
 

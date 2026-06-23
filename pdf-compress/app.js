@@ -114,6 +114,7 @@ function bindSlider(){
   });
 }
 
+// eslint-disable-next-line no-unused-vars
 function settingChanged(){
   SETTINGS.grayscale   = $('opt-grayscale').checked;
   SETTINGS.metadata    = $('opt-metadata').checked;
@@ -184,6 +185,7 @@ function updateCard(f){
 }
 
 /* ---------- COMPRESS ONE ---------- */
+// eslint-disable-next-line no-unused-vars
 function compressOne(id){
   var f = FILES.find(function(x){ return x.id===id; });
   if(!f || f.status==='compressing') return;
@@ -276,6 +278,7 @@ function updateProgress(f){
 }
 
 /* ---------- COMPRESS ALL ---------- */
+// eslint-disable-next-line no-unused-vars
 function compressAll(){
   var waiting = FILES.filter(function(f){ return f.status==='waiting'; });
   if(!waiting.length) return;
@@ -301,6 +304,7 @@ function downloadOne(id){
   triggerDownload(blob, name);
 }
 
+// eslint-disable-next-line no-unused-vars
 function downloadAll(){
   var done = FILES.filter(function(f){ return f.status==='done' && f.compressedBytes; });
   if(!done.length) return;
@@ -324,6 +328,7 @@ function triggerDownload(blob, name){
 }
 
 /* ---------- REMOVE / CLEAR ---------- */
+// eslint-disable-next-line no-unused-vars
 function removeFile(id){
   FILES = FILES.filter(function(f){ return f.id!==id; });
   renderFileList();
@@ -331,6 +336,7 @@ function removeFile(id){
   $('upload-zone').style.display = '';
 }
 
+// eslint-disable-next-line no-unused-vars
 function clearAll(){
   FILES = [];
   renderFileList();
@@ -338,6 +344,7 @@ function clearAll(){
   $('upload-zone').style.display = '';
 }
 
+// eslint-disable-next-line no-unused-vars
 function retryOne(id){
   var f = FILES.find(function(x){ return x.id===id; });
   if(!f) return;

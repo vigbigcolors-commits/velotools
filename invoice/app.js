@@ -174,6 +174,7 @@ function updateCurrencySymbols(){
 }
 
 /* ---------- PAYMENT METHODS ---------- */
+// eslint-disable-next-line no-unused-vars
 function updatePayments(){
   INV.payments = [];
   document.querySelectorAll('.pm-check input:checked').forEach(function(cb){
@@ -194,6 +195,7 @@ function addItem(desc, qty, unit, rate){
   renderItemsList();
 }
 
+// eslint-disable-next-line no-unused-vars
 function removeItem(id){
   INV.items = INV.items.filter(function(i){ return i.id!==id; });
   renderItemsList();
@@ -238,6 +240,7 @@ function renderItemsList(){
   });
 }
 
+// eslint-disable-next-line no-unused-vars
 function toggleTax2(){
   INV.tax2Enabled = !INV.tax2Enabled;
   var block = document.getElementById('tax2-block');
@@ -263,6 +266,7 @@ function onLogoUpload(input){
   };
   reader.readAsDataURL(file);
 }
+// eslint-disable-next-line no-unused-vars
 function removeLogo(){
   INV.logo = null;
   var prev = document.getElementById('logo-preview');
@@ -456,6 +460,7 @@ function scalePreview(){
 }
 
 /* ---------- EXPORT ---------- */
+// eslint-disable-next-line no-unused-vars
 function downloadPDF(){
   // Hide editor, print, restore
   document.getElementById('editor').style.display = 'none';
@@ -465,6 +470,7 @@ function downloadPDF(){
   document.getElementById('preview-outer').classList.remove('print-full');
 }
 
+// eslint-disable-next-line no-unused-vars
 function downloadPNG(){
   var inv = document.getElementById('invoice');
   if(!inv) return;
@@ -492,6 +498,7 @@ function downloadPNG(){
 }
 
 /* ---------- RESET ---------- */
+// eslint-disable-next-line no-unused-vars
 function resetInvoice(){
   if(!confirm('Reset all invoice data? This cannot be undone.')) return;
   localStorage.removeItem('velotools_invoice');
@@ -500,7 +507,7 @@ function resetInvoice(){
 
 /* ---------- STORAGE ---------- */
 function saveToStorage(){
-  try { localStorage.setItem('velotools_invoice', JSON.stringify(INV)); } catch(e){}
+  try { localStorage.setItem('velotools_invoice', JSON.stringify(INV)); } catch(_e){}
 }
 function loadFromStorage(){
   try {
@@ -520,7 +527,7 @@ function loadFromStorage(){
     document.querySelectorAll('.arc-sw').forEach(function(s){
       s.classList.toggle('act', s.dataset.col===INV.accentColor);
     });
-  } catch(e){}
+  } catch(_e){}
 }
 function populateFields(){
   var map = {

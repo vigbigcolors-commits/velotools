@@ -43,13 +43,52 @@
     if (qsl) {
       function onQualityChange() {
         S.quality = parseInt(this.value);
-        _sliderUI(this, $('v-qnum'), this.value + '%');
+        _syncQualitySliders(S.quality);
         if (S.origImg) _livePreview();
       }
       qsl.addEventListener('input',  onQualityChange);
       qsl.addEventListener('change', onQualityChange);
       qsl.addEventListener('touchend', function(){ onQualityChange.call(qsl); }, { passive: true });
       _sliderUI(qsl, $('v-qnum'), '80%');
+    }
+
+    /* ── Convert-panel quality slider (was unbound) ── */
+    var cqsl = $('v-conv-qsl');
+    if (cqsl) {
+      function onConvQualityChange() {
+        S.quality = parseInt(this.value);
+        _syncQualitySliders(S.quality);
+        if (S.origImg) _livePreview();
+      }
+      cqsl.addEventListener('input',  onConvQualityChange);
+      cqsl.addEventListener('change', onConvQualityChange);
+      cqsl.addEventListener('touchend', function(){ onConvQualityChange.call(cqsl); }, { passive: true });
+      _sliderUI(cqsl, $('v-conv-qnum'), '80%');
+    }
+
+    /* ── Effort slider ── */
+    var efsl = $('v-effort-sl');
+    if (efsl) {
+      function onEffortChange() {
+        S.webpEffort = parseInt(this.value);
+        _sliderEffortUI(this);
+        if (S.origImg) _livePreview();
+      }
+      efsl.addEventListener('input',  onEffortChange);
+      efsl.addEventListener('change', onEffortChange);
+      efsl.addEventListener('touchend', function(){ onEffortChange.call(efsl); }, { passive: true });
+      _sliderEffortUI(efsl);
+    }
+
+    /* ── Lossless toggle ── */
+    var lssCb = $('v-webp-lossless');
+    if (lssCb) {
+      lssCb.addEventListener('change', function() {
+        S.webpLossless = this.checked;
+        var efRow = $('v-effort-row');
+        if (efRow) efRow.style.opacity = this.checked ? '0.4' : '1';
+        if (S.origImg) _livePreview();
+      });
     }
 
     [['v-ef-br','brightness'],['v-ef-co','contrast'],
@@ -223,7 +262,8 @@
       blurType:S.blurType, blurAmt:S.blurAmt,
       brightness:S.brightness, contrast:S.contrast,
       saturation:S.saturation, hue:S.hue,
-      sharpness:S.sharpness, denoise:S.denoise
+      sharpness:S.sharpness, denoise:S.denoise,
+      webpEffort:S.webpEffort, webpLossless:S.webpLossless
     };
   }
 
@@ -268,10 +308,8 @@
      SETTINGS
   ═══════════════════════════════════════════════ */
   window.setQPreset = function(v) {
-    var sl = $('v-qsl');
-    if (sl) sl.value = v;
     S.quality = v;
-    _sliderUI($('v-qsl'), $('v-qnum'), v + '%');
+    _syncQualitySliders(v);
     if (S.origImg) _livePreview();
   };
 
@@ -452,6 +490,21 @@
   ═══════════════════════════════════════════════ */
   function _cropEnter() {
     if (!S.origImg) return;
+
+    /* Remove any stale overlay — prevents darkening accumulation on re-entry */
+    var stale = $('crop-ov');
+    if (stale) {
+      if (stale._onMove) {
+        document.removeEventListener('mousemove', stale._onMove);
+        document.removeEventListener('touchmove', stale._onMove);
+      }
+      if (stale._onEnd) {
+        document.removeEventListener('mouseup',  stale._onEnd);
+        document.removeEventListener('touchend', stale._onEnd);
+      }
+      stale.parentNode && stale.parentNode.removeChild(stale);
+    }
+
     CROP.on = true;
     _cropClean();
 
@@ -459,7 +512,6 @@
     var img     = $('v-prev-img');
     if (!preview || !img) return;
 
-    // ЖЕСТКИЙ ФИКС: Удерживаем невидимый слой обрезки строго внутри контейнера превью
     preview.style.position = 'relative';
     preview.style.overflow = 'visible';
 
@@ -472,14 +524,8 @@
       'user-select:none', '-webkit-user-select:none'
     ].join(';');
 
-    var mask = document.createElement('div');
-    mask.id = 'crop-mask';
-    mask.style.cssText = [
-      'position:absolute', 'top:0', 'left:0',
-      'width:100%', 'height:100%',
-      'background:rgba(0,0,0,0.5)', 'pointer-events:none', 'z-index:1'
-    ].join(';');
-
+    /* No separate mask div — sel's box-shadow provides the single darkening layer.
+       The old approach (mask + sel box-shadow) caused double-dark (0.5 + 0.5 alpha). */
     var sel = document.createElement('div');
     sel.id = 'crop-sel';
     sel.style.cssText = [
@@ -501,7 +547,6 @@
       'white-space:nowrap'
     ].join(';');
 
-    // ЖЕСТКИЙ ФИКС 2: Создаем плавающую кнопку прямо под рамкой
     var floatBtn = document.createElement('button');
     floatBtn.id = 'crop-float-btn';
     floatBtn.innerHTML = '✔ Apply Crop';
@@ -511,14 +556,12 @@
       'padding:8px 16px', 'border-radius:6px',
       'font:700 13px Inter,system-ui,sans-serif', 'cursor:pointer',
       'box-shadow:0 4px 12px rgba(0,0,0,0.4)',
-      'z-index:30', 'pointer-events:auto' // auto делает ее кликабельной!
+      'z-index:30', 'pointer-events:auto'
     ].join(';');
 
-    // Защищаем клик по кнопке, чтобы он не сбрасывал выделение
     floatBtn.addEventListener('mousedown', function(e){ e.stopPropagation(); window.applyCrop(); });
     floatBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); window.applyCrop(); }, {passive:false});
 
-    ov.appendChild(mask);
     ov.appendChild(sel);
     ov.appendChild(badge);
     ov.appendChild(floatBtn);
@@ -601,7 +644,7 @@
       if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — click "Apply crop" to confirm';
     }
 
-    function onEnd(e) {
+    function onEnd(_e) {
       CROP.dragging = false;
       if (CROP.w < 5 || CROP.h < 5) {
         sel.style.display   = 'none';
@@ -856,8 +899,7 @@
     var res = $('v-result');
     if (res) res.classList.remove('on');
 
-    var sl = $('v-qsl');
-    if (sl) { sl.value = 80; _sliderUI(sl, $('v-qnum'), '80%'); }
+    _syncQualitySliders(80);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -945,6 +987,36 @@
     U.updateSliderTrack(sl, numEl, text);
   }
 
+  /* Syncs both quality sliders (compress panel + convert panel) + number labels */
+  function _syncQualitySliders(q) {
+    var qsl  = $('v-qsl'),  qnum  = $('v-qnum');
+    var cqsl = $('v-conv-qsl'), cqnum = $('v-conv-qnum');
+    if (qsl)  { qsl.value  = q; _sliderUI(qsl,  qnum,  q + '%'); }
+    if (cqsl) { cqsl.value = q; _sliderUI(cqsl, cqnum, q + '%'); }
+  }
+
+  /* Effort slider track fill + label update */
+  var EFFORT_LABELS = ['', 'Fastest', 'Fast', 'Balanced', 'Balanced', 'Best', 'Best (slowest)'];
+  function _sliderEffortUI(sl) {
+    if (!sl) return;
+    var v   = parseInt(sl.value);
+    var pct = ((v - 1) / 5) * 100;
+    sl.style.background = 'linear-gradient(to right,var(--ac) ' + pct + '%,var(--br-2) ' + pct + '%)';
+    var numEl = $('v-effort-num');
+    if (numEl) numEl.textContent = v;
+    var lblEl = $('v-effort-lbl');
+    if (lblEl) lblEl.textContent = EFFORT_LABELS[v] || v;
+  }
+
+  /* Toggle Advanced WebP panel */
+  window.vToggleAdv = function(btn) {
+    var body = $('v-adv-body');
+    if (!body) return;
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    body.style.display = open ? 'none' : '';
+  };
+
   function _checkPNG() {
     var warn = $('v-warn'); if (!warn) return;
     var is = S.fileMime === 'image/png' && S.format === 'original' && S.activePanel === 'compress';
@@ -969,14 +1041,21 @@
   }
 
   function _showCompare(orig, res) {
+    var pct    = Math.round(res / orig * 100);
     var saved  = Math.max(0, Math.round((1 - res / orig) * 100));
     var noGain = saved <= 0;
+    var barColor = noGain ? 'var(--am)' : 'var(--gn)';
     var el = $('v-cmp'); if (!el) return;
+    var fixBtn = noGain
+      ? '<button class="v-warn-btn" style="margin-top:8px" onclick="autoWebP();setTimeout(process,120)">⚡ Auto-fix: convert to WebP</button>'
+      : '';
     el.innerHTML =
       '<div class="v-crow"><span class="v-clbl">Original</span><div class="v-cbw"><div class="v-cb" style="width:100%;background:var(--br-2)"></div></div><span class="v-cval">' + C.fmtBytes(orig) + '</span></div>' +
-      '<div class="v-crow"><span class="v-clbl">Result</span><div class="v-cbw"><div class="v-cb" style="width:' + Math.round(res / orig * 100) + '%;background:var(--gn)"></div></div><span class="v-cval">' + C.fmtBytes(res) + '</span></div>' +
-      '<div class="v-cres" style="color:' + (noGain ? 'var(--am)' : 'var(--gn)') + '">' +
-      (noGain ? '⚠ PNG is lossless. Convert → WebP to reduce size.' : '✓ ' + saved + '% smaller — saved ' + C.fmtBytes(orig - res)) +
+      '<div class="v-crow"><span class="v-clbl">Result</span><div class="v-cbw"><div class="v-cb" style="width:' + Math.min(pct, 100) + '%;background:' + barColor + '"></div></div><span class="v-cval">' + C.fmtBytes(res) + '</span></div>' +
+      '<div class="v-cres" style="color:' + (noGain ? 'var(--am)' : 'var(--gn)') + ';display:flex;flex-wrap:wrap;align-items:center;gap:8px">' +
+      (noGain
+        ? '⚠ File got larger — PNG is lossless, quality slider has no effect.' + fixBtn
+        : '✓ ' + saved + '% smaller — saved ' + C.fmtBytes(orig - res)) +
       '</div>';
   }
 

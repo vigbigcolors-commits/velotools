@@ -23,6 +23,7 @@ export default [
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
         },
       ],
       "no-console": "off",

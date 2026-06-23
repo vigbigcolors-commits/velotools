@@ -86,7 +86,7 @@ window.VRaw = (function () {
         readIFD(u32(off + 2 + n * 12));
       }
       readIFD(u32(4));
-    } catch (e) { /* malformed TIFF — fall through to brute force */ }
+    } catch (_e) { /* malformed TIFF — fall through to brute force */ }
     return out;
   }
 
@@ -185,7 +185,7 @@ window.VRaw = (function () {
       var variance = sumSq / n - mean * mean;
       // Uniformly black (or uniformly any single colour) => blank decode
       return mean < 2 || variance < 0.5;
-    } catch (e) {
+    } catch (_e) {
       return false; // can't verify (e.g. tainted canvas) — assume OK
     }
   }

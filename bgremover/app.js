@@ -390,6 +390,7 @@ function autoRefine(){
   S.maskData=tmp;
   requestRender();
 }
+// eslint-disable-next-line no-unused-vars
 function featherMask(r){
   var W=S.imgW,H=S.imgH,md=S.maskData,tmp=new Uint8ClampedArray(md),rr=r*r;
   for(var y=r;y<H-r;y++) for(var x=r;x<W-r;x++){

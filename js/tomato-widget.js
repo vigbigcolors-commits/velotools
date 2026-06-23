@@ -176,7 +176,7 @@ document.head.appendChild(css);
 /* ── STATE ── */
 var anchor, lamp;
 var flying   = false;
-var raf      = null;
+var _raf     = null;
 var navIdx   = 0;   /* какой nav-элемент следующий */
 
 /* ── BUILD ── */
@@ -308,17 +308,17 @@ function onHover(){
         return;
       }
     }
-    raf = requestAnimationFrame(tick);
+    _raf = requestAnimationFrame(tick);
   }
 
-  raf = requestAnimationFrame(tick);
+  _raf = requestAnimationFrame(tick);
 
   function end(){
     lamp.classList.remove('flying');
     lamp.style.cssText = '';
     anchor.appendChild(lamp);
     flying = false;
-    trails.forEach(function(t){ try{t.remove();}catch(e){} });
+    trails.forEach(function(t){ try{t.remove();}catch(_e){} });
     trails = [];
   }
 }

@@ -148,6 +148,13 @@ body::before {
   transition:all .15s;
 }
 .f-nav-back:hover { color:var(--tx); border-color:var(--border2); }
+.f-nav-links { display:flex; gap:2px; }
+.f-nav-link { font-size:13px; font-weight:500; padding:6px 12px; border-radius:8px; color:var(--tx2); text-decoration:none; transition:all .15s; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
+.f-nav-link:hover { background:rgba(255,255,255,.07); color:var(--tx); }
+.f-nav-link.act { background:rgba(0,201,167,.12); color:#00c9a7; font-weight:600; }
+.f-nav-dot { width:6px; height:6px; background:#22c55e; border-radius:50%; box-shadow:0 0 6px rgba(34,197,94,.8); animation:vt-blink 2s ease-in-out infinite; display:inline-block; }
+@keyframes vt-blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+@media(max-width:680px) { .f-nav-links { display:none; } }
 
 /* theme switcher */
 .f-themes {
@@ -830,6 +837,13 @@ body.zen-mode .f-timer-wrap {
     </div>
     <span class="f-nav-logo-name">velotools</span>
   </a>
+  <div class="f-nav-links">
+    <a href="/image-compress/" class="f-nav-link">Image</a>
+    <a href="/invoice/"        class="f-nav-link">Invoice</a>
+    <a href="/qr/"             class="f-nav-link">QR Code</a>
+    <a href="/focus/"          class="f-nav-link act">Focus</a>
+    <a href="/about/"          class="f-nav-link">About <span class="f-nav-dot"></span></a>
+  </div>
   <div class="f-nav-right">
     <div class="f-themes" title="Change theme">
       <button class="f-theme-btn active" data-t="teal"   onclick="setTheme('teal',this)"></button>

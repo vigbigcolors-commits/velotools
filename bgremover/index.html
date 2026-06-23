@@ -22,6 +22,36 @@
 </head>
 <body>
 
+<style>
+.vt-gnav{height:60px;background:#0a0a0c;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(10px)}
+.vt-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.vt-lmark{width:32px;height:32px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(99,102,241,.4);transition:transform .2s}
+.vt-logo:hover .vt-lmark{transform:scale(1.08) rotate(-4deg)}
+.vt-lname{font-size:16px;font-weight:800;color:#f8fafc;letter-spacing:-.4px;font-family:-apple-system,'DM Sans',system-ui,sans-serif}
+.vt-glinks{display:flex;gap:2px}
+.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(255,255,255,.6);text-decoration:none;font-family:-apple-system,'DM Sans',system-ui,sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.vt-glink:hover{background:rgba(255,255,255,.08);color:#f8fafc}
+.vt-glink.act{background:rgba(99,102,241,.18);color:#a5b4fc;font-weight:600}
+.vt-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px rgba(34,197,94,.8);animation:vt-blink 2s ease-in-out infinite;display:inline-block}
+@keyframes vt-blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+@media(max-width:680px){.vt-glinks{display:none}}
+.hdr{display:none!important}
+</style>
+
+<nav class="vt-gnav" aria-label="Site navigation">
+  <a href="/" class="vt-logo">
+    <div class="vt-lmark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="vt-lname">velotools</span>
+  </a>
+  <div class="vt-glinks">
+    <a href="/image-compress/" class="vt-glink">Image</a>
+    <a href="/invoice/"        class="vt-glink">Invoice</a>
+    <a href="/qr/"             class="vt-glink">QR Code</a>
+    <a href="/focus/"          class="vt-glink">Focus</a>
+    <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
+  </div>
+</nav>
+
 <header class="hdr">
   <a class="logo" href="/">
     <div class="logo-ico"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>

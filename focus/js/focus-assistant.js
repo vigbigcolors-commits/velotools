@@ -199,7 +199,7 @@ var SVG = `<svg viewBox="0 0 60 62" xmlns="http://www.w3.org/2000/svg">
 
 /* ── BUILD ── */
 var wrap, tomato, tip, tipTag, tipText, prog;
-var idleTimer, winkTimer;
+var idleTimer, _winkTimer;
 var IDLES = [
   {n:'fa-bounce',d:800},{n:'fa-spin',d:720},
   {n:'fa-wiggle',d:760},{n:'fa-bounce',d:820},
