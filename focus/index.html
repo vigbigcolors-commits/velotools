@@ -123,7 +123,7 @@ body::before {
   height: 56px;
   background: rgba(0,0,0,.35);
   border-bottom: 1px solid var(--border);
-  display: flex; align-items:center; justify-content:space-between;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   padding: 0 24px;
   backdrop-filter: blur(12px);
 }
@@ -140,7 +140,7 @@ body::before {
   flex-shrink:0;
 }
 .f-nav-logo-name { font-family:'Syne',sans-serif; font-weight:800; font-size:16px; letter-spacing:-.3px; }
-.f-nav-right { display:flex; align-items:center; gap:12px; }
+.f-nav-right { display:flex; align-items:center; gap:12px; justify-self:end; }
 .f-nav-back {
   font-size:13px; font-weight:500; color:var(--tx2);
   text-decoration:none; padding:6px 12px; border-radius:8px;
@@ -148,7 +148,7 @@ body::before {
   transition:all .15s;
 }
 .f-nav-back:hover { color:var(--tx); border-color:var(--border2); }
-.f-nav-links { display:flex; gap:2px; }
+.f-nav-links { display:flex; gap:2px; justify-self:center; }
 .f-nav-link { font-size:13px; font-weight:500; padding:6px 12px; border-radius:8px; color:var(--tx2); text-decoration:none; transition:all .15s; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
 .f-nav-link:hover { background:rgba(255,255,255,.07); color:var(--tx); }
 .f-nav-link.act { background:rgba(0,201,167,.12); color:#00c9a7; font-weight:600; }
@@ -842,7 +842,7 @@ body.zen-mode .f-timer-wrap {
     <a href="/invoice/"        class="f-nav-link">Invoice</a>
     <a href="/qr/"             class="f-nav-link">QR Code</a>
     <a href="/focus/"          class="f-nav-link act">Focus</a>
-    <a href="/about/"          class="f-nav-link">About <span class="f-nav-dot"></span></a>
+    <a href="/about.html"          class="f-nav-link">About <span class="f-nav-dot"></span></a>
   </div>
   <div class="f-nav-right">
     <div class="f-themes" title="Change theme">

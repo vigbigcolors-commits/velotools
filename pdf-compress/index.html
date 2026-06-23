@@ -20,12 +20,12 @@
 <body>
 
 <style>
-.vt-gnav{height:60px;background:#0a0a0c;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(10px)}
+.vt-gnav{height:60px;background:#0a0a0c;border-bottom:1px solid rgba(255,255,255,.09);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(10px)}
 .vt-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
 .vt-lmark{width:32px;height:32px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(99,102,241,.4);transition:transform .2s}
 .vt-logo:hover .vt-lmark{transform:scale(1.08) rotate(-4deg)}
 .vt-lname{font-size:16px;font-weight:800;color:#f8fafc;letter-spacing:-.4px;font-family:-apple-system,'DM Sans',system-ui,sans-serif}
-.vt-glinks{display:flex;gap:2px}
+.vt-glinks{display:flex;gap:2px;justify-self:center}
 .vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(255,255,255,.6);text-decoration:none;font-family:-apple-system,'DM Sans',system-ui,sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 .vt-glink:hover{background:rgba(255,255,255,.08);color:#f8fafc}
 .vt-glink.act{background:rgba(99,102,241,.18);color:#a5b4fc;font-weight:600}
@@ -45,7 +45,7 @@
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
     <a href="/focus/"          class="vt-glink">Focus</a>
-    <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
+    <a href="/about.html"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 </nav>
 
