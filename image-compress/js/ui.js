@@ -491,17 +491,13 @@
   function _cropEnter() {
     if (!S.origImg) return;
 
-    /* Remove any stale overlay — prevents darkening accumulation on re-entry */
+    /* Remove stale overlay — prevents darkening accumulation on re-entry */
     var stale = $('crop-ov');
     if (stale) {
-      if (stale._onMove) {
-        document.removeEventListener('mousemove', stale._onMove);
-        document.removeEventListener('touchmove', stale._onMove);
-      }
-      if (stale._onEnd) {
-        document.removeEventListener('mouseup',  stale._onEnd);
-        document.removeEventListener('touchend', stale._onEnd);
-      }
+      if (stale._onMove)    { document.removeEventListener('mousemove',  stale._onMove); document.removeEventListener('touchmove', stale._onMove); }
+      if (stale._onEnd)     { document.removeEventListener('mouseup',    stale._onEnd);  document.removeEventListener('touchend',  stale._onEnd); }
+      if (stale._onKeyDown) document.removeEventListener('keydown', stale._onKeyDown);
+      if (stale._onKeyUp)   document.removeEventListener('keyup',   stale._onKeyUp);
       stale.parentNode && stale.parentNode.removeChild(stale);
     }
 
@@ -517,48 +513,44 @@
 
     var ov = document.createElement('div');
     ov.id = 'crop-ov';
-    ov.style.cssText = [
-      'position:absolute', 'top:0', 'left:0',
-      'width:100%', 'height:100%',
-      'cursor:crosshair', 'z-index:20',
-      'user-select:none', '-webkit-user-select:none'
-    ].join(';');
+    ov.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none;-webkit-user-select:none';
 
-    /* No separate mask div — sel's box-shadow provides the single darkening layer.
-       The old approach (mask + sel box-shadow) caused double-dark (0.5 + 0.5 alpha). */
+    /* Selection box — pointer-events:none so clicks pass through to ov,
+       but resize handle children override with pointer-events:auto */
     var sel = document.createElement('div');
     sel.id = 'crop-sel';
-    sel.style.cssText = [
-      'position:absolute', 'display:none',
-      'border:2px solid #5b6cf9',
-      'box-shadow:0 0 0 9999px rgba(0,0,0,0.5)',
-      'pointer-events:none', 'z-index:2',
-      'box-sizing:border-box'
-    ].join(';');
+    sel.style.cssText = 'position:absolute;display:none;border:2px solid #5b6cf9;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);pointer-events:none;z-index:2;box-sizing:border-box';
+
+    /* ── 8 resize handles ────────────────────────────────────────── */
+    var HANDLE_DEFS = [
+      { id:'nw', css:'top:-5px;left:-5px;cursor:nw-resize' },
+      { id:'n',  css:'top:-5px;left:calc(50% - 5px);cursor:n-resize' },
+      { id:'ne', css:'top:-5px;right:-5px;cursor:ne-resize' },
+      { id:'w',  css:'top:calc(50% - 5px);left:-5px;cursor:w-resize' },
+      { id:'e',  css:'top:calc(50% - 5px);right:-5px;cursor:e-resize' },
+      { id:'sw', css:'bottom:-5px;left:-5px;cursor:sw-resize' },
+      { id:'s',  css:'bottom:-5px;left:calc(50% - 5px);cursor:s-resize' },
+      { id:'se', css:'bottom:-5px;right:-5px;cursor:se-resize' }
+    ];
+    var handleEls = {};
+    HANDLE_DEFS.forEach(function(h) {
+      var el = document.createElement('div');
+      el.style.cssText = 'position:absolute;width:10px;height:10px;background:#fff;border:2px solid #5b6cf9;border-radius:2px;z-index:10;pointer-events:auto;box-sizing:border-box;' + h.css;
+      el.dataset.handle = h.id;
+      sel.appendChild(el);
+      handleEls[h.id] = el;
+    });
 
     var badge = document.createElement('div');
     badge.id = 'crop-badge';
-    badge.style.cssText = [
-      'position:absolute', 'display:none',
-      'background:rgba(91,108,249,0.92)', 'color:#fff',
-      'font:700 11px/1 Inter,system-ui,sans-serif',
-      'padding:4px 9px', 'border-radius:6px',
-      'pointer-events:none', 'z-index:3',
-      'white-space:nowrap'
-    ].join(';');
+    badge.style.cssText = 'position:absolute;display:none;background:rgba(91,108,249,0.92);color:#fff;font:700 11px/1 Inter,system-ui,sans-serif;padding:4px 9px;border-radius:6px;pointer-events:none;z-index:3;white-space:nowrap';
 
     var floatBtn = document.createElement('button');
     floatBtn.id = 'crop-float-btn';
+    floatBtn.type = 'button';
+    floatBtn.tabIndex = -1; // prevent Space from activating it via keyboard
     floatBtn.innerHTML = '✔ Apply Crop';
-    floatBtn.style.cssText = [
-      'position:absolute', 'display:none',
-      'background:#0ea66e', 'color:#fff', 'border:none',
-      'padding:8px 16px', 'border-radius:6px',
-      'font:700 13px Inter,system-ui,sans-serif', 'cursor:pointer',
-      'box-shadow:0 4px 12px rgba(0,0,0,0.4)',
-      'z-index:30', 'pointer-events:auto'
-    ].join(';');
-
+    floatBtn.style.cssText = 'position:absolute;display:none;background:#0ea66e;color:#fff;border:none;padding:8px 16px;border-radius:6px;font:700 13px Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.4);z-index:30;pointer-events:auto';
     floatBtn.addEventListener('mousedown', function(e){ e.stopPropagation(); window.applyCrop(); });
     floatBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); window.applyCrop(); }, {passive:false});
 
@@ -567,91 +559,183 @@
     ov.appendChild(floatBtn);
     preview.appendChild(ov);
 
-    function getRelPos(e) {
-      var imgRect = img.getBoundingClientRect();
-      var cl = e.touches ? e.touches[0].clientX : e.clientX;
-      var ct = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: Math.max(0, Math.min(cl - imgRect.left, imgRect.width)),
-        y: Math.max(0, Math.min(ct - imgRect.top,  imgRect.height)),
-        iw: imgRect.width,
-        ih: imgRect.height
-      };
+    /* Reset aspect preset highlight on enter */
+    document.querySelectorAll('.v-crop-pr').forEach(function(b) { b.classList.remove('act'); });
+    var freeBtn = document.querySelector('.v-crop-pr[data-ratio="0"]');
+    if (freeBtn) freeBtn.classList.add('act');
+    CROP.aspect = 0;
+
+    /* ── Internal mode state ─────────────────────────────────────── */
+    var spaceDown   = false;
+    var resizing    = false, rsHandle = null;
+    var rsStartX    = 0, rsStartY = 0, rsCX = 0, rsCY = 0, rsCW = 0, rsCH = 0;
+    var moving      = false;
+    var mvStartX    = 0, mvStartY = 0, mvCX = 0, mvCY = 0;
+
+    /* ── Helpers ─────────────────────────────────────────────────── */
+    function imgRect()  { return img.getBoundingClientRect(); }
+    function offsets()  { var ir = imgRect(), or = ov.getBoundingClientRect(); return { x: ir.left - or.left, y: ir.top - or.top }; }
+    function clientXY(e){ return e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY }; }
+
+    function clampRect(cx, cy, cw, ch, ir) {
+      cw = Math.max(10, cw);
+      ch = Math.max(10, ch);
+      cx = Math.max(0, cx);
+      cy = Math.max(0, cy);
+      cw = Math.min(cw, ir.width  - cx);
+      ch = Math.min(ch, ir.height - cy);
+      return { x: cx, y: cy, w: cw, h: ch };
     }
 
-    function onStart(e) {
-      e.preventDefault();
-      var p = getRelPos(e);
-      CROP.dragging = true;
-      CROP.sx = p.x; CROP.sy = p.y;
-      CROP.x  = p.x; CROP.y  = p.y;
-      CROP.w  = 0;   CROP.h  = 0;
-      sel.style.display   = 'none';
-      badge.style.display = 'none';
-      floatBtn.style.display = 'none';
-    }
-
-    function onMove(e) {
-      if (!CROP.dragging) return;
-      e.preventDefault();
-      var p = getRelPos(e);
-
-      CROP.x = Math.min(CROP.sx, p.x);
-      CROP.y = Math.min(CROP.sy, p.y);
-      CROP.w = Math.abs(p.x - CROP.sx);
-      CROP.h = Math.abs(p.y - CROP.sy);
-
-      CROP.x = Math.max(0, CROP.x);
-      CROP.y = Math.max(0, CROP.y);
-      CROP.w = Math.min(CROP.w, p.iw - CROP.x);
-      CROP.h = Math.min(CROP.h, p.ih - CROP.y);
-
+    function refreshSel() {
       if (CROP.w < 2 || CROP.h < 2) return;
-
-      var imgRect = img.getBoundingClientRect();
-      var ovRect  = ov.getBoundingClientRect();
-      var offX = imgRect.left - ovRect.left;
-      var offY = imgRect.top  - ovRect.top;
-
-      sel.style.left    = px(CROP.x + offX);
-      sel.style.top     = px(CROP.y + offY);
+      var ir = imgRect(), off = offsets();
+      sel.style.left    = px(CROP.x + off.x);
+      sel.style.top     = px(CROP.y + off.y);
       sel.style.width   = px(CROP.w);
       sel.style.height  = px(CROP.h);
       sel.style.display = 'block';
 
-      var scaleX = S.origW / p.iw;
-      var scaleY = S.origH / p.ih;
+      var scaleX = S.origW / ir.width, scaleY = S.origH / ir.height;
       CROP.imgX = Math.round(CROP.x * scaleX);
       CROP.imgY = Math.round(CROP.y * scaleY);
       CROP.imgW = Math.round(CROP.w * scaleX);
       CROP.imgH = Math.round(CROP.h * scaleY);
 
-      badge.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px';
-      badge.style.left  = px(CROP.x + offX);
-      badge.style.top   = px(CROP.y + offY + CROP.h + 6);
+      badge.textContent   = CROP.imgW + ' × ' + CROP.imgH + ' px';
+      badge.style.left    = px(CROP.x + off.x);
+      badge.style.top     = px(CROP.y + off.y + CROP.h + 6);
       badge.style.display = 'block';
 
-      // Позиционируем плавающую кнопку сразу под рамкой
-      var btnY = CROP.y + offY + CROP.h + 30;
-      // Если рамка ушла в самый низ, переносим кнопку внутрь рамки, чтобы не обрезалась
-      if (btnY + 40 > imgRect.height) { btnY = CROP.y + offY + CROP.h - 45; }
-      
-      floatBtn.style.left = px(CROP.x + offX);
-      floatBtn.style.top  = px(btnY);
+      var btnY = CROP.y + off.y + CROP.h + 30;
+      if (btnY + 40 > ir.height) btnY = CROP.y + off.y + CROP.h - 45;
+      floatBtn.style.left    = px(CROP.x + off.x);
+      floatBtn.style.top     = px(btnY);
       floatBtn.style.display = 'block';
 
       var info = $('v-crop-info');
-      if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — click "Apply crop" to confirm';
+      if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — drag handles to resize · Space+drag to move';
     }
 
+    function setCursor(c) { ov.style.cursor = c; }
+
+    /* Enforce aspect ratio on a {x,y,w,h} rect */
+    function applyAspect(r, ir) {
+      if (!CROP.aspect) return r;
+      var targetH = r.w / CROP.aspect;
+      if (r.y + targetH > ir.height) {
+        targetH = ir.height - r.y;
+        r.w = Math.round(targetH * CROP.aspect);
+      }
+      r.h = Math.round(targetH);
+      r.w = Math.min(r.w, ir.width - r.x);
+      return r;
+    }
+
+    /* ── Resize handles mousedown ────────────────────────────────── */
+    Object.keys(handleEls).forEach(function(hid) {
+      function startResize(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        resizing = true; rsHandle = hid;
+        var c = clientXY(e);
+        rsStartX = c.x; rsStartY = c.y;
+        rsCX = CROP.x; rsCY = CROP.y; rsCW = CROP.w; rsCH = CROP.h;
+        setCursor(handleEls[hid].style.cursor.replace('cursor:','') || 'nwse-resize');
+      }
+      handleEls[hid].addEventListener('mousedown',  startResize);
+      handleEls[hid].addEventListener('touchstart', startResize, { passive: false });
+    });
+
+    /* ── Overlay mousedown: new draw OR space-move ───────────────── */
+    function onStart(e) {
+      e.preventDefault();
+      var ir = imgRect(), c = clientXY(e);
+      var rx = Math.max(0, Math.min(c.x - ir.left, ir.width));
+      var ry = Math.max(0, Math.min(c.y - ir.top,  ir.height));
+
+      if (spaceDown && CROP.w > 4) {
+        /* Space held → move selection */
+        moving  = true;
+        mvStartX = c.x; mvStartY = c.y;
+        mvCX = CROP.x; mvCY = CROP.y;
+        setCursor('grabbing');
+        return;
+      }
+      /* Normal: start new draw */
+      CROP.dragging = true;
+      CROP.sx = rx; CROP.sy = ry;
+      CROP.x  = rx; CROP.y  = ry;
+      CROP.w  = 0;  CROP.h  = 0;
+      sel.style.display = badge.style.display = floatBtn.style.display = 'none';
+    }
+
+    /* ── Unified move handler ────────────────────────────────────── */
+    function onMove(e) {
+      e.preventDefault();
+      var ir = imgRect(), c = clientXY(e);
+
+      if (resizing) {
+        var dx = c.x - rsStartX, dy = c.y - rsStartY;
+        var nx = rsCX, ny = rsCY, nw = rsCW, nh = rsCH;
+        if (rsHandle.indexOf('e') !== -1) { nw = rsCW + dx; }
+        if (rsHandle.indexOf('s') !== -1) { nh = rsCH + dy; }
+        if (rsHandle.indexOf('w') !== -1) { nx = rsCX + dx; nw = rsCW - dx; }
+        if (rsHandle.indexOf('n') !== -1) { ny = rsCY + dy; nh = rsCH - dy; }
+        var r = clampRect(nx, ny, nw, nh, ir);
+        if (CROP.aspect) {
+          if (rsHandle === 'n' || rsHandle === 's') { r.w = Math.round(r.h * CROP.aspect); }
+          else { r.h = Math.round(r.w / CROP.aspect); }
+          r = clampRect(r.x, r.y, r.w, r.h, ir);
+        }
+        CROP.x = r.x; CROP.y = r.y; CROP.w = r.w; CROP.h = r.h;
+        refreshSel();
+        return;
+      }
+
+      if (moving) {
+        var mdx = c.x - mvStartX, mdy = c.y - mvStartY;
+        CROP.x = Math.max(0, Math.min(mvCX + mdx, ir.width  - CROP.w));
+        CROP.y = Math.max(0, Math.min(mvCY + mdy, ir.height - CROP.h));
+        refreshSel();
+        return;
+      }
+
+      if (!CROP.dragging) return;
+      var rx = Math.max(0, Math.min(c.x - ir.left, ir.width));
+      var ry = Math.max(0, Math.min(c.y - ir.top,  ir.height));
+      var r2 = clampRect(Math.min(CROP.sx, rx), Math.min(CROP.sy, ry),
+                         Math.abs(rx - CROP.sx), Math.abs(ry - CROP.sy), ir);
+      r2 = applyAspect(r2, ir);
+      CROP.x = r2.x; CROP.y = r2.y; CROP.w = r2.w; CROP.h = r2.h;
+      if (CROP.w < 2 || CROP.h < 2) return;
+      refreshSel();
+    }
+
+    /* ── Mouse up ────────────────────────────────────────────────── */
     function onEnd(_e) {
+      if (resizing) { resizing = false; rsHandle = null; setCursor(spaceDown && CROP.w > 4 ? 'grab' : 'crosshair'); return; }
+      if (moving)   { moving   = false;                  setCursor(spaceDown && CROP.w > 4 ? 'grab' : 'crosshair'); return; }
       CROP.dragging = false;
       if (CROP.w < 5 || CROP.h < 5) {
-        sel.style.display   = 'none';
-        badge.style.display = 'none';
-        floatBtn.style.display = 'none';
+        sel.style.display = badge.style.display = floatBtn.style.display = 'none';
         var info = $('v-crop-info');
         if (info) info.textContent = 'Draw a selection on the image above';
+      }
+    }
+
+    /* ── Space key: toggle grab/move mode ───────────────────────── */
+    function onKeyDown(e) {
+      if (e.code === 'Space' && CROP.on && !e.repeat) {
+        e.preventDefault();
+        spaceDown = true;
+        if (!resizing && !CROP.dragging) setCursor(CROP.w > 4 ? 'grab' : 'crosshair');
+      }
+    }
+    function onKeyUp(e) {
+      if (e.code === 'Space') {
+        spaceDown = false;
+        if (!resizing) setCursor('crosshair');
       }
     }
 
@@ -661,19 +745,27 @@
     document.addEventListener('touchmove',  onMove, { passive: false });
     document.addEventListener('mouseup',    onEnd);
     document.addEventListener('touchend',   onEnd);
+    /* capture:true — intercepts Space BEFORE browser activates focused button */
+    document.addEventListener('keydown',    onKeyDown, true);
+    document.addEventListener('keyup',      onKeyUp,   true);
 
-    ov._onMove = onMove;
-    ov._onEnd  = onEnd;
+    ov._onMove    = onMove;
+    ov._onEnd     = onEnd;
+    ov._onKeyDown = onKeyDown;
+    ov._onKeyUp   = onKeyUp;
+    ov._refresh   = refreshSel; // exposed for setCropAspect()
   }
 
   function _cropExit() {
     CROP.on = false;
     var ov = $('crop-ov');
     if (ov) {
-      document.removeEventListener('mousemove', ov._onMove);
-      document.removeEventListener('touchmove', ov._onMove);
-      document.removeEventListener('mouseup',   ov._onEnd);
-      document.removeEventListener('touchend',  ov._onEnd);
+      document.removeEventListener('mousemove',  ov._onMove);
+      document.removeEventListener('touchmove',  ov._onMove);
+      document.removeEventListener('mouseup',    ov._onEnd);
+      document.removeEventListener('touchend',   ov._onEnd);
+      if (ov._onKeyDown) document.removeEventListener('keydown', ov._onKeyDown, true);
+      if (ov._onKeyUp)   document.removeEventListener('keyup',   ov._onKeyUp,   true);
       ov.parentNode && ov.parentNode.removeChild(ov);
     }
     var preview = $('v-preview');
@@ -722,6 +814,24 @@
       setTimeout(window.process, 50);
     };
     newImg.src = newUrl;
+  };
+
+  /* Set aspect ratio preset — called from HTML preset buttons */
+  window.setCropAspect = function(ratio, btn) {
+    CROP.aspect = ratio || 0;
+    document.querySelectorAll('.v-crop-pr').forEach(function(b) { b.classList.remove('act'); });
+    if (btn) btn.classList.add('act');
+
+    var ov = $('crop-ov');
+    if (!ov || !ov._refresh || CROP.w < 10 || !ratio) return;
+
+    /* Resize existing selection to match new aspect ratio */
+    var ir = $('v-prev-img').getBoundingClientRect();
+    var newH = CROP.w / ratio;
+    if (CROP.y + newH > ir.height) { newH = ir.height - CROP.y; CROP.w = Math.round(newH * ratio); }
+    CROP.h = Math.round(newH);
+    CROP.w = Math.min(CROP.w, ir.width - CROP.x);
+    ov._refresh();
   };
 
   window.resetCrop = function() {

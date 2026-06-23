@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terms of Service | VeloTools</title>
+<meta name="description" content="VeloTools Terms of Service. Free, no-signup tools that run entirely in your browser. Read our terms for using image compression, invoice generation, QR codes, and more.">
+<link rel="canonical" href="https://velotools.app/terms/">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32'%3E%3Crect width='24' height='24' rx='6' fill='%2300e6d0'/%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2' fill='%230c1314'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #082f38;
+  --bg2:     #0e2e35;
+  --bg3:     #0a2228;
+  --surface: #1c5a64;
+  --sur2:    #12444e;
+  --mint:    #00e6d0;
+  --mint-d:  #00bfae;
+  --mint-bg: rgba(0,230,208,.08);
+  --mint-brd:rgba(0,230,208,.2);
+  --gold:    #ffcf5c;
+  --coral:   #ff6b57;
+  --tx:      #ffffff;
+  --tx2:     #b0cad8;
+  --tx3:     #6a9aaa;
+  --brd:     rgba(255,255,255,.1);
+  --brd2:    rgba(255,255,255,.18);
+  --sh:      0 8px 32px rgba(0,0,0,.4);
+  --r:       14px;
+  --font:    'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--tx2);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(#0d353f 1px,transparent 1px),linear-gradient(90deg,#0d353f 1px,transparent 1px);background-size:48px 48px;will-change:transform;transform:translateZ(0)}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 55% at 50% -5%,rgba(14,135,157,.25),transparent 60%);will-change:transform;transform:translateZ(0)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+
+/* ── NAV ── */
+.nav{height:60px;background:#09191e;border-bottom:1px solid var(--brd);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 40px;position:sticky;top:0;z-index:200}
+.n-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.n-lm{width:32px;height:32px;background:linear-gradient(135deg,var(--mint),var(--mint-d));border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,230,208,.3);transition:transform .2s}
+.n-logo:hover .n-lm{transform:scale(1.08) rotate(-4deg)}
+.n-ln{font-size:16px;font-weight:800;color:var(--tx);letter-spacing:-.4px}
+.n-links{display:flex;gap:2px;justify-self:center}
+.n-link{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:var(--tx2);text-decoration:none;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.n-link:hover{background:rgba(255,255,255,.07);color:var(--tx)}
+.n-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px rgba(34,197,94,.8);animation:blink 2s ease-in-out infinite;display:inline-block}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+@media(max-width:680px){.n-links{display:none}.nav{padding:0 20px}}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:64px 48px 96px;display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:start}
+@media(max-width:900px){.page{grid-template-columns:1fr;padding:40px 24px 80px}}
+
+/* ── SIDEBAR TOC ── */
+.toc{position:sticky;top:84px}
+.toc-title{font-size:11px;font-weight:800;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.toc-title::before{content:'';width:20px;height:2px;background:var(--mint);border-radius:1px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.toc-item a{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--tx3);text-decoration:none;padding:7px 12px;border-radius:8px;transition:all .15s;border-left:2px solid transparent}
+.toc-item a:hover{color:var(--tx2);background:rgba(255,255,255,.04);border-left-color:var(--brd2)}
+.toc-item a.act{color:var(--mint);background:var(--mint-bg);border-left-color:var(--mint);font-weight:600}
+.toc-item a span{font-size:11px;color:var(--tx3);margin-right:2px;font-family:monospace}
+@media(max-width:900px){.toc{display:none}}
+
+/* ── HERO ── */
+.hero{margin-bottom:48px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,207,92,.1);border:1px solid rgba(255,207,92,.25);border-radius:20px;padding:6px 16px;font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--tx);letter-spacing:-1.5px;line-height:1.05;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:var(--mint)}
+.hero-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}
+.hero-date{font-size:13px;color:var(--tx3)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,230,208,.1);border:1px solid var(--mint-brd);color:var(--mint);font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px}
+
+/* ── KEY POINTS GRID ── */
+.kp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:40px}
+@media(max-width:640px){.kp-grid{grid-template-columns:1fr}}
+.kp-card{background:var(--sur2);border:1px solid var(--brd);border-radius:var(--r);padding:20px;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s}
+.kp-card:hover{border-color:var(--brd2)}
+.kp-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kp-t{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.kp-d{font-size:12px;color:var(--tx3);line-height:1.5}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:40px;scroll-margin-top:80px}
+.section-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--brd)}
+.section-num{width:32px;height:32px;border-radius:9px;background:rgba(255,207,92,.1);border:1px solid rgba(255,207,92,.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--gold);flex-shrink:0;font-family:monospace}
+.section-title{font-size:22px;font-weight:800;color:var(--tx);letter-spacing:-.4px}
+.section-body{display:flex;flex-direction:column;gap:14px}
+.section-body p{font-size:15px;color:var(--tx2);line-height:1.8}
+.section-body p strong{color:var(--tx);font-weight:700}
+.section-body a{color:var(--mint);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.section-body a:hover{border-bottom-color:var(--mint)}
+
+/* ── INFO BOXES ── */
+.info-box{background:var(--sur2);border:1px solid var(--brd);border-radius:var(--r);padding:20px 24px;display:flex;gap:14px;align-items:flex-start}
+.info-box.green{background:rgba(0,230,208,.07);border-color:var(--mint-brd)}
+.info-box.amber{background:rgba(255,207,92,.07);border-color:rgba(255,207,92,.2)}
+.info-box.red{background:rgba(255,107,87,.07);border-color:rgba(255,107,87,.2)}
+.ib-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-box.green .ib-ico{background:rgba(0,230,208,.15)}
+.info-box.amber .ib-ico{background:rgba(255,207,92,.15)}
+.info-box.red   .ib-ico{background:rgba(255,107,87,.15)}
+.ib-text{font-size:14px;color:var(--tx2);line-height:1.7}
+.ib-text strong{color:var(--tx);display:block;margin-bottom:4px;font-size:14px}
+
+/* ── LIST ── */
+.pp-list{display:flex;flex-direction:column;gap:8px;padding-left:0;list-style:none}
+.pp-list li{font-size:15px;color:var(--tx2);line-height:1.7;padding-left:20px;position:relative}
+.pp-list li::before{content:'→';position:absolute;left:0;color:var(--mint);font-size:12px;top:4px}
+.pp-list.prohibited li::before{content:'✕';color:var(--coral)}
+
+/* ── FOOTER ── */
+.foot{position:relative;z-index:1;background:rgba(0,0,0,.3);border-top:1px solid var(--brd);padding:36px 48px}
+.foot-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.foot-lm{width:28px;height:28px;background:linear-gradient(135deg,var(--mint),var(--mint-d));border-radius:7px;display:flex;align-items:center;justify-content:center}
+.foot-ln{font-size:14px;font-weight:800;color:var(--tx)}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{font-size:13px;color:var(--tx3);text-decoration:none;transition:color .14s}
+.foot-links a:hover{color:var(--mint)}
+.foot-copy{font-size:12px;color:var(--tx3)}
+@media(max-width:680px){.foot{padding:28px 20px}.foot-in{flex-direction:column;text-align:center}.foot-links{justify-content:center}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main navigation">
+  <a href="/" class="n-logo">
+    <div class="n-lm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0c1314" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="n-ln">velotools</span>
+  </a>
+  <div class="n-links">
+    <a href="/image-compress/" class="n-link">Image</a>
+    <a href="/invoice/"        class="n-link">Invoice</a>
+    <a href="/qr/"             class="n-link">QR Code</a>
+    <a href="/focus/"          class="n-link">Focus</a>
+    <a href="/about.html"      class="n-link">About <span class="n-dot"></span></a>
+  </div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="n-link" style="font-size:12px;opacity:.55">Privacy Policy</a></div>
+</nav>
+
+<div class="page">
+
+  <!-- SIDEBAR TOC -->
+  <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="#acceptance"><span>01</span> Acceptance</a></li>
+      <li class="toc-item"><a href="#description"><span>02</span> Service Description</a></li>
+      <li class="toc-item"><a href="#permitted-use"><span>03</span> Permitted Use</a></li>
+      <li class="toc-item"><a href="#prohibited-use"><span>04</span> Prohibited Use</a></li>
+      <li class="toc-item"><a href="#intellectual-property"><span>05</span> Intellectual Property</a></li>
+      <li class="toc-item"><a href="#your-content"><span>06</span> Your Content</a></li>
+      <li class="toc-item"><a href="#disclaimers"><span>07</span> Disclaimers</a></li>
+      <li class="toc-item"><a href="#liability"><span>08</span> Limitation of Liability</a></li>
+      <li class="toc-item"><a href="#indemnification"><span>09</span> Indemnification</a></li>
+      <li class="toc-item"><a href="#third-party"><span>10</span> Third-Party Links</a></li>
+      <li class="toc-item"><a href="#termination"><span>11</span> Termination</a></li>
+      <li class="toc-item"><a href="#governing-law"><span>12</span> Governing Law</a></li>
+      <li class="toc-item"><a href="#changes"><span>13</span> Changes</a></li>
+      <li class="toc-item"><a href="#contact"><span>14</span> Contact</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Legal Agreement
+      </div>
+      <h1>Terms of <em>Service</em></h1>
+      <p style="font-size:17px;color:var(--tx2);line-height:1.7;max-width:600px;margin-top:12px">Simple, fair terms for a simple, free service. No signup, no subscription, no hidden obligations.</p>
+      <div class="hero-meta">
+        <span class="hero-date">Last updated: June 23, 2026</span>
+        <span class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Free Forever
+        </span>
+      </div>
+    </div>
+
+    <!-- KEY POINTS GRID -->
+    <div class="kp-grid">
+      <div class="kp-card">
+        <div class="kp-ico" style="background:rgba(0,230,208,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div><div class="kp-t">Free to Use</div><div class="kp-d">All tools are free forever. No hidden fees, subscriptions, or limits.</div></div>
+      </div>
+      <div class="kp-card">
+        <div class="kp-ico" style="background:rgba(0,230,208,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div><div class="kp-t">Your Files Stay Yours</div><div class="kp-d">We claim zero rights over any file or content you process.</div></div>
+      </div>
+      <div class="kp-card">
+        <div class="kp-ico" style="background:rgba(255,207,92,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div><div class="kp-t">Use Responsibly</div><div class="kp-d">Don't use our tools to process illegal content or circumvent laws.</div></div>
+      </div>
+      <div class="kp-card">
+        <div class="kp-ico" style="background:rgba(255,107,87,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div><div class="kp-t">No Warranty</div><div class="kp-d">Provided "as-is". Always keep backups of important files.</div></div>
+      </div>
+    </div>
+
+    <!-- S1: ACCEPTANCE -->
+    <section class="section" id="acceptance">
+      <div class="section-hdr">
+        <div class="section-num">01</div>
+        <h2 class="section-title">Acceptance of Terms</h2>
+      </div>
+      <div class="section-body">
+        <p>By accessing or using VeloTools at <strong>velotools.app</strong> (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.</p>
+        <p>These Terms apply to all visitors, users, and anyone else who accesses or uses the Service. Use of the Service is conditioned on acceptance of and compliance with these Terms.</p>
+        <div class="info-box green">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+          <div class="ib-text"><strong>No account required</strong>Using VeloTools does not require creating an account, providing personal information, or agreeing to a subscription. Continued use of the website constitutes acceptance of these Terms.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S2: DESCRIPTION -->
+    <section class="section" id="description">
+      <div class="section-hdr">
+        <div class="section-num">02</div>
+        <h2 class="section-title">Description of Service</h2>
+      </div>
+      <div class="section-body">
+        <p>VeloTools is a collection of free, browser-based productivity tools that operate entirely client-side. The Service currently includes:</p>
+        <ul class="pp-list">
+          <li><strong>Image Compressor &amp; Converter</strong> — Compress JPEG, PNG, WebP, AVIF; resize, rotate, crop, apply effects.</li>
+          <li><strong>Invoice Generator</strong> — Create professional invoices with multiple templates; export as PDF or PNG.</li>
+          <li><strong>QR Code Generator</strong> — Generate custom QR codes for URLs, WiFi, vCards, emails, SMS, and more.</li>
+          <li><strong>Background Remover</strong> — Remove image backgrounds using AI that runs locally in your browser.</li>
+          <li><strong>PDF Compressor</strong> — Reduce PDF file sizes without uploading to external servers.</li>
+          <li><strong>Focus Room</strong> — A distraction-free productivity environment with Pomodoro timer and task management.</li>
+        </ul>
+        <p>All processing is performed in your browser. VeloTools does not receive, store, or transmit any files you process. The Service is provided free of charge and is supported by advertising.</p>
+      </div>
+    </section>
+
+    <!-- S3: PERMITTED USE -->
+    <section class="section" id="permitted-use">
+      <div class="section-hdr">
+        <div class="section-num">03</div>
+        <h2 class="section-title">Permitted Use</h2>
+      </div>
+      <div class="section-body">
+        <p>Subject to these Terms, VeloTools grants you a personal, non-exclusive, non-transferable, limited right to access and use the Service for lawful purposes. You may:</p>
+        <ul class="pp-list">
+          <li>Use all tools for personal, professional, or commercial purposes.</li>
+          <li>Process any files to which you hold the rights or have authorization to process.</li>
+          <li>Download and keep the output you generate using the tools.</li>
+          <li>Share links to VeloTools with others.</li>
+          <li>Use the Service for client work, business operations, or education.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- S4: PROHIBITED USE -->
+    <section class="section" id="prohibited-use">
+      <div class="section-hdr">
+        <div class="section-num">04</div>
+        <h2 class="section-title">Prohibited Use</h2>
+      </div>
+      <div class="section-body">
+        <p>You agree not to use the Service in any way that:</p>
+        <ul class="pp-list prohibited">
+          <li>Violates any applicable local, national, or international law or regulation.</li>
+          <li>Infringes the intellectual property rights of any third party.</li>
+          <li>Processes illegal, defamatory, obscene, or harmful content.</li>
+          <li>Attempts to reverse engineer, decompile, or extract proprietary source code or AI models.</li>
+          <li>Uses automated scripts, bots, or scrapers to access the Service at scale in a way that disrupts its operation.</li>
+          <li>Circumvents, disables, or interferes with security features of the Service.</li>
+          <li>Impersonates VeloTools, its employees, or other users.</li>
+          <li>Engages in any conduct that restricts or inhibits anyone's use of the Service.</li>
+        </ul>
+        <div class="info-box red">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
+          <div class="ib-text"><strong>CSAM Policy</strong>The processing of child sexual abuse material (CSAM) or any content depicting the sexual exploitation of minors is strictly prohibited. Violations will be reported to the National Center for Missing and Exploited Children (NCMEC) and law enforcement authorities.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S5: INTELLECTUAL PROPERTY -->
+    <section class="section" id="intellectual-property">
+      <div class="section-hdr">
+        <div class="section-num">05</div>
+        <h2 class="section-title">Intellectual Property</h2>
+      </div>
+      <div class="section-body">
+        <p>The Service and its original content (excluding content provided by users), features, and functionality are and will remain the exclusive property of VeloTools and its licensors. This includes the website design, user interface, branding, and source code.</p>
+        <p>The VeloTools name, logo, and all related trademarks are the property of VeloTools. You may not use our trademarks without prior written permission.</p>
+        <p><strong>Open source components</strong> — VeloTools uses third-party open-source libraries (such as QRCodeStyling). These components are governed by their respective licenses (MIT, Apache 2.0, etc.) and are not affected by these Terms.</p>
+        <p><strong>Your rights are not affected</strong> — We do not claim any ownership over files, images, invoices, QR codes, or any other content you create or process using the Service. All output belongs entirely to you.</p>
+      </div>
+    </section>
+
+    <!-- S6: YOUR CONTENT -->
+    <section class="section" id="your-content">
+      <div class="section-hdr">
+        <div class="section-num">06</div>
+        <h2 class="section-title">Your Content</h2>
+      </div>
+      <div class="section-body">
+        <p>Because VeloTools processes files entirely in your browser without any server-side handling, you retain full ownership and control over all content you process. Specifically:</p>
+        <ul class="pp-list">
+          <li>We never receive or store copies of files you open or process.</li>
+          <li>We claim no license, rights, or interest in any content you process using the Service.</li>
+          <li>You are solely responsible for ensuring you have the right to process any content you upload to the browser.</li>
+          <li>Invoice data saved locally via your browser's localStorage is yours. We cannot access it, and it is deleted when you clear your browser data.</li>
+        </ul>
+        <p>You warrant that you own or have the necessary rights to any content you process using our tools, and that doing so does not violate any law or third-party rights.</p>
+      </div>
+    </section>
+
+    <!-- S7: DISCLAIMERS -->
+    <section class="section" id="disclaimers">
+      <div class="section-hdr">
+        <div class="section-num">07</div>
+        <h2 class="section-title">Disclaimers</h2>
+      </div>
+      <div class="section-body">
+        <div class="info-box amber">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div class="ib-text"><strong>AS-IS BASIS</strong>THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.</div>
+        </div>
+        <p>VeloTools does not warrant that:</p>
+        <ul class="pp-list">
+          <li>The Service will be uninterrupted, error-free, or available at all times.</li>
+          <li>The results of file processing will meet your specific requirements or be error-free.</li>
+          <li>Any bugs or security vulnerabilities in the Service will be corrected promptly.</li>
+          <li>The Service is free from viruses or other harmful components (though we make every effort to ensure it is).</li>
+        </ul>
+        <p><strong>Always maintain independent backups of important files.</strong> Never rely solely on VeloTools for file transformation without retaining originals.</p>
+      </div>
+    </section>
+
+    <!-- S8: LIMITATION OF LIABILITY -->
+    <section class="section" id="liability">
+      <div class="section-hdr">
+        <div class="section-num">08</div>
+        <h2 class="section-title">Limitation of Liability</h2>
+      </div>
+      <div class="section-body">
+        <p>To the fullest extent permitted by applicable law, VeloTools and its owners, officers, employees, and agents shall not be liable for any:</p>
+        <ul class="pp-list">
+          <li>Indirect, incidental, special, consequential, or punitive damages.</li>
+          <li>Loss of profits, revenue, data, goodwill, or other intangible losses.</li>
+          <li>Damages resulting from unauthorized access to or use of our servers.</li>
+          <li>Damages resulting from interruption or cessation of the Service.</li>
+          <li>Bugs, viruses, or other harmful code transmitted through the Service by third parties.</li>
+          <li>Errors or omissions in any content processed through the Service.</li>
+        </ul>
+        <p>In jurisdictions where limitations on implied warranties or exclusion of certain damages are not permitted, our liability is limited to the maximum extent permitted by law. In all cases, our total aggregate liability to you shall not exceed <strong>USD $10</strong>.</p>
+      </div>
+    </section>
+
+    <!-- S9: INDEMNIFICATION -->
+    <section class="section" id="indemnification">
+      <div class="section-hdr">
+        <div class="section-num">09</div>
+        <h2 class="section-title">Indemnification</h2>
+      </div>
+      <div class="section-body">
+        <p>You agree to defend, indemnify, and hold harmless VeloTools and its licensors, service providers, employees, agents, officers, and directors from any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to:</p>
+        <ul class="pp-list">
+          <li>Your violation of these Terms of Service.</li>
+          <li>Your use of the Service, including but not limited to content you process.</li>
+          <li>Your violation of any third-party rights, including intellectual property or privacy rights.</li>
+          <li>Any claim that content you processed caused damage to a third party.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- S10: THIRD-PARTY LINKS -->
+    <section class="section" id="third-party">
+      <div class="section-hdr">
+        <div class="section-num">10</div>
+        <h2 class="section-title">Third-Party Links &amp; Services</h2>
+      </div>
+      <div class="section-body">
+        <p>The Service may contain links to third-party websites or services that are not owned or controlled by VeloTools. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+        <p>Third-party services integrated into or alongside VeloTools include Google AdSense (advertising), Google Fonts (typography), and CDN services. Use of these services is subject to their respective terms and privacy policies.</p>
+        <p>We strongly advise you to read the terms and privacy policy of any third-party website or service you visit. The inclusion of any link does not imply endorsement of the linked site by VeloTools.</p>
+      </div>
+    </section>
+
+    <!-- S11: TERMINATION -->
+    <section class="section" id="termination">
+      <div class="section-hdr">
+        <div class="section-num">11</div>
+        <h2 class="section-title">Termination</h2>
+      </div>
+      <div class="section-body">
+        <p>We may terminate or suspend access to the Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms.</p>
+        <p>Because no account is required to use VeloTools, "termination" means restricting access to the Service from your IP address or device in the event of abuse, violation of these Terms, or legal obligation to do so.</p>
+        <p>All provisions of the Terms which by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+      </div>
+    </section>
+
+    <!-- S12: GOVERNING LAW -->
+    <section class="section" id="governing-law">
+      <div class="section-hdr">
+        <div class="section-num">12</div>
+        <h2 class="section-title">Governing Law &amp; Disputes</h2>
+      </div>
+      <div class="section-body">
+        <p>These Terms shall be governed and construed in accordance with applicable law, without regard to its conflict of law provisions.</p>
+        <p>Any disputes arising under or in connection with these Terms shall first be attempted to be resolved informally by contacting VeloTools at <a href="mailto:legal@velotools.app">legal@velotools.app</a>. We will make a good-faith effort to resolve any dispute within 30 days.</p>
+        <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.</p>
+      </div>
+    </section>
+
+    <!-- S13: CHANGES -->
+    <section class="section" id="changes">
+      <div class="section-hdr">
+        <div class="section-num">13</div>
+        <h2 class="section-title">Changes to Terms</h2>
+      </div>
+      <div class="section-body">
+        <p>We reserve the right to modify or replace these Terms at any time at our sole discretion. We will provide notice of any significant changes by updating the "Last updated" date at the top of this page.</p>
+        <p>What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised Terms.</p>
+        <p>We recommend reviewing these Terms periodically. If you do not agree to the new Terms, please stop using the Service.</p>
+      </div>
+    </section>
+
+    <!-- S14: CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-hdr">
+        <div class="section-num">14</div>
+        <h2 class="section-title">Contact</h2>
+      </div>
+      <div class="section-body">
+        <p>If you have any questions about these Terms of Service, please contact us:</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">
+          <div class="info-box green" style="flex:1;min-width:200px">
+            <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="ib-text"><strong>General</strong><a href="mailto:hello@velotools.app">hello@velotools.app</a></div>
+          </div>
+          <div class="info-box green" style="flex:1;min-width:200px">
+            <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="ib-text"><strong>Legal Matters</strong><a href="mailto:legal@velotools.app">legal@velotools.app</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RELATED PAGES -->
+    <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--brd);display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/privacy/" style="display:inline-flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--brd);padding:12px 20px;border-radius:12px;text-decoration:none;color:var(--tx2);font-size:14px;font-weight:600;transition:all .15s" onmouseover="this.style.borderColor='var(--brd2)';this.style.color='var(--tx)'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--tx2)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Privacy Policy →
+      </a>
+      <a href="/" style="display:inline-flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--brd);padding:12px 20px;border-radius:12px;text-decoration:none;color:var(--tx2);font-size:14px;font-weight:600;transition:all .15s" onmouseover="this.style.borderColor='var(--brd2)';this.style.color='var(--tx)'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--tx2)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        All Free Tools →
+      </a>
+    </div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-in">
+    <a href="/" class="foot-logo">
+      <div class="foot-lm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0c1314" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <span class="foot-ln">velotools</span>
+    </a>
+    <div class="foot-links">
+      <a href="/">All Tools</a>
+      <a href="/image-compress/">Image Compressor</a>
+      <a href="/invoice/">Invoice Generator</a>
+      <a href="/qr/">QR Code Generator</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Service</a>
+      <a href="/about.html">About</a>
+    </div>
+    <div class="foot-copy">© 2026 VeloTools · Free forever · Files never leave your device</div>
+  </div>
+</footer>
+
+<script>
+/* Active TOC highlight on scroll */
+(function(){
+  var sections = document.querySelectorAll('.section');
+  var links    = document.querySelectorAll('.toc-item a');
+  function onScroll(){
+    var scrollY = window.scrollY + 100;
+    var active = null;
+    sections.forEach(function(s){ if(s.offsetTop <= scrollY) active = s.id; });
+    links.forEach(function(l){
+      var href = l.getAttribute('href').slice(1);
+      l.classList.toggle('act', href === active);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

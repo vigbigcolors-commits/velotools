@@ -2,87 +2,467 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy | VeloTools</title>
-<meta name="description" content="VeloTools privacy policy. Your files never leave your browser. We don't collect or store your data.">
+<meta name="description" content="VeloTools Privacy Policy. All processing happens in your browser. Your files never leave your device. No upload, no tracking, no data collection.">
 <link rel="canonical" href="https://velotools.app/privacy/">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32'%3E%3Crect width='24' height='24' rx='6' fill='%2300e6d0'/%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2' fill='%230c1314'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #082f38;
+  --bg2:     #0e2e35;
+  --bg3:     #0a2228;
+  --surface: #1c5a64;
+  --sur2:    #12444e;
+  --mint:    #00e6d0;
+  --mint-d:  #00bfae;
+  --mint-bg: rgba(0,230,208,.08);
+  --mint-brd:rgba(0,230,208,.2);
+  --tx:      #ffffff;
+  --tx2:     #b0cad8;
+  --tx3:     #6a9aaa;
+  --brd:     rgba(255,255,255,.1);
+  --brd2:    rgba(255,255,255,.18);
+  --sh:      0 8px 32px rgba(0,0,0,.4);
+  --r:       14px;
+  --font:    'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--tx2);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(#0d353f 1px,transparent 1px),linear-gradient(90deg,#0d353f 1px,transparent 1px);background-size:48px 48px;will-change:transform;transform:translateZ(0)}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 55% at 50% -5%,rgba(14,135,157,.25),transparent 60%);will-change:transform;transform:translateZ(0)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+
+/* ── NAV ── */
+.nav{height:60px;background:#09191e;border-bottom:1px solid var(--brd);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 40px;position:sticky;top:0;z-index:200}
+.n-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.n-lm{width:32px;height:32px;background:linear-gradient(135deg,var(--mint),var(--mint-d));border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,230,208,.3);transition:transform .2s}
+.n-logo:hover .n-lm{transform:scale(1.08) rotate(-4deg)}
+.n-ln{font-size:16px;font-weight:800;color:var(--tx);letter-spacing:-.4px}
+.n-links{display:flex;gap:2px;justify-self:center}
+.n-link{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:var(--tx2);text-decoration:none;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.n-link:hover{background:rgba(255,255,255,.07);color:var(--tx)}
+.n-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px rgba(34,197,94,.8);animation:blink 2s ease-in-out infinite;display:inline-block}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+@media(max-width:680px){.n-links{display:none}.nav{padding:0 20px}}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:64px 48px 96px;display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:start}
+@media(max-width:900px){.page{grid-template-columns:1fr;padding:40px 24px 80px}}
+
+/* ── SIDEBAR TOC ── */
+.toc{position:sticky;top:84px}
+.toc-title{font-size:11px;font-weight:800;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.toc-title::before{content:'';width:20px;height:2px;background:var(--mint);border-radius:1px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.toc-item a{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--tx3);text-decoration:none;padding:7px 12px;border-radius:8px;transition:all .15s;border-left:2px solid transparent}
+.toc-item a:hover{color:var(--tx2);background:rgba(255,255,255,.04);border-left-color:var(--brd2)}
+.toc-item a.act{color:var(--mint);background:var(--mint-bg);border-left-color:var(--mint);font-weight:600}
+.toc-item a span{font-size:11px;color:var(--tx3);margin-right:2px;font-family:monospace}
+@media(max-width:900px){.toc{display:none}}
+
+/* ── HERO ── */
+.hero{margin-bottom:48px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--mint-bg);border:1px solid var(--mint-brd);border-radius:20px;padding:6px 16px;font-size:11px;font-weight:800;color:var(--mint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--tx);letter-spacing:-1.5px;line-height:1.05;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:var(--mint)}
+.hero-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}
+.hero-date{font-size:13px;color:var(--tx3)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,230,208,.1);border:1px solid var(--mint-brd);color:var(--mint);font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px}
+
+/* ── SUMMARY CARD ── */
+.summary-card{background:linear-gradient(135deg,rgba(0,230,208,.12),rgba(0,191,174,.06));border:1px solid var(--mint-brd);border-radius:var(--r);padding:28px 32px;margin-bottom:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:640px){.summary-card{grid-template-columns:1fr}}
+.sc-item{display:flex;align-items:flex-start;gap:12px}
+.sc-ico{width:36px;height:36px;border-radius:10px;background:rgba(0,230,208,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-ico svg{width:18px;height:18px;stroke:var(--mint)}
+.sc-t{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.sc-d{font-size:12px;color:var(--tx3);line-height:1.5}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:40px;scroll-margin-top:80px}
+.section-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--brd)}
+.section-num{width:32px;height:32px;border-radius:9px;background:var(--mint-bg);border:1px solid var(--mint-brd);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--mint);flex-shrink:0;font-family:monospace}
+.section-title{font-size:22px;font-weight:800;color:var(--tx);letter-spacing:-.4px}
+.section-body{display:flex;flex-direction:column;gap:14px}
+.section-body p{font-size:15px;color:var(--tx2);line-height:1.8}
+.section-body p strong{color:var(--tx);font-weight:700}
+.section-body a{color:var(--mint);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.section-body a:hover{border-bottom-color:var(--mint)}
+
+/* ── INFO BOXES ── */
+.info-box{background:var(--sur2);border:1px solid var(--brd);border-radius:var(--r);padding:20px 24px;display:flex;gap:14px;align-items:flex-start}
+.info-box.green{background:rgba(0,230,208,.07);border-color:var(--mint-brd)}
+.info-box.amber{background:rgba(255,207,92,.07);border-color:rgba(255,207,92,.2)}
+.ib-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-box.green .ib-ico{background:rgba(0,230,208,.15)}
+.info-box.amber .ib-ico{background:rgba(255,207,92,.15)}
+.ib-text{font-size:14px;color:var(--tx2);line-height:1.7}
+.ib-text strong{color:var(--tx);display:block;margin-bottom:4px;font-size:14px}
+
+/* ── LIST ── */
+.pp-list{display:flex;flex-direction:column;gap:8px;padding-left:0;list-style:none}
+.pp-list li{font-size:15px;color:var(--tx2);line-height:1.7;padding-left:20px;position:relative}
+.pp-list li::before{content:'→';position:absolute;left:0;color:var(--mint);font-size:12px;top:4px}
+
+/* ── FOOTER ── */
+.foot{position:relative;z-index:1;background:rgba(0,0,0,.3);border-top:1px solid var(--brd);padding:36px 48px}
+.foot-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.foot-lm{width:28px;height:28px;background:linear-gradient(135deg,var(--mint),var(--mint-d));border-radius:7px;display:flex;align-items:center;justify-content:center}
+.foot-ln{font-size:14px;font-weight:800;color:var(--tx)}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{font-size:13px;color:var(--tx3);text-decoration:none;transition:color .14s}
+.foot-links a:hover{color:var(--mint)}
+.foot-copy{font-size:12px;color:var(--tx3)}
+@media(max-width:680px){.foot{padding:28px 20px}.foot-in{flex-direction:column;text-align:center}.foot-links{justify-content:center}}
+</style>
 </head>
 <body>
-<style>
-.vt-gnav{height:60px;background:#0a0a0c;border-bottom:1px solid rgba(255,255,255,.09);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(10px)}
-.vt-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
-.vt-lmark{width:32px;height:32px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(99,102,241,.4);transition:transform .2s}
-.vt-logo:hover .vt-lmark{transform:scale(1.08) rotate(-4deg)}
-.vt-lname{font-size:16px;font-weight:800;color:#f8fafc;letter-spacing:-.4px;font-family:-apple-system,'DM Sans',system-ui,sans-serif}
-.vt-glinks{display:flex;gap:2px;justify-self:center}
-.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(255,255,255,.6);text-decoration:none;font-family:-apple-system,'DM Sans',system-ui,sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
-.vt-glink:hover{background:rgba(255,255,255,.08);color:#f8fafc}
-.vt-glink.act{background:rgba(99,102,241,.18);color:#a5b4fc;font-weight:600}
-.vt-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px rgba(34,197,94,.8);animation:vt-blink 2s ease-in-out infinite;display:inline-block}
-@keyframes vt-blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-@media(max-width:680px){.vt-glinks{display:none}}
-</style>
-<nav class="vt-gnav" aria-label="Site navigation">
-  <a href="/" class="vt-logo">
-    <div class="vt-lmark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-    <span class="vt-lname">velotools</span>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main navigation">
+  <a href="/" class="n-logo">
+    <div class="n-lm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0c1314" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <span class="n-ln">velotools</span>
   </a>
-  <div class="vt-glinks">
-    <a href="/image-compress/" class="vt-glink">Image</a>
-    <a href="/invoice/"        class="vt-glink">Invoice</a>
-    <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a>
-    <a href="/about.html"          class="vt-glink">About <span class="vt-dot"></span></a>
+  <div class="n-links">
+    <a href="/image-compress/" class="n-link">Image</a>
+    <a href="/invoice/"        class="n-link">Invoice</a>
+    <a href="/qr/"             class="n-link">QR Code</a>
+    <a href="/focus/"          class="n-link">Focus</a>
+    <a href="/about.html"      class="n-link">About <span class="n-dot"></span></a>
   </div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/terms/" class="n-link" style="font-size:12px;opacity:.55">Terms of Service</a></div>
 </nav>
-<div style="max-width:720px;margin:64px auto;padding:0 40px 80px">
-  <h1 style="font-size:36px;font-weight:600;letter-spacing:-1px;color:var(--text);margin-bottom:12px">Privacy Policy</h1>
-  <p style="font-size:14px;color:var(--text3);margin-bottom:40px">Last updated: January 2026</p>
 
-  <div style="display:flex;flex-direction:column;gap:32px">
-    <div style="background:var(--ac-light);border:1px solid var(--ac-mid);border-radius:14px;padding:24px">
-      <div style="font-size:24px;margin-bottom:8px">🔒</div>
-      <h2 style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px">The short version</h2>
-      <p style="font-size:15px;color:var(--text2);line-height:1.7">Your files never leave your browser. We don't upload, store, or analyze your data. VeloTools processes everything locally on your device.</p>
+<div class="page">
+
+  <!-- SIDEBAR TOC -->
+  <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="#summary"><span>01</span> Summary</a></li>
+      <li class="toc-item"><a href="#data-collection"><span>02</span> Data Collection</a></li>
+      <li class="toc-item"><a href="#file-processing"><span>03</span> File Processing</a></li>
+      <li class="toc-item"><a href="#analytics"><span>04</span> Analytics</a></li>
+      <li class="toc-item"><a href="#advertising"><span>05</span> Advertising</a></li>
+      <li class="toc-item"><a href="#third-party"><span>06</span> Third-Party Services</a></li>
+      <li class="toc-item"><a href="#cookies"><span>07</span> Cookies</a></li>
+      <li class="toc-item"><a href="#your-rights"><span>08</span> Your Rights</a></li>
+      <li class="toc-item"><a href="#children"><span>09</span> Children's Privacy</a></li>
+      <li class="toc-item"><a href="#security"><span>10</span> Security</a></li>
+      <li class="toc-item"><a href="#changes"><span>11</span> Policy Changes</a></li>
+      <li class="toc-item"><a href="#contact"><span>12</span> Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Legal Document
+      </div>
+      <h1>Privacy <em>Policy</em></h1>
+      <p style="font-size:17px;color:var(--tx2);line-height:1.7;max-width:600px;margin-top:12px">We built VeloTools on one principle: <strong style="color:var(--tx)">your data is yours</strong>. Everything stays on your device. Always.</p>
+      <div class="hero-meta">
+        <span class="hero-date">Last updated: June 23, 2026</span>
+        <span class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          GDPR &amp; CCPA Compliant
+        </span>
+      </div>
     </div>
 
-    <div>
-      <h2 style="font-size:20px;font-weight:600;color:var(--text);margin-bottom:12px">File processing</h2>
-      <p style="font-size:15px;color:var(--text2);line-height:1.8">All file processing on VeloTools happens entirely in your browser using JavaScript and the Canvas API. When you compress an image, generate an invoice, or create a QR code, the files and data you enter are processed locally on your device and are never transmitted to our servers or any third party.</p>
+    <!-- 3-COLUMN SUMMARY -->
+    <div class="summary-card">
+      <div class="sc-item">
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="sc-t">Zero Upload</div><div class="sc-d">Files never leave your browser. Processing is 100% local.</div></div>
+      </div>
+      <div class="sc-item">
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+        <div><div class="sc-t">No Account</div><div class="sc-d">No sign-up, no profile, no personal data ever required.</div></div>
+      </div>
+      <div class="sc-item">
+        <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><div class="sc-t">No Tracking</div><div class="sc-d">We don't track individuals. Anonymous aggregated analytics only.</div></div>
+      </div>
     </div>
 
-    <div>
-      <h2 style="font-size:20px;font-weight:600;color:var(--text);margin-bottom:12px">Analytics</h2>
-      <p style="font-size:15px;color:var(--text2);line-height:1.8">We use basic anonymous analytics to understand which tools are most popular. This data is aggregated and never tied to individual users. We do not use cookies for tracking purposes.</p>
-    </div>
+    <!-- S1: SUMMARY -->
+    <section class="section" id="summary">
+      <div class="section-hdr">
+        <div class="section-num">01</div>
+        <h2 class="section-title">The Simple Version</h2>
+      </div>
+      <div class="section-body">
+        <div class="info-box green">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <div class="ib-text"><strong>The bottom line</strong>VeloTools is a client-side application. Every operation — image compression, invoice generation, QR code creation, background removal, PDF compression — happens entirely inside your web browser using JavaScript and the Web APIs. No file you open, edit, or export is ever transmitted to our servers or any third party. We do not store, process, or have access to your files.</div>
+        </div>
+        <p>This Privacy Policy explains what limited information we do collect (basic anonymous analytics) and how we handle it in full compliance with the EU General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA), and Google's Publisher Policies.</p>
+      </div>
+    </section>
 
-    <div>
-      <h2 style="font-size:20px;font-weight:600;color:var(--text);margin-bottom:12px">Advertising</h2>
-      <p style="font-size:15px;color:var(--text2);line-height:1.8">VeloTools displays advertisements through Google AdSense to support the free service. Google may use cookies to serve relevant ads. You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads" style="color:var(--ac)">google.com/settings/ads</a>.</p>
-    </div>
+    <!-- S2: DATA COLLECTION -->
+    <section class="section" id="data-collection">
+      <div class="section-hdr">
+        <div class="section-num">02</div>
+        <h2 class="section-title">What Data We Collect</h2>
+      </div>
+      <div class="section-body">
+        <p>We collect <strong>no personally identifiable information (PII)</strong>. We never ask for your name, email address, phone number, or any other identifying information. VeloTools does not require account creation.</p>
+        <p>The only data we receive is what your browser sends to any web server when you visit a website:</p>
+        <ul class="pp-list">
+          <li><strong>IP address</strong> — processed by our hosting provider (Cloudflare) to route traffic. We do not store or log individual IP addresses.</li>
+          <li><strong>Browser type and version</strong> — used in aggregate to improve compatibility.</li>
+          <li><strong>Referring URL</strong> — the page you came from, used in aggregate analytics.</li>
+          <li><strong>Pages visited and time on page</strong> — aggregated, never tied to an individual.</li>
+          <li><strong>Country/region</strong> — derived from IP at a country level only, used in aggregate.</li>
+        </ul>
+        <div class="info-box green">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="ib-text"><strong>What we never collect</strong>File contents, file names, image data, invoice information, QR code data, form inputs, or any content you process using our tools. This data never leaves your device.</div>
+        </div>
+      </div>
+    </section>
 
-    <div>
-      <h2 style="font-size:20px;font-weight:600;color:var(--text);margin-bottom:12px">Contact</h2>
-      <p style="font-size:15px;color:var(--text2);line-height:1.8">Questions about this privacy policy? Contact us at privacy@velotools.app</p>
+    <!-- S3: FILE PROCESSING -->
+    <section class="section" id="file-processing">
+      <div class="section-hdr">
+        <div class="section-num">03</div>
+        <h2 class="section-title">How File Processing Works</h2>
+      </div>
+      <div class="section-body">
+        <p>All file processing on VeloTools is performed entirely within your browser using the following web technologies:</p>
+        <ul class="pp-list">
+          <li><strong>Canvas API</strong> — for image compression, format conversion, resizing, and effects.</li>
+          <li><strong>JavaScript / WebAssembly</strong> — for background removal (AI model runs locally), PDF compression, and raw image decoding.</li>
+          <li><strong>Web Crypto API &amp; localStorage</strong> — for saving invoice data locally in your browser.</li>
+          <li><strong>Blob API</strong> — for generating downloadable output files without server involvement.</li>
+        </ul>
+        <p>When you upload a file, it is read into browser memory using the <code style="background:rgba(0,230,208,.1);color:var(--mint);padding:2px 7px;border-radius:5px;font-size:13px">FileReader</code> API. The file data exists only in your browser's RAM for the duration of the session. It is never transmitted over the network.</p>
+      </div>
+    </section>
+
+    <!-- S4: ANALYTICS -->
+    <section class="section" id="analytics">
+      <div class="section-hdr">
+        <div class="section-num">04</div>
+        <h2 class="section-title">Analytics</h2>
+      </div>
+      <div class="section-body">
+        <p>We use <strong>anonymous, aggregated analytics</strong> to understand how our tools are used and to improve the service. This may be provided by a privacy-focused analytics provider (such as Cloudflare Web Analytics or Plausible).</p>
+        <p>Our analytics approach:</p>
+        <ul class="pp-list">
+          <li>No persistent identifiers or cross-site tracking cookies.</li>
+          <li>Data is aggregated — we see totals, not individual user journeys.</li>
+          <li>No fingerprinting of browsers or devices.</li>
+          <li>Page views and tool usage counts help us decide which tools to improve.</li>
+        </ul>
+        <div class="info-box amber">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffcf5c" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div class="ib-text"><strong>Your choice</strong>If we use Google Analytics in the future, it will be disclosed here first. You can always opt out of analytics tracking via your browser's "Do Not Track" setting or by using a browser extension such as uBlock Origin.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S5: ADVERTISING -->
+    <section class="section" id="advertising">
+      <div class="section-hdr">
+        <div class="section-num">05</div>
+        <h2 class="section-title">Advertising</h2>
+      </div>
+      <div class="section-body">
+        <p>VeloTools may display advertisements through <strong>Google AdSense</strong> to support our free service. By displaying ads, Google may use cookies and web beacons to serve ads based on your prior visits to our website or other websites on the internet.</p>
+        <p>Google's advertising practices:</p>
+        <ul class="pp-list">
+          <li>Google uses the DoubleClick cookie to serve ads based on browsing history.</li>
+          <li>Ad personalization uses data collected across websites using Google services.</li>
+          <li>You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">google.com/settings/ads</a>.</li>
+          <li>You can opt out via the Network Advertising Initiative at <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener">networkadvertising.org</a>.</li>
+        </ul>
+        <p>We comply with Google's EU User Consent Policy and obtain appropriate consent from users in the EEA and UK before serving personalized ads. We do not pass any personally identifiable information to Google AdSense.</p>
+      </div>
+    </section>
+
+    <!-- S6: THIRD-PARTY SERVICES -->
+    <section class="section" id="third-party">
+      <div class="section-hdr">
+        <div class="section-num">06</div>
+        <h2 class="section-title">Third-Party Services</h2>
+      </div>
+      <div class="section-body">
+        <p>VeloTools uses a small number of third-party services to deliver the application. These services may collect limited technical data as part of their operation:</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+          <div class="info-box" style="flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px"><strong style="color:var(--tx);font-size:14px">Google Fonts</strong><span style="font-size:11px;color:var(--tx3);background:var(--sur2);padding:2px 8px;border-radius:10px">CDN</span></div>
+            <p style="font-size:14px;margin:0">We load the "DM Sans" typeface from Google Fonts. This causes your browser to make a request to Google's servers. Google may log this request per their <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>. No font data is transmitted — only the font file is downloaded.</p>
+          </div>
+          <div class="info-box" style="flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px"><strong style="color:var(--tx);font-size:14px">Cloudflare</strong><span style="font-size:11px;color:var(--tx3);background:var(--sur2);padding:2px 8px;border-radius:10px">CDN / Hosting</span></div>
+            <p style="font-size:14px;margin:0">Our site is served via Cloudflare's CDN. Cloudflare may process IP addresses and request metadata to provide DDoS protection and performance optimization, per their <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+          </div>
+          <div class="info-box" style="flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px"><strong style="color:var(--tx);font-size:14px">QR Code Styling Library</strong><span style="font-size:11px;color:var(--tx3);background:var(--sur2);padding:2px 8px;border-radius:10px">Open Source</span></div>
+            <p style="font-size:14px;margin:0">The QR Code Generator tool loads the <code style="background:rgba(0,230,208,.1);color:var(--mint);padding:1px 6px;border-radius:4px;font-size:13px">qr-code-styling</code> library from a CDN (esm.sh). This request may be logged by the CDN provider.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S7: COOKIES -->
+    <section class="section" id="cookies">
+      <div class="section-hdr">
+        <div class="section-num">07</div>
+        <h2 class="section-title">Cookies &amp; Local Storage</h2>
+      </div>
+      <div class="section-body">
+        <p>VeloTools uses <strong>localStorage</strong> (a browser-side storage mechanism, not a network cookie) to save your settings and in-progress work locally on your device. This data:</p>
+        <ul class="pp-list">
+          <li>Never leaves your device and is never transmitted to our servers.</li>
+          <li>Includes saved invoice data, tool preferences, and Focus Room tasks.</li>
+          <li>Can be cleared at any time via your browser settings (Clear Site Data).</li>
+        </ul>
+        <p><strong>Google AdSense cookies</strong> — if ads are displayed, Google may set cookies in your browser to serve personalized advertising. These are third-party cookies governed by Google's Privacy Policy. You can manage cookie preferences in your browser settings or via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google's ad settings</a>.</p>
+        <p>We do not use any first-party tracking cookies, session cookies, or persistent identification cookies of our own.</p>
+      </div>
+    </section>
+
+    <!-- S8: YOUR RIGHTS -->
+    <section class="section" id="your-rights">
+      <div class="section-hdr">
+        <div class="section-num">08</div>
+        <h2 class="section-title">Your Rights (GDPR / CCPA)</h2>
+      </div>
+      <div class="section-body">
+        <p>Because we collect no personally identifiable information, most data subject rights have no practical application to VeloTools — there is simply no personal data for us to provide, correct, or delete. However, we fully recognize your rights:</p>
+        <ul class="pp-list">
+          <li><strong>Right to Access</strong> — You may request confirmation of whether we hold any personal data about you.</li>
+          <li><strong>Right to Erasure</strong> — You may clear all locally stored data by clearing your browser's site data for velotools.app.</li>
+          <li><strong>Right to Object</strong> — You may opt out of any analytics or advertising via your browser settings or the opt-out links provided above.</li>
+          <li><strong>Right to Portability</strong> — Any data stored in your browser (e.g., saved invoices) is already in your possession.</li>
+          <li><strong>CCPA Rights</strong> — California residents have the right to know, delete, and opt out of the "sale" of personal information. We do not sell personal data.</li>
+        </ul>
+        <p>To exercise any of these rights, contact us at <a href="mailto:privacy@velotools.app">privacy@velotools.app</a>.</p>
+      </div>
+    </section>
+
+    <!-- S9: CHILDREN -->
+    <section class="section" id="children">
+      <div class="section-hdr">
+        <div class="section-num">09</div>
+        <h2 class="section-title">Children's Privacy</h2>
+      </div>
+      <div class="section-body">
+        <p>VeloTools does not knowingly collect any personal information from children under the age of 13 (or 16 in the EU). Our service is a general-purpose productivity toolkit with no age-gated content. Since we collect no personal data from any user, COPPA compliance is inherent in our design.</p>
+        <p>If you are a parent or guardian and believe your child has provided us with personal information, please contact us at <a href="mailto:privacy@velotools.app">privacy@velotools.app</a> and we will take immediate steps to address your concern.</p>
+      </div>
+    </section>
+
+    <!-- S10: SECURITY -->
+    <section class="section" id="security">
+      <div class="section-hdr">
+        <div class="section-num">10</div>
+        <h2 class="section-title">Security</h2>
+      </div>
+      <div class="section-body">
+        <p>Our strongest security measure is architectural: <strong>your files never travel over the network</strong>. There is no server-side component that handles your files, so there is no server-side breach risk for your content.</p>
+        <ul class="pp-list">
+          <li>All traffic to velotools.app is encrypted with TLS 1.3.</li>
+          <li>Our site is served from Cloudflare's global CDN with enterprise-grade DDoS protection.</li>
+          <li>Content Security Policy (CSP) headers restrict JavaScript execution to known sources.</li>
+          <li>No passwords or sensitive credentials are ever stored on our servers.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- S11: CHANGES -->
+    <section class="section" id="changes">
+      <div class="section-hdr">
+        <div class="section-num">11</div>
+        <h2 class="section-title">Changes to This Policy</h2>
+      </div>
+      <div class="section-body">
+        <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. When we make significant changes, we will update the "Last updated" date at the top of this page. We encourage you to review this policy periodically.</p>
+        <p>Continued use of VeloTools after any changes to this Privacy Policy constitutes your acceptance of the updated policy. If you disagree with any changes, please stop using the service.</p>
+      </div>
+    </section>
+
+    <!-- S12: CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-hdr">
+        <div class="section-num">12</div>
+        <h2 class="section-title">Contact Us</h2>
+      </div>
+      <div class="section-body">
+        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please reach out:</p>
+        <div class="info-box green" style="margin-top:4px">
+          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="ib-text"><strong>Email</strong><a href="mailto:privacy@velotools.app">privacy@velotools.app</a> — We aim to respond within 48 hours.</div>
+        </div>
+        <p style="margin-top:16px">For legal requests (GDPR data subject requests, CCPA requests, law enforcement inquiries), please use the same address with a clear subject line.</p>
+      </div>
+    </section>
+
+    <!-- RELATED PAGES -->
+    <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--brd);display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/terms/" style="display:inline-flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--brd);padding:12px 20px;border-radius:12px;text-decoration:none;color:var(--tx2);font-size:14px;font-weight:600;transition:all .15s" onmouseover="this.style.borderColor='var(--brd2)';this.style.color='var(--tx)'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--tx2)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Terms of Service →
+      </a>
+      <a href="/" style="display:inline-flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--brd);padding:12px 20px;border-radius:12px;text-decoration:none;color:var(--tx2);font-size:14px;font-weight:600;transition:all .15s" onmouseover="this.style.borderColor='var(--brd2)';this.style.color='var(--tx)'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--tx2)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        All Free Tools →
+      </a>
     </div>
-  </div>
+  </main>
 </div>
-<footer class="footer">
-  <div class="footer-inner">
-    <a href="/" class="footer-logo">
-      <div class="logo-mark" style="width:28px;height:28px;font-size:15px">⚡</div>
-      <span style="font-size:15px;font-weight:600;color:var(--text)">velotools</span>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-in">
+    <a href="/" class="foot-logo">
+      <div class="foot-lm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0c1314" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <span class="foot-ln">velotools</span>
     </a>
-    <div class="footer-links">
-      <a href="/">All tools</a>
-      <a href="/compress/">Image Compressor</a>
-      <a href="/privacy/">Privacy</a>
+    <div class="foot-links">
+      <a href="/">All Tools</a>
+      <a href="/image-compress/">Image Compressor</a>
+      <a href="/invoice/">Invoice Generator</a>
+      <a href="/qr/">QR Code Generator</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Service</a>
+      <a href="/about.html">About</a>
     </div>
-    <div class="footer-copy">© 2026 VeloTools · Free forever</div>
+    <div class="foot-copy">© 2026 VeloTools · Free forever · Files never leave your device</div>
   </div>
 </footer>
+
+<script>
+/* Active TOC highlight on scroll */
+(function(){
+  var sections = document.querySelectorAll('.section');
+  var links    = document.querySelectorAll('.toc-item a');
+  function onScroll(){
+    var scrollY = window.scrollY + 100;
+    var active = null;
+    sections.forEach(function(s){ if(s.offsetTop <= scrollY) active = s.id; });
+    links.forEach(function(l){
+      var href = l.getAttribute('href').slice(1);
+      l.classList.toggle('act', href === active);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
 </body>
 </html>
