@@ -23,7 +23,7 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--tx2);
   -webkit-font-smoothing: antialiased;
@@ -149,11 +149,11 @@ body::after {
 }
 
 .v-hero h1 {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: clamp(26px, 3.8vw, 50px);
-  font-weight: 900;
-  letter-spacing: -1.8px;
-  line-height: 1.08;
+  font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.22;
   color: var(--tx);
   margin-bottom: 16px;
 }
@@ -162,14 +162,18 @@ body::after {
 .v-hero h1 .accent-split {
   display: inline-block;
   color: #27d7f8;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .v-hero h1 em {
   font-style: normal;
   display: block;
-  margin-top: 8px;
-  color: #42adff;
+  margin-top: 10px;
+  color: #7ec8f0;
+  font-weight: 600;
+  font-size: 0.92em;
+  letter-spacing: -0.15px;
+  line-height: 1.35;
 }
 
 .hero-tools {
@@ -318,10 +322,10 @@ body::after {
 }
 
 .vt-logo-text {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: -0.45px;
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
   color: inherit;
 }
 
@@ -333,7 +337,7 @@ body::after {
   .v-nav { padding: 0 20px; background: #09191e; }
   .v-nav-links { display: none; }
   .v-hero { padding: 24px 20px 0; }
-  .v-hero h1 { letter-spacing: -1.2px; }
+  .v-hero h1 { letter-spacing: -0.35px; }
   .v-tools-wrap { padding: 0 20px 48px; }
   .v-tools-grid { grid-template-columns: 1fr; gap: 16px; }
   .v-card { padding: 24px; }
