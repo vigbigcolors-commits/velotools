@@ -175,13 +175,13 @@ window.VBatch = (function () {
         var mime = settings.format === 'original'
           ? VConverter.normalizeMime(files[i].type)
           : VConverter.normalizeMime(settings.format);
-        if(mime==='image/gif') mime='image/png';
-        var q = mime==='image/png' ? undefined : settings.quality/100;
         var canvas = document.createElement('canvas');
         canvas.width = img.width; canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img,0,0);
-        canvas.toBlob(function(blob){
-          if (!blob) { if(card) card.classList.add('error'); if(stat) stat.textContent='Encoding failed'; reject(new Error('encode failed')); return; }
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        VConverter.encodeWithMeta(canvas, mime, settings.quality).then(function(result) {
+          var blob = result.blob;
+          mime = result.mime;
+          if(mime==='image/gif') mime='image/png';
           if(prog) prog.style.width = '100%';
           var extStr = VConverter.ext(mime);
           var baseName = files[i].name.replace(/\.[^.]+$/,'');
@@ -197,7 +197,11 @@ window.VBatch = (function () {
           btn2.addEventListener('click', (function(r){ return function(){ dlOne(r); }; })(results[i]));
           info.appendChild(btn2);
           resolve();
-        }, mime, q);
+        }).catch(function(){
+          if(card) card.classList.add('error');
+          if(stat) stat.textContent='Encoding failed';
+          reject(new Error('encode failed'));
+        });
       }).catch(function(err){
         if(card) card.classList.add('error');
         if(stat) stat.textContent = isRaw ? 'No preview in RAW' : 'Error';

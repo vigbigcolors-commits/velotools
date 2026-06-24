@@ -1,19 +1,18 @@
 /**
  * VeloTools — converter.js
- * Handles format selection and canvas.toBlob encoding.
+ * Handles format selection and canvas encoding with output verification.
  */
 window.VConverter = (function () {
   'use strict';
 
   var U = window.VCore;
   var EXT = {
-    'image/jpeg':'jpg','image/png':'png',
-    'image/webp':'webp','image/avif':'avif','image/gif':'gif',
-    'image/svg+xml':'svg'
+    'image/jpeg': 'jpg', 'image/png': 'png',
+    'image/webp': 'webp', 'image/avif': 'avif', 'image/gif': 'gif',
+    'image/svg+xml': 'svg'
   };
   var _mimeSupport = {};
 
-  /** Normalize browser-reported MIME strings to canvas-safe types. */
   function normalizeMime(mime) {
     if (!mime) return 'image/jpeg';
     var m = String(mime).toLowerCase().split(';')[0].trim();
@@ -22,10 +21,6 @@ window.VConverter = (function () {
     return m;
   }
 
-  /**
-   * Feature hint only — never gate encoding on this.
-   * toDataURL('image/webp') often returns PNG even when toBlob('image/webp') works.
-   */
   function supportsMime(mime) {
     mime = normalizeMime(mime);
     if (_mimeSupport[mime] != null) return _mimeSupport[mime];
@@ -45,15 +40,38 @@ window.VConverter = (function () {
     return normalizeMime(format);
   }
 
-  /** Wrap a rasterized canvas into a single-file SVG (embedded PNG).
-   *  Lossless, opens in any browser/editor, scales as a vector container. */
+  /** Detect real format from file header — blob.type is often wrong or empty. */
+  function sniffBlobMime(blob) {
+    return blob.slice(0, 16).arrayBuffer().then(function (buf) {
+      var b = new Uint8Array(buf);
+      if (b.length >= 2 && b[0] === 0xff && b[1] === 0xd8) return 'image/jpeg';
+      if (b.length >= 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return 'image/png';
+      if (b.length >= 12 && b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 &&
+          b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50) return 'image/webp';
+      if (b.length >= 12 && b[4] === 0x66 && b[5] === 0x74 && b[6] === 0x79 && b[7] === 0x70 &&
+          b[8] === 0x61 && b[9] === 0x76 && b[10] === 0x69 && b[11] === 0x66) return 'image/avif';
+      if (blob.type && blob.type.indexOf('image/') === 0) return normalizeMime(blob.type);
+      return null;
+    });
+  }
+
   function encodeSVGWrapper(canvas) {
     var dataURL = canvas.toDataURL('image/png');
     var w = canvas.width, h = canvas.height;
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+
-              '" viewBox="0 0 '+w+' '+h+
-              '"><image width="'+w+'" height="'+h+'" href="'+dataURL+'"/></svg>';
-    return new Blob([svg], { type:'image/svg+xml' });
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h +
+              '" viewBox="0 0 ' + w + ' ' + h +
+              '"><image width="' + w + '" height="' + h + '" href="' + dataURL + '"/></svg>';
+    return new Blob([svg], { type: 'image/svg+xml' });
+  }
+
+  function _dataUrlToBlob(dataUrl) {
+    var parts = dataUrl.split(',');
+    var meta = parts[0];
+    var raw = atob(parts[1]);
+    var mime = (meta.match(/data:([^;]+)/) || [])[1] || 'application/octet-stream';
+    var arr = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+    return new Blob([arr], { type: normalizeMime(mime) });
   }
 
   function _toBlob(canvas, mime, q) {
@@ -68,29 +86,74 @@ window.VConverter = (function () {
     });
   }
 
-  /** Returns Promise<Blob> */
-  function encode(canvas, mime, quality) {
-    mime = normalizeMime(mime);
-    if (mime === 'image/svg+xml') {
-      return Promise.resolve(encodeSVGWrapper(canvas));
+  function _toBlobViaDataURL(canvas, mime, quality) {
+    try {
+      var q = (mime === 'image/png') ? undefined : quality / 100;
+      var url = canvas.toDataURL(mime, q);
+      if (url.indexOf('data:' + mime) !== 0) {
+        return Promise.reject(new Error('dataURL fallback failed for ' + mime));
+      }
+      return Promise.resolve(_dataUrlToBlob(url));
+    } catch (e) {
+      return Promise.reject(e);
     }
-    if (mime === 'image/gif') mime = 'image/png'; // canvas has no GIF encoder
-    var q = (mime === 'image/png') ? undefined : quality / 100;
-    return _toBlob(canvas, mime, q);
   }
 
   /**
-   * Effort-aware encoder (simulates cwebp -m 1..6).
-   * Effort 1-4: single pass at given quality.
-   * Effort 5:   two-pass — tries q and q-8, returns smaller blob.
-   * Effort 6:   three-pass — tries q, q-5, q-10, returns smallest blob.
-   * Lossless:   encode at quality 100 (pixel-perfect, largest file).
-   * Non-WebP:   delegates to encode() (effort has no effect on JPG/PNG/AVIF).
+   * Encode canvas and verify the output matches the requested format.
+   * Returns { blob, mime } where mime is sniffed from bytes.
    */
+  function encodeWithMeta(canvas, mime, quality) {
+    mime = normalizeMime(mime);
+    if (mime === 'image/svg+xml') {
+      var svgBlob = encodeSVGWrapper(canvas);
+      return Promise.resolve({ blob: svgBlob, mime: 'image/svg+xml' });
+    }
+    if (mime === 'image/gif') mime = 'image/png';
+    var q = (mime === 'image/png') ? undefined : quality / 100;
+
+    function finish(blob) {
+      return sniffBlobMime(blob).then(function (sniffed) {
+        var actual = sniffed || normalizeMime(blob.type) || mime;
+        return { blob: blob, mime: actual };
+      });
+    }
+
+    function tryDataUrlFallback() {
+      return _toBlobViaDataURL(canvas, mime, quality).then(finish);
+    }
+
+    return _toBlob(canvas, mime, q).then(finish).then(function (result) {
+      if (result.mime === mime) return result;
+      /* Browser ignored requested type (common: asks WebP, returns JPEG/PNG). */
+      return tryDataUrlFallback().then(function (fallback) {
+        if (fallback.mime === mime) return fallback;
+        var label = mime.split('/')[1].toUpperCase();
+        return Promise.reject(new Error(
+          'Could not encode ' + label + ' in this browser. The output stayed as ' +
+          fallback.mime.split('/')[1].toUpperCase() + '. Try Chrome, Edge, or Firefox.'
+        ));
+      }).catch(function (err) {
+        if (err && err.message && err.message.indexOf('Could not encode') === 0) throw err;
+        return Promise.reject(new Error(
+          'Could not convert to ' + mime.split('/')[1].toUpperCase() +
+          '. Your browser returned ' + result.mime.split('/')[1].toUpperCase() + ' instead.'
+        ));
+      });
+    });
+  }
+
+  function encode(canvas, mime, quality) {
+    return encodeWithMeta(canvas, mime, quality).then(function (r) { return r.blob; });
+  }
+
   function encodeEffort(canvas, mime, quality, effort, lossless) {
-    if (mime !== 'image/webp') return encode(canvas, mime, quality);
-    if (lossless) return encode(canvas, mime, 100);
-    if (!effort || effort <= 4) return encode(canvas, mime, quality);
+    mime = normalizeMime(mime);
+    if (mime !== 'image/webp') {
+      return encodeWithMeta(canvas, mime, quality);
+    }
+    if (lossless) return encodeWithMeta(canvas, mime, 100);
+    if (!effort || effort <= 4) return encodeWithMeta(canvas, mime, quality);
 
     var targets;
     if (effort === 5) {
@@ -98,29 +161,30 @@ window.VConverter = (function () {
     } else {
       targets = [quality, Math.max(10, quality - 5), Math.max(10, quality - 10)];
     }
-    // Deduplicate
     targets = targets.filter(function (v, i, a) { return a.indexOf(v) === i; });
 
     return Promise.all(targets.map(function (q) {
-      return encode(canvas, mime, q).catch(function () { return null; });
-    })).then(function (blobs) {
-      blobs = blobs.filter(Boolean);
-      if (!blobs.length) {
+      return encodeWithMeta(canvas, mime, q).catch(function () { return null; });
+    })).then(function (results) {
+      results = results.filter(Boolean);
+      if (!results.length) {
         return Promise.reject(new Error('WebP encoding failed. Try JPG or lower the image resolution.'));
       }
-      return blobs.reduce(function (best, blob) {
-        return blob.size < best.size ? blob : best;
+      return results.reduce(function (best, cur) {
+        return cur.blob.size < best.blob.size ? cur : best;
       });
     });
   }
 
-  function ext(mime) { return EXT[mime] || mime.split('/')[1] || 'jpg'; }
+  function ext(mime) { return EXT[normalizeMime(mime)] || mime.split('/')[1] || 'jpg'; }
 
   return {
     resolveMime: resolveMime,
     normalizeMime: normalizeMime,
     encode: encode,
+    encodeWithMeta: encodeWithMeta,
     encodeEffort: encodeEffort,
+    sniffBlobMime: sniffBlobMime,
     supportsMime: supportsMime,
     ext: ext,
     fmtBytes: U.fmtBytes

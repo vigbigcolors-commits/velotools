@@ -86,8 +86,10 @@ window.VProcessor = (function () {
           ectx.filter = 'none';
         }
 
-        VConverter.encodeEffort(encodeCanvas, mime, s.quality, effort, lossless).then(function (blob) {
-          resolve({ blob:blob, mime:mime, canvas:canvas });
+        VConverter.encodeEffort(encodeCanvas, mime, s.quality, effort, lossless).then(function (result) {
+          var blob = result.blob || result;
+          var outMime = result.mime || mime;
+          resolve({ blob: blob, mime: outMime, canvas: canvas });
         }).catch(reject);
 
       } catch(e) { reject(e); }

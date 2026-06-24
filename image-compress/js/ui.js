@@ -241,7 +241,28 @@
     P.livePreview(S.origImg, _snap(), $('v-prev-img'), 80);
   }
 
+  var FMT_ID = {
+    'v-fmt-auto': 'original',
+    'v-fmt-jpg': 'image/jpeg',
+    'v-fmt-png': 'image/png',
+    'v-fmt-webp': 'image/webp',
+    'v-fmt-avif': 'image/avif',
+    'v-fmt-gif': 'image/gif',
+    'v-fmt-svg': 'image/svg+xml'
+  };
+
+  function _formatFromUI() {
+    var on = document.querySelector('.v-fmt.on');
+    if (on && FMT_ID[on.id]) return FMT_ID[on.id];
+    return S.format;
+  }
+
+  function _syncFormatFromUI() {
+    S.format = _formatFromUI();
+  }
+
   function _snap() {
+    if (S.activePanel === 'convert') _syncFormatFromUI();
     return {
       quality:S.quality, format:S.format, rotation:S.rotation,
       targetW:S.targetW||S.origW, targetH:S.targetH||S.origH,
@@ -323,6 +344,8 @@
     var btn = typeof btnId === 'string' ? $(btnId) : btnId;
     setFmt(fmt, btn);
     switchPanel('convert', $('v-tb-convert'));
+    var gb = $('v-gobtn');
+    if (gb) gb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
   window.setRot = function(r, btn) {
@@ -454,6 +477,7 @@
       if (S.resultUrl) URL.revokeObjectURL(S.resultUrl);
       S.resultUrl  = URL.createObjectURL(r.blob);
       S.resultExt  = C.ext(r.mime);
+      S.format = S.activePanel === 'convert' ? _formatFromUI() : S.format;
 
       var ri = $('v-res-img');
       if (ri) { ri.src = S.resultUrl; ri.style.display = ''; }
