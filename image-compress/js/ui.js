@@ -337,6 +337,7 @@
     if (!btn && FMT_BTN[fmt]) btn = $(FMT_BTN[fmt]);
     if (btn) btn.classList.add('on');
     _checkPNG();
+    if (fmt === 'image/webp' && window.VWebPEncoder) window.VWebPEncoder.load();
     if (S.origImg) _livePreview();
   };
 
@@ -488,7 +489,7 @@
       if (fnExt) fnExt.textContent = '.' + S.resultExt;
 
       _setFInfo('v-fi-res', base+'_velo.'+S.resultExt, r.blob.size, r.canvas.width, r.canvas.height, r.mime, S.file.size, r.blob.size);
-      _showCompare(S.file.size, r.blob.size);
+      _showCompare(S.file.size, r.blob.size, r.mime);
       _buildBA(S.origUrl, S.resultUrl);
 
       var pi = $('v-prev-img');
@@ -1164,10 +1165,18 @@
   }
 
   function _setFInfo(elId, name, size, w, h, fmt, origSize, newSize) {
+    fmt = C.normalizeMime(fmt || '');
     var saved  = (origSize && newSize && origSize > newSize) ? Math.round((1 - newSize / origSize) * 100) : null;
-    var noSave = (origSize && newSize && saved <= 0);
+    var noSave = (origSize && newSize && newSize >= origSize);
     var fl = (fmt || '').split('/')[1] || '';
     fl = fl.replace('jpeg','JPG').replace('png','PNG').replace('webp','WebP').replace('avif','AVIF').replace('svg+xml','SVG').toUpperCase();
+    var warn = '';
+    if (noSave && elId.includes('res')) {
+      if (fmt === 'image/png') warn = '⚠ PNG is lossless — convert to WebP';
+      else if (fmt === 'image/webp') warn = '⚠ Try lower quality (60%)';
+      else if (fmt === 'image/jpeg') warn = '⚠ Already compressed — try WebP';
+      else warn = '⚠ File got larger';
+    }
     var el = $(elId); if (!el) return;
     el.innerHTML =
       '<span class="v-tag v-tag-lbl">' + (elId.includes('res') ? 'RESULT' : 'ORIGINAL') + ':</span>' +
@@ -1176,25 +1185,28 @@
       '<span class="v-tag v-tag-dm">' + w + '×' + h + '</span>' +
       '<span class="v-tag v-tag-ft">' + fl + '</span>' +
       (saved > 0 ? '<span class="v-tag v-tag-ok">✓ Saved ' + saved + '%</span>' : '') +
-      (noSave    ? '<span class="v-tag v-tag-wa">⚠ PNG is lossless — use WebP</span>' : '');
+      (warn ? '<span class="v-tag v-tag-wa">' + warn + '</span>' : '');
   }
 
-  function _showCompare(orig, res) {
+  function _showCompare(orig, res, outMime) {
+    outMime = C.normalizeMime(outMime || '');
     var pct    = Math.round(res / orig * 100);
     var saved  = Math.max(0, Math.round((1 - res / orig) * 100));
     var noGain = saved <= 0;
     var barColor = noGain ? 'var(--am)' : 'var(--gn)';
     var el = $('v-cmp'); if (!el) return;
-    var fixBtn = noGain
+    var fixBtn = (noGain && outMime !== 'image/webp')
       ? '<button class="v-warn-btn" style="margin-top:8px" onclick="autoWebP();setTimeout(process,120)">⚡ Auto-fix: convert to WebP</button>'
       : '';
+    var noGainMsg = '⚠ File got larger.';
+    if (outMime === 'image/png') noGainMsg += ' PNG is lossless — quality slider has no effect.';
+    else if (outMime === 'image/webp') noGainMsg += ' Try quality 60% or resize first.';
+    else if (outMime === 'image/jpeg') noGainMsg += ' Already compressed — try Convert → WebP.';
     el.innerHTML =
       '<div class="v-crow"><span class="v-clbl">Original</span><div class="v-cbw"><div class="v-cb" style="width:100%;background:var(--br-2)"></div></div><span class="v-cval">' + C.fmtBytes(orig) + '</span></div>' +
       '<div class="v-crow"><span class="v-clbl">Result</span><div class="v-cbw"><div class="v-cb" style="width:' + Math.min(pct, 100) + '%;background:' + barColor + '"></div></div><span class="v-cval">' + C.fmtBytes(res) + '</span></div>' +
       '<div class="v-cres" style="color:' + (noGain ? 'var(--am)' : 'var(--gn)') + ';display:flex;flex-wrap:wrap;align-items:center;gap:8px">' +
-      (noGain
-        ? '⚠ File got larger — PNG is lossless, quality slider has no effect.' + fixBtn
-        : '✓ ' + saved + '% smaller — saved ' + C.fmtBytes(orig - res)) +
+      (noGain ? noGainMsg + fixBtn : '✓ ' + saved + '% smaller — saved ' + C.fmtBytes(orig - res)) +
       '</div>';
   }
 

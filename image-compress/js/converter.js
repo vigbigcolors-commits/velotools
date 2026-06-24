@@ -123,18 +123,25 @@ window.VConverter = (function () {
       return _toBlobViaDataURL(canvas, mime, quality).then(finish);
     }
 
+    function tryWasmWebp() {
+      if (mime !== 'image/webp' || !window.VWebPEncoder) {
+        return Promise.reject(new Error('WebP encoder unavailable'));
+      }
+      return window.VWebPEncoder.load().then(function () {
+        return window.VWebPEncoder.encodeCanvas(canvas, quality, false);
+      }).then(finish);
+    }
+
     return _toBlob(canvas, mime, q).then(finish).then(function (result) {
       if (result.mime === mime) return result;
-      /* Browser ignored requested type (common: asks WebP, returns JPEG/PNG). */
+      if (mime === 'image/webp') {
+        return tryWasmWebp().then(function (wasmResult) {
+          if (wasmResult.mime === 'image/webp') return wasmResult;
+          return Promise.reject(new Error('WebP encoding failed after WASM fallback.'));
+        });
+      }
       return tryDataUrlFallback().then(function (fallback) {
         if (fallback.mime === mime) return fallback;
-        var label = mime.split('/')[1].toUpperCase();
-        return Promise.reject(new Error(
-          'Could not encode ' + label + ' in this browser. The output stayed as ' +
-          fallback.mime.split('/')[1].toUpperCase() + '. Try Chrome, Edge, or Firefox.'
-        ));
-      }).catch(function (err) {
-        if (err && err.message && err.message.indexOf('Could not encode') === 0) throw err;
         return Promise.reject(new Error(
           'Could not convert to ' + mime.split('/')[1].toUpperCase() +
           '. Your browser returned ' + result.mime.split('/')[1].toUpperCase() + ' instead.'
@@ -152,7 +159,14 @@ window.VConverter = (function () {
     if (mime !== 'image/webp') {
       return encodeWithMeta(canvas, mime, quality);
     }
-    if (lossless) return encodeWithMeta(canvas, mime, 100);
+    if (lossless) {
+      if (window.VWebPEncoder) {
+        return window.VWebPEncoder.encodeCanvas(canvas, 100, true).then(function (blob) {
+          return { blob: blob, mime: 'image/webp' };
+        });
+      }
+      return encodeWithMeta(canvas, mime, 100);
+    }
     if (!effort || effort <= 4) return encodeWithMeta(canvas, mime, quality);
 
     var targets;
