@@ -152,7 +152,7 @@
     }
 
     S.file     = file;
-    S.fileMime = file.type || 'image/jpeg';
+    S.fileMime = VConverter.normalizeMime(file.type) || 'image/jpeg';
 
     var reader = new FileReader();
     reader.onload = function(e) {

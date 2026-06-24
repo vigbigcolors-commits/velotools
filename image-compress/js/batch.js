@@ -172,7 +172,9 @@ window.VBatch = (function () {
 
       _getImageFor(i).then(function(img) {
         if(prog) prog.style.width = '60%';
-        var mime = settings.format === 'original' ? (files[i].type||'image/jpeg') : settings.format;
+        var mime = settings.format === 'original'
+          ? VConverter.normalizeMime(files[i].type)
+          : VConverter.normalizeMime(settings.format);
         if(mime==='image/gif') mime='image/png';
         var q = mime==='image/png' ? undefined : settings.quality/100;
         var canvas = document.createElement('canvas');

@@ -13,26 +13,36 @@ window.VConverter = (function () {
   };
   var _mimeSupport = {};
 
+  /** Normalize browser-reported MIME strings to canvas-safe types. */
+  function normalizeMime(mime) {
+    if (!mime) return 'image/jpeg';
+    var m = String(mime).toLowerCase().split(';')[0].trim();
+    if (m === 'image/jpg' || m === 'image/pjpeg') return 'image/jpeg';
+    if (m === 'image/x-png') return 'image/png';
+    return m;
+  }
+
+  /**
+   * Feature hint only — never gate encoding on this.
+   * toDataURL('image/webp') often returns PNG even when toBlob('image/webp') works.
+   */
   function supportsMime(mime) {
+    mime = normalizeMime(mime);
     if (_mimeSupport[mime] != null) return _mimeSupport[mime];
-    if (mime === 'image/png' || mime === 'image/jpeg') {
+    if (
+      mime === 'image/png' || mime === 'image/jpeg' || mime === 'image/gif' ||
+      mime === 'image/webp' || mime === 'image/avif' || mime === 'image/svg+xml'
+    ) {
       _mimeSupport[mime] = true;
       return true;
     }
-    try {
-      var c = document.createElement('canvas');
-      c.width = 2;
-      c.height = 2;
-      _mimeSupport[mime] = c.toDataURL(mime).indexOf('data:' + mime) === 0;
-    } catch (_) {
-      _mimeSupport[mime] = false;
-    }
-    return _mimeSupport[mime];
+    _mimeSupport[mime] = false;
+    return false;
   }
 
   function resolveMime(format, fileMime) {
-    if (format === 'original') return fileMime || 'image/jpeg';
-    return format;
+    if (format === 'original') return normalizeMime(fileMime) || 'image/jpeg';
+    return normalizeMime(format);
   }
 
   /** Wrap a rasterized canvas into a single-file SVG (embedded PNG).
@@ -60,13 +70,11 @@ window.VConverter = (function () {
 
   /** Returns Promise<Blob> */
   function encode(canvas, mime, quality) {
+    mime = normalizeMime(mime);
     if (mime === 'image/svg+xml') {
       return Promise.resolve(encodeSVGWrapper(canvas));
     }
-    if (mime === 'image/gif') mime = 'image/png'; // fallback
-    if ((mime === 'image/webp' || mime === 'image/avif') && !supportsMime(mime)) {
-      return Promise.reject(new Error(mime + ' is not supported in this browser. Try JPG or PNG.'));
-    }
+    if (mime === 'image/gif') mime = 'image/png'; // canvas has no GIF encoder
     var q = (mime === 'image/png') ? undefined : quality / 100;
     return _toBlob(canvas, mime, q);
   }
@@ -110,6 +118,7 @@ window.VConverter = (function () {
 
   return {
     resolveMime: resolveMime,
+    normalizeMime: normalizeMime,
     encode: encode,
     encodeEffort: encodeEffort,
     supportsMime: supportsMime,
