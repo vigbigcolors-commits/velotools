@@ -38,10 +38,7 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 
 /* ── NAV ─────────────────────── */
 .v-nav{height:62px;background:var(--bg);border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;padding:0 36px;position:sticky;top:0;z-index:200;box-shadow:var(--sh-sm)}
-.v-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.v-lm{width:34px;height:34px;background:var(--ac);border-radius:9px;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
-.v-logo:hover .v-lm{transform:scale(1.07) rotate(-4deg);box-shadow:0 4px 14px rgba(91,108,249,.4)}
-.v-ln{font-size:17px;font-weight:800;color:var(--tx);letter-spacing:-.5px}
+.v-nav .vt-logo{color:var(--tx)}
 .v-nav-links{display:flex;gap:2px}
 .v-nl{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:var(--tx-2);text-decoration:none;border:none;background:none;cursor:pointer;font-family:var(--font);transition:all .15s}
 .v-nl:hover{background:var(--bg-2);color:var(--tx)}

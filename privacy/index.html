@@ -12,6 +12,7 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/css/logo.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -43,10 +44,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 
 /* ── NAV ── */
 .nav{height:60px;background:#09191e;border-bottom:1px solid var(--brd);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 40px;position:sticky;top:0;z-index:200}
-.n-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.n-lm{width:32px;height:32px;background:linear-gradient(135deg,var(--mint),var(--mint-d));border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,230,208,.3);transition:transform .2s}
-.n-logo:hover .n-lm{transform:scale(1.08) rotate(-4deg)}
-.n-ln{font-size:16px;font-weight:800;color:var(--tx);letter-spacing:-.4px}
+.nav .vt-logo{color:var(--tx)}
 .n-links{display:flex;gap:2px;justify-self:center}
 .n-link{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:var(--tx2);text-decoration:none;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 .n-link:hover{background:rgba(255,255,255,.07);color:var(--tx)}
@@ -130,9 +128,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 
 <!-- NAV -->
 <nav class="nav" aria-label="Main navigation">
-  <a href="/" class="n-logo">
-    <div class="n-lm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0c1314" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-    <span class="n-ln">velotools</span>
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <img src="/images/logo.png" alt="" class="vt-logo-img" width="32" height="32" decoding="async">
+    <span class="vt-logo-text">velotools</span>
   </a>
   <div class="n-links">
     <a href="/image-compress/" class="n-link">Image</a>

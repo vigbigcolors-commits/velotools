@@ -127,19 +127,7 @@ body::before {
   padding: 0 24px;
   backdrop-filter: blur(12px);
 }
-.f-nav-logo {
-  display:flex; align-items:center; gap:8px;
-  text-decoration:none; color:var(--tx);
-}
-.f-nav-logo-mark {
-  width:30px; height:30px;
-  background: linear-gradient(135deg,#00c9a7,#00a88a);
-  border-radius:8px;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 2px 10px rgba(0,201,167,.25);
-  flex-shrink:0;
-}
-.f-nav-logo-name { font-family:'Syne',sans-serif; font-weight:800; font-size:16px; letter-spacing:-.3px; }
+.f-nav .vt-logo-text { font-family:'Syne',sans-serif; letter-spacing:-.3px; }
 .f-nav-right { display:flex; align-items:center; gap:12px; justify-self:end; }
 .f-nav-back {
   font-size:13px; font-weight:500; color:var(--tx2);
@@ -824,6 +812,7 @@ body.zen-mode .f-timer-wrap {
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="/css/logo.css">
 <meta name="theme-color" content="#0d2028">
 
 
@@ -832,11 +821,9 @@ body.zen-mode .f-timer-wrap {
 
 <!-- NAV -->
 <nav class="f-nav">
-  <a href="/" class="f-nav-logo">
-    <div class="f-nav-logo-mark">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    </div>
-    <span class="f-nav-logo-name">velotools</span>
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <img src="/images/logo.png" alt="" class="vt-logo-img" width="32" height="32" decoding="async">
+    <span class="vt-logo-text">velotools</span>
   </a>
   <div class="f-nav-links">
     <a href="/image-compress/" class="f-nav-link">Image</a>
