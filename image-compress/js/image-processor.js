@@ -70,20 +70,23 @@ window.VProcessor = (function () {
         var effort  = s.webpEffort  || 4;
         var lossless = s.webpLossless || false;
 
+        var encodeCanvas = _fitCanvasForEncode(canvas, mime);
+
         /* High-effort WebP pre-processing: mild sub-pixel smoothing removes
            high-frequency noise that resists compression — simulates the block
            analysis passes in cwebp -m 5/6. Skip when lossless or non-WebP. */
         if (mime === 'image/webp' && !lossless && effort >= 5) {
           var pre = document.createElement('canvas');
-          pre.width = canvas.width; pre.height = canvas.height;
-          pre.getContext('2d').drawImage(canvas, 0, 0);
-          ctx.filter = 'blur(0.45px)';
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(pre, 0, 0);
-          ctx.filter = 'none';
+          pre.width = encodeCanvas.width; pre.height = encodeCanvas.height;
+          pre.getContext('2d').drawImage(encodeCanvas, 0, 0);
+          var ectx = encodeCanvas.getContext('2d');
+          ectx.filter = 'blur(0.45px)';
+          ectx.clearRect(0, 0, encodeCanvas.width, encodeCanvas.height);
+          ectx.drawImage(pre, 0, 0);
+          ectx.filter = 'none';
         }
 
-        VConverter.encodeEffort(canvas, mime, s.quality, effort, lossless).then(function (blob) {
+        VConverter.encodeEffort(encodeCanvas, mime, s.quality, effort, lossless).then(function (blob) {
           resolve({ blob:blob, mime:mime, canvas:canvas });
         }).catch(reject);
 
@@ -108,7 +111,11 @@ window.VProcessor = (function () {
         var old = targetEl.src;
         targetEl.src = url;
         if (old && old.startsWith('blob:')) URL.revokeObjectURL(old);
-      }).catch(function(){});
+      }).catch(function (err) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn('[VeloTools] live preview failed', err);
+        }
+      });
     }, (ms != null) ? ms : 130);
   }
 
@@ -134,6 +141,24 @@ window.VProcessor = (function () {
       src = c;
     }
     return src;
+  }
+
+  function _fitCanvasForEncode(canvas, mime) {
+    var maxEdge = (mime === 'image/webp' || mime === 'image/avif') ? 4096 : 8192;
+    var w = canvas.width;
+    var h = canvas.height;
+    if (w <= maxEdge && h <= maxEdge) return canvas;
+    var scale = Math.min(maxEdge / w, maxEdge / h, 1);
+    var nw = Math.max(1, Math.round(w * scale));
+    var nh = Math.max(1, Math.round(h * scale));
+    var c = document.createElement('canvas');
+    c.width = nw;
+    c.height = nh;
+    var cx = c.getContext('2d');
+    cx.imageSmoothingEnabled = true;
+    cx.imageSmoothingQuality = 'high';
+    cx.drawImage(canvas, 0, 0, nw, nh);
+    return c;
   }
 
   return { process:process, livePreview:livePreview, cancelLive:cancelLive };

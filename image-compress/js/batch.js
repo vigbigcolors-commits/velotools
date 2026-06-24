@@ -21,7 +21,14 @@ window.VBatch = (function () {
     dz.addEventListener('dragleave', function(){ dz.classList.remove('over'); });
     dz.addEventListener('drop',      function(e){ e.preventDefault(); dz.classList.remove('over'); addFiles(Array.from(e.dataTransfer.files)); });
     document.getElementById('vb-fi').addEventListener('change', function(){ addFiles(Array.from(this.files)); });
-    document.getElementById('vb-qsl').addEventListener('input', function(){ settings.quality=parseInt(this.value); document.getElementById('vb-qnum').textContent=this.value+'%'; });
+    var vbQsl = document.getElementById('vb-qsl');
+    if (vbQsl) {
+      U.bindRangeInput(vbQsl, function () {
+        settings.quality = parseInt(this.value, 10);
+        document.getElementById('vb-qnum').textContent = this.value + '%';
+        U.updateSliderTrack(vbQsl, document.getElementById('vb-qnum'), this.value + '%');
+      });
+    }
     document.getElementById('vb-fmt').addEventListener('change', function(){ settings.format=this.value; });
   }
 

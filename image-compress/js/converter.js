@@ -11,6 +11,24 @@ window.VConverter = (function () {
     'image/webp':'webp','image/avif':'avif','image/gif':'gif',
     'image/svg+xml':'svg'
   };
+  var _mimeSupport = {};
+
+  function supportsMime(mime) {
+    if (_mimeSupport[mime] != null) return _mimeSupport[mime];
+    if (mime === 'image/png' || mime === 'image/jpeg') {
+      _mimeSupport[mime] = true;
+      return true;
+    }
+    try {
+      var c = document.createElement('canvas');
+      c.width = 2;
+      c.height = 2;
+      _mimeSupport[mime] = c.toDataURL(mime).indexOf('data:' + mime) === 0;
+    } catch (_) {
+      _mimeSupport[mime] = false;
+    }
+    return _mimeSupport[mime];
+  }
 
   function resolveMime(format, fileMime) {
     if (format === 'original') return fileMime || 'image/jpeg';
@@ -28,18 +46,29 @@ window.VConverter = (function () {
     return new Blob([svg], { type:'image/svg+xml' });
   }
 
+  function _toBlob(canvas, mime, q) {
+    return new Promise(function (res, rej) {
+      try {
+        canvas.toBlob(function (blob) {
+          blob ? res(blob) : rej(new Error('Encoding failed: ' + mime));
+        }, mime, q);
+      } catch (e) {
+        rej(e);
+      }
+    });
+  }
+
   /** Returns Promise<Blob> */
   function encode(canvas, mime, quality) {
     if (mime === 'image/svg+xml') {
       return Promise.resolve(encodeSVGWrapper(canvas));
     }
     if (mime === 'image/gif') mime = 'image/png'; // fallback
+    if ((mime === 'image/webp' || mime === 'image/avif') && !supportsMime(mime)) {
+      return Promise.reject(new Error(mime + ' is not supported in this browser. Try JPG or PNG.'));
+    }
     var q = (mime === 'image/png') ? undefined : quality / 100;
-    return new Promise(function (res, rej) {
-      canvas.toBlob(function (blob) {
-        blob ? res(blob) : rej(new Error('Encoding failed: ' + mime));
-      }, mime, q);
-    });
+    return _toBlob(canvas, mime, q);
   }
 
   /**
@@ -65,8 +94,12 @@ window.VConverter = (function () {
     targets = targets.filter(function (v, i, a) { return a.indexOf(v) === i; });
 
     return Promise.all(targets.map(function (q) {
-      return encode(canvas, mime, q);
+      return encode(canvas, mime, q).catch(function () { return null; });
     })).then(function (blobs) {
+      blobs = blobs.filter(Boolean);
+      if (!blobs.length) {
+        return Promise.reject(new Error('WebP encoding failed. Try JPG or lower the image resolution.'));
+      }
       return blobs.reduce(function (best, blob) {
         return blob.size < best.size ? blob : best;
       });
@@ -75,5 +108,12 @@ window.VConverter = (function () {
 
   function ext(mime) { return EXT[mime] || mime.split('/')[1] || 'jpg'; }
 
-  return { resolveMime:resolveMime, encode:encode, encodeEffort:encodeEffort, ext:ext, fmtBytes:U.fmtBytes };
+  return {
+    resolveMime: resolveMime,
+    encode: encode,
+    encodeEffort: encodeEffort,
+    supportsMime: supportsMime,
+    ext: ext,
+    fmtBytes: U.fmtBytes
+  };
 })();

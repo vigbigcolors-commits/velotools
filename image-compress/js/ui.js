@@ -42,41 +42,33 @@
     var qsl = $('v-qsl');
     if (qsl) {
       function onQualityChange() {
-        S.quality = parseInt(this.value);
+        S.quality = parseInt(this.value, 10);
         _syncQualitySliders(S.quality);
         if (S.origImg) _livePreview();
       }
-      qsl.addEventListener('input',  onQualityChange);
-      qsl.addEventListener('change', onQualityChange);
-      qsl.addEventListener('touchend', function(){ onQualityChange.call(qsl); }, { passive: true });
+      U.bindRangeInput(qsl, onQualityChange);
       _sliderUI(qsl, $('v-qnum'), '80%');
     }
 
-    /* ── Convert-panel quality slider (was unbound) ── */
     var cqsl = $('v-conv-qsl');
     if (cqsl) {
       function onConvQualityChange() {
-        S.quality = parseInt(this.value);
+        S.quality = parseInt(this.value, 10);
         _syncQualitySliders(S.quality);
         if (S.origImg) _livePreview();
       }
-      cqsl.addEventListener('input',  onConvQualityChange);
-      cqsl.addEventListener('change', onConvQualityChange);
-      cqsl.addEventListener('touchend', function(){ onConvQualityChange.call(cqsl); }, { passive: true });
+      U.bindRangeInput(cqsl, onConvQualityChange);
       _sliderUI(cqsl, $('v-conv-qnum'), '80%');
     }
 
-    /* ── Effort slider ── */
     var efsl = $('v-effort-sl');
     if (efsl) {
       function onEffortChange() {
-        S.webpEffort = parseInt(this.value);
+        S.webpEffort = parseInt(this.value, 10);
         _sliderEffortUI(this);
         if (S.origImg) _livePreview();
       }
-      efsl.addEventListener('input',  onEffortChange);
-      efsl.addEventListener('change', onEffortChange);
-      efsl.addEventListener('touchend', function(){ onEffortChange.call(efsl); }, { passive: true });
+      U.bindRangeInput(efsl, onEffortChange);
       _sliderEffortUI(efsl);
     }
 
@@ -96,25 +88,21 @@
      ['v-ef-sh','sharpness'], ['v-ef-dn','denoise']].forEach(function(p){
       var el = $(p[0]); if (!el) return;
       function onEfxChange() {
-        S[p[1]] = parseInt(this.value);
+        S[p[1]] = parseInt(this.value, 10);
         var vEl = $(p[0]+'-v'); if(vEl) vEl.textContent = this.value + (p[1]==='hue'?'°':'');
         if (S.origImg && S.activePanel==='effects') _livePreview();
       }
-      el.addEventListener('input',  onEfxChange);
-      el.addEventListener('change', onEfxChange);
-      el.addEventListener('touchend', function(){ onEfxChange.call(el); }, { passive: true });
+      U.bindRangeInput(el, onEfxChange);
     });
 
     var ba = $('v-blur-amt');
     if (ba) {
       function onBlurChange() {
-        S.blurAmt = parseInt(this.value);
+        S.blurAmt = parseInt(this.value, 10);
         var v = $('v-blur-amt-v'); if(v) v.textContent = this.value;
         if (S.origImg && S.activePanel==='blur') _livePreview();
       }
-      ba.addEventListener('input',  onBlurChange);
-      ba.addEventListener('change', onBlurChange);
-      ba.addEventListener('touchend', function(){ onBlurChange.call(ba); }, { passive: true });
+      U.bindRangeInput(ba, onBlurChange);
     }
 
     var rw = $('v-rw'), rh = $('v-rh');
@@ -124,8 +112,7 @@
     /* Scale % slider + number field */
     var rpct = $('v-rpct'), rpctn = $('v-rpctn');
     if (rpct) {
-      rpct.addEventListener('input', function(){ pctResize(this.value); });
-      rpct.addEventListener('change', function(){ pctResize(this.value); });
+      U.bindRangeInput(rpct, function () { pctResize(this.value); });
     }
     if (rpctn) {
       rpctn.addEventListener('input', function(){ pctResize(this.value); });
@@ -313,12 +300,29 @@
     if (S.origImg) _livePreview();
   };
 
+  var FMT_BTN = {
+    'original': 'v-fmt-auto',
+    'image/jpeg': 'v-fmt-jpg',
+    'image/png': 'v-fmt-png',
+    'image/webp': 'v-fmt-webp',
+    'image/avif': 'v-fmt-avif',
+    'image/gif': 'v-fmt-gif',
+    'image/svg+xml': 'v-fmt-svg'
+  };
+
   window.setFmt = function(fmt, btn) {
     S.format = fmt;
     $$('.v-fmt').forEach(function(b){ b.classList.remove('on'); });
-    btn.classList.add('on');
+    if (!btn && FMT_BTN[fmt]) btn = $(FMT_BTN[fmt]);
+    if (btn) btn.classList.add('on');
     _checkPNG();
     if (S.origImg) _livePreview();
+  };
+
+  window.pickConvert = function(fmt, btnId) {
+    var btn = typeof btnId === 'string' ? $(btnId) : btnId;
+    setFmt(fmt, btn);
+    switchPanel('convert', $('v-tb-convert'));
   };
 
   window.setRot = function(r, btn) {
@@ -481,7 +485,8 @@
       $('v-pb').style.width = '0%';
       $('v-gobtn').disabled = false;
       console.error('[VeloTools]', err);
-      alert('Processing failed. Try a different format or image.');
+      var msg = (err && err.message) ? err.message : 'Processing failed. Try a different format or image.';
+      alert(msg);
     });
   };
 

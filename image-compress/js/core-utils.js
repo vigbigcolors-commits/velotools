@@ -27,10 +27,41 @@ var VCore = (function () {
   function updateSliderTrack(slider, numEl, text) {
     if (!slider) return;
     if (numEl) numEl.textContent = text;
-    var value = parseInt(slider.value, 10);
-    var pct = ((value - 10) / 90) * 100;
+    var min = parseFloat(slider.min);
+    var max = parseFloat(slider.max);
+    if (!isFinite(min)) min = 0;
+    if (!isFinite(max) || max <= min) max = 100;
+    var value = parseFloat(slider.value);
+    var pct = ((value - min) / (max - min)) * 100;
     slider.style.background =
       'linear-gradient(to right,var(--ac) ' + pct + '%,var(--br-2) ' + pct + '%)';
+  }
+
+  /** Reliable range input on mobile (iOS Safari often skips input while dragging). */
+  function bindRangeInput(slider, onChange) {
+    if (!slider || typeof onChange !== 'function') return;
+    function fire() {
+      onChange.call(slider);
+    }
+    slider.addEventListener('input', fire);
+    slider.addEventListener('change', fire);
+    if (window.PointerEvent) {
+      var dragging = false;
+      slider.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        try { slider.setPointerCapture(e.pointerId); } catch (_) { /* ignore */ }
+        fire();
+      });
+      slider.addEventListener('pointermove', function () {
+        if (dragging) fire();
+      });
+      function endDrag() {
+        dragging = false;
+        fire();
+      }
+      slider.addEventListener('pointerup', endDrag);
+      slider.addEventListener('pointercancel', endDrag);
+    }
   }
 
   function downloadBlob(blob, filename) {
@@ -56,6 +87,7 @@ var VCore = (function () {
     px: px,
     fmtBytes: fmtBytes,
     updateSliderTrack: updateSliderTrack,
+    bindRangeInput: bindRangeInput,
     downloadBlob: downloadBlob,
     escHtml: escHtml,
   };

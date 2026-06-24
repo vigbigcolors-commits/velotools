@@ -492,9 +492,10 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-qrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .v-qlbl{font-size:14px;font-weight:600;color:var(--tx)}
 .v-qnum{font-size:28px;font-weight:800;color:var(--ac);min-width:60px;text-align:right;line-height:1}
-.v-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;background:linear-gradient(to right,var(--ac) 80%,var(--br-2) 80%);outline:none;cursor:pointer;margin-bottom:6px}
+.v-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;background:linear-gradient(to right,var(--ac) 80%,var(--br-2) 80%);outline:none;cursor:pointer;margin-bottom:6px;touch-action:none;-webkit-tap-highlight-color:transparent}
 .v-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;background:var(--ac);border-radius:50%;border:3px solid #fff;box-shadow:0 1px 8px rgba(91,108,249,.45);cursor:pointer;transition:transform .15s}
 .v-slider::-webkit-slider-thumb:hover{transform:scale(1.22)}
+.v-slider::-moz-range-thumb{width:22px;height:22px;background:var(--ac);border-radius:50%;border:3px solid #fff;box-shadow:0 1px 8px rgba(91,108,249,.45);cursor:pointer}
 .v-hints{display:flex;justify-content:space-between;font-size:11px;color:var(--tx-3)}
 .v-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
 .v-prst{padding:9px 4px;border-radius:9px;background:var(--bg-2);border:1px solid var(--br);text-align:center;cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .15s,box-shadow .15s,opacity .15s}
@@ -537,7 +538,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-ebtn.on span,.v-ebtn:hover span{color:var(--ac)}
 .v-adj{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .v-adj label{font-size:12px;color:var(--tx-2);width:90px;flex-shrink:0}
-.v-adj-sl{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:var(--br-2);outline:none;cursor:pointer}
+.v-adj-sl{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:var(--br-2);outline:none;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent}
 .v-adj-sl::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:17px;height:17px;background:var(--ac);border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(91,108,249,.35);cursor:pointer}
 .v-adj-val{font-size:12px;font-weight:700;color:var(--ac);width:36px;text-align:right}
 
@@ -1266,6 +1267,10 @@ html,body{background:var(--bg-main)}
     width: 100% !important;
     text-align: center !important;
   }
+  .v-slider::-webkit-slider-thumb{width:28px!important;height:28px!important}
+  .v-slider::-moz-range-thumb{width:28px!important;height:28px!important}
+  .v-pctsl::-webkit-slider-thumb{width:26px!important;height:26px!important}
+  .v-adj-sl::-webkit-slider-thumb{width:24px!important;height:24px!important}
 }
 
 
@@ -1518,14 +1523,14 @@ html,body{background:var(--bg-main)}
           </div>
           <span class="v-plbl" style="margin-top:16px">Popular conversions — one click</span>
           <div class="v-conv-pairs">
-            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">GIF → WebP</button>
-            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">JPG → WebP</button>
-            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">PNG → WebP</button>
-            <button class="v-conv-pair" onclick="setFmt('image/webp',document.getElementById('v-fmt-webp'))">AVIF → WebP</button>
-            <button class="v-conv-pair" onclick="setFmt('image/jpeg',document.getElementById('v-fmt-jpg'))">WebP → JPG</button>
-            <button class="v-conv-pair" onclick="setFmt('image/png',document.getElementById('v-fmt-png'))">WebP → PNG</button>
-            <button class="v-conv-pair" onclick="setFmt('image/png',document.getElementById('v-fmt-png'))">SVG → PNG</button>
-            <button class="v-conv-pair" onclick="setFmt('image/svg+xml',document.getElementById('v-fmt-svg'))">PNG → SVG</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/webp','v-fmt-webp')">GIF → WebP</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/webp','v-fmt-webp')">JPG → WebP</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/webp','v-fmt-webp')">PNG → WebP</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/webp','v-fmt-webp')">AVIF → WebP</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/jpeg','v-fmt-jpg')">WebP → JPG</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/png','v-fmt-png')">WebP → PNG</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/png','v-fmt-png')">SVG → PNG</button>
+            <button class="v-conv-pair" onclick="pickConvert('image/svg+xml','v-fmt-svg')">PNG → SVG</button>
           </div>
           <div class="v-hint v-hint-ac">💡 <strong>WebP</strong> is 25–40% smaller than JPG/PNG at equal quality. <strong>AVIF</strong> up to 50% smaller than JPG. <strong>SVG</strong> output wraps the result as a scalable single-file vector container — great for design tools. Tip: click a pair above, then press the big button to convert.</div>
 
