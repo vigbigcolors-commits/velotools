@@ -274,6 +274,100 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--ac3) 0%,var(--go
 .fbs{display:flex;gap:11px;justify-content:center;margin-top:9px;flex-wrap:wrap}
 .fb{font-size:10px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:4px 10px;color:var(--tx3)}
 
+/* ============================================================
+   PDF SEO — EXTENDED ELEMENTS
+   ============================================================ */
+
+/* Eyebrow color variants */
+.seo-eyebrow.ey-gold::before{background:var(--gold)}
+.seo-eyebrow.ey-gold{color:var(--gold)}
+.seo h2 em.gr{font-style:italic;background:linear-gradient(120deg,var(--ac4),var(--gold) 55%,var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Big stats hero */
+.pdf-stats-big{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(77,113,79,.15);border:1px solid rgba(77,113,79,.28);border-radius:16px;overflow:hidden;margin-bottom:52px;position:relative}
+.pdf-stats-big::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(91,165,95,.07),transparent 60%);pointer-events:none}
+.psb-item{background:rgba(10,18,6,.7);padding:32px 20px;text-align:center;position:relative;transition:background .2s}
+.psb-item:not(:last-child)::after{content:"";position:absolute;right:0;top:15%;bottom:15%;width:1px;background:rgba(77,113,79,.25)}
+.psb-item:hover{background:rgba(91,165,95,.07)}
+.psb-n{font-family:"DM Mono",monospace;font-size:clamp(32px,4vw,50px);font-weight:300;line-height:1;color:var(--gold);text-shadow:0 0 24px rgba(228,201,81,.3)}
+.psb-u{font-size:clamp(14px,2vw,20px);vertical-align:super;margin-left:2px;opacity:.85}
+.psb-l{font-size:12px;color:var(--tx3);margin-top:9px;max-width:130px;margin-left:auto;margin-right:auto;line-height:1.5}
+
+/* Privacy comparison */
+.pdf-pvsc{display:grid;grid-template-columns:1fr 52px 1fr;gap:18px;align-items:start}
+.pdf-pvsc-side{border-radius:14px;padding:26px 24px}
+.pdf-pvsc-bad{background:rgba(200,60,60,.06);border:1px solid rgba(200,60,60,.22)}
+.pdf-pvsc-good{background:rgba(91,165,95,.07);border:1px solid rgba(91,165,95,.25)}
+.pdf-pvsc-badge{display:inline-block;font-size:11px;font-weight:600;padding:5px 13px;border-radius:8px;margin-bottom:16px}
+.pdf-pvsc-badge-bad{background:rgba(200,60,60,.12);color:#e07070;border:1px solid rgba(200,60,60,.28)}
+.pdf-pvsc-badge-good{background:rgba(91,165,95,.12);color:var(--ac3);border:1px solid rgba(91,165,95,.28)}
+.pdf-pvsc-side ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.pdf-pvsc-side li{font-size:13px;color:var(--tx2);display:flex;gap:10px;align-items:flex-start;line-height:1.55}
+.pdf-pvsc-bad li::before{content:"✗";color:#e07070;font-weight:700;flex-shrink:0}
+.pdf-pvsc-good li::before{content:"✓";color:var(--ac3);font-weight:700;flex-shrink:0}
+.pdf-pvsc-vs{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--bg3);border:1px solid var(--brd2);font-family:"DM Mono",monospace;font-size:11px;font-weight:600;color:var(--tx3);align-self:center;flex-shrink:0}
+
+/* Glow fact pairs */
+.pdf-facts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.pdf-fact{background:linear-gradient(155deg,rgba(77,113,79,.18),rgba(57,69,46,.08));border:1px solid rgba(77,113,79,.3);border-radius:14px;padding:24px;display:flex;gap:16px;align-items:flex-start;position:relative;overflow:hidden}
+.pdf-fact::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(146,233,150,.7),transparent)}
+.pdf-fact-ico{font-size:22px;width:46px;height:46px;background:rgba(91,165,95,.1);border:1px solid rgba(91,165,95,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pdf-fact h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:7px}
+.pdf-fact p{font-size:13px;color:var(--tx2);line-height:1.72}
+
+/* Compression bar visual */
+.comp-bar-wrap{margin-top:14px}
+.comp-bar-row{display:flex;align-items:center;gap:9px;margin-bottom:5px;font-size:11px;font-family:"DM Mono",monospace}
+.comp-bar-lbl{width:50px;color:var(--tx3);text-align:right;flex-shrink:0;font-size:10px}
+.comp-bar-track{flex:1;height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.comp-bar-fill{height:100%;border-radius:4px}
+.comp-bar-before{background:rgba(200,80,80,.55)}
+.comp-bar-after{background:linear-gradient(90deg,var(--ac2),var(--ac3))}
+.comp-bar-val{width:40px;flex-shrink:0;color:var(--tx2)}
+
+/* Tech stack cards */
+.pdf-tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pdf-tech-card{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:all .22s var(--ease)}
+.pdf-tech-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--tc-col,linear-gradient(90deg,var(--ac2),var(--ac3)))}
+.pdf-tech-card:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.35)}
+.pdf-tc-badge{display:inline-block;font-family:"DM Mono",monospace;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:20px;margin-bottom:12px;background:rgba(91,165,95,.12);color:var(--ac3);border:1px solid rgba(91,165,95,.25)}
+.pdf-tech-card h4{font-size:14px;font-weight:700;font-family:"DM Mono",monospace;margin-bottom:8px;color:var(--ac4)}
+.pdf-tech-card p{font-size:13px;color:var(--tx2);line-height:1.75}
+.pdf-tech-card p strong{color:var(--ac3)}
+
+/* Who uses */
+.pdf-user-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pdf-user-card{border-radius:14px;padding:24px 22px;position:relative;overflow:hidden;transition:all .22s var(--ease)}
+.pdf-user-card:hover{transform:translateY(-4px)}
+.pdf-user-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--puc-l,rgba(91,165,95,.4))}
+.puc-1{background:linear-gradient(155deg,rgba(91,165,95,.1),rgba(91,165,95,.04));border:1px solid rgba(91,165,95,.22);--puc-l:rgba(91,165,95,.55)}
+.puc-2{background:linear-gradient(155deg,rgba(228,201,81,.1),rgba(228,201,81,.04));border:1px solid rgba(228,201,81,.22);--puc-l:rgba(228,201,81,.5)}
+.puc-3{background:linear-gradient(155deg,rgba(74,158,202,.1),rgba(74,158,202,.04));border:1px solid rgba(74,158,202,.22);--puc-l:rgba(74,158,202,.5)}
+.puc-4{background:linear-gradient(155deg,rgba(155,135,245,.1),rgba(155,135,245,.04));border:1px solid rgba(155,135,245,.22);--puc-l:rgba(155,135,245,.5)}
+.puc-5{background:linear-gradient(155deg,rgba(230,100,130,.1),rgba(230,100,130,.04));border:1px solid rgba(230,100,130,.22);--puc-l:rgba(230,100,130,.5)}
+.puc-6{background:linear-gradient(155deg,rgba(61,187,138,.1),rgba(61,187,138,.04));border:1px solid rgba(61,187,138,.22);--puc-l:rgba(61,187,138,.5)}
+.puc-ico{font-size:26px;margin-bottom:12px;display:block}
+.pdf-user-card h4{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px}
+.pdf-user-card p{font-size:13px;color:var(--tx2);line-height:1.72}
+
+/* Comparison table */
+.pdf-comp-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--brd2);box-shadow:0 4px 28px rgba(0,0,0,.3)}
+.pdf-comp-table{width:100%;border-collapse:collapse;min-width:520px}
+.pdf-comp-table thead tr{background:var(--bg3)}
+.pdf-comp-table th{padding:13px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--tx3);text-align:center;white-space:nowrap}
+.pdf-comp-table th:first-child{text-align:left}
+.pdf-comp-table th.hl{background:rgba(91,165,95,.12);color:var(--ac4);border-left:1px solid rgba(91,165,95,.3);border-right:1px solid rgba(91,165,95,.3)}
+.pdf-comp-table td{padding:12px 16px;font-size:13px;color:var(--tx2);border-top:1px solid var(--brd);text-align:center;transition:background .15s}
+.pdf-comp-table td:first-child{text-align:left;font-weight:500;color:var(--tx)}
+.pdf-comp-table td.hl{background:rgba(91,165,95,.05);border-left:1px solid rgba(91,165,95,.15);border-right:1px solid rgba(91,165,95,.15)}
+.pdf-comp-table tbody tr:hover td{background:rgba(255,255,255,.02)}
+.pdf-comp-table tbody tr:hover td.hl{background:rgba(91,165,95,.1)}
+.pck{color:var(--ac3);font-weight:700;font-size:14px}
+.pcx{color:#e07070;font-weight:700;font-size:14px}
+.pcm{color:var(--tx3);font-size:12px}
+
 /* RESPONSIVE */
 @media(max-width:1000px){.tool-wrap{grid-template-columns:1fr}.settings-panel{position:static}.hero{flex-direction:column;padding:36px 24px 28px}.hero-visual{display:none}}
+@media(max-width:900px){.pdf-stats-big{grid-template-columns:repeat(2,1fr)}.psb-item:nth-child(2)::after{display:none}.pdf-pvsc{grid-template-columns:1fr}.pdf-pvsc-vs{border-radius:8px;height:40px;width:100%}.pdf-tech-grid{grid-template-columns:1fr 1fr}.pdf-user-grid{grid-template-columns:1fr 1fr}.pdf-facts{grid-template-columns:1fr}}
+@media(max-width:600px){.psb-n{font-size:28px}.pdf-user-grid{grid-template-columns:1fr}.pdf-tech-grid{grid-template-columns:1fr}.seo-stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.seo-stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:clamp(26px,8vw,40px)}}
