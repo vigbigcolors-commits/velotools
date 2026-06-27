@@ -265,6 +265,99 @@ kbd{font-family:"DM Mono",monospace;font-size:9px;background:var(--bg4);border:1
 .fbs{display:flex;gap:11px;justify-content:center;margin-top:9px;flex-wrap:wrap}
 .fb{font-size:10px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:4px 10px;color:var(--tx3)}
 
+/* touch-action: none on canvas so browser doesn't steal touch events */
+.canvases,.cc-area{touch-action:none}
+
+/* MOBILE BOTTOM TOOLBAR — hidden on desktop */
+.mob-bar{display:none}
+
+/* MOBILE OVERLAY for sidebar drawer */
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:595;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.mob-overlay.show{display:block}
+
 /* RESPONSIVE */
-@media(max-width:900px){.work{grid-template-columns:1fr}.rb{display:none}.sr{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.hdr{padding:11px 15px}.hero{padding:34px 15px 26px}.toptb{gap:3px;padding:6px}.ttb{min-width:44px;height:46px}.ttb span{font-size:8px}}
+@media(max-width:900px){
+  .work{grid-template-columns:1fr}
+  .sr{grid-template-columns:repeat(2,1fr)}
+
+  /* Sidebar becomes a sliding bottom drawer */
+  .rb{
+    display:flex!important;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    max-height:74vh;
+    border-radius:var(--r-xl) var(--r-xl) 0 0;
+    overflow-y:auto;
+    flex-direction:row;
+    flex-wrap:wrap;
+    background:var(--bg2);
+    border-left:none;
+    border-top:1px solid var(--brd2);
+    box-shadow:0 -8px 40px rgba(0,0,0,.5);
+    transform:translateY(110%);
+    transition:transform .38s cubic-bezier(.4,0,.2,1);
+    z-index:600;
+  }
+  .rb.open{transform:translateY(0)}
+  .rb::before{
+    content:"";display:block;width:40px;height:4px;
+    background:var(--brd2);border-radius:3px;
+    margin:10px auto 0;
+    flex-basis:100%;
+  }
+  .rb-s{flex:1;min-width:220px;max-width:50%}
+
+  /* Extra canvas room — leave space for mob-bar */
+  .cc-area{max-height:calc(100vh - 190px)!important}
+
+  /* Mobile bottom toolbar */
+  .mob-bar{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    z-index:500;
+    background:rgba(15,10,25,.96);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    backdrop-filter:blur(22px) saturate(160%);
+    border-top:1px solid var(--brd2);
+    padding:6px 6px;
+    padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));
+    gap:4px;
+    justify-content:space-around;
+    align-items:stretch;
+  }
+  .mob-btn{
+    flex:1;
+    min-width:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;
+    padding:8px 3px;
+    border:1px solid transparent;
+    border-radius:10px;
+    background:transparent;
+    color:var(--tx2);
+    font-size:9px;font-weight:500;
+    cursor:pointer;
+    transition:all .15s;
+    -webkit-tap-highlight-color:transparent;
+    user-select:none;
+  }
+  .mob-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
+  .mob-btn:active,.mob-btn.act{background:rgba(168,85,232,.28);border-color:rgba(200,122,255,.45);color:var(--ac4)}
+  .mob-btn.ttb-erase.act{background:rgba(255,124,149,.22);border-color:rgba(255,124,149,.45);color:var(--erase)}
+  .mob-btn.ttb-restore.act{background:rgba(94,232,184,.22);border-color:rgba(94,232,184,.45);color:var(--restore)}
+  .mob-btn.ttb-smart.act{background:rgba(200,122,255,.25);border-color:rgba(200,122,255,.5);color:var(--smart)}
+  .mob-btn.disabled{opacity:.28;pointer-events:none}
+  .mob-dl{color:var(--ac3)}
+}
+
+@media(max-width:600px){
+  .hdr{padding:11px 15px}
+  .hero{padding:34px 15px 26px}
+  .toptb{gap:2px;padding:5px 6px}
+  .ttb{min-width:40px;height:44px}
+  .ttb span{font-size:8px}
+  .rb-s{min-width:100%;max-width:100%}
+  .sr{grid-template-columns:repeat(2,1fr)}
+  .cc-area{max-height:calc(100vh - 170px)!important}
+}

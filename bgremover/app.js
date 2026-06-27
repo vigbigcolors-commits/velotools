@@ -158,12 +158,14 @@ function setTool(t){
   area.classList.remove('tool-pan');
   dispC.classList.remove('brush-cur','zoom-in-cur','zoom-out-cur');
   clearCursor();
-  if(!t) return;
-  (TOOL_BTNS[t]||[]).forEach(function(id){ var el=$(id); if(el) el.classList.add('act'); });
-  var isBrush=(t==='erase-hard'||t==='erase-soft'||t==='restore-hard'||t==='restore-soft');
-  if(isBrush){ dispC.classList.add('brush-cur'); }
-  else if(t==='pan'){ area.classList.add('tool-pan'); }
-  else if(t==='magnifier'){ updateZoomCursor(); }
+  if(t){
+    (TOOL_BTNS[t]||[]).forEach(function(id){ var el=$(id); if(el) el.classList.add('act'); });
+    var isBrush=(t==='erase-hard'||t==='erase-soft'||t==='restore-hard'||t==='restore-soft');
+    if(isBrush){ dispC.classList.add('brush-cur'); }
+    else if(t==='pan'){ area.classList.add('tool-pan'); }
+    else if(t==='magnifier'){ updateZoomCursor(); }
+  }
+  updateMobBar();
 }
 
 /* ---------- BACKGROUND ---------- */
@@ -278,6 +280,38 @@ function initWheelZoom(){
     var factor=e.deltaY<0?1.12:1/1.12;
     setZoom(S.zoom*factor, e.clientX, e.clientY);
   }, { passive:false });
+}
+
+/* ---------- PINCH ZOOM (mobile) ---------- */
+var pinchState={active:false,lastDist:0};
+function initPinchZoom(){
+  var area=$('cc-area');
+  area.addEventListener('touchstart',function(e){
+    if(e.touches.length===2){
+      e.preventDefault();
+      S.isDrawing=false; endPan(); // cancel any brush/pan in progress
+      var t0=e.touches[0],t1=e.touches[1];
+      var dx=t0.clientX-t1.clientX,dy=t0.clientY-t1.clientY;
+      pinchState.active=true;
+      pinchState.lastDist=Math.sqrt(dx*dx+dy*dy);
+    }
+  },{passive:false});
+  area.addEventListener('touchmove',function(e){
+    if(e.touches.length===2&&pinchState.active){
+      e.preventDefault();
+      var t0=e.touches[0],t1=e.touches[1];
+      var dx=t0.clientX-t1.clientX,dy=t0.clientY-t1.clientY;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(pinchState.lastDist>0&&dist>0){
+        var mx=(t0.clientX+t1.clientX)/2,my=(t0.clientY+t1.clientY)/2;
+        setZoom(S.zoom*(dist/pinchState.lastDist),mx,my);
+      }
+      pinchState.lastDist=dist;
+    }
+  },{passive:false});
+  area.addEventListener('touchend',function(e){
+    if(e.touches.length<2) pinchState.active=false;
+  });
 }
 
 /* ---------- SMART ERASE ---------- */
@@ -441,33 +475,34 @@ function alphaMatteRefine(){
   if(!S.maskData||!S.origData) return;
   var W=S.imgW,H=S.imgH,md=S.maskData,od=S.origData;
   var src=new Uint8ClampedArray(md);
-  var R=3;                       // sampling radius for fg/bg references
+  // R=5: larger sampling window catches thin hair strands and fur tips
+  var R=5;
   for(var y=R;y<H-R;y++){
     for(var x=R;x<W-R;x++){
       var idx=y*W+x, a=src[idx];
-      if(a>=245 || a<=10) continue;        // only the uncertain band
-      // gather nearest confirmed foreground & background colors
+      if(a>=248 || a<=8) continue; // only the uncertain border band
       var fr=0,fg=0,fb=0,fn=0, gr=0,gg=0,gb=0,gn=0;
       for(var dy=-R;dy<=R;dy++){
         for(var dx=-R;dx<=R;dx++){
           var ni=(y+dy)*W+(x+dx), na=src[ni], np=ni*4;
-          if(na>=245){ fr+=od[np]; fg+=od[np+1]; fb+=od[np+2]; fn++; }
-          else if(na<=10){ gr+=od[np]; gg+=od[np+1]; gb+=od[np+2]; gn++; }
+          if(na>=248){ fr+=od[np]; fg+=od[np+1]; fb+=od[np+2]; fn++; }
+          else if(na<=8){ gr+=od[np]; gg+=od[np+1]; gb+=od[np+2]; gn++; }
         }
       }
-      if(fn===0||gn===0) continue;          // need both references
+      if(fn===0||gn===0) continue;
       fr/=fn; fg/=fn; fb/=fn; gr/=gn; gg/=gn; gb/=gn;
       var p=idx*4, pr=od[p],pg=od[p+1],pb=od[p+2];
-      // project pixel color onto fg<->bg line -> estimated alpha
+      // project pixel color onto fg↔bg line → estimated alpha
       var vx=fr-gr, vy=fg-gg, vz=fb-gb;
       var len2=vx*vx+vy*vy+vz*vz;
-      if(len2<1) continue;
+      if(len2<16) continue; // fg and bg too similar to be useful
       var t=((pr-gr)*vx+(pg-gg)*vy+(pb-gb)*vz)/len2;
       t=t<0?0:t>1?1:t;
       var est=Math.round(t*255);
-      // Refine only REMOVES fringe — never increases alpha (never adds background back)
-      var newA=Math.min(a, Math.round(a*0.6 + est*0.4));
-      md[idx]=newA;
+      // 50/50 blend: allows slight increases (recovers hair) + slight decreases (removes fringe)
+      // capped at 1.15× original to prevent hallucination
+      var newA=Math.round(a*0.5+est*0.5);
+      md[idx]=Math.max(0,Math.min(255,Math.min(Math.round(a*1.15),newA)));
     }
   }
   S.maskData=md;
@@ -509,6 +544,7 @@ function updateHistory(){
   var u=$('tt-undo'), r=$('tt-redo');
   if(u) u.classList.toggle('disabled', S.undo.length===0);
   if(r) r.classList.toggle('disabled', S.redo.length===0);
+  var mu=$('mtt-undo'); if(mu) mu.classList.toggle('disabled',S.undo.length===0);
 }
 
 /* ---------- POINTER EVENTS ---------- */
@@ -544,6 +580,25 @@ function onWindowMove(e){
 }
 function onUp(){ S.isDrawing=false; endPan(); }
 function onLeave(){ if(!S.isDrawing) clearCursor(); }
+
+/* ---------- MOBILE TOOLBAR ---------- */
+function updateMobBar(){
+  var map={smart:'smart-erase','erase':'erase-hard','restore':'restore-hard'};
+  Object.keys(map).forEach(function(k){
+    var el=$('mtt-'+k); if(!el) return;
+    el.classList.toggle('act',S.tool===map[k]);
+    if(k==='erase') el.classList.toggle('ttb-erase',true);
+    if(k==='restore') el.classList.toggle('ttb-restore',true);
+  });
+  var mu=$('mtt-undo'); if(mu) mu.classList.toggle('disabled',S.undo.length===0);
+}
+function toggleMobileSidebar(){
+  var rb=document.querySelector('.rb');
+  var ov=$('mob-overlay');
+  if(!rb||!ov) return;
+  var open=rb.classList.toggle('open');
+  ov.classList.toggle('show',open);
+}
 
 /* ---------- PAN ---------- */
 function startPan(e){
@@ -593,54 +648,78 @@ function doDownload(type){
 
 /* ---------- STAGES ---------- */
 function show(id){ ['s-upload','s-proc','s-err','s-edit'].forEach(function(s){ $(s).style.display=(s===id)?'block':'none'; }); }
-function gotoUpload(){ show('s-upload'); $('file-input').value=''; S.undo=[]; S.redo=[]; S.origData=null; S.maskData=null; }
+function gotoUpload(){ show('s-upload'); $('file-input').value=''; S.undo=[]; S.redo=[]; S.origData=null; S.maskData=null; var b=$('gpu-badge'); if(b) b.style.opacity='0'; }
 
 /* ---------- PROCESS FILE ---------- */
 async function processFile(file){
   if(!file) return;
   show('s-proc');
   $('pb-f').style.width='0%'; $('pb-l').textContent='0%';
-  $('proc-st').textContent='Loading AI engine…';
+  $('proc-st').textContent='Loading image…';
+
   try{
-    var fn = S.removeBg || await preloadEngine();
-    if(!fn) throw new Error('Could not load AI engine. Check your connection.');
-
-    var resultBlob = await fn(file, {
-      model:'isnet',
-      output:{ format:'image/png', quality:1.0, type:'foreground' },
-      progress:function(key,cur,tot){
-        var p=tot>0?Math.round(cur/tot*100):0;
-        $('pb-f').style.width=p+'%'; $('pb-l').textContent=p+'%';
-        if(key&&key.indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (one-time)…';
-        else if(key&&key.indexOf('compute')>=0) $('proc-st').textContent='Analyzing image with AI…';
-      }
-    });
-    $('proc-st').textContent='Refining edges…';
-
+    // 1. Load original image first to get dimensions and pixels
     var origURL=URL.createObjectURL(file);
     var origImg=new Image();
     await new Promise(function(res,rej){ origImg.onload=res; origImg.onerror=rej; origImg.src=origURL; });
-    var resURL=URL.createObjectURL(resultBlob);
-    var resImg=new Image();
-    await new Promise(function(res,rej){ resImg.onload=res; resImg.onerror=rej; resImg.src=resURL; });
-
+    URL.revokeObjectURL(origURL);
     S.imgW=origImg.naturalWidth; S.imgH=origImg.naturalHeight;
 
     var sc=document.createElement('canvas'); sc.width=S.imgW; sc.height=S.imgH;
     var sctx=sc.getContext('2d',{willReadFrequently:true}); sctx.drawImage(origImg,0,0);
     S.origData=sctx.getImageData(0,0,S.imgW,S.imgH).data;
 
+    // 2. Pre-resize for AI — large images slow the model and can OOM on mobile
+    var MAX_AI=1920;
+    var aiFile=file;
+    if(S.imgW>MAX_AI||S.imgH>MAX_AI){
+      var ratio=Math.min(MAX_AI/S.imgW,MAX_AI/S.imgH);
+      var aiW=Math.round(S.imgW*ratio), aiH=Math.round(S.imgH*ratio);
+      var rc2=document.createElement('canvas'); rc2.width=aiW; rc2.height=aiH;
+      rc2.getContext('2d').drawImage(origImg,0,0,aiW,aiH);
+      $('proc-st').textContent='Optimizing for AI ('+aiW+'×'+aiH+')…';
+      aiFile=await new Promise(function(res){ rc2.toBlob(res,'image/jpeg',0.95); });
+    }
+
+    // 3. Load AI engine
+    $('proc-st').textContent='Loading AI engine…';
+    var fn=S.removeBg||await preloadEngine();
+    if(!fn) throw new Error('Could not load AI engine. Check your connection.');
+
+    // 4. Detect acceleration & run AI with WebGPU when available
+    var useGpu=!!navigator.gpu;
+    var accelLabel=useGpu?'GPU ⚡':'CPU';
+    $('proc-st').textContent='Starting AI ('+accelLabel+')…';
+    var badge=$('gpu-badge'),lbl=$('gpu-label');
+    if(badge&&lbl){ lbl.textContent=useGpu?'WebGPU acceleration active':'Running on CPU'; badge.style.opacity='1'; badge.style.color=useGpu?'var(--teal)':'var(--tx3)'; }
+    var resultBlob=await fn(aiFile,{
+      model:'isnet_fp16',
+      device:'gpu',
+      output:{format:'image/png',quality:1.0,type:'foreground'},
+      progress:function(key,cur,tot){
+        var p=tot>0?Math.round(cur/tot*100):0;
+        $('pb-f').style.width=p+'%'; $('pb-l').textContent=p+'%';
+        if(key&&key.indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (~40MB, one-time)…';
+        else if(key&&key.indexOf('compute')>=0) $('proc-st').textContent='AI analyzing image ('+accelLabel+')…';
+      }
+    });
+    $('proc-st').textContent='Refining edges…';
+
+    // 5. Load AI result and scale mask up to original dimensions
+    var resURL=URL.createObjectURL(resultBlob);
+    var resImg=new Image();
+    await new Promise(function(res,rej){ resImg.onload=res; resImg.onerror=rej; resImg.src=resURL; });
+    URL.revokeObjectURL(resURL);
+
     var rc=document.createElement('canvas'); rc.width=S.imgW; rc.height=S.imgH;
-    var rctx=rc.getContext('2d',{willReadFrequently:true}); rctx.drawImage(resImg,0,0);
+    var rctx=rc.getContext('2d',{willReadFrequently:true});
+    rctx.drawImage(resImg,0,0,S.imgW,S.imgH); // bilinear upscale if pre-resized
     var rd=rctx.getImageData(0,0,S.imgW,S.imgH).data;
     S.maskData=new Uint8ClampedArray(S.imgW*S.imgH);
     for(var i=0,n=S.imgW*S.imgH;i<n;i++) S.maskData[i]=rd[i*4+3];
 
     autoCleanup();
     S.aiMaskData=new Uint8ClampedArray(S.maskData);
-
-    URL.revokeObjectURL(origURL);
-    URL.revokeObjectURL(resURL);
 
     $('cc-info').textContent=S.imgW+' × '+S.imgH;
     S.undo=[]; S.redo=[]; S.zoom=1; updateHistory();
@@ -651,6 +730,7 @@ async function processFile(file){
       zoomFit();
     });
     setTool(null);
+    updateMobBar();
   }catch(err){
     console.error('BG removal error:',err);
     $('err-msg').textContent=(err&&err.message)?('Error: '+err.message):'Could not process this image.';
@@ -725,8 +805,14 @@ function initCanvas(){
   $('cc-area').addEventListener('mouseleave', onLeave);
   window.addEventListener('mousemove',onWindowMove);
   window.addEventListener('mouseup',onUp);
-  dispC.addEventListener('touchstart',function(e){ e.preventDefault(); onDown(e); },{passive:false});
-  window.addEventListener('touchmove',function(e){ if(S.isDrawing||S.panStart){ e.preventDefault(); onWindowMove(e); } },{passive:false});
+  dispC.addEventListener('touchstart',function(e){
+    if(e.touches.length>1) return; // 2+ fingers → pinch handled by cc-area
+    e.preventDefault(); onDown(e);
+  },{passive:false});
+  window.addEventListener('touchmove',function(e){
+    if(e.touches.length>1) return; // 2+ fingers → pinch
+    if(S.isDrawing||S.panStart){ e.preventDefault(); onWindowMove(e); }
+  },{passive:false});
   window.addEventListener('touchend',onUp);
   window.addEventListener('resize', function(){
     if(!S.origData) return;
@@ -738,12 +824,13 @@ function initCanvas(){
 window.setTool=setTool; window.setBg=setBg; window.doUndo=doUndo; window.doRedo=doRedo;
 window.doReset=doReset; window.doDownload=doDownload; window.gotoUpload=gotoUpload;
 window.autoRefine=autoRefine; window.zoomIn=zoomIn; window.zoomOut=zoomOut; window.zoomFit=zoomFit;
+window.toggleMobileSidebar=toggleMobileSidebar;
 
 /* ---------- INIT ---------- */
 function init(){
   dispC=$('disp-c'); dispCtx=dispC.getContext('2d',{willReadFrequently:true});
   ovC=$('ov-c'); ovCtx=ovC.getContext('2d');
-  initUpload(); initSliders(); initKeyboard(); initCanvas(); initWheelZoom();
+  initUpload(); initSliders(); initKeyboard(); initCanvas(); initWheelZoom(); initPinchZoom();
   updateBrushPreview();
   renderLoop();
   show('s-upload');
