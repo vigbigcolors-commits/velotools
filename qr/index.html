@@ -219,14 +219,14 @@
     <div id="form-event" class="qr-form" style="display:none">
       <label class="fl">Event title</label>
       <input class="fi" id="f-ev-title" type="text" placeholder="Team meeting">
-      <div class="f2col">
-        <div><label class="fl">Starts</label><input class="fi" id="f-ev-start" type="datetime-local"></div>
-        <div><label class="fl">Ends</label><input class="fi" id="f-ev-end" type="datetime-local"></div>
-      </div>
+      <label class="fl">Starts</label>
+      <input class="fi fi-dt" id="f-ev-start" type="datetime-local">
+      <label class="fl">Ends</label>
+      <input class="fi fi-dt" id="f-ev-end" type="datetime-local">
       <label class="fl">Location</label>
       <input class="fi" id="f-ev-loc" type="text" placeholder="Office, room 4 or video link">
       <label class="fl">Description (optional)</label>
-      <textarea class="fi fi-ta" id="f-ev-desc" rows="3" placeholder="Agenda, notes…"></textarea>
+      <textarea class="fi fi-ta" id="f-ev-desc" rows="2" placeholder="Agenda, notes…"></textarea>
     </div>
 
     <div id="form-crypto" class="qr-form" style="display:none">
@@ -263,26 +263,38 @@
 
     <!-- QR data display -->
     <div class="qr-data-row" id="qr-data-row" style="display:none">
-      <span class="qr-data-label">QR data:</span>
+      <span class="qr-data-label">Data:</span>
       <code class="qr-data-val" id="qr-data-val"></code>
+      <span class="qr-data-len" id="qr-data-len"></span>
+      <button class="qr-data-copy-btn" id="qr-copy-btn" onclick="copyQRData()" title="Copy raw data">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
     </div>
   </div>
 
   <!-- CENTER: PREVIEW -->
   <div class="preview-panel">
     <div class="panel-head">Preview</div>
+
+    <!-- Scan quality + EC — above preview so it's always visible -->
+    <div class="qr-meta-row">
+      <div class="ec-badge" id="ec-badge">
+        <span class="ec-dot"></span>
+        <span id="ec-label">Error correction: H (30%)</span>
+      </div>
+      <div class="scan-quality-badge" id="sq-badge">
+        <span class="sq-dot" id="sq-dot"></span>
+        <span class="sq-label">Scan quality</span>
+        <span id="sq-label">Excellent</span>
+      </div>
+    </div>
+
     <div class="preview-wrap" id="preview-wrap">
       <div id="qr-canvas-wrap"></div>
       <div class="preview-placeholder" id="preview-placeholder">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="16" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>
         <p>Your QR code will appear here</p>
       </div>
-    </div>
-
-    <!-- Error correction badge -->
-    <div class="ec-badge" id="ec-badge">
-      <span class="ec-dot"></span>
-      <span id="ec-label">Error correction: H (30%)</span>
     </div>
 
     <!-- Preset styles -->

@@ -82,7 +82,15 @@ function bindInputs(){
     'f-url','f-text','f-wifi-ssid','f-wifi-pass','f-wifi-hidden',
     'f-vc-first','f-vc-last','f-vc-org','f-vc-title','f-vc-phone','f-vc-email','f-vc-url','f-vc-addr',
     'f-email-to','f-email-subj','f-email-body',
-    'f-phone','f-sms-phone','f-sms-msg','f-lat','f-lng'
+    'f-phone','f-sms-phone','f-sms-msg','f-lat','f-lng',
+    // Event (were missing — QR would not update on typing)
+    'f-ev-title','f-ev-start','f-ev-end','f-ev-loc','f-ev-desc',
+    // Crypto (were missing)
+    'f-crypto-addr','f-crypto-amount','f-crypto-label',
+    // Meeting / Zoom (were missing)
+    'f-zoom-url','f-zoom-id','f-zoom-pass',
+    // App (was missing)
+    'f-app-url'
   ];
   ids.forEach(function(id){
     var el = $(id);
@@ -220,10 +228,14 @@ function escapeWifi(str){
   return str.replace(/[\\"';,:]/g, function(c){ return '\\'+c; });
 }
 
+function getEffectiveData(){
+  return buildData() || 'https://velotools.app';
+}
+
 /* ---------- CREATE QR (first time) ---------- */
 function createQR(){
-  var data = buildData() || 'https://velotools.app';
-  updateDataDisplay(data);
+  var data = getEffectiveData();
+  updateDataDisplay(buildData(), data);
 
   var opts = buildQROptions(data);
   Q.qrInstance = new QRCodeStyling(opts);
@@ -236,8 +248,9 @@ function createQR(){
 
 /* ---------- UPDATE QR ---------- */
 function updateQR(){
-  var data = buildData();
-  updateDataDisplay(data);
+  var raw = buildData();
+  var data = raw || 'https://velotools.app';
+  updateDataDisplay(raw, data);
 
   if(!Q.qrInstance){
     createQR();
@@ -247,11 +260,50 @@ function updateQR(){
   $('preview-placeholder').style.display = 'none';
 }
 
-function updateDataDisplay(data){
-  if(!data){ $('qr-data-row').style.display='none'; return; }
-  $('qr-data-row').style.display = '';
-  var val = data.length > 60 ? data.slice(0,57)+'…' : data;
-  $('qr-data-val').textContent = val;
+function updateDataDisplay(raw, effective){
+  effective = effective || raw || getEffectiveData();
+  if(!raw){
+    $('qr-data-row').style.display='none';
+  } else {
+    $('qr-data-row').style.display = '';
+    var val = raw.length > 55 ? raw.slice(0,52)+'…' : raw;
+    $('qr-data-val').textContent = val;
+    var lenEl=$('qr-data-len');
+    if(lenEl) lenEl.textContent = raw.length+' chars';
+  }
+  updateScanQuality(effective.length, !raw);
+}
+
+function updateScanQuality(len, isPreview){
+  var badge=$('sq-badge'), dot=$('sq-dot'), lbl=$('sq-label');
+  if(!badge||!dot||!lbl) return;
+  var quality, color;
+  if(len<=100){     quality='Excellent'; color='#3dbfa8'; }
+  else if(len<=250){ quality='Good';      color='#5badd4'; }
+  else if(len<=500){ quality='Fair';      color='#e4c951'; }
+  else{              quality='Complex';   color='#e07070'; }
+  dot.style.background=color;
+  dot.style.boxShadow='0 0 8px '+color;
+  lbl.textContent=quality+(isPreview?' (demo)':'');
+  lbl.style.color=color;
+}
+
+function copyQRData(){
+  var val=$('qr-data-val'); if(!val) return;
+  var btn=$('qr-copy-btn');
+  // get full data (not truncated)
+  var data=buildData()||'';
+  if(!data) return;
+  navigator.clipboard.writeText(data).then(function(){
+    if(btn){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); },1800); }
+  }).catch(function(){
+    // fallback
+    var ta=document.createElement('textarea');
+    ta.value=data; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    if(btn){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); },1800); }
+  });
 }
 
 /* ---------- BUILD OPTIONS OBJECT ---------- */
@@ -510,6 +562,9 @@ function togglePassword(){
 // eslint-disable-next-line no-unused-vars
 function downloadQR(format, size){
   if(!Q.qrInstance) return;
+  // Flash the main download button for feedback
+  var mainBtn = document.querySelector('.exp-btn.exp-main');
+  if(mainBtn){ mainBtn.classList.add('dl-flash'); setTimeout(function(){ mainBtn.classList.remove('dl-flash'); },500); }
   var filename = 'velotools-qr-'+Q.type;
   if(format === 'svg'){
     Q.qrInstance.download({ extension:'svg', name:filename });
