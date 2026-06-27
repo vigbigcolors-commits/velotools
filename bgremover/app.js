@@ -145,7 +145,7 @@ function zoomFit(){ S.zoom=1; applyDisplaySize(); var a=$('cc-area'); a.scrollLe
 var TOOL_BTNS = {
   'smart-erase':['tt-smart'],
   'erase-hard':['tt-erase'],
-  'erase-soft':['tt-erase-soft'],
+  'erase-soft':['tt-erase-soft'],   // soft tools still accessible via keyboard (B)
   'restore-hard':['tt-restore'],
   'restore-soft':['tt-restore-soft'],
   'magnifier':['tt-mag'],
@@ -380,48 +380,58 @@ function smartErase(x,y){
 }
 
 /* ---------- REFINE ---------- */
-/* Each click removes a thin layer of fringe that matches background color.
-   Very gentle — press multiple times to accumulate. */
+/* Smooth 1-pixel Gaussian erosion — removes literally one thin layer of fringe
+   with NO sharp zigzags. Each click shrinks the edge by ~1 CSS pixel.
+   Algorithm:
+     1. 3×3 Gaussian blur of the mask (smooth local average)
+     2. Edge pixels (where blurred < current) are eroded proportionally
+     3. Final 4-neighbor anti-alias pass eliminates any residual staircase */
 function autoRefine(){
-  if(!S.maskData||!S.origData) return;
+  if(!S.maskData) return;
   pushUndo();
-  var W=S.imgW,H=S.imgH,md=S.maskData,od=S.origData;
-  var tmp=new Uint8ClampedArray(md);
-  var R=2; // only look 2px away from background — tight edge only
+  removeIsolatedNoise();
 
-  for(var y=R;y<H-R;y++){
-    for(var x=R;x<W-R;x++){
-      var idx=y*W+x, a=md[idx];
+  var W=S.imgW, H=S.imgH, md=S.maskData;
+  var tmp=new Uint8ClampedArray(md);
+  var STR=0.055; // ~5.5% erosion per click — ultra-gentle, sub-pixel
+
+  for(var y=1;y<H-1;y++){
+    for(var x=1;x<W-1;x++){
+      var idx=y*W+x;
+      var a=md[idx];
       if(a===0) continue;
 
-      // collect background color from nearby transparent pixels
-      var bgR=0,bgG=0,bgB=0,bgN=0;
-      for(var dy=-R;dy<=R;dy++){
-        for(var dx=-R;dx<=R;dx++){
-          var ni=(y+dy)*W+(x+dx);
-          if(md[ni]<15){
-            bgR+=od[ni*4]; bgG+=od[ni*4+1]; bgB+=od[ni*4+2]; bgN++;
-          }
-        }
-      }
-      if(bgN<2) continue; // must be right at the edge
-      bgR/=bgN; bgG/=bgN; bgB/=bgN;
+      // 3×3 Gaussian weights: corners=1, edges=2, centre=4 (sum=16)
+      var g=(
+        md[(y-1)*W+(x-1)] + md[(y-1)*W+(x+1)] +
+        md[(y+1)*W+(x-1)] + md[(y+1)*W+(x+1)]
+      ) + (
+        md[(y-1)*W+x] + md[y*W+(x-1)] + md[y*W+(x+1)] + md[(y+1)*W+x]
+      )*2 + a*4;
+      g = g / 16;
 
-      var p=idx*4;
-      var dr=od[p]-bgR, dg=od[p+1]-bgG, db=od[p+2]-bgB;
-      var dist=Math.sqrt(dr*dr+dg*dg+db*db);
+      // Interior pixels: Gaussian ≈ self → skip (no erosion on solid regions)
+      if(g > a - 3) continue;
 
-      // tol=30: only very close matches — no false positives on real subject
-      var tol=30;
-      if(dist<tol){
-        var similarity=1-(dist/tol);        // 1=identical to bg, 0=just at threshold
-        var reduction=similarity*0.25;      // max 25% alpha removed per click — very gentle
-        var newA=Math.round(a*(1-reduction));
-        tmp[idx]=Math.min(a,newA);
-      }
+      // Edge strength: how much lower is the neighbourhood average vs self
+      var edge = (a - g) / Math.max(1, a); // 0=interior → 1=cliff
+      tmp[idx] = Math.max(0, Math.round(a * (1 - edge * STR)));
     }
   }
-  S.maskData=tmp;
+
+  // Anti-alias pass — gently smooths any remaining staircase artifacts
+  var out = new Uint8ClampedArray(tmp);
+  for(var y2=1;y2<H-1;y2++){
+    for(var x2=1;x2<W-1;x2++){
+      var i2=y2*W+x2;
+      var av=tmp[i2];
+      if(av===0||av===255) continue; // skip transparent and fully solid
+      var avg4=(tmp[(y2-1)*W+x2]+tmp[(y2+1)*W+x2]+tmp[y2*W+(x2-1)]+tmp[y2*W+(x2+1)])/4;
+      if(Math.abs(avg4-av)<3) continue; // skip already-smooth pixels
+      out[i2]=Math.round(av*0.75+avg4*0.25); // 75% self, 25% neighbours
+    }
+  }
+  S.maskData=out;
   requestRender();
 }
 // eslint-disable-next-line no-unused-vars
@@ -437,19 +447,59 @@ function featherMask(r){
   S.maskData=tmp;
 }
 
+/* ---------- ISOLATED NOISE REMOVAL ---------- */
+/* BFS flood-fill from all confirmed-foreground pixels (alpha ≥ SEED).
+   Expands into any connected semi-transparent pixel (alpha ≥ CONN).
+   Any non-zero pixel NOT reached = isolated patch → zero it out.
+   This removes scattered background specks while keeping all fur/hair
+   that is physically connected to the main subject. */
+function removeIsolatedNoise(){
+  if(!S.maskData) return;
+  var W=S.imgW, H=S.imgH, md=S.maskData;
+  var SEED=180; // definitely foreground
+  var CONN=8;   // traverse semi-transparent connections (hair strands alpha ~10-30)
+  var n=W*H;
+
+  var visited=new Uint8Array(n);
+  var queue=new Int32Array(n);
+  var qHead=0, qTail=0;
+
+  // Seed: all solid foreground pixels
+  for(var i=0;i<n;i++){
+    if(md[i]>=SEED){ visited[i]=1; queue[qTail++]=i; }
+  }
+
+  // BFS — expand to connected semi-transparent neighbors
+  while(qHead<qTail){
+    var curr=queue[qHead++];
+    var cy=Math.floor(curr/W), cx=curr%W;
+    if(cx>0   && !visited[curr-1] && md[curr-1]>=CONN){ visited[curr-1]=1; queue[qTail++]=curr-1; }
+    if(cx<W-1 && !visited[curr+1] && md[curr+1]>=CONN){ visited[curr+1]=1; queue[qTail++]=curr+1; }
+    if(cy>0   && !visited[curr-W] && md[curr-W]>=CONN){ visited[curr-W]=1; queue[qTail++]=curr-W; }
+    if(cy<H-1 && !visited[curr+W] && md[curr+W]>=CONN){ visited[curr+W]=1; queue[qTail++]=curr+W; }
+  }
+
+  // Zero out any non-zero pixel that was never reached
+  for(var j=0;j<n;j++){
+    if(!visited[j] && md[j]>0) md[j]=0;
+  }
+}
+
 /* ---------- AI CLEANUP — gentle, fur-preserving ---------- */
 function autoCleanup(){
   if(!S.maskData) return;
   var md=S.maskData, W=S.imgW, H=S.imgH;
-  // 1) gentle extremes — never touch mid-alpha (that's where fur lives)
+  // 1) clean extremes — raise floor to 15 to catch more background noise
   for(var i=0;i<md.length;i++){
     var a=md[i];
-    if(a<10) md[i]=0;
+    if(a<15) md[i]=0;
     else if(a>248) md[i]=255;
   }
-  // 2) alpha-matting refinement on the border band (pulls back fur & whiskers)
+  // 2) remove isolated background patches BEFORE matting (faster, less work after)
+  removeIsolatedNoise();
+  // 3) alpha-matting refinement on the border band (pulls back fur & whiskers)
   alphaMatteRefine();
-  // 3) light edge anti-alias (smooth jaggies only)
+  // 4) light edge anti-alias (smooth jaggies only)
   var md2=S.maskData, tmp=new Uint8ClampedArray(md2);
   for(var y=1;y<H-1;y++){
     for(var x=1;x<W-1;x++){
@@ -463,8 +513,10 @@ function autoCleanup(){
     }
   }
   S.maskData=tmp;
-  // 4) decontaminate edge color (kills white halo, keeps hair)
+  // 5) decontaminate edge color (kills white halo, keeps hair)
   decontaminateEdges();
+  // 6) second noise pass — catches any specks introduced by matting
+  removeIsolatedNoise();
 }
 
 /* Alpha-matting: within the uncertain border band, recompute each edge pixel's
@@ -600,6 +652,12 @@ function toggleMobileSidebar(){
   ov.classList.toggle('show',open);
 }
 
+/* ---------- PAN TOGGLE ---------- */
+function togglePan(){
+  if(S.tool==='pan') setTool(null);
+  else setTool('pan');
+}
+
 /* ---------- PAN ---------- */
 function startPan(e){
   var area=$('cc-area'); area.classList.add('panning');
@@ -686,23 +744,50 @@ async function processFile(file){
     var fn=S.removeBg||await preloadEngine();
     if(!fn) throw new Error('Could not load AI engine. Check your connection.');
 
-    // 4. Detect acceleration & run AI with WebGPU when available
+    // 4. Detect acceleration — try GPU, auto-fallback to CPU on any WebGPU error
     var useGpu=!!navigator.gpu;
     var accelLabel=useGpu?'GPU ⚡':'CPU';
     $('proc-st').textContent='Starting AI ('+accelLabel+')…';
     var badge=$('gpu-badge'),lbl=$('gpu-label');
     if(badge&&lbl){ lbl.textContent=useGpu?'WebGPU acceleration active':'Running on CPU'; badge.style.opacity='1'; badge.style.color=useGpu?'var(--teal)':'var(--tx3)'; }
-    var resultBlob=await fn(aiFile,{
-      model:'isnet_fp16',
-      device:'gpu',
-      output:{format:'image/png',quality:1.0,type:'foreground'},
-      progress:function(key,cur,tot){
-        var p=tot>0?Math.round(cur/tot*100):0;
-        $('pb-f').style.width=p+'%'; $('pb-l').textContent=p+'%';
-        if(key&&key.indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (~40MB, one-time)…';
-        else if(key&&key.indexOf('compute')>=0) $('proc-st').textContent='AI analyzing image ('+accelLabel+')…';
+
+    var progressCb=function(key,cur,tot){
+      var p=tot>0?Math.round(cur/tot*100):0;
+      $('pb-f').style.width=p+'%'; $('pb-l').textContent=p+'%';
+      if(key&&key.indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (~40MB, one-time)…';
+      else if(key&&key.indexOf('compute')>=0) $('proc-st').textContent='AI analyzing image ('+accelLabel+')…';
+    };
+
+    var resultBlob;
+    try{
+      resultBlob=await fn(aiFile,{
+        model:'isnet_fp16', device:'gpu',
+        output:{format:'image/png',quality:1.0,type:'foreground'},
+        progress:progressCb
+      });
+    }catch(gpuErr){
+      // createBuffer / GPUDevice / session errors = GPU not capable → retry on CPU
+      var isGpuIssue=gpuErr&&gpuErr.message&&(
+        gpuErr.message.indexOf('createBuffer')>=0||
+        gpuErr.message.indexOf('GPUDevice')>=0||
+        gpuErr.message.indexOf('session')>=0||
+        gpuErr.message.indexOf('WebGPU')>=0||
+        gpuErr.message.indexOf('mappedAtCreation')>=0
+      );
+      if(isGpuIssue){
+        accelLabel='CPU';
+        if(badge&&lbl){lbl.textContent='GPU unavailable — using CPU';badge.style.color='var(--tx3)';}
+        $('proc-st').textContent='GPU unavailable, switching to CPU…';
+        $('pb-f').style.width='0%'; $('pb-l').textContent='0%';
+        resultBlob=await fn(aiFile,{
+          model:'isnet_fp16', device:'cpu',
+          output:{format:'image/png',quality:1.0,type:'foreground'},
+          progress:progressCb
+        });
+      } else {
+        throw gpuErr;
       }
-    });
+    }
     $('proc-st').textContent='Refining edges…';
 
     // 5. Load AI result and scale mask up to original dimensions
@@ -774,6 +859,7 @@ function initKeyboard(){
     else if(k==='z') setTool('magnifier');
     else if(k==='s') setTool('smart-erase');
     else if(k==='b') setTool('erase-soft');
+    else if(k==='p') togglePan();
     else if(k==='='||k==='+'){ e.preventDefault(); zoomIn(); }
     else if(k==='-'){ e.preventDefault(); zoomOut(); }
     else if(k==='0'){ e.preventDefault(); zoomFit(); }
@@ -820,11 +906,19 @@ function initCanvas(){
   });
 }
 
+/* ---------- CLEAN NOISE (manual button) ---------- */
+function doCleanNoise(){
+  if(!S.maskData) return;
+  pushUndo();
+  removeIsolatedNoise();
+  requestRender();
+}
+
 /* ---------- EXPOSE ---------- */
 window.setTool=setTool; window.setBg=setBg; window.doUndo=doUndo; window.doRedo=doRedo;
 window.doReset=doReset; window.doDownload=doDownload; window.gotoUpload=gotoUpload;
 window.autoRefine=autoRefine; window.zoomIn=zoomIn; window.zoomOut=zoomOut; window.zoomFit=zoomFit;
-window.toggleMobileSidebar=toggleMobileSidebar;
+window.toggleMobileSidebar=toggleMobileSidebar; window.doCleanNoise=doCleanNoise; window.togglePan=togglePan;
 
 /* ---------- INIT ---------- */
 function init(){

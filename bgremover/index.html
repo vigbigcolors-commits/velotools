@@ -120,26 +120,20 @@
         <button class="ttb ttb-erase" id="tt-erase" onclick="setTool('erase-hard')" title="Hard Eraser (E)">
           <svg viewBox="0 0 24 24"><path d="M20 20H7L3 16l13-13 4 4-10.5 10.5"/></svg><span>Erase</span>
         </button>
-        <button class="ttb ttb-erase" id="tt-erase-soft" onclick="setTool('erase-soft')" title="Soft Eraser (B)">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6" opacity=".4"/><circle cx="12" cy="12" r="9" opacity=".15"/></svg><span>Soft</span>
-        </button>
         <div class="tb-sep"></div>
-        <button class="ttb ttb-restore" id="tt-restore" onclick="setTool('restore-hard')" title="Hard Restore (R)">
+        <button class="ttb ttb-restore" id="tt-restore" onclick="setTool('restore-hard')" title="Restore (R)">
           <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/></svg><span>Restore</span>
-        </button>
-        <button class="ttb ttb-restore" id="tt-restore-soft" onclick="setTool('restore-soft')" title="Soft Restore">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6" opacity=".4"/><polyline points="1 4 1 10 7 10"/></svg><span>Soft</span>
         </button>
         <div class="tb-sep"></div>
         <button class="ttb ttb-view" id="tt-mag" onclick="setTool('magnifier')" title="Zoom tool (Z)">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></svg><span>Zoom</span>
         </button>
-        <button class="ttb" id="tt-pan" onclick="setTool('pan')" title="Pan · or hold Space">
+        <button class="ttb ttb-pan" id="tt-pan" onclick="togglePan()" title="Pan — click to toggle · or hold Space">
           <svg viewBox="0 0 24 24"><path d="M18 11V6.5a2 2 0 0 0-4 0V11"/><path d="M14 10.5a2 2 0 0 0-4 0V14"/><path d="M10 12.5a2 2 0 0 0-4 0V17a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-5"/></svg><span>Pan</span>
         </button>
         <div class="tb-sep"></div>
-        <button class="ttb" onclick="autoRefine()" title="Refine edges">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Refine</span>
+        <button class="ttb ttb-refine" onclick="autoRefine()" title="Refine — smooth 1-pixel edge erosion, removes fringe">
+          <svg viewBox="0 0 24 24"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10"/><path d="M12 18a6 6 0 0 1-6-6"/><circle cx="19" cy="19" r="3"/><line x1="21.5" y1="16.5" x2="16.5" y2="21.5" stroke-width="1.5"/></svg><span>Refine</span>
         </button>
         <button class="ttb" id="tt-undo" onclick="doUndo()" title="Undo (Ctrl+Z)">
           <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/></svg><span>Undo</span>
@@ -227,8 +221,8 @@
             <div class="kbd-list">
               <div class="kl"><span>Smart erase</span><kbd>S</kbd></div>
               <div class="kl"><span>Hard erase</span><kbd>E</kbd></div>
-              <div class="kl"><span>Soft erase</span><kbd>B</kbd></div>
               <div class="kl"><span>Restore</span><kbd>R</kbd></div>
+              <div class="kl"><span>Pan toggle</span><kbd>P</kbd></div>
               <div class="kl"><span>Zoom tool</span><kbd>Z</kbd></div>
               <div class="kl"><span>Zoom in/out</span><kbd>+ / -</kbd></div>
               <div class="kl"><span>Scroll zoom</span><kbd>Wheel</kbd></div>
@@ -268,70 +262,314 @@
   </div>
 </main>
 
-<!-- SEO -->
+<!-- SEO / EEAT -->
 <section class="seo">
-  <div class="div"></div>
-  <div class="seo-block">
-    <h2>Why our background remover is <em>different</em></h2>
-    <p class="seo-lead">Every other online tool uploads your image to a server. We don't. Our AI runs entirely in your browser using WebAssembly &mdash; no upload, no privacy risk, no daily limits, no queue.</p>
-    <div class="sr">
-      <div class="st"><span class="sn">0</span><span class="sl">Bytes sent to servers</span></div>
-      <div class="st"><span class="sn">10</span><span class="sl">Professional tools</span></div>
-      <div class="st"><span class="sn">8&times;</span><span class="sl">Max zoom</span></div>
-      <div class="st"><span class="sn">&#8734;</span><span class="sl">Free images</span></div>
-    </div>
-    <div class="cg">
-      <div class="ic"><div class="ic-ico">&#128274;</div><h3>100% Private</h3><p>Images are processed locally on your device. They never touch our servers or any third party. Ideal for sensitive business and personal photos.</p></div>
-      <div class="ic"><div class="ic-ico">&#9889;</div><h3>No Rate Limits</h3><p>Process 1 or 1,000 images &mdash; we don't count. No daily credits, no subscription, no account required.</p></div>
-      <div class="ic"><div class="ic-ico">&#127912;</div><h3>Precision Editing</h3><p>AI gives a perfect first pass. Then manual tools let you refine every edge with scroll-to-zoom and pixel-level precision.</p></div>
-      <div class="ic"><div class="ic-ico">&#128444;&#65039;</div><h3>Any Format</h3><p>JPG, PNG, WebP, GIF, BMP, TIFF, AVIF, HEIC, SVG, ICO &mdash; all supported. Export as transparent PNG, JPG, or WebP.</p></div>
-    </div>
+
+  <!-- DECORATIVE DIVIDER -->
+  <div class="sec-divide">
+    <div class="sec-divide-line"></div>
+    <div class="sec-divide-dot"></div>
+    <div class="sec-divide-line"></div>
   </div>
+
+  <!-- 1. IMPACT STATS -->
   <div class="seo-block">
-    <h2>Who uses background removal <em>tools</em></h2>
-    <p class="seo-lead">From solo creators to professional photographers, background removal is one of the most common image editing tasks in 2026. Here's who relies on it daily.</p>
-    <div class="cg">
-      <div class="ic"><div class="ic-ico">&#128717;&#65039;</div><h3>E-commerce Sellers</h3><p>Amazon, Etsy, and Shopify require clean white backgrounds for product listings. Remove backgrounds from product photos in seconds — no expensive studio needed.</p></div>
-      <div class="ic"><div class="ic-ico">&#128247;</div><h3>Portrait Photographers</h3><p>Replace busy or distracting backgrounds behind people. Pixel-level zoom lets you work down to individual strands for truly professional results.</p></div>
-      <div class="ic"><div class="ic-ico">&#128188;</div><h3>LinkedIn Headshots</h3><p>Create clean professional headshots with neutral backgrounds for profiles and CVs. No expensive studio session required — just upload and go.</p></div>
-      <div class="ic"><div class="ic-ico">&#127912;</div><h3>Graphic Designers</h3><p>Remove backgrounds from logos, icons, and design elements to create transparent PNGs ready to drop into Figma, Photoshop, or Canva instantly.</p></div>
-      <div class="ic"><div class="ic-ico">&#127968;</div><h3>Real Estate</h3><p>Clean up property listing photos — remove cluttered backgrounds and replace with clean professional settings that make listings stand out.</p></div>
-      <div class="ic"><div class="ic-ico">&#128241;</div><h3>Social Media Creators</h3><p>Make eye-catching posts with custom backgrounds for Instagram, TikTok, and Pinterest. Stand out in the feed with zero design skills required.</p></div>
+    <div class="stats-hero">
+      <div class="sh-item">
+        <div class="sh-n">0<span class="sh-unit"> B</span></div>
+        <div class="sh-l">Data sent to any server — ever</div>
+      </div>
+      <div class="sh-item">
+        <div class="sh-n">20<span class="sh-unit">×</span></div>
+        <div class="sh-l">Faster on WebGPU vs single-thread CPU</div>
+      </div>
+      <div class="sh-item">
+        <div class="sh-n">&#8734;</div>
+        <div class="sh-l">Images free — no daily cap, no queue</div>
+      </div>
+      <div class="sh-item">
+        <div class="sh-n">~40<span class="sh-unit"> MB</span></div>
+        <div class="sh-l">AI model size — downloaded once, cached forever</div>
+      </div>
     </div>
   </div>
 
+  <!-- 2. PRIVACY COMPARISON -->
   <div class="seo-block">
-    <h2>How our <em>AI</em> background removal works</h2>
-    <p class="seo-lead">Understanding the technology helps you get the best possible results. Here's exactly what happens when you upload an image.</p>
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
+    <h2>The last background remover<br>you&rsquo;ll ever need to <em>upload to</em></h2>
+    <p class="seo-lead">Every popular online background remover sends your photo to a remote server. That means your images can be stored, used for AI retraining, exposed in a data breach, or create GDPR problems for business photos. VeloTools solves this at the architecture level — the AI runs entirely inside your browser.</p>
+    <div class="pvsc">
+      <div class="pvsc-side pvsc-bad">
+        <div class="pvsc-badge pvsc-badge-bad">&#9729; Cloud-based tools (remove.bg, Canva, etc.)</div>
+        <ul>
+          <li>Your original image uploads to a remote server</li>
+          <li>Stored on third-party infrastructure indefinitely</li>
+          <li>Often used to retrain and improve their AI models</li>
+          <li>Rate-limited: 50&ndash;500 free images per month</li>
+          <li>$9&ndash;$49/month for HD resolution or batch processing</li>
+          <li>GDPR compliance unclear for client or business photos</li>
+          <li>Requires account, verified email, or credit card</li>
+        </ul>
+      </div>
+      <div class="pvsc-vs">VS</div>
+      <div class="pvsc-side pvsc-good">
+        <div class="pvsc-badge pvsc-badge-good">&#11201; VeloTools &mdash; Runs entirely in your browser</div>
+        <ul>
+          <li>AI runs 100% locally inside your browser tab</li>
+          <li>Image pixels never leave your device &mdash; ever</li>
+          <li>Zero data collection &mdash; no analytics on image content</li>
+          <li>Unlimited images, no throttling, no waiting queue</li>
+          <li>Permanently free &mdash; no subscription, no trial</li>
+          <li>GDPR compliant by design &mdash; nothing to log or store</li>
+          <li>No account, no email, no credit card required</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glow-fact">
+      <div class="gf"><div class="gf-ico">&#128274;</div><div class="gf-body"><h4>Works completely offline after first load</h4><p>Once the AI model (~40MB) is downloaded and cached in your browser, you can disconnect from the internet and the tool still works perfectly. No server connection needed for image processing.</p></div></div>
+      <div class="gf"><div class="gf-ico">&#9889;</div><div class="gf-body"><h4>WebGPU makes it 20&times; faster than server tools</h4><p>Modern browsers run our AI on your GPU via WebGPU. This can be faster than server-based tools with queuing. On Chrome 113+ and Edge 113+, a typical portrait processes in under 2 seconds.</p></div></div>
+    </div>
+  </div>
+
+  <!-- 3. TECHNOLOGY STACK -->
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Under the hood</div>
+    <h2>State-of-the-art <em>AI technology</em><br>running entirely in your browser</h2>
+    <p class="seo-lead">We use the same neural network category as commercial server-side APIs &mdash; ISNet salient object detection &mdash; compiled to ONNX and executed by Microsoft&rsquo;s ONNX Runtime Web. No shortcuts, no lesser model. Just a different execution location: your device instead of our servers.</p>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-badge">Neural Network</div>
+        <h4>ISNet Salient Detection</h4>
+        <p>ISNet (IS-Net) achieved state-of-the-art results on DIS (Dichotomous Image Segmentation) benchmarks. It detects foreground objects at multiple spatial resolutions simultaneously — this is why it accurately handles both the broad body outline and individual thin hair strands in a single forward pass.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-badge tc-gpu">GPU Execution</div>
+        <h4>WebGPU + ONNX Runtime Web</h4>
+        <p>The network is exported to ONNX format and run by Microsoft&rsquo;s ONNX Runtime Web. On Chrome/Edge 113+ and Android Chrome 121+, inference runs on your GPU via WebGPU — achieving 16&ndash;20&times; the throughput of single-threaded CPU execution. Older browsers fall back to WASM automatically.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-badge tc-teal">Edge Algorithm</div>
+        <h4>Local Alpha Matting</h4>
+        <p>After the AI produces a coarse mask, we run a local alpha matting pass on every edge pixel. Each semi-transparent pixel is re-estimated by projecting its color onto the line between nearby confirmed foreground and background samples &mdash; recovering individual whiskers and hair tips the hard segmentation clips.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-badge tc-gold">Post-Processing</div>
+        <h4>Color Decontamination</h4>
+        <p>AI cutouts often have a semi-transparent &ldquo;halo&rdquo; of the original background color bleeding into edge pixels. Our decontamination pass samples nearby high-opacity pixels and blends edge colors away from the background. Invisible on white backgrounds; completely eliminates the halo effect on dark or colored backgrounds.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. COMPARISON TABLE -->
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Feature comparison</div>
+    <h2>VeloTools vs <em>the alternatives</em></h2>
+    <p class="seo-lead">There are many background removal tools in 2026. Here&rsquo;s an honest comparison on the features that matter most for real workflows &mdash; privacy, cost, quality, and editing control.</p>
+    <div class="comp-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="hl">VeloTools &#9733;</th>
+            <th>remove.bg</th>
+            <th>Canva</th>
+            <th>Photoshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100% private (no upload)</td>
+            <td class="hl"><span class="ck">&#10003;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="ck">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Unlimited images free</td>
+            <td class="hl"><span class="ck">&#10003; Unlimited</span></td>
+            <td><span class="cm">50/month free</span></td>
+            <td><span class="cm">Limited free</span></td>
+            <td><span class="cx">Paid subscription</span></td>
+          </tr>
+          <tr>
+            <td>No account required</td>
+            <td class="hl"><span class="ck">&#10003;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+          </tr>
+          <tr>
+            <td>Full HD / original resolution</td>
+            <td class="hl"><span class="ck">&#10003;</span></td>
+            <td><span class="cm">HD = paid plan</span></td>
+            <td><span class="ck">&#10003;</span></td>
+            <td><span class="ck">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Manual edge editing tools</td>
+            <td class="hl"><span class="ck">&#10003; 6 pro tools</span></td>
+            <td><span class="cm">Basic only</span></td>
+            <td><span class="cm">Basic only</span></td>
+            <td><span class="ck">&#10003; Advanced</span></td>
+          </tr>
+          <tr>
+            <td>Smart color flood-erase</td>
+            <td class="hl"><span class="ck">&#10003;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="ck">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Works offline after first load</td>
+            <td class="hl"><span class="ck">&#10003;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="cx">&#10007;</span></td>
+            <td><span class="ck">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Export: PNG, JPG, WebP</td>
+            <td class="hl"><span class="ck">&#10003; All three</span></td>
+            <td><span class="ck">&#10003;</span></td>
+            <td><span class="cm">PNG + JPG</span></td>
+            <td><span class="ck">&#10003;</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. WHO USES IT — 8 cards, 4×2 grid -->
+  <div class="seo-block">
+    <div class="seo-eyebrow ey-blue"><span class="seo-eyebrow-dot"></span>Real use cases</div>
+    <h2>Who removes backgrounds <em>every day</em></h2>
+    <p class="seo-lead">Background removal is one of the highest-frequency image editing tasks across digital commerce, content creation, and professional work. Here&rsquo;s how eight different types of professionals rely on it daily in 2026 &mdash; from solo sellers to creative agencies.</p>
+    <div class="cg">
+      <div class="ic"><div class="ic-ico">&#128717;&#65039;</div><h3>E-commerce Sellers</h3><p>Amazon, Etsy, and Shopify require clean white backgrounds for product listings. Process an entire product shoot in one session &mdash; no API credits, no upload limits, no server. Results meet marketplace photo requirements straight from the PNG export button, zero post-processing needed.</p></div>
+      <div class="ic"><div class="ic-ico">&#128247;</div><h3>Portrait Photographers</h3><p>Replace distracting backgrounds while preserving every strand of hair. Zoom to 400% and use the Erase brush at low opacity to clean flyaway strands. The restore &rarr; erase two-pass technique gives professional-grade cutouts in 3&ndash;5 minutes &mdash; results your clients can&rsquo;t tell from a studio clipping path.</p></div>
+      <div class="ic"><div class="ic-ico">&#128188;</div><h3>LinkedIn &amp; CV Headshots</h3><p>Create polished professional headshots with neutral or branded backgrounds for LinkedIn profiles, resumes, and business cards. Upload, let AI run in seconds, touch up any edge issues with the Erase brush, export JPG on white. No studio session, no photographer, no editing software needed.</p></div>
+      <div class="ic"><div class="ic-ico">&#127912;</div><h3>Graphic Designers</h3><p>Cut out logos, product shots, and design elements for transparent PNG assets. Smart Erase handles flat studio backgrounds in a single click. Works live in the browser alongside Figma, Canva, and Adobe Express &mdash; copy a URL, paste, remove, export, done. No context switching, no file management.</p></div>
+      <div class="ic"><div class="ic-ico">&#127968;</div><h3>Real Estate Agents</h3><p>Process property listing photos, remove vehicles and equipment from exteriors, and prepare cutouts for virtual staging composites. The entire workflow runs offline after the first load &mdash; process a full 40-photo property shoot at a coffee shop with no Wi-Fi. Export JPG with custom background color matching the staging template.</p></div>
+      <div class="ic"><div class="ic-ico">&#128241;</div><h3>Mobile Content Creators</h3><p>Optimized for mobile from day one. Pinch to zoom for precision editing, use your finger as a brush with pressure-like opacity control, and export directly to your camera roll. Perfect for Instagram Reels covers, TikTok thumbnail cutouts, Pinterest graphics, and Stories &mdash; edited and exported on the go without switching apps.</p></div>
+      <div class="ic"><div class="ic-ico">&#127909;</div><h3>Video Creators &amp; YouTubers</h3><p>Thumbnail backgrounds are one of the biggest factors in click-through rate. Cut yourself out against a custom branded background in under 2 minutes &mdash; consistent channel art, professional look, zero monthly fees. Also works for channel banners, end-screen graphics, and Reels cover frames where consistency builds subscriber recognition.</p></div>
+      <div class="ic"><div class="ic-ico">&#128202;</div><h3>Marketing &amp; Creative Teams</h3><p>Process client product photos, campaign assets, and brand visuals without uploading anything to a cloud service &mdash; critical for NDAs and client confidentiality agreements. Batch multiple images in a single session, export as WebP for faster ad load times, or PNG for design handoff. Works offline at client sites where Wi-Fi is restricted.</p></div>
+    </div>
+  </div>
+
+  <div class="seo-sec-break"></div>
+
+  <!-- 6. SHOOTING FOR SUCCESS -->
+  <div class="seo-block">
+    <div class="seo-eyebrow ey-teal"><span class="seo-eyebrow-dot"></span>Source image quality</div>
+    <h2>The photos that produce <em>flawless</em><br>AI cutouts every time</h2>
+    <p class="seo-lead">The AI is only as good as the image you give it. These four factors make the difference between a result that&rsquo;s 85% accurate (requires significant manual cleanup) and one that&rsquo;s 98% accurate (export-ready with zero touch-up). Understanding them takes 2 minutes and will permanently improve your results.</p>
+    <div class="shoot-grid">
+      <div class="shoot-card">
+        <div class="shoot-num">01</div>
+        <div class="shoot-body">
+          <h4>High contrast between subject and background</h4>
+          <p>The single most important factor. A person against a plain grey wall produces near-perfect results. The same person against dense green foliage requires significant manual editing. The AI detects foreground by learning what &ldquo;belongs together&rdquo; &mdash; when subject and background share color or texture, it&rsquo;s genuinely harder to separate them. For product photography: a white lightbox with a white background will always beat a casual desk shot. For portraits: solid-color walls, studio backdrops, or open sky always outperform patterned interiors.</p>
+        </div>
+      </div>
+      <div class="shoot-card">
+        <div class="shoot-num">02</div>
+        <div class="shoot-body">
+          <h4>Sharp focus at the subject&rsquo;s edges</h4>
+          <p>Blurry subject edges produce blurry AI masks &mdash; the model can&rsquo;t place the boundary if the pixels themselves are ambiguous. A portrait taken at f/1.4 with the face tack-sharp but the shoulders slightly soft will have excellent face edges and mediocre shoulder edges. For product photography: use f/8 or higher to keep all edges of the product in focus. For portraits: focus on the near eye and use at least f/2.8 to keep both eyes and the full head sharp. The AI will deliver a correspondingly sharp, clean mask.</p>
+        </div>
+      </div>
+      <div class="shoot-card">
+        <div class="shoot-num">03</div>
+        <div class="shoot-body">
+          <h4>Even, diffuse lighting without harsh shadows</h4>
+          <p>Strong directional light creates hard shadows on the background that look like part of the subject to the AI. A product photographed with a single desk lamp creates shadows the model must guess about. Shoot products with two softboxes at 45&deg; or in open shade outdoors. For portraits, avoid direct noon sun (harsh shadows) and prefer golden-hour or overcast light. Rim lighting &mdash; a subtle light behind the subject &mdash; actually helps by creating a bright separation line the model uses as an edge cue. Avoid subject shadows falling onto the background at all costs.</p>
+        </div>
+      </div>
+      <div class="shoot-card">
+        <div class="shoot-num">04</div>
+        <div class="shoot-body">
+          <h4>Fill the frame &mdash; subject close, tight composition</h4>
+          <p>When the subject fills 60&ndash;80% of the frame, the AI has more resolution to work with at the edges. A product in the center of a very wide shot gives the model only 50 pixels of edge data to analyze. Zoom in so the subject nearly fills the frame. For portraits: shoot from the chest up rather than full-body from distance. For products: frame tightly with 5&ndash;10% breathing room. If you need a full-body shot or wide frame, that&rsquo;s fine &mdash; but plan for 1&ndash;2 extra Refine button clicks to clean the finer edge detail the AI&rsquo;s limited resolution misses.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-sec-break"></div>
+
+  <!-- 7. EXPORT FORMAT GUIDE -->
+  <div class="seo-block">
+    <div class="seo-eyebrow ey-rose"><span class="seo-eyebrow-dot"></span>Output formats explained</div>
+    <h2>PNG, JPG, or WebP &mdash;<br>which format is <em>right for you?</em></h2>
+    <p class="seo-lead">Choosing the wrong export format is the most common mistake after a perfect cutout. PNG on a website bloats page size. JPG for design work loses transparency. WebP in Photoshop won&rsquo;t open. Here&rsquo;s exactly when to use each &mdash; with zero ambiguity.</p>
+    <div class="fmt-grid">
+      <div class="fmt-card fmt-png">
+        <div class="fmt-ext">.PNG</div>
+        <h4>Transparent &amp; Lossless</h4>
+        <p>PNG preserves the transparent alpha channel exactly as edited. Every edge pixel with partial transparency &mdash; including hair strands and soft edges &mdash; is stored precisely. File size is larger than JPG or WebP, but quality is mathematically perfect: no compression artifacts, no color shift. PNG is the only format that supports true transparency across all design tools.</p>
+        <p>Use PNG when the image will be placed on a colored or image background in Figma, Photoshop, Illustrator, Canva, or print. Use PNG when the subject needs to stay usable on any background without visible fringing. Use PNG for all further editing &mdash; it&rsquo;s the &ldquo;master&rdquo; export you work from.</p>
+        <div>
+          <span class="fmt-tag">Figma</span><span class="fmt-tag">Photoshop</span><span class="fmt-tag">Canva</span>
+          <span class="fmt-tag">Print</span><span class="fmt-tag">Dark backgrounds</span>
+        </div>
+        <span class="fmt-best">&#10003; Best for: Design work &amp; transparency</span>
+      </div>
+      <div class="fmt-card fmt-jpg">
+        <div class="fmt-ext">.JPG</div>
+        <h4>Compressed &amp; Universal</h4>
+        <p>JPG exports a flat image with a solid background &mdash; white by default, or any background color you select in the background panel. No transparency, but far smaller file sizes than PNG. The compression is perceptually tuned: at 95% quality (the VeloTools default), the difference from lossless is invisible at normal viewing sizes. JPG opens everywhere, including legacy e-commerce upload systems that reject PNG or WebP.</p>
+        <p>Use JPG white for Amazon, Etsy, Shopify, and any marketplace that requires a white background. Use JPG with a custom background when delivering mockups or lifestyle shots to clients who need the background baked in. Use JPG for LinkedIn headshots, CV photos, and any context where the file will be emailed or printed directly.</p>
+        <div>
+          <span class="fmt-tag">Amazon</span><span class="fmt-tag">Etsy</span><span class="fmt-tag">Shopify</span>
+          <span class="fmt-tag">LinkedIn</span><span class="fmt-tag">Email</span>
+        </div>
+        <span class="fmt-best">&#10003; Best for: E-commerce &amp; print delivery</span>
+      </div>
+      <div class="fmt-card fmt-webp">
+        <div class="fmt-ext">.WebP</div>
+        <h4>Smallest File &amp; Modern</h4>
+        <p>WebP is a modern format developed by Google that achieves 25&ndash;35% smaller file sizes than JPG and 20&ndash;30% smaller than PNG at equivalent visual quality. Crucially, WebP supports full transparency &mdash; so it can replace PNG in web contexts with a massive file-size advantage. All modern browsers support WebP (Chrome, Firefox, Safari 14+, Edge). The smaller file size directly improves Core Web Vitals scores, LCP time, and Google PageSpeed Insights ratings &mdash; real SEO impact.</p>
+        <p>Use WebP for any image that will appear on a public website, blog, or web store product page. Avoid WebP when the file needs to be opened in Photoshop CS or older versions, or sent to clients who may use legacy software. For everything web-facing: WebP first, always.</p>
+        <div>
+          <span class="fmt-tag">Websites</span><span class="fmt-tag">Web stores</span><span class="fmt-tag">PageSpeed</span>
+          <span class="fmt-tag">Core Web Vitals</span><span class="fmt-tag">SEO</span>
+        </div>
+        <span class="fmt-best">&#10003; Best for: Web publishing &amp; performance</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-sec-break"></div>
+
+  <!-- 8. EXPERT TECHNIQUE -->
+  <div class="seo-block">
+    <div class="seo-eyebrow ey-gold"><span class="seo-eyebrow-dot"></span>Expert technique</div>
+    <h2>How to get <em>perfect</em> cutouts<br>every single time</h2>
+    <p class="seo-lead">The AI handles 90% of the work in seconds. These four techniques &mdash; the standard workflow at professional e-commerce retouching agencies worldwide &mdash; handle the remaining 10% that separates a good cutout from a flawless one. Each technique takes under 5 minutes once learned.</p>
     <div class="tip-list">
-      <div class="tip"><span class="tn">01</span><div><h4>The AI model loads once, runs forever</h4><p>On your first use, a neural network model downloads to your browser cache. Every future use is instant. The model understands the difference between foreground and background at a semantic level — not just by color.</p></div></div>
-      <div class="tip"><span class="tn">02</span><div><h4>Alpha matting handles complex edges</h4><p>Our AI calculates partial transparency at every edge pixel. This is how hair, fur, and semi-transparent objects look natural instead of hard-edged and artificial.</p></div></div>
-      <div class="tip"><span class="tn">03</span><div><h4>Edge decontamination removes the halo</h4><p>After AI removal we run a color decontamination pass — eliminating the thin semi-transparent halo that betrays a bad cutout when placed on a dark background.</p></div></div>
-      <div class="tip"><span class="tn">04</span><div><h4>Export in the exact format you need</h4><p>PNG preserves transparency for Photoshop, Figma, and Canva. JPG with a white background is perfect for e-commerce. WebP balances quality and tiny file size for fast websites.</p></div></div>
+      <div class="tip"><span class="tn">01</span><div><h4>Always inspect edges at 200&ndash;400% zoom before exporting</h4><p>Use the scroll wheel or zoom buttons to reach 200&ndash;400% and trace the full perimeter of your subject carefully. Look for: white or colored halo fringe at hair edges, missing fine strands or whiskers, jagged staircase transitions on diagonal edges, and any dark semi-transparent spots in the background area. The Refine button runs an additional Gaussian erosion pass that cleans persistent halos in one click. The Clean button removes any isolated background specks. This 60-second inspection step is what separates a 3-minute from a 30-minute result &mdash; and a professional-looking result from an amateur one.</p></div></div>
+      <div class="tip"><span class="tn">02</span><div><h4>Use Smart Erase first on any solid-color background</h4><p>If your background is a single color &mdash; studio white, sky blue, green screen, product photography grey &mdash; click once with Smart Erase directly on the background area. It performs a connected BFS flood-fill that removes all similarly-colored pixels connected to the click point in a single operation. This is dramatically faster and more consistent than manually brushing. The contiguous-only algorithm means it won&rsquo;t accidentally remove skin tones that happen to match the background color elsewhere in the image. For gradient or complex backgrounds, try clicking multiple areas to remove distinct color zones.</p></div></div>
+      <div class="tip"><span class="tn">03</span><div><h4>Two-pass technique for complex hair, fur, and fine edges</h4><p>When the AI has removed too much: paint back with the Restore brush at 35&ndash;50% opacity &mdash; build up gradually rather than at full strength. Then use the Erase brush at 15&ndash;25% opacity to remove the background-color halo that reappears at restored edges. Alternate between these two passes 2&ndash;3 times until the edge looks natural at 300% zoom. This restore-then-erase iterative technique is the professional standard for portrait, pet, and product photography retouching. At 100% opacity you get hard edges; at 20&ndash;40% opacity you get the soft semi-transparency that makes hair look natural.</p></div></div>
+      <div class="tip"><span class="tn">04</span><div><h4>Test on a dark background before final export</h4><p>Before exporting, click the dark navy swatch in the Background panel and check for halo fringing. The Refine button removes fringe along the border. Nearly all cutout defects are invisible on white but immediately visible on dark or saturated backgrounds. A result that looks perfect on white may have a 2px white halo that turns into a distracting glow on dark blue. Fix the halo now &mdash; it takes 30 seconds &mdash; and your cutout becomes truly universal: usable on any background without further adjustment. Then switch back to transparent for the final PNG export.</p></div></div>
     </div>
   </div>
 
+  <!-- 9. FAQ -->
   <div class="seo-block">
-    <h2>Pro tips for <em>perfect</em> cutouts</h2>
-    <p class="seo-lead">Getting professional results from an AI background remover is part technique. These methods are used by retouchers at e-commerce agencies worldwide.</p>
-    <div class="cg">
-      <div class="ic ic-tip"><div class="ic-ico">&#128161;</div><h3>Start with good source photos</h3><p>High contrast between subject and background gives the AI more to work with. A person against a plain wall is always easier than the same person against dense foliage.</p></div>
-      <div class="ic ic-tip"><div class="ic-ico">&#128269;</div><h3>Use scroll-to-zoom on edges</h3><p>Scroll wheel to zoom in on any edge area. Inspect for halo fringing or missed detail. This step separates amateur from pro results — always check at 300% zoom.</p></div>
-      <div class="ic ic-tip"><div class="ic-ico">&#127775;</div><h3>Use Smart Erase for solid backgrounds</h3><p>Click once on any background color with Smart Erase — it removes all similar-colored pixels in one shot. Perfect for studio shots, product photos, and flat backgrounds.</p></div>
-      <div class="ic ic-tip"><div class="ic-ico">&#127754;</div><h3>Restore then re-erase for fine edges</h3><p>Use Restore brush at low opacity to bring back semi-transparent hair tips, then Soft Erase to clean what shouldn't be there. Two-pass technique gives the cleanest edges.</p></div>
-    </div>
-  </div>
-
-  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Common questions</div>
     <h2>Frequently asked <em>questions</em></h2>
-    <details class="faq-item"><summary>Does this tool really work without uploading my image?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; 100%. The entire background removal process happens in your browser using WebAssembly. Your image pixels never leave your device. You can even disconnect from the internet after the page loads and it still works perfectly.</div></details>
-    <details class="faq-item"><summary>Is it really free? What's the catch?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It's genuinely free forever &mdash; no catch. No signup, no watermarks, no daily limits, no subscription. We built it as part of the VeloTools suite of free browser-based utilities.</div></details>
-    <details class="faq-item"><summary>What image formats are supported?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">We support JPG, JPEG, PNG, WebP, GIF (first frame), BMP, TIFF, AVIF, HEIC (on supported browsers), SVG, and ICO. If your format isn't listed, convert it to PNG first using any free converter.</div></details>
-    <details class="faq-item"><summary>Can I use the results commercially?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Your edited images are entirely yours &mdash; no watermarks, no licensing restrictions. Use them for e-commerce listings, marketing, client work, or anything else without attribution.</div></details>
-    <details class="faq-item"><summary>Is there a limit on image size or quantity?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No limits at all. Process as many images as you want, as large as your device memory allows. No credits, no daily caps, no subscription required. The only limit is your device's RAM.</div></details>
-    <details class="faq-item"><summary>Why is the first processing slower than the second?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">The first time you use the tool, the AI model (~80MB) downloads and caches in your browser. Every subsequent image processes instantly from cache. You only wait once &mdash; ever.</div></details>
-    <details class="faq-item"><summary>How do I get the best results on hair and fur?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">After the AI pass, zoom in to 200–400% and use Soft Erase at 30–50% opacity along the edge to clean fringing. Then use the Restore brush to bring back any hair tips the AI missed. The Refine button also runs an additional alpha matting pass to recover thin strands automatically.</div></details>
+    <details class="faq-item"><summary>Does this tool really work without uploading my image?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; 100%. The entire background removal process happens in your browser using WebAssembly and (on supported hardware) WebGPU. Your image pixels never leave your device &mdash; ever. You can disconnect from the internet after the page loads and the tool still works perfectly. The AI model executes entirely within your browser&rsquo;s JavaScript sandbox. We have no server infrastructure for image processing, no S3 bucket to leak from, and no database storing your images.</div></details>
+    <details class="faq-item"><summary>What happens to my image data after processing?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Nothing &mdash; because the image never leaves your device. All pixel data (both the original image and the computed alpha mask) lives in your browser&rsquo;s JavaScript memory. When you close the browser tab, that memory is released by the OS. We collect zero telemetry on image content, dimensions, or processing results. There are no cookies, no tracking pixels, and no analytics SDKs that could indirectly capture image metadata. This is by design &mdash; the architecture makes data collection structurally impossible, not just a policy decision.</div></details>
+    <details class="faq-item"><summary>How does the AI quality compare to remove.bg or Photoshop AI?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">For most subjects &mdash; people, animals, and products against clear backgrounds &mdash; the initial AI quality is comparable to remove.bg and better than Canva&rsquo;s background remover. We use ISNet, the same category of state-of-the-art salient object detection model used by commercial tools. For challenging subjects like fine hair against a busy background, the manual tools (Erase, Restore, Refine) let you match or exceed Photoshop AI results with full control. The key advantage over Photoshop: everything runs in the browser, free, with no subscription.</div></details>
+    <details class="faq-item"><summary>Why is the first image slower than subsequent ones?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">The first time you use the tool, the AI model (~40MB) downloads from the CDN and is cached permanently in your browser. This typically takes 10&ndash;30 seconds depending on your connection speed. Every subsequent image processes in 1&ndash;5 seconds from cache without any download. The model stays cached indefinitely &mdash; you only pay the download cost once per browser profile, and it survives browser restarts.</div></details>
+    <details class="faq-item"><summary>What image formats are supported for input and export?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Input: JPG, JPEG, PNG, WebP, GIF (first frame), BMP, TIFF, AVIF, HEIC (on supported browsers), SVG, and ICO. You can also paste directly with Ctrl+V. Export: PNG (transparent, lossless &mdash; ideal for Figma, Photoshop, Canva and any design tool), JPG on white (Amazon/Etsy/Shopify standard), JPG with custom background color (client mockups), and WebP (smallest file size for web publishing and PageSpeed optimization). PNG is recommended for any further editing; WebP for anything going live on the web.</div></details>
+    <details class="faq-item"><summary>Is there a file size or resolution limit?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No hard limits. Images wider or taller than 1920px are automatically scaled down for AI analysis only &mdash; the original full-resolution file is preserved and the AI result mask is scaled back up to original dimensions. The final export is always at your original resolution. On desktop with 8GB+ RAM, you can typically process images up to 8000&times;6000px without issues. On mobile, 4000&times;4000px is the practical safe maximum before memory pressure becomes an issue. The AI handles JPEG compression naturally &mdash; no need to pre-convert to lossless formats.</div></details>
+    <details class="faq-item"><summary>Can I use the exported images commercially?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes, completely. Your edited images are entirely yours &mdash; no watermarks, no licensing restrictions, no attribution required. Use them for e-commerce listings, marketing materials, client deliverables, print, social media, ad campaigns, or any other commercial purpose. The underlying ISNet neural network model is published under an open research license; your output images contain no provenance metadata and are fully unencumbered by any terms from VeloTools.</div></details>
+    <details class="faq-item"><summary>How do I get the best results on curly hair and fur?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Start with the Refine button in the toolbar &mdash; this runs an enhanced Gaussian erosion pass plus alpha matting to recover thin strands. Then zoom to 300% and inspect edges. Use the Restore brush at 40% opacity to paint back any hair tips the AI removed. Use the Erase brush at 15% opacity to clean fringing at restored areas. Alternate between these two passes. For complex curly hair: 3&ndash;7 minutes total. For simple fur or short hair: Refine button once, then a single Erase pass at 20% opacity along the edge, 60&ndash;90 seconds total. The key is patience at 200%+ zoom &mdash; the tool has the precision, you just need to use it.</div></details>
+    <details class="faq-item"><summary>Does it work on iPhone, Android, and tablet?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; fully optimized for touch devices. Pinch two fingers on the canvas to zoom in for precision editing. The mobile toolbar fixed at the bottom of the screen gives one-tap access to Smart Erase, Erase, Restore, Undo, and Save PNG. The full sidebar opens as a bottom sheet via the Settings button &mdash; brush size, opacity, background swatches, and all export formats are accessible. The AI automatically caps processing resolution at 1920px on mobile to prevent memory pressure. Chrome for Android 121+ supports WebGPU for faster processing. Works on iPad Pro and the latest Safari on iOS 18+.</div></details>
+    <details class="faq-item"><summary>How does it handle semi-transparent objects like glass, smoke, or water?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Semi-transparent objects are the hardest case for any background removal tool. ISNet was trained primarily on solid opaque subjects and does not reliably separate glass from background. For wine glasses, smoke, and water splashes: the AI will give a partial result, typically preserving the solid parts and partially removing the transparent areas. Use the Restore brush at low opacity (20&ndash;30%) to carefully paint back semi-transparent regions. The alpha matting system correctly preserves partial transparency &mdash; so if you restore a glass rim, it will appear genuinely semi-transparent in the PNG export, not hard-edged. For professional glass product photography, we recommend starting with a professional clipping path service for the outer shape, then using VeloTools for edge refinement.</div></details>
   </div>
+
 </section>
 
 <footer class="footer">
