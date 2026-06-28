@@ -4,14 +4,12 @@
    ============================================================ */
 'use strict';
 
-/* ---------- PDFJS INIT ---------- */
 var pdfjsLib = window['pdfjs-dist/build/pdf'];
 if(pdfjsLib){
   pdfjsLib.GlobalWorkerOptions.workerSrc =
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-/* ---------- PRESETS ---------- */
 var PRESETS = {
   screen:  { quality: 40, dpi: 72  },
   web:     { quality: 65, dpi: 96  },
@@ -19,31 +17,57 @@ var PRESETS = {
   archive: { quality: 90, dpi: 200 }
 };
 
-/* ---------- SETTINGS ---------- */
 var SETTINGS = {
   preset: 'web',
   quality: 65,
   dpi: 96,
   grayscale: false,
-  metadata: true,
-  annotations: false
+  stripMetadata: true,
+  stripAnnotations: true
 };
 
-/* ---------- FILES ---------- */
 var FILES = [];
 var fileIdCounter = 0;
 
+/** Chrome tab-crashes above ~8192px/side or ~16M pixels — stay conservative */
+var CANVAS_LIMITS = { MAX_SIDE: 4096, MAX_PIXELS: 6000000 };
+
+function tick(){
+  return new Promise(function(resolve){ setTimeout(resolve, 16); });
+}
+
+function destroyCanvas(canvas){
+  if(!canvas) return;
+  canvas.width = 0;
+  canvas.height = 0;
+}
+
 function $(id){ return document.getElementById(id); }
 
-/* ---------- INIT ---------- */
 function init(){
   bindUpload();
   bindPresets();
   bindDpiBtns();
   bindSlider();
+  syncSettings();
+  updateSettingsSummary();
 }
 
-/* ---------- UPLOAD ---------- */
+function syncSettings(){
+  SETTINGS.grayscale       = !!$('opt-grayscale').checked;
+  SETTINGS.stripMetadata   = !!$('opt-metadata').checked;
+  SETTINGS.stripAnnotations = !!$('opt-annotations').checked;
+}
+
+function updateSettingsSummary(){
+  var el = $('settings-summary');
+  if(!el) return;
+  var parts = [SETTINGS.dpi + ' DPI', SETTINGS.quality + '% JPEG'];
+  if(SETTINGS.grayscale) parts.push('Grayscale');
+  if(SETTINGS.stripMetadata) parts.push('No metadata');
+  el.textContent = parts.join(' · ');
+}
+
 function bindUpload(){
   var zone = $('upload-zone');
   var inp  = $('file-input');
@@ -67,7 +91,7 @@ function handleFiles(newFiles){
   newFiles.slice(0, 20 - FILES.length).forEach(function(file){
     if(file.type !== 'application/pdf' && !file.name.endsWith('.pdf')){ return; }
     var id = ++fileIdCounter;
-    FILES.push({ id:id, file:file, name:file.name, originalSize:file.size, status:'waiting', progress:0, compressedBytes:null, compressedSize:null, error:null });
+    FILES.push({ id:id, file:file, name:file.name, originalSize:file.size, pageCount:null, status:'waiting', progress:0, compressedBytes:null, compressedSize:null, error:null });
     added++;
   });
   if(!added) return;
@@ -76,7 +100,6 @@ function handleFiles(newFiles){
   $('upload-zone').style.display = FILES.length >= 20 ? 'none' : '';
 }
 
-/* ---------- PRESETS ---------- */
 function bindPresets(){
   document.querySelectorAll('.preset-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -87,11 +110,11 @@ function bindPresets(){
       SETTINGS.preset  = btn.dataset.preset;
       SETTINGS.quality = p.quality;
       SETTINGS.dpi     = p.dpi;
-      // update UI
-      $('sl-quality').value     = p.quality;
+      $('sl-quality').value = p.quality;
       $('quality-val').textContent = p.quality+'%';
       document.querySelectorAll('.dpi-btn').forEach(function(b){ b.classList.toggle('act', +b.dataset.dpi===p.dpi); });
-      $('dpi-val').textContent  = p.dpi;
+      $('dpi-val').textContent = p.dpi;
+      updateSettingsSummary();
     });
   });
 }
@@ -103,6 +126,7 @@ function bindDpiBtns(){
       btn.classList.add('act');
       SETTINGS.dpi = +btn.dataset.dpi;
       $('dpi-val').textContent = SETTINGS.dpi;
+      updateSettingsSummary();
     });
   });
 }
@@ -111,17 +135,16 @@ function bindSlider(){
   $('sl-quality').addEventListener('input', function(){
     SETTINGS.quality = +this.value;
     $('quality-val').textContent = this.value+'%';
+    updateSettingsSummary();
   });
 }
 
 // eslint-disable-next-line no-unused-vars
 function settingChanged(){
-  SETTINGS.grayscale   = $('opt-grayscale').checked;
-  SETTINGS.metadata    = $('opt-metadata').checked;
-  SETTINGS.annotations = $('opt-annotations').checked;
+  syncSettings();
+  updateSettingsSummary();
 }
 
-/* ---------- RENDER FILE LIST ---------- */
 function renderFileList(){
   var list = $('file-list');
   list.style.display = FILES.length ? '' : 'none';
@@ -137,7 +160,7 @@ function buildFileCard(f){
   var savingsHtml = '';
   if(f.status==='done' && f.compressedSize !== null){
     var saved = Math.round((1 - f.compressedSize/f.originalSize)*100);
-    var col = saved>60?'#3dbb8a':saved>30?'#c8a800':'#888';
+    var col = saved>60?'var(--save-high)':saved>30?'var(--save-mid)':'var(--tx3)';
     savingsHtml = '<div class="fc-savings" style="color:'+col+'">&#9660; '+saved+'% smaller</div>'+
       '<div class="fc-sizes">'+fmtBytes(f.originalSize)+' → <strong>'+fmtBytes(f.compressedSize)+'</strong></div>';
   }
@@ -157,6 +180,9 @@ function buildFileCard(f){
       '<div class="fc-progress-label" id="pl-'+f.id+'">Compressing… '+f.progress+'%</div>';
   }
 
+  var pageHint = f.pageCount ? ' · '+f.pageCount+' page'+(f.pageCount>1?'s':'') : '';
+  var scaleNoteHtml = f.scaleNote ? '<div class="fc-scale-note">'+escHtml(f.scaleNote)+'</div>' : '';
+
   card.innerHTML =
     '<div class="fc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'+
     '<div class="fc-info">'+
@@ -164,9 +190,10 @@ function buildFileCard(f){
       '<div class="fc-meta">'+
         (f.status==='error'
           ? '<span class="fc-error">&#9888; '+(f.error||'Compression failed')+'</span>'
-          : '<span class="fc-origsize">'+fmtBytes(f.originalSize)+'</span>')+
+          : '<span class="fc-origsize">'+fmtBytes(f.originalSize)+pageHint+'</span>')+
       '</div>'+
       progressHtml+
+      scaleNoteHtml+
       savingsHtml+
     '</div>'+
     '<div class="fc-actions">'+
@@ -176,7 +203,6 @@ function buildFileCard(f){
   return card;
 }
 
-/* ---------- UPDATE SINGLE CARD ---------- */
 function updateCard(f){
   var existing = $('fc-'+f.id);
   if(!existing) return;
@@ -184,75 +210,185 @@ function updateCard(f){
   existing.parentNode.replaceChild(fresh, existing);
 }
 
-/* ---------- COMPRESS ONE ---------- */
-// eslint-disable-next-line no-unused-vars
 function compressOne(id){
   var f = FILES.find(function(x){ return x.id===id; });
   if(!f || f.status==='compressing') return;
   f.status = 'compressing'; f.progress = 0;
+  f.scaleNote = null;
   updateCard(f);
   updateBatchBar();
-  doCompress(f).then(function(){
-    updateCard(f);
-    updateBatchBar();
-    updateDownloadAllBtn();
-  });
+  // Defer so UI paints before heavy work (reduces "Aw, Snap" on click)
+  setTimeout(function(){
+    doCompress(f).then(function(){
+      updateCard(f);
+      updateBatchBar();
+      updateDownloadAllBtn();
+    });
+  }, 32);
+}
+
+/** Fit viewport inside browser-safe canvas limits (prevents tab crash) */
+function getSafeViewport(page, dpi){
+  var scale = dpi / 72;
+  var vp = page.getViewport({ scale: scale });
+  var w = vp.width;
+  var h = vp.height;
+
+  if(!isFinite(w) || !isFinite(h) || w < 1 || h < 1){
+    throw new Error('Invalid page size — try another PDF');
+  }
+
+  var factor = 1;
+  if(w > CANVAS_LIMITS.MAX_SIDE) factor = Math.min(factor, CANVAS_LIMITS.MAX_SIDE / w);
+  if(h > CANVAS_LIMITS.MAX_SIDE) factor = Math.min(factor, CANVAS_LIMITS.MAX_SIDE / h);
+  var pixels = w * h;
+  if(pixels > CANVAS_LIMITS.MAX_PIXELS){
+    factor = Math.min(factor, Math.sqrt(CANVAS_LIMITS.MAX_PIXELS / pixels));
+  }
+
+  if(factor < 0.995){
+    var effectiveDpi = Math.max(36, Math.round(dpi * factor));
+    vp = page.getViewport({ scale: effectiveDpi / 72 });
+    vp._effectiveDpi = effectiveDpi;
+    vp._scaleNote = 'Large page — rendered at '+effectiveDpi+' DPI (requested '+dpi+') to avoid browser crash';
+  } else {
+    vp._effectiveDpi = dpi;
+  }
+  return vp;
+}
+
+/** Canvas size must exactly match viewport — pdf.js breaks on mismatch */
+function createRenderCanvas(viewport){
+  var w = Math.round(viewport.width);
+  var h = Math.round(viewport.height);
+  var canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  var ctx = canvas.getContext('2d', { alpha: false });
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, w, h);
+  return canvas;
+}
+
+/** Quick blank-page check (samples corners, not full canvas) */
+function isCanvasMostlyBlank(canvas){
+  var ctx = canvas.getContext('2d', { willReadFrequently: true });
+  var spots = [
+    [0, 0], [canvas.width - 1, 0], [0, canvas.height - 1],
+    [canvas.width - 1, canvas.height - 1],
+    [Math.floor(canvas.width / 2), Math.floor(canvas.height / 2)]
+  ];
+  var nonWhite = 0;
+  for(var s = 0; s < spots.length; s++){
+    var px = ctx.getImageData(spots[s][0], spots[s][1], 1, 1).data;
+    if(px[0] < 245 || px[1] < 245 || px[2] < 245) nonWhite++;
+  }
+  return nonWhite === 0;
+}
+
+function canvasToJpegBytes(canvas, quality, grayscale){
+  var q = Math.min(0.95, Math.max(0.1, quality / 100));
+  var output = canvas;
+  var grayCanvas = null;
+
+  if(grayscale){
+    grayCanvas = createRenderCanvas({ width: canvas.width, height: canvas.height });
+    var gctx = grayCanvas.getContext('2d', { alpha: false });
+    gctx.filter = 'grayscale(100%)';
+    gctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+    gctx.filter = 'none';
+    output = grayCanvas;
+  }
+
+  var dataUrl = output.toDataURL('image/jpeg', q);
+  destroyCanvas(grayCanvas);
+
+  if(!dataUrl || dataUrl.length < 32 || dataUrl.indexOf('data:image/jpeg') !== 0){
+    throw new Error('JPEG encoding failed — lower DPI or quality');
+  }
+  return dataUrlToBytes(dataUrl);
+}
+
+async function renderPdfPage(page, viewport, annotationMode){
+  var canvas = createRenderCanvas(viewport);
+  var ctx = canvas.getContext('2d', { alpha: false });
+
+  await page.render({
+    canvasContext: ctx,
+    viewport: viewport,
+    annotationMode: annotationMode,
+    background: '#ffffff'
+  }).promise;
+
+  if(isCanvasMostlyBlank(canvas)){
+    throw new Error('Page rendered blank — try Print/Archive preset or lower DPI');
+  }
+
+  return canvas;
 }
 
 async function doCompress(f){
+  syncSettings();
+  var pdfDoc = null;
   try {
+    if(f.file.size > 120 * 1048576){
+      throw new Error('File over 120 MB — split or use Screen preset with 72 DPI');
+    }
+
     var arrayBuffer = await f.file.arrayBuffer();
-
-    // Load with pdf.js
-    var loadTask = pdfjsLib.getDocument({ data: arrayBuffer, disableFontFace: true });
-    var pdfDoc = await loadTask.promise;
+    var loadTask = pdfjsLib.getDocument({
+      data: arrayBuffer,
+      disableFontFace: false,
+      useSystemFonts: true,
+      verbosity: 0
+    });
+    pdfDoc = await loadTask.promise;
     var numPages = pdfDoc.numPages;
+    f.pageCount = numPages;
 
-    // Create new PDF with pdf-lib
     var newPdf = await PDFLib.PDFDocument.create();
+    var annotationMode = SETTINGS.stripAnnotations
+      ? (pdfjsLib.AnnotationMode ? pdfjsLib.AnnotationMode.DISABLE : 0)
+      : (pdfjsLib.AnnotationMode ? pdfjsLib.AnnotationMode.ENABLE : 1);
 
-    var scale = SETTINGS.dpi / 72;
-
-    for(var i=1; i<=numPages; i++){
-      f.progress = Math.round((i-1)/numPages*85);
+    for(var i = 1; i <= numPages; i++){
+      f.progress = Math.round((i - 1) / numPages * 85);
       updateProgress(f);
+      await tick();
 
       var page = await pdfDoc.getPage(i);
-      var viewport = page.getViewport({ scale: scale });
+      var viewport = getSafeViewport(page, SETTINGS.dpi);
+      if(viewport._scaleNote && !f.scaleNote) f.scaleNote = viewport._scaleNote;
 
-      var canvas = document.createElement('canvas');
-      canvas.width  = Math.round(viewport.width);
-      canvas.height = Math.round(viewport.height);
-      var ctx = canvas.getContext('2d', { willReadFrequently: true });
+      var rendered = null;
+      try {
+        rendered = await renderPdfPage(page, viewport, annotationMode);
+        var jpegBytes = canvasToJpegBytes(rendered, SETTINGS.quality, SETTINGS.grayscale);
+        if(!jpegBytes || !jpegBytes.length){
+          throw new Error('Empty JPEG on page '+i);
+        }
 
-      if(SETTINGS.grayscale){
-        ctx.filter = 'grayscale(1)';
+        var pageW = viewport.width * 72 / viewport._effectiveDpi;
+        var pageH = viewport.height * 72 / viewport._effectiveDpi;
+        var jpgImage = await newPdf.embedJpg(jpegBytes);
+        var newPage = newPdf.addPage([pageW, pageH]);
+        newPage.drawImage(jpgImage, { x:0, y:0, width:pageW, height:pageH });
+      } finally {
+        destroyCanvas(rendered);
       }
 
-      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-
-      // Encode as JPEG
-      var jpegDataUrl = canvas.toDataURL('image/jpeg', SETTINGS.quality/100);
-      var jpegBytes = dataUrlToBytes(jpegDataUrl);
-
-      var jpgImage = await newPdf.embedJpg(jpegBytes);
-      var newPage  = newPdf.addPage([viewport.width, viewport.height]);
-      newPage.drawImage(jpgImage, { x:0, y:0, width:viewport.width, height:viewport.height });
-
-      // clean up
-      canvas.width = 0; canvas.height = 0;
+      page.cleanup();
     }
 
     f.progress = 90;
     updateProgress(f);
 
-    // Strip metadata if requested
-    if(!SETTINGS.metadata){
+    if(SETTINGS.stripMetadata){
       newPdf.setTitle('');
       newPdf.setAuthor('');
       newPdf.setSubject('');
       newPdf.setKeywords([]);
-      newPdf.setProducer('');
+      newPdf.setProducer('VeloTools PDF Compressor');
       newPdf.setCreator('');
     }
 
@@ -267,6 +403,8 @@ async function doCompress(f){
     console.error('Compression error:', err);
     f.status = 'error';
     f.error  = err.message || 'Compression failed';
+  } finally {
+    if(pdfDoc) pdfDoc.destroy();
   }
 }
 
@@ -275,27 +413,30 @@ function updateProgress(f){
   var pl = $('pl-'+f.id);
   if(pb) pb.style.width = f.progress+'%';
   if(pl) pl.textContent = 'Compressing… '+f.progress+'%';
+  // Do NOT replace the whole card here — avoids UI flash during compression
 }
 
-/* ---------- COMPRESS ALL ---------- */
-// eslint-disable-next-line no-unused-vars
 function compressAll(){
   var waiting = FILES.filter(function(f){ return f.status==='waiting'; });
   if(!waiting.length) return;
-  // sequential to avoid memory exhaustion
   var queue = waiting.slice();
   function next(){
     if(!queue.length){ updateDownloadAllBtn(); return; }
-    var f = queue.shift();
-    f.status='compressing'; f.progress=0;
-    updateCard(f);
-    doCompress(f).then(function(){ updateCard(f); updateBatchBar(); next(); });
+    var item = queue.shift();
+    item.status = 'compressing';
+    item.progress = 0;
+    item.scaleNote = null;
+    updateCard(item);
+    doCompress(item).then(function(){
+      updateCard(item);
+      updateBatchBar();
+      setTimeout(next, 48);
+    });
   }
-  next();
+  setTimeout(next, 32);
   updateBatchBar();
 }
 
-/* ---------- DOWNLOAD ---------- */
 function downloadOne(id){
   var f = FILES.find(function(x){ return x.id===id; });
   if(!f || !f.compressedBytes) return;
@@ -304,7 +445,6 @@ function downloadOne(id){
   triggerDownload(blob, name);
 }
 
-// eslint-disable-next-line no-unused-vars
 function downloadAll(){
   var done = FILES.filter(function(f){ return f.status==='done' && f.compressedBytes; });
   if(!done.length) return;
@@ -327,8 +467,6 @@ function triggerDownload(blob, name){
   setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
 }
 
-/* ---------- REMOVE / CLEAR ---------- */
-// eslint-disable-next-line no-unused-vars
 function removeFile(id){
   FILES = FILES.filter(function(f){ return f.id!==id; });
   renderFileList();
@@ -336,7 +474,6 @@ function removeFile(id){
   $('upload-zone').style.display = '';
 }
 
-// eslint-disable-next-line no-unused-vars
 function clearAll(){
   FILES = [];
   renderFileList();
@@ -344,7 +481,6 @@ function clearAll(){
   $('upload-zone').style.display = '';
 }
 
-// eslint-disable-next-line no-unused-vars
 function retryOne(id){
   var f = FILES.find(function(x){ return x.id===id; });
   if(!f) return;
@@ -352,7 +488,6 @@ function retryOne(id){
   updateCard(f);
 }
 
-/* ---------- BATCH BAR ---------- */
 function updateBatchBar(){
   var bar = $('batch-bar');
   if(!FILES.length){ bar.style.display='none'; return; }
@@ -360,18 +495,32 @@ function updateBatchBar(){
 
   var total    = FILES.length;
   var waiting  = FILES.filter(function(f){ return f.status==='waiting'; }).length;
-  var done     = FILES.filter(function(f){ return f.status==='done'; }).length;
+  var done     = FILES.filter(function(f){ return f.status==='done'; });
   var running  = FILES.filter(function(f){ return f.status==='compressing'; }).length;
 
   var summary = total+' file'+(total>1?'s':'');
-  if(done) summary += ' · '+done+' compressed';
+  if(done.length) summary += ' · '+done.length+' done';
   if(running) summary += ' · '+running+' processing';
   if(waiting) summary += ' · '+waiting+' waiting';
 
   $('bb-summary').textContent = summary;
 
-  var compressBtn = $('btn-compress-all');
-  compressBtn.style.display = waiting > 0 ? '' : 'none';
+  var savingsEl = $('bb-savings');
+  if(savingsEl && done.length){
+    var origTotal = 0;
+    var compTotal = 0;
+    done.forEach(function(f){
+      origTotal += f.originalSize;
+      compTotal += f.compressedSize;
+    });
+    var pct = Math.round((1 - compTotal / origTotal) * 100);
+    savingsEl.textContent = 'Saved '+fmtBytes(origTotal - compTotal)+' ('+pct+'%)';
+    savingsEl.style.display = '';
+  } else if(savingsEl){
+    savingsEl.style.display = 'none';
+  }
+
+  $('btn-compress-all').style.display = waiting > 0 ? '' : 'none';
   updateDownloadAllBtn();
 }
 
@@ -381,7 +530,6 @@ function updateDownloadAllBtn(){
   if(dlBtn) dlBtn.style.display = done > 0 ? '' : 'none';
 }
 
-/* ---------- HELPERS ---------- */
 function dataUrlToBytes(dataUrl){
   var base64 = dataUrl.split(',')[1];
   var binary = atob(base64);
@@ -403,6 +551,13 @@ function escHtml(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ---------- START ---------- */
 if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); }
 else { init(); }
+
+window.compressOne = compressOne;
+window.compressAll = compressAll;
+window.downloadAll = downloadAll;
+window.removeFile = removeFile;
+window.clearAll = clearAll;
+window.retryOne = retryOne;
+window.settingChanged = settingChanged;

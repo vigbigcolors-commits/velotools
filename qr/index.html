@@ -25,12 +25,12 @@
 <body>
 
 <style>
-.vt-gnav{height:60px;background:#0a0a0c;border-bottom:1px solid rgba(255,255,255,.09);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(10px)}
+.vt-gnav{height:60px;background:rgba(20,30,54,.96);border-bottom:1px solid rgba(73,175,235,.25);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(12px) saturate(130%)}
 .vt-glinks{display:flex;gap:2px;justify-self:center}
-.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(255,255,255,.6);text-decoration:none;font-family:-apple-system,'DM Sans',system-ui,sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
-.vt-glink:hover{background:rgba(255,255,255,.08);color:#f8fafc}
-.vt-glink.act{background:rgba(99,102,241,.18);color:#a5b4fc;font-weight:600}
-.vt-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px rgba(34,197,94,.8);animation:vt-blink 2s ease-in-out infinite;display:inline-block}
+.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(200,216,248,.85);text-decoration:none;font-family:-apple-system,'DM Sans',system-ui,sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.vt-glink:hover{background:rgba(73,175,235,.15);color:#fff}
+.vt-glink.act{background:linear-gradient(135deg,rgba(77,122,201,.4),rgba(144,94,242,.3));color:#fff;font-weight:600;border:1px solid rgba(73,175,235,.4)}
+.vt-dot{width:6px;height:6px;background:#47ded1;border-radius:50%;box-shadow:0 0 8px rgba(71,222,209,.9);animation:vt-blink 2s ease-in-out infinite;display:inline-block}
 @keyframes vt-blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
 @media(max-width:680px){.vt-glinks{display:none}}
 .hdr{display:none!important}
@@ -63,14 +63,19 @@
 </header>
 
 <section class="hero">
+  <div class="hero-aurora" aria-hidden="true">
+    <span class="aurora-blob aurora-blob--1"></span>
+    <span class="aurora-blob aurora-blob--2"></span>
+    <span class="aurora-blob aurora-blob--3"></span>
+  </div>
   <div class="hero-tag"><span class="hero-dot"></span>Free forever &middot; No signup &middot; Instant</div>
   <h1>Generate a beautiful <em>QR code</em><br>in seconds</h1>
   <p class="hero-sub">Custom colors, gradients, logo, 12 QR types. Export PNG or SVG. Your data never leaves your browser.</p>
   <div class="hero-badges">
-    <span class="hbadge">&#10022; 12 QR Types</span>
-    <span class="hbadge">&#127912; Custom Styles</span>
-    <span class="hbadge">&#128444; SVG Export</span>
-    <span class="hbadge">&#128274; 100% Private</span>
+    <span class="hbadge hbadge--cyan">✨ 12 QR Types</span>
+    <span class="hbadge hbadge--pink">🎨 Custom Styles</span>
+    <span class="hbadge hbadge--purple">📐 SVG Export</span>
+    <span class="hbadge hbadge--green">🔒 100% Private</span>
   </div>
 </section>
 
@@ -78,65 +83,89 @@
 <div class="tool">
 
   <!-- LEFT: INPUT PANEL -->
-  <div class="input-panel">
-    <div class="panel-head">QR Content</div>
+  <div class="input-panel qr-panel qr-panel--cyan">
+    <div class="panel-header">
+      <div class="panel-glow panel-glow--cyan"></div>
+      <div class="panel-header-row">
+        <span class="panel-emoji" aria-hidden="true">✨</span>
+        <div>
+          <div class="panel-title">QR Content</div>
+          <div class="panel-sub">Pick a type &amp; fill in ✏️</div>
+        </div>
+      </div>
+    </div>
 
-    <!-- Type selector -->
-    <div class="type-tabs" id="type-tabs">
+    <div class="panel-body">
+      <div class="type-tabs-wrap">
+        <div class="type-tabs-label"><span class="bulb" aria-hidden="true">💡</span> Choose format</div>
+        <div class="type-tabs" id="type-tabs">
       <button class="type-tab act" data-type="url"      title="Website URL">
+        <span class="type-emoji" aria-hidden="true">🌐</span>
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span>URL</span>
       </button>
       <button class="type-tab" data-type="text"     title="Plain text">
+        <span class="type-emoji" aria-hidden="true">📝</span>
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         <span>Text</span>
       </button>
       <button class="type-tab" data-type="wifi"     title="Wi-Fi network">
+        <span class="type-emoji" aria-hidden="true">📶</span>
         <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
         <span>WiFi</span>
       </button>
       <button class="type-tab" data-type="vcard"    title="Contact card">
+        <span class="type-emoji" aria-hidden="true">👤</span>
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span>vCard</span>
       </button>
       <button class="type-tab" data-type="email"    title="Email address">
+        <span class="type-emoji" aria-hidden="true">✉️</span>
         <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span>Email</span>
       </button>
       <button class="type-tab" data-type="phone"    title="Phone number">
+        <span class="type-emoji" aria-hidden="true">📞</span>
         <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
         <span>Phone</span>
       </button>
       <button class="type-tab" data-type="sms"      title="SMS message">
+        <span class="type-emoji" aria-hidden="true">💬</span>
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span>SMS</span>
       </button>
       <button class="type-tab" data-type="location" title="GPS location">
+        <span class="type-emoji" aria-hidden="true">📍</span>
         <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <span>Location</span>
       </button>
       <button class="type-tab" data-type="event" title="Calendar event">
+        <span class="type-emoji" aria-hidden="true">📅</span>
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <span>Event</span>
       </button>
       <button class="type-tab" data-type="crypto" title="Crypto payment">
+        <span class="type-emoji" aria-hidden="true">💰</span>
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 8h3.2a2 2 0 0 1 0 4H9.5m0 0h3.6a2 2 0 0 1 0 4H9.5M11 6v2m0 8v2"/></svg>
         <span>Crypto</span>
       </button>
       <button class="type-tab" data-type="zoom" title="Video meeting link">
+        <span class="type-emoji" aria-hidden="true">🎥</span>
         <svg viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>
         <span>Meeting</span>
       </button>
       <button class="type-tab" data-type="app" title="App download link">
+        <span class="type-emoji" aria-hidden="true">📱</span>
         <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
         <span>App</span>
       </button>
-    </div>
+        </div>
+      </div>
 
-    <!-- Dynamic forms -->
+      <div class="form-zone">
     <div id="form-url" class="qr-form">
-      <label class="fl">Website URL</label>
-      <input class="fi" id="f-url" type="url" placeholder="https://example.com" autofocus>
+      <label class="fl"><span class="fl-emoji" aria-hidden="true">🔗</span> Website URL</label>
+      <input class="fi" id="f-url" type="url" placeholder="https://your-cool-site.com ✨" autofocus>
     </div>
 
     <div id="form-text" class="qr-form" style="display:none">
@@ -263,18 +292,49 @@
 
     <!-- QR data display -->
     <div class="qr-data-row" id="qr-data-row" style="display:none">
-      <span class="qr-data-label">Data:</span>
+      <span class="qr-data-label">📋 Data:</span>
       <code class="qr-data-val" id="qr-data-val"></code>
       <span class="qr-data-len" id="qr-data-len"></span>
       <button class="qr-data-copy-btn" id="qr-copy-btn" onclick="copyQRData()" title="Copy raw data">
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
+      </div><!-- /form-zone -->
+
+      <div class="panel-perks">
+        <div class="perk"><span>🔒</span><small>Private</small></div>
+        <div class="perk"><span>⚡</span><small>Instant</small></div>
+        <div class="perk"><span>🎨</span><small>12 types</small></div>
+      </div>
+
+      <div class="panel-tip-card" id="type-tip">
+        <span class="tip-bulb" aria-hidden="true">💡</span>
+        <p id="type-tip-text"><strong>Pro tip:</strong> Shorter URLs = simpler QR = faster scans!</p>
+      </div>
+    </div><!-- /panel-body -->
   </div>
 
   <!-- CENTER: PREVIEW -->
-  <div class="preview-panel">
-    <div class="panel-head">Preview</div>
+  <div class="preview-panel qr-panel qr-panel--purple">
+    <div class="panel-header">
+      <div class="panel-glow panel-glow--purple"></div>
+      <div class="panel-header-row">
+        <div class="human-eyes" id="human-eyes" aria-hidden="true">
+          <div class="he-eye" data-eye="left">
+            <div class="he-sclera"><div class="he-iris"></div><div class="he-shine"></div></div>
+          </div>
+          <div class="he-eye" data-eye="right">
+            <div class="he-sclera"><div class="he-iris"></div><div class="he-shine"></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="panel-title">Live Preview</div>
+          <div class="panel-sub">Updates in real time ⚡</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
 
     <!-- Scan quality + EC — above preview so it's always visible -->
     <div class="qr-meta-row">
@@ -289,7 +349,7 @@
       </div>
     </div>
 
-    <div class="preview-wrap" id="preview-wrap">
+    <div class="preview-wrap preview-wrap--neon" id="preview-wrap">
       <div id="qr-canvas-wrap"></div>
       <div class="preview-placeholder" id="preview-placeholder">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="16" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>
@@ -298,7 +358,7 @@
     </div>
 
     <!-- Preset styles -->
-    <div class="presets-label">Quick presets</div>
+    <div class="presets-label"><span aria-hidden="true">🎨</span> Quick presets</div>
     <div class="presets">
       <button class="preset act" id="preset-0" onclick="applyPreset(0)" title="Classic">
         <div class="preset-swatch" style="background:#000;border:2px solid #e0e0e0"></div>
@@ -309,26 +369,38 @@
         <span>Dark</span>
       </button>
       <button class="preset" id="preset-2" onclick="applyPreset(2)" title="Violet">
-        <div class="preset-swatch" style="background:linear-gradient(135deg,#7C3480,#C87AFF)"></div>
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#905ef2,#9d56f5)"></div>
         <span>Violet</span>
       </button>
       <button class="preset" id="preset-3" onclick="applyPreset(3)" title="Ocean">
-        <div class="preset-swatch" style="background:linear-gradient(135deg,#0F4C81,#00BFFF)"></div>
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#4d7ac9,#49afeb)"></div>
         <span>Ocean</span>
       </button>
       <button class="preset" id="preset-4" onclick="applyPreset(4)" title="Sunset">
-        <div class="preset-swatch" style="background:linear-gradient(135deg,#FF6B35,#F7C948)"></div>
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#57bac9,#47cade)"></div>
         <span>Sunset</span>
       </button>
       <button class="preset" id="preset-5" onclick="applyPreset(5)" title="Forest">
-        <div class="preset-swatch" style="background:linear-gradient(135deg,#1B5E20,#66BB6A)"></div>
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#8bc99d,#a1edb7)"></div>
         <span>Forest</span>
+      </button>
+      <button class="preset" id="preset-6" onclick="applyPreset(6)" title="Mint">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#47ded1,#90d6d5)"></div>
+        <span>Mint</span>
+      </button>
+      <button class="preset" id="preset-7" onclick="applyPreset(7)" title="Velo">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#4d7ac9,#905ef2,#47cade,#47ded1)"></div>
+        <span>Velo</span>
+      </button>
+      <button class="preset" id="preset-8" onclick="applyPreset(8)" title="Aurora">
+        <div class="preset-swatch" style="background:linear-gradient(135deg,#9d56f5,#49afeb,#57bac9)"></div>
+        <span>Aurora</span>
       </button>
     </div>
 
     <!-- Export -->
     <div class="export-section">
-      <div class="panel-head" style="margin-bottom:10px">Export</div>
+      <div class="presets-label" style="margin-bottom:10px"><span aria-hidden="true">🚀</span> Export</div>
       <div class="export-grid">
         <button class="exp-btn exp-main" onclick="downloadQR('png','512')">
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -348,15 +420,27 @@
         </button>
       </div>
     </div>
+    </div><!-- /panel-body -->
   </div>
 
   <!-- RIGHT: STYLE PANEL -->
-  <div class="style-panel">
-    <div class="panel-head">Style</div>
+  <div class="style-panel qr-panel qr-panel--pink">
+    <div class="panel-header">
+      <div class="panel-glow panel-glow--pink"></div>
+      <div class="panel-header-row">
+        <span class="panel-emoji" aria-hidden="true">🎨</span>
+        <div>
+          <div class="panel-title">Style Studio</div>
+          <div class="panel-sub">Make it yours ✨</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
 
     <!-- Dot style -->
     <div class="sp-section">
-      <div class="sp-label">Dot style</div>
+      <div class="sp-label">⬛ Dot style</div>
       <div class="dot-styles" id="dot-styles">
         <button class="ds act" data-dot="square"         title="Square"><div class="ds-ico ds-square"></div><span>Square</span></button>
         <button class="ds" data-dot="dots"              title="Dots"><div class="ds-ico ds-dots"></div><span>Dots</span></button>
@@ -369,7 +453,7 @@
 
     <!-- Corner style -->
     <div class="sp-section">
-      <div class="sp-label">Corner style</div>
+      <div class="sp-label">🔲 Corner style</div>
       <div class="corner-styles" id="corner-styles">
         <button class="cs act" data-corner="square"         title="Square"><div class="cs-ico cs-square"></div><span>Square</span></button>
         <button class="cs" data-corner="extra-rounded"     title="Rounded"><div class="cs-ico cs-rounded"></div><span>Round</span></button>
@@ -380,7 +464,7 @@
     <!-- Colors -->
     <div class="sp-section">
       <div class="sp-label-row">
-        <span class="sp-label">Foreground</span>
+        <span class="sp-label">🌈 Foreground</span>
         <label class="toggle-wrap">
           <input type="checkbox" id="grad-toggle" onchange="toggleGradient()">
           <span class="toggle-track"><span class="toggle-thumb"></span></span>
@@ -393,7 +477,7 @@
           <span class="cp-lbl">Color 1</span>
         </div>
         <div class="cp-wrap grad-only" id="grad-col2-wrap" style="display:none">
-          <input type="color" id="col-fg2" value="#7C3480" title="Gradient color 2">
+          <input type="color" id="col-fg2" value="#905ef2" title="Gradient color 2">
           <span class="cp-lbl">Color 2</span>
         </div>
       </div>
@@ -412,7 +496,7 @@
 
     <div class="sp-section">
       <div class="sp-label-row">
-        <span class="sp-label">Background</span>
+        <span class="sp-label">🖼️ Background</span>
         <label class="toggle-wrap">
           <input type="checkbox" id="bg-transparent" onchange="toggleBgTransparent()">
           <span class="toggle-track"><span class="toggle-thumb"></span></span>
@@ -427,7 +511,7 @@
 
     <!-- Logo -->
     <div class="sp-section">
-      <div class="sp-label">Logo / image</div>
+      <div class="sp-label">🖼️ Logo / image</div>
       <div class="logo-upload-area" id="logo-area" onclick="$('logo-file').click()">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
         <span id="logo-label">Click to upload logo</span>
@@ -450,7 +534,7 @@
 
     <!-- Size & margin -->
     <div class="sp-section">
-      <div class="sp-label">Size &amp; margin</div>
+      <div class="sp-label">📏 Size &amp; margin</div>
       <div class="sl-row">
         <span class="sl-lbl">Size</span>
         <input type="range" id="sl-size" min="200" max="600" value="300" step="10">
@@ -465,7 +549,7 @@
 
     <!-- Error correction -->
     <div class="sp-section">
-      <div class="sp-label">Error correction</div>
+      <div class="sp-label">🛡️ Error correction</div>
       <div class="seg" id="ec-level">
         <button class="seg-btn" data-val="L" title="7%">L</button>
         <button class="seg-btn" data-val="M" title="15%">M</button>
@@ -475,6 +559,7 @@
       <p class="f-hint">H = 30% damage recovery. Best when using a logo.</p>
     </div>
 
+    </div><!-- /panel-body -->
   </div>
 </div>
 </main>
@@ -492,8 +577,8 @@
         <div class="qsh-l">QR content formats — URL to Crypto</div>
       </div>
       <div class="qsh-item">
-        <div class="qsh-n">6<span class="qsh-u"> styles</span></div>
-        <div class="qsh-l">Dot shapes from round to star</div>
+        <div class="qsh-n">9<span class="qsh-u"> styles</span></div>
+        <div class="qsh-l">One-click presets from the Velo palette</div>
       </div>
       <div class="qsh-item">
         <div class="qsh-n">&#8734;</div>
@@ -524,84 +609,84 @@
     <p class="seo-lead">QR codes are not all the same. Each type encodes data in a different format &mdash; a WiFi QR must include SSID, password, and security protocol in a specific syntax; a vCard QR must follow the vCard 3.0 spec. Using the wrong type means the scan does nothing useful. Here&rsquo;s exactly what each type does and when to use it.</p>
     <div class="type-grid">
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#296A92,#5BADDC)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#4d7ac9,#49afeb)">
         <div class="type-badge tb-blue">URL</div>
         <h4>Website &amp; Landing Pages</h4>
         <p>The most scanned QR type globally. Encodes any web address and opens it directly in the phone&rsquo;s browser on scan. We auto-add <code>https://</code> if missing. Works for product pages, portfolios, app download pages, payment links, and any web destination. Keep URLs as short as possible — shorter URLs produce simpler QR patterns with fewer dots, which scan faster and remain readable even when small or damaged.</p>
         <div class="type-use">&#128161; Use when: linking physical materials to web content. Works with link shorteners for analytics.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#1E6B5A,#4EC9B0)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#57bac9,#47ded1)">
         <div class="type-badge tb-teal">WiFi</div>
         <h4>Instant Network Access</h4>
         <p>Scan to connect to a WiFi network without typing the password. Encodes SSID (network name), password, security type (WPA2, WEP, or open), and whether the network is hidden. Perfect for cafés, hotels, offices, Airbnb listings, and events. Guests scan once and connect — no "the password is on the board" conversations. Supports all modern security protocols including WPA3. Hidden networks require the hidden flag to connect correctly.</p>
         <div class="type-use">&#128161; Use when: sharing WiFi credentials in hospitality, offices, or events without verbal handoff.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#5A2B7A,#A070D0)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#905ef2,#9d56f5)">
         <div class="type-badge tb-lav">vCard</div>
         <h4>Digital Business Card</h4>
         <p>Scan to save a complete contact in the phone&rsquo;s address book — name, job title, company, phone (work, mobile, fax), email, website, and physical address. Follows the vCard 3.0 spec, compatible with iOS Contacts, Android Contacts, Google Contacts, and Outlook. The most elegant replacement for a paper business card: scan, tap Save, done. Place on the back of a printed card for a professional hybrid approach that also works digitally.</p>
         <div class="type-use">&#128161; Use when: networking, conferences, replacing or augmenting paper business cards.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#7A3A2A,#CF6679)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#4d7ac9,#9d56f5)">
         <div class="type-badge tb-rose">Email</div>
         <h4>Pre-filled Email Composer</h4>
         <p>Scan opens the native email app with the To address, Subject line, and email body pre-filled. The recipient just taps Send. Encodes a standard <code>mailto:</code> URI with URL-encoded subject and body. Eliminates the friction of customers needing to find your email and compose a message from scratch. Use for customer support QR codes, feedback collection, event registration confirmation, supplier contact forms on packaging, or anywhere you want an instant email with specific context.</p>
         <div class="type-use">&#128161; Use when: customer feedback, support contact, or pre-filling structured enquiry emails.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#296A92,#5BADDC)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#4d7ac9,#49afeb)">
         <div class="type-badge tb-blue">Phone</div>
         <h4>Direct Dial Call</h4>
         <p>Scan triggers a phone call to the encoded number, after a confirmation prompt on most devices. Uses the <code>tel:</code> protocol. Include country code (e.g. +1 for US) for international compatibility. Ideal for physical locations (storefronts, ads, vehicle signage) where customers should be able to call with a single scan. Much more reliable than typing a phone number from a flyer. Also useful for emergency contact QR codes on equipment, vehicles, and entry points.</p>
         <div class="type-use">&#128161; Use when: storefronts, vehicle signage, print ads, or anywhere you want one-tap calling.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#4E5A20,#9DB840)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#8bc99d,#a1edb7)">
         <div class="type-badge tb-green">SMS</div>
         <h4>Pre-filled Text Message</h4>
         <p>Scan opens the messaging app with a phone number and optional pre-written message body pre-populated. Uses the <code>sms:</code> protocol. The customer just taps Send. Popular for SMS marketing opt-ins: "Scan to text JOIN to our VIP list." Also useful for appointment confirmations, delivery notifications, quick customer service channels, and voting/survey systems that run via SMS. Compatibility varies slightly between iOS and Android for the message body parameter.</p>
         <div class="type-use">&#128161; Use when: SMS opt-ins, appointment booking, quick-response customer service.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#2A5A3A,#4EC9B0)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#57bac9,#90d6d5)">
         <div class="type-badge tb-teal">Location</div>
         <h4>GPS Map Pin</h4>
         <p>Scan opens Google Maps (or the native maps app on iOS) directly to the specified latitude/longitude coordinates. Uses the <code>geo:</code> protocol. More precise than a street address — useful for locations without a clean address (event venues, trailheads, beach access points, festival stages). Use &ldquo;Get my location&rdquo; to auto-detect your coordinates without manual entry. The resulting QR drops a pin exactly at your coordinates — no search required on the scanner&rsquo;s end.</p>
         <div class="type-use">&#128161; Use when: events, pop-up locations, outdoor venues, or precise GPS destinations without clean addresses.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#8A6A1A,#FFB840)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#47cade,#49afeb)">
         <div class="type-badge tb-gold">Event</div>
         <h4>Calendar Invite (iCal)</h4>
         <p>Scan adds an event directly to the phone&rsquo;s calendar with title, start time, end time, location, and description pre-filled. Follows the iCalendar (RFC 5545) standard supported by iOS Calendar, Google Calendar, and Outlook. No need for the recipient to manually create the event or receive a calendar invite email. Use on event posters, conference badges, product launch invitations, webinar promotion materials, and any printed material where you want frictionless calendar entry.</p>
         <div class="type-use">&#128161; Use when: conferences, product launches, workshops, concerts, or webinars — any event worth calendaring.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#5A4A10,#FFB840)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#905ef2,#47cade)">
         <div class="type-badge tb-gold">Crypto</div>
         <h4>Cryptocurrency Payment Address</h4>
         <p>Encodes a cryptocurrency wallet address (Bitcoin, Ethereum, and others) in the standard payment URI format that wallet apps recognize. On scan, the wallet app opens with the address pre-filled in the recipient field — the user just enters the amount and confirms. Eliminates the risk of mis-typing a long wallet address. Essential for crypto payment terminals, donation pages, NFT artist payment info, and any physical location accepting crypto payments. Supports BIP-21 (Bitcoin) and ERC-681 (Ethereum) URI schemes.</p>
         <div class="type-use">&#128161; Use when: crypto payments, donations, or displaying a wallet address in a physical space.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#296A92,#5BADDC)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#4d7ac9,#49afeb)">
         <div class="type-badge tb-blue">Meeting</div>
         <h4>Video Call Link</h4>
         <p>Encodes a Zoom, Google Meet, Microsoft Teams, or any meeting URL. Scan opens the meeting directly — no hunting for the link in email. Use on printed agendas, conference room booking displays, event schedules, and presentation slides. For recurring weekly team calls, print the QR once and place it on the office whiteboard or meeting room door. When the meeting link changes, generate a new QR and replace it. Takes 30 seconds per link update with no reprinting of other materials.</p>
         <div class="type-use">&#128161; Use when: conference schedules, office meeting rooms, printed agendas, or hybrid event materials.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#5A2B7A,#A070D0)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#905ef2,#9d56f5)">
         <div class="type-badge tb-lav">App</div>
         <h4>App Store Deep Link</h4>
         <p>Encodes a direct link to your app&rsquo;s listing on the Apple App Store, Google Play Store, or both. Scan takes the user directly to the install page — no searching required. Essential for app marketing: flyers, packaging, business cards, in-store signage, and product inserts. If you want a single QR that works on both iOS and Android, use a smart redirect URL (Universal Link) that detects the device and redirects accordingly. Enter the smart link in the URL type field instead.</p>
         <div class="type-use">&#128161; Use when: app marketing, packaging inserts, business cards, or any print material promoting a mobile app.</div>
       </div>
 
-      <div class="type-card" style="--tc:linear-gradient(90deg,#2A3A5A,#5BADDC)">
+      <div class="type-card" style="--tc:linear-gradient(90deg,#4d7ac9,#90d6d5)">
         <div class="type-badge tb-blue">Text</div>
         <h4>Plain Text Content</h4>
         <p>Encodes any plain text string — no URL protocol, no special formatting. Scan displays the text directly in the QR scanner or sharing sheet without opening any app. Use for short product serial numbers, asset tags, inventory codes, form reference numbers, license plates, access codes, or any identifier that should be human-readable when scanned. Also useful for recipes, short instructions, or any brief information that should display instantly without requiring internet access. Maximum practical text length is 300&ndash;500 characters.</p>
@@ -670,7 +755,7 @@
         <h4>Use H error correction whenever adding a logo</h4>
         <p>QR codes have four error correction levels: L (7% damage recovery), M (15%), Q (25%), and H (30%). When you place a logo in the center of a QR code, you&rsquo;re covering a portion of the encoded data. Error correction H allows up to 30% of the QR to be damaged or obscured while still remaining fully readable &mdash; this is why logo QR codes work at all. The tool automatically selects H when you upload a logo. Keep the logo under 30% of the QR area. Logos larger than 30% of the total area exceed what error correction can recover, and the QR will fail to scan. The logo size slider in the tool enforces this limit.</p>
       </div>
-      <div class="dg-card" style="--dg-ac:#FFB840">
+      <div class="dg-card" style="--dg-ac:#47cade">
         <div class="dg-tag">SVG</div>
         <h4>Use SVG for print, PNG for digital</h4>
         <p>SVG (Scalable Vector Graphics) is the correct format for any print use. SVG is defined by mathematical paths, not pixels — it can be scaled to any size from a 1cm label to a 10-metre billboard without any loss of quality. Import into Illustrator, InDesign, Figma, or send directly to a print shop. PNG is a raster format: it has a fixed resolution in pixels. The 1024px PNG export is sharp for screens up to about 12×12cm in print at 300 DPI. For anything larger, use SVG. For websites, social media, and email, 512px PNG is usually sufficient. For retina displays and modern browsers, 1024px PNG looks sharp on any screen up to 4K.</p>
