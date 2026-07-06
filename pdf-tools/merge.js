@@ -19,8 +19,10 @@ function renderList() {
   if (!list || !zone) return;
 
   list.innerHTML = '';
-  list.style.display = files.length ? '' : 'none';
-  zone.style.display = files.length >= MAX_FILES ? 'none' : '';
+  if (files.length) list.classList.remove('file-list-hidden');
+  else list.classList.add('file-list-hidden');
+  if (files.length >= MAX_FILES) zone.classList.add('upload-zone-hidden');
+  else zone.classList.remove('upload-zone-hidden');
 
   files.forEach(function (f, idx) {
     const row = document.createElement('div');
@@ -60,7 +62,9 @@ function renderList() {
   });
 
   $('btn-merge').disabled = files.length < 2;
-  $('btn-download').style.display = mergedBytes ? '' : 'none';
+  const dl = $('btn-download');
+  if (mergedBytes) dl.classList.remove('btn-hidden');
+  else dl.classList.add('btn-hidden');
 }
 
 let dragId = null;
@@ -72,6 +76,12 @@ function onDragStart(e) {
 
 function onDragOver(e) {
   e.preventDefault();
+  const list = $('merge-file-list');
+  if (list) {
+    list.querySelectorAll('.file-row.drag-over').forEach(function (row) {
+      if (row !== e.currentTarget) row.classList.remove('drag-over');
+    });
+  }
   e.currentTarget.classList.add('drag-over');
 }
 
@@ -106,10 +116,13 @@ async function addFiles(newFiles) {
       const bytes = await readFileBytes(file);
       const doc = await openDocument(bytes);
       entry.pageCount = doc.getPageCount();
+      files.push(entry);
     } catch (e) {
-      entry.pageCount = null;
+      setStatus(
+        'err',
+        'Skipped "' + truncate(file.name, 40) + '" — password-protected or invalid. Unlock it first.',
+      );
     }
-    files.push(entry);
   }
   mergedBytes = null;
   renderList();
@@ -130,7 +143,8 @@ function setStatus(type, msg) {
   if (!el) return;
   el.className = 'status-msg' + (type ? ' status-msg--' + type : '');
   el.textContent = msg;
-  el.style.display = msg ? '' : 'none';
+  if (msg) el.classList.remove('status-hidden');
+  else el.classList.add('status-hidden');
 }
 
 async function doMerge() {
@@ -139,7 +153,7 @@ async function doMerge() {
   const dl = $('btn-download');
   btn.disabled = true;
   mergedBytes = null;
-  dl.style.display = 'none';
+  dl.classList.add('btn-hidden');
   setStatus('work', 'Merging ' + files.length + ' PDFs in your browser…');
 
   try {
@@ -167,7 +181,7 @@ async function doMerge() {
         ' · ' +
         fmtBytes(mergedBytes.byteLength),
     );
-    dl.style.display = '';
+    dl.classList.remove('btn-hidden');
   } catch (e) {
     console.error(e);
     const msg = e.message || '';

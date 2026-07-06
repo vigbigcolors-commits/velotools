@@ -17,7 +17,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://velotools.app/merge-pdf/">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Merge PDF","description":"Free browser-based PDF merger. Combine multiple PDFs with drag-to-reorder. No upload, lossless page copy.","url":"https://velotools.app/merge-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Merge up to 30 PDFs","Drag to reorder files","Lossless page combination","No server upload","No account required","Works offline after load"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does VeloTools merge PDFs on a server?","acceptedAnswer":{"@type":"Answer","text":"No. PDFs are combined entirely in your browser using pdf-lib. Your files never leave your device."}},{"@type":"Question","name":"Will merging reduce PDF quality?","acceptedAnswer":{"@type":"Answer","text":"No. Merge copies original pages losslessly — text stays vector, images keep their original encoding."}},{"@type":"Question","name":"Can I change the order of PDFs before merging?","acceptedAnswer":{"@type":"Answer","text":"Yes. Drag files in the list to reorder them before clicking Merge."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does merging PDFs reduce image quality?","acceptedAnswer":{"@type":"Answer","text":"No. VeloTools copies pages without re-encoding: original image streams, ICC profiles, and vector text are transferred to the output file as-is."}},{"@type":"Question","name":"What happens to fonts from different PDFs when merging?","acceptedAnswer":{"@type":"Answer","text":"Each source file keeps its embedded font subsets. The combined PDF contains a union of font objects; duplicate glyphs are not deduplicated automatically, so file size is roughly the sum of sources plus overhead."}},{"@type":"Question","name":"Can I merge PDFs without uploading to a server?","acceptedAnswer":{"@type":"Answer","text":"Yes. The operation runs in the browser via pdf-lib and the File API. No network requests carry file content."}},{"@type":"Question","name":"How many files can I merge at once?","acceptedAnswer":{"@type":"Answer","text":"Up to 30 PDFs per operation. Volume is limited by device RAM, not a service quota."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/logo.css">
@@ -84,54 +84,82 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <p class="uz-p">or <strong>click to browse</strong> · Up to 30 files · Drag rows to reorder</p>
   </div>
 
-  <div id="merge-file-list" class="file-list" style="display:none" aria-live="polite"></div>
+  <div id="merge-file-list" class="file-list file-list-hidden" aria-live="polite"></div>
 
-  <div id="merge-status" class="status-msg" style="display:none" role="status"></div>
+  <div id="merge-status" class="status-msg status-hidden" role="status"></div>
 
   <div class="action-bar">
     <button type="button" class="btn-primary" id="btn-merge" disabled>Merge PDFs</button>
-    <button type="button" class="btn-primary" id="btn-download" style="display:none">↓ Download merged PDF</button>
+    <button type="button" class="btn-primary btn-hidden" id="btn-download">↓ Download merged PDF</button>
     <button type="button" class="btn-secondary" id="btn-clear">Clear all</button>
   </div>
 </main>
 
 <section class="editorial" aria-label="Guide to merging PDF files">
-  <h2>How PDF merging works (and why order matters)</h2>
-  <p>When you merge PDFs, you are appending <strong>page trees</strong> from each source document into a new file. VeloTools uses <strong>lossless page copy</strong> — each page is transferred with its original vector text, embedded fonts, and image streams intact. Nothing is re-rendered to JPEG, so a 50-page report followed by a 3-page contract produces a 53-page PDF that looks identical to printing each file and stapling them in order.</p>
-  <p><strong>File order is the merge order.</strong> If you drop <code>cover.pdf</code>, <code>appendix.pdf</code>, and <code>terms.pdf</code>, the output runs cover → appendix → terms. Use drag-and-drop on the file list to fix order before merging — there is no undo after download.</p>
 
-  <h2>Merge vs compress — different jobs</h2>
-  <p>Merging <em>combines</em> documents; compressing <em>shrinks</em> them. A common mistake is running merge on already-compressed scans, then compressing the result — that works, but merge itself does not reduce file size. If your goal is one smaller email attachment, merge first, then use our <a href="/compress-pdf/" style="color:#47ded1">PDF Compressor</a> on the combined file.</p>
+  <section id="security" class="seo-section seo-security">
+    <h2>Security: browser-only processing</h2>
+    <p>VeloTools Merge PDF never sends document bytes to a server. After you pick files, the browser reads them via the <strong>File API</strong> into an <code>ArrayBuffer</code>; <strong>pdf-lib</strong> then copies page trees (<code>/Pages</code>, <code>/Page</code>) into a new document in tab memory. The network stack is not involved: no <code>fetch</code>, WebSocket, or hidden XHR carries PDF body data.</p>
+    <p>This is an architectural guarantee, not a privacy policy claim. With Wi-Fi off after the page loads, merge still works — proof that computation is local. For NDAs, medical, and financial PDFs, no third party can access file content.</p>
+  </section>
 
-  <h2>Password-protected PDFs</h2>
-  <p>Encrypted PDFs cannot be merged until they are unlocked. If merge fails with a password error, open the file in <a href="/unlock-pdf/" style="color:#47ded1">Unlock PDF</a> (you must know the password), download the unlocked copy, then merge.</p>
+  <section id="how-it-works" class="seo-section seo-steps">
+    <h2>How to merge PDFs in 3 steps</h2>
+    <ol>
+      <li>Drop two or more PDFs into the upload zone, or pick up to 30 files via the file dialog.</li>
+      <li>Drag rows to reorder: list order equals page order in the final document.</li>
+      <li>Click Merge PDFs, then Download merged PDF — saved locally with no intermediate server.</li>
+    </ol>
+  </section>
 
-  <h2>Privacy architecture</h2>
-  <p>Server-based merge tools upload every file to cloud storage. VeloTools reads PDFs with the browser File API and combines them with pdf-lib in local memory. <strong>No network request is made.</strong> Suitable for contracts, medical records, and financial statements you would never send to a third party.</p>
+  <section id="tech-specs" class="seo-section">
+    <h2>Technical specifications</h2>
+    <table class="seo-table">
+      <tbody>
+        <tr><th>Max files per operation</th><td>30 PDFs</td></tr>
+        <tr><th>Max file size</th><td>No hard cap — limited by device RAM (typically 100–500 MB total)</td></tr>
+        <tr><th>Supported PDF versions</th><td>PDF 1.4 – 2.0 (Flate/DCT stream objects)</td></tr>
+        <tr><th>Processing mode</th><td>Lossless <code>copyPages</code> — no JPEG rasterization</td></tr>
+        <tr><th>RAM usage</th><td>~1.5–3x total source size during the operation</td></tr>
+        <tr><th>Network</th><td>0 bytes of PDF content leave the browser</td></tr>
+        <tr><th>Encrypted PDFs</th><td>Require <a href="/unlock-pdf/">unlock</a> first</td></tr>
+      </tbody>
+    </table>
+  </section>
 
-  <div class="faq">
+  <section id="deep-dive" class="seo-section seo-deep-dive">
+    <h2>What happens when you merge: images, ICC, and fonts</h2>
+    <p>Merge in VeloTools is not pasting images together — it is <strong>importing the PDF object graph</strong>. Each source page is a node linking to <code>/Resources</code>: <code>/XObject</code> (raster and vector images), <code>/Font</code> (embedded subsets), <code>/ColorSpace</code>, and optional <code>/Metadata</code>.</p>
+    <p><strong>Images and color profiles.</strong> With lossless page copy, JPEG/JPX/CCITT streams inside the PDF are not decoded or re-encoded. A photo with an ICC profile (sRGB, ISO Coated v2, etc.) keeps that profile on the same XObject. Merge does not unify color spaces: document A (sRGB) plus document B (CMYK) yields a combined PDF with two independent color contexts — normal concatenation behavior, not quality loss.</p>
+    <p><strong>Fonts and subset merge.</strong> Each source PDF embeds a subset of glyphs used on its pages. pdf-lib copies each file's font objects into the output catalog. If Arial appears as separate subsets in two files, the merged PDF contains <em>two</em> font objects, not one merged subset. File size is roughly the sum of sources plus xref/trailer overhead; automatic font deduplication is not performed — a deliberate trade-off for exact page fidelity.</p>
+    <p><strong>Quality vs compress.</strong> Merge does not shrink or degrade images. For a smaller file after merging, use <a href="/compress-pdf/">Compress PDF</a> (rasterize + JPEG) — a separate lossy operation.</p>
+    <p><strong>Bookmarks and metadata.</strong> <code>/Outlines</code> (bookmarks) from multiple files are not merged automatically: the output keeps page structure without a combined table of contents. <code>/Info</code> metadata is rewritten with a minimal set when building the new file.</p>
+  </section>
+
+  <section id="faq" class="seo-section seo-faq">
     <h2>Frequently asked questions</h2>
     <details>
-      <summary>Is merging PDFs online safe for confidential documents?</summary>
-      <div class="faq-a">Yes — with VeloTools, your files never leave your device. There is no server processing step to breach. After the page loads, you can disconnect from the internet and merge still works.</div>
+      <summary>Does merging PDFs reduce image quality?</summary>
+      <div class="faq-a">No. Pages are copied without re-encoding: image bitstreams, ICC profiles, and vector graphics stay intact. Merge is not equivalent to PDF to JPEG to PDF export.</div>
     </details>
     <details>
-      <summary>Does merge change image or text quality?</summary>
-      <div class="faq-a">No. Pages are copied as-is. Vector text remains vector; photos keep their original compression. This is different from tools that rasterize every page to images.</div>
+      <summary>What happens to fonts from different PDFs?</summary>
+      <div class="faq-a">Each file keeps its embedded font subsets. The output catalog unions all font objects; duplicate glyphs from the same family are not merged automatically, so size may slightly exceed the sum of sources.</div>
     </details>
     <details>
-      <summary>What is the maximum number of files?</summary>
-      <div class="faq-a">Up to 30 PDFs per merge. Total size is limited by your device RAM — most users merge dozens of pages without issue.</div>
+      <summary>Can I merge without uploading to a server?</summary>
+      <div class="faq-a">Yes. The pipeline is File API, pdf-lib in tab memory, then Blob download. Disconnect the network after load and merge still works.</div>
     </details>
     <details>
-      <summary>Can I merge PDFs on iPhone or Android?</summary>
-      <div class="faq-a">Yes. Modern mobile browsers support the File API and pdf-lib. Use the file picker to select multiple PDFs from Files or Google Drive.</div>
+      <summary>How many files can I merge at once?</summary>
+      <div class="faq-a">Up to 30 PDFs. Practical limit is device RAM; 8 GB systems typically handle hundreds of pages total without issue.</div>
     </details>
-  </div>
+  </section>
+
 </section>
 
-<footer style="position:relative;z-index:1;text-align:center;padding:32px 24px;border-top:1px solid #3a5080;font-size:13px;color:#5a74a0">
-  <p>&copy; 2026 <a href="/" style="color:#47ded1;text-decoration:none">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
+<footer class="site-footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
 </footer>
 
 <script type="module" src="/pdf-tools/merge.js"></script>

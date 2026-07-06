@@ -17,16 +17,17 @@ function setStatus(type, msg) {
   if (!el) return;
   el.className = 'status-msg' + (type ? ' status-msg--' + type : '');
   el.textContent = msg;
-  el.style.display = msg ? '' : 'none';
+  if (msg) el.classList.remove('status-hidden');
+  else el.classList.add('status-hidden');
 }
 
 async function onFileSelected(file) {
   if (!file) return;
   sourceFile = file;
   splitOutputs = null;
-  $('btn-download').style.display = 'none';
+  $('btn-download').classList.add('btn-hidden');
   pageCount = null;
-  $('split-file-info').style.display = '';
+  $('split-file-info').classList.remove('file-info-hidden');
   $('split-file-info').innerHTML =
     '<div class="file-row"><div class="fr-info"><div class="fr-name">' +
     escHtml(truncate(file.name, 48)) +
@@ -43,6 +44,9 @@ async function onFileSelected(file) {
       fmtBytes(file.size) + ' · ' + pageCount + ' page' + (pageCount > 1 ? 's' : '');
     $('btn-split').disabled = false;
     setStatus('', '');
+    if (pageCount > 150) {
+      setStatus('work', pageCount + ' pages — per-page mode may take a minute and use significant memory.');
+    }
   } catch (e) {
     setStatus('err', 'Could not read PDF — password-protected or invalid file.');
     $('btn-split').disabled = true;
@@ -60,7 +64,7 @@ async function doSplit() {
 
   $('btn-split').disabled = true;
   splitOutputs = null;
-  $('btn-download').style.display = 'none';
+  $('btn-download').classList.add('btn-hidden');
   setStatus('work', 'Splitting PDF in your browser…');
 
   try {
@@ -68,7 +72,7 @@ async function doSplit() {
     const bytes = await readFileBytes(sourceFile);
     splitOutputs = await splitDocument(bytes, mode, rangeSpec);
     setStatus('ok', 'Created ' + splitOutputs.length + ' PDF file' + (splitOutputs.length > 1 ? 's' : ''));
-    $('btn-download').style.display = '';
+    $('btn-download').classList.remove('btn-hidden');
   } catch (e) {
     console.error(e);
     setStatus('err', e.message || 'Split failed');
@@ -124,7 +128,9 @@ function bindUpload() {
 
   document.querySelectorAll('input[name="split-mode"]').forEach(function (r) {
     r.addEventListener('change', function () {
-      $('split-range-wrap').style.display = r.value === 'range' ? '' : 'none';
+      const wrap = $('split-range-wrap');
+      if (r.value === 'range') wrap.classList.remove('split-range-hidden');
+      else wrap.classList.add('split-range-hidden');
     });
   });
 }
@@ -137,9 +143,9 @@ function init() {
     sourceFile = null;
     pageCount = null;
     splitOutputs = null;
-    $('split-file-info').style.display = 'none';
+    $('split-file-info').classList.add('file-info-hidden');
     $('btn-split').disabled = true;
-    $('btn-download').style.display = 'none';
+    $('btn-download').classList.add('btn-hidden');
     setStatus('', '');
   });
 }

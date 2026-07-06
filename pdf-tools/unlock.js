@@ -16,14 +16,15 @@ function setStatus(type, msg) {
   if (!el) return;
   el.className = 'status-msg' + (type ? ' status-msg--' + type : '');
   el.textContent = msg;
-  el.style.display = msg ? '' : 'none';
+  if (msg) el.classList.remove('status-hidden');
+  else el.classList.add('status-hidden');
 }
 
 async function onFileSelected(file) {
   sourceFile = file;
   unlockedBytes = null;
-  $('btn-download').style.display = 'none';
-  $('unlock-file-info').style.display = '';
+  $('btn-download').classList.add('btn-hidden');
+  $('unlock-file-info').classList.remove('file-info-hidden');
   $('unlock-file-info').innerHTML =
     '<div class="file-row"><div class="fr-info"><div class="fr-name">' +
     escHtml(truncate(file.name, 48)) +
@@ -44,7 +45,7 @@ async function doUnlock() {
 
   $('btn-unlock').disabled = true;
   unlockedBytes = null;
-  $('btn-download').style.display = 'none';
+  $('btn-download').classList.add('btn-hidden');
   setStatus('work', 'Decrypting PDF in your browser…');
 
   try {
@@ -52,7 +53,7 @@ async function doUnlock() {
     const bytes = await readFileBytes(sourceFile);
     unlockedBytes = await unlockDocument(bytes, password);
     setStatus('ok', 'Password removed — download your unprotected PDF.');
-    $('btn-download').style.display = '';
+    $('btn-download').classList.remove('btn-hidden');
   } catch (e) {
     console.error(e);
     if (/password|incorrect|encrypt/i.test(e.message || '')) {
@@ -101,14 +102,17 @@ function bindUpload() {
 function init() {
   bindUpload();
   $('btn-unlock').addEventListener('click', doUnlock);
+  $('unlock-password').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !$('btn-unlock').disabled) doUnlock();
+  });
   $('btn-download').addEventListener('click', downloadUnlocked);
   $('btn-clear').addEventListener('click', function () {
     sourceFile = null;
     unlockedBytes = null;
     $('unlock-password').value = '';
-    $('unlock-file-info').style.display = 'none';
+    $('unlock-file-info').classList.add('file-info-hidden');
     $('btn-unlock').disabled = true;
-    $('btn-download').style.display = 'none';
+    $('btn-download').classList.add('btn-hidden');
     setStatus('', '');
   });
   $('btn-unlock').disabled = true;

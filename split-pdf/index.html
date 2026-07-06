@@ -10,6 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Split PDF","description":"Free browser-based PDF splitter. Extract pages or ranges without uploading.","url":"https://velotools.app/split-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Split every page","Custom page ranges","ZIP download","No server upload","Lossless extraction"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are PDF bookmarks preserved when splitting?","acceptedAnswer":{"@type":"Answer","text":"No. When extracting individual pages, the /Outlines tree is not copied — the new file contains only the selected page without the source outline hierarchy."}},{"@type":"Question","name":"How is split different from rasterizing pages?","acceptedAnswer":{"@type":"Answer","text":"Split uses lossless copyPages: page objects and resources are copied without decoding to bitmap. Quality matches the source."}},{"@type":"Question","name":"Is the PDF processed on a server?","acceptedAnswer":{"@type":"Answer","text":"No. pdf-lib runs in browser memory; file bytes are never sent over the network."}},{"@type":"Question","name":"What page range format is supported?","acceptedAnswer":{"@type":"Answer","text":"Notation 1-3, 5, 8-10 (1-based page numbers). Per-page mode creates one PDF per sheet."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/logo.css">
@@ -64,30 +65,85 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <p class="uz-h">Drop one PDF to split</p>
     <p class="uz-p">or <strong>click to browse</strong></p>
   </div>
-  <div id="split-file-info" style="display:none;margin-top:16px"></div>
+  <div id="split-file-info" class="file-info-hidden"></div>
   <div class="split-modes">
     <label><input type="radio" name="split-mode" value="each" checked> Split into separate file per page</label>
     <label><input type="radio" name="split-mode" value="range"> Extract page range</label>
-    <div class="split-range" id="split-range-wrap" style="display:none">
+    <div class="split-range split-range-hidden" id="split-range-wrap">
       <input type="text" id="split-range" placeholder="e.g. 1-3, 5, 8-10" aria-label="Page range">
     </div>
   </div>
-  <div id="split-status" class="status-msg" style="display:none" role="status"></div>
+  <div id="split-status" class="status-msg status-hidden" role="status"></div>
   <div class="action-bar">
     <button type="button" class="btn-primary" id="btn-split" disabled>Split PDF</button>
-    <button type="button" class="btn-primary" id="btn-download" style="display:none">↓ Download</button>
+    <button type="button" class="btn-primary btn-hidden" id="btn-download">↓ Download</button>
     <button type="button" class="btn-secondary" id="btn-clear">Clear</button>
   </div>
 </main>
-<section class="editorial">
-  <h2>Split vs extract: what this tool does</h2>
-  <p><strong>Split</strong> creates new PDF documents from selected pages using lossless page copy — fonts and images stay intact. <strong>Per-page mode</strong> outputs <code>page_1.pdf</code>, <code>page_2.pdf</code>, etc. <strong>Range mode</strong> pulls contiguous or scattered pages into one new file (e.g. pages 1–3 and 5 → one PDF).</p>
-  <h2>When to split before compressing</h2>
-  <p>Large scanned PDFs sometimes fail to compress in one pass on low-memory devices. Split into chunks, compress each with <a href="/compress-pdf/" style="color:#47ded1">Compress PDF</a>, then <a href="/merge-pdf/" style="color:#47ded1">merge</a> again if needed.</p>
-  <h2>Privacy</h2>
-  <p>Your document is read with the File API and processed with pdf-lib locally. No bytes are transmitted over the network.</p>
+<section class="editorial" aria-label="Guide to splitting PDF files">
+
+  <section id="security" class="seo-section seo-security">
+    <h2>Security: split without server upload</h2>
+    <p>PDF splitting in VeloTools runs entirely inside the browser tab. The file is read via the <strong>File API</strong> into renderer process memory; <strong>pdf-lib</strong> parses the xref table and copies selected page objects into a new PDF catalog. No fragment of the source stream is packaged into an HTTP request.</p>
+    <p>To audit: open DevTools, Network tab, run split — you will see only static assets (HTML/JS), no POST with <code>multipart/form-data</code> body. That distinguishes a client-side utility from cloud tools where the file must pass through remote infrastructure.</p>
+  </section>
+
+  <section id="how-it-works" class="seo-section seo-steps">
+    <h2>How to split a PDF in 3 steps</h2>
+    <ol>
+      <li>Upload one PDF — page count is detected locally.</li>
+      <li>Choose per-page output or a custom range (e.g. <code>1-3, 5</code>).</li>
+      <li>Click Split PDF and download a single PDF or ZIP — no account or queue.</li>
+    </ol>
+  </section>
+
+  <section id="tech-specs" class="seo-section">
+    <h2>Technical specifications</h2>
+    <table class="seo-table">
+      <tbody>
+        <tr><th>Input files</th><td>1 PDF per operation</td></tr>
+        <tr><th>Max size</th><td>Device RAM (guide: ~200 MB on desktop)</td></tr>
+        <tr><th>PDF versions</th><td>1.4 – 2.0; linearized and non-linearized</td></tr>
+        <tr><th>Per-page mode</th><td>N output files for N pages</td></tr>
+        <tr><th>Range mode</th><td>Syntax <code>1-3, 5, 8-10</code> (1-based)</td></tr>
+        <tr><th>Extraction method</th><td>Lossless <code>copyPages</code> — no rasterization</td></tr>
+        <tr><th>Multiple outputs</th><td>ZIP (JSZip, built locally)</td></tr>
+        <tr><th>Network</th><td>0 bytes of PDF content transmitted</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="deep-dive" class="seo-section seo-deep-dive">
+    <h2>PDF object trees and bookmarks when splitting</h2>
+    <p>A PDF is not a linear stack of pages — it is a <strong>directed object graph</strong>. The <code>trailer</code> points to <code>/Root</code> to <code>/Pages</code> to a <code>/Kids</code> array of <code>/Page</code> nodes. Each page references <code>/Resources</code>: fonts, XObject images, ExtGState. Split does not crop JPEGs; it clones the subgraph for each selected page into a minimal new document.</p>
+    <p><strong>Bookmarks (<code>/Outlines</code>).</strong> The PDF outline is a separate tree whose nodes point to <code>/Dest</code> or <code>/A</code> with a page index. When extracting a <em>single</em> page, the source <code>/Outlines</code> tree is <strong>not copied</strong>: the output is one page without bookmark hierarchy. That is expected lossless-extract behavior, not content quality loss. Rebuild outlines in an editor or use <a href="/merge-pdf/">Merge PDF</a> on prepared parts if needed.</p>
+    <p><strong>Shared resources across pages.</strong> If one image is used on page 1 and page 5, extracting only page 1 pulls the minimal object subset required — shared XObject references resolve at <code>copyPages</code> time. Extracting page 5 separately may duplicate that stream; normal cost of page isolation.</p>
+    <p><strong>Split vs compress.</strong> Split does not reduce size: a 30 MB three-page scan yields three ~10 MB files. Shrinking is <a href="/compress-pdf/">Compress PDF</a> (rasterization). On low-memory devices: split, compress chunks, then merge.</p>
+    <p><strong>Encrypted PDFs.</strong> Password-protected files fail split until decrypted. Use <a href="/unlock-pdf/">Unlock PDF</a> with the known password first.</p>
+  </section>
+
+  <section id="faq" class="seo-section seo-faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Are bookmarks preserved when splitting?</summary>
+      <div class="faq-a">No. <code>/Outlines</code> belong to the full document. An extracted page gets a new catalog without the source bookmark tree.</div>
+    </details>
+    <details>
+      <summary>Is quality lost during split?</summary>
+      <div class="faq-a">No. Lossless copyPages is used — image streams and vector text are not re-encoded.</div>
+    </details>
+    <details>
+      <summary>Is the file sent to a server?</summary>
+      <div class="faq-a">No. The full pipeline runs in browser RAM. Offline mode in DevTools does not block split after JS loads.</div>
+    </details>
+    <details>
+      <summary>How do I specify non-contiguous pages?</summary>
+      <div class="faq-a">In range mode: <code>1-3, 7, 10-12</code>. Spaces are ignored. Numbers start at 1, same as Adobe Reader.</div>
+    </details>
+  </section>
+
 </section>
-<footer style="text-align:center;padding:32px;font-size:13px;color:#5a74a0;position:relative;z-index:1">&copy; 2026 <a href="/" style="color:#47ded1;text-decoration:none">VeloTools</a></footer>
+<footer class="site-footer">&copy; 2026 <a href="/">VeloTools</a></footer>
 <script type="module" src="/pdf-tools/split.js"></script>
 </body>
 </html>

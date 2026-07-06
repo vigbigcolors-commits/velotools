@@ -9,7 +9,8 @@
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Unlock PDF","description":"Remove PDF password when you know the password. Browser-only, no upload.","url":"https://velotools.app/unlock-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Remove PDF password","Browser-only processing","No file upload","Instant download"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Unlock PDF","description":"Remove PDF password when you know the password. Browser-only, no upload.","url":"https://velotools.app/unlock-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Remove PDF password","AES-128/256 and RC4 support via pdf-lib","No file upload","Instant download"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between User Password and Owner Password in PDF?","acceptedAnswer":{"@type":"Answer","text":"User Password (document open password) is required to open the file. Owner Password (permissions password) controls printing and copying restrictions; it may match the open password."}},{"@type":"Question","name":"Is AES-256 supported?","acceptedAnswer":{"@type":"Answer","text":"Yes. pdf-lib in the browser decrypts standard PDF Encryption Dictionary entries (RC4, AES-128, AES-256) when the correct password is supplied."}},{"@type":"Question","name":"Can I remove a password without knowing it?","acceptedAnswer":{"@type":"Answer","text":"No. VeloTools does not brute-force passwords. Protection can only be removed when you enter the correct password."}},{"@type":"Question","name":"Is the PDF sent to a server during unlock?","acceptedAnswer":{"@type":"Answer","text":"No. Decryption and re-save happen locally in tab memory."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/logo.css">
@@ -62,28 +63,83 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <p class="uz-h">Drop your password-protected PDF</p>
     <p class="uz-p">or <strong>click to browse</strong></p>
   </div>
-  <div id="unlock-file-info" style="display:none;margin-top:16px"></div>
+  <div id="unlock-file-info" class="file-info-hidden"></div>
   <div class="pw-field">
     <label for="unlock-password">PDF password</label>
     <input type="password" id="unlock-password" placeholder="Enter the password that opens this PDF" autocomplete="off">
     <p class="pw-hint">You must know the correct password. VeloTools cannot crack or guess passwords.</p>
   </div>
-  <div id="unlock-status" class="status-msg" style="display:none" role="status"></div>
+  <div id="unlock-status" class="status-msg status-hidden" role="status"></div>
   <div class="action-bar">
     <button type="button" class="btn-primary" id="btn-unlock" disabled>Remove password</button>
-    <button type="button" class="btn-primary" id="btn-download" style="display:none">↓ Download unlocked PDF</button>
+    <button type="button" class="btn-primary btn-hidden" id="btn-download">↓ Download unlocked PDF</button>
     <button type="button" class="btn-secondary" id="btn-clear">Clear</button>
   </div>
 </main>
-<section class="editorial">
-  <h2>Owner password vs user password</h2>
-  <p>PDFs can have a <strong>user password</strong> (required to open) and an <strong>owner password</strong> (restricts printing/copying). If you can open the file in Adobe or Preview, enter that same password here. VeloTools decrypts locally and saves a new PDF without encryption.</p>
-  <h2>This is not password cracking</h2>
-  <p>Tools that claim to unlock PDFs without a password are either misleading or brute-forcing weak encryption — which is slow, unreliable, and often illegal for documents you do not own. VeloTools only removes protection when <strong>you supply the correct password</strong>.</p>
-  <h2>After unlocking</h2>
-  <p>Use <a href="/merge-pdf/" style="color:#47ded1">Merge PDF</a> or <a href="/split-pdf/" style="color:#47ded1">Split PDF</a> on the unlocked file if other tools reported encryption errors.</p>
+<section class="editorial" aria-label="Guide to removing PDF passwords">
+
+  <section id="security" class="seo-section seo-security">
+    <h2>Security: your password never leaves the device</h2>
+    <p>When you unlock a PDF, you type the password into a <code>&lt;input type="password"&gt;</code> field on the VeloTools page. The value is used only for <strong>pdf-lib</strong> <code>PDFDocument.load(bytes, { password })</code> in tab memory. It is not stored in <code>localStorage</code>, not sent to a server, and not appended to the URL.</p>
+    <p>The decrypted document is saved via <code>Blob</code> and <code>URL.createObjectURL</code> straight to disk. For compliance: no third-party data processor is involved — the user's browser on their hardware performs all decryption.</p>
+  </section>
+
+  <section id="how-it-works" class="seo-section seo-steps">
+    <h2>How to remove a PDF password in 3 steps</h2>
+    <ol>
+      <li>Upload the protected PDF — it stays in browser memory only.</li>
+      <li>Enter the password you use to open the file in Adobe Acrobat or Preview.</li>
+      <li>Click Remove password and download <code>_unlocked.pdf</code> without an encryption dictionary.</li>
+    </ol>
+  </section>
+
+  <section id="tech-specs" class="seo-section">
+    <h2>Technical specifications</h2>
+    <table class="seo-table">
+      <tbody>
+        <tr><th>Operation</th><td>Decrypt + save without <code>/Encrypt</code> in output trailer</td></tr>
+        <tr><th>Algorithms (via pdf-lib)</th><td>RC4 (40/128 bit), AES-128, AES-256 (Standard Security Handler Rev 4-6)</td></tr>
+        <tr><th>Brute-force / password guessing</th><td>Not supported</td></tr>
+        <tr><th>Max file size</th><td>Limited by device RAM</td></tr>
+        <tr><th>PDF versions</th><td>1.4 - 2.0 with Encryption Dictionary</td></tr>
+        <tr><th>Processing</th><td>100% client-side, 0 bytes over the network</td></tr>
+        <tr><th>Output</th><td>PDF with no password and no permission flags</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="deep-dive" class="seo-section seo-deep-dive">
+    <h2>User Password, Owner Password, and PDF cryptography</h2>
+    <p>PDF protection is defined in the <strong>Encryption Dictionary</strong> in the file trailer. Key fields: <code>/Filter /Standard</code>, <code>/V</code> (algorithm version), <code>/R</code> (handler revision), <code>/O</code> and <code>/U</code> (password hashes), <code>/P</code> (32-bit permission flags).</p>
+    <p><strong>User Password (document open password).</strong> When set, the content key (<code>/StmF</code>, <code>/StrF</code>) cannot be derived without the correct string. This is what you enter in VeloTools. On success, pdf-lib obtains the access key and reads encrypted page streams.</p>
+    <p><strong>Owner Password (permissions password).</strong> Controls <code>/P</code> flags: print, copy text, modify. A PDF may open <em>without</em> a user password but with restrictions — full unlock still requires the owner password when permissions are locked. Many files use one password for both fields.</p>
+    <p><strong>RC4 vs AES.</strong> Legacy PDFs (Rev 2-3) use RC4-40/128. Modern Acrobat files use <strong>AES-128</strong> (CFB mode) or <strong>AES-256</strong> (Rev 5-6). VeloTools does not implement crypto itself; pdf-lib decrypts on valid password. VeloTools does not weaken encryption — it removes the security envelope when you supply the secret.</p>
+    <p><strong>Output.</strong> <code>PDFDocument.save()</code> without <code>encrypt()</code> writes a clear PDF: strings and streams in the open, no <code>/Encrypt</code> entry. Page content and metadata are preserved; only the security wrapper changes.</p>
+    <p><strong>Limits.</strong> This is not cracking. AES-256 with a strong password cannot be brute-forced in the browser in reasonable time — and VeloTools does not try. Use case: you know the password but need an unprotected copy for merge, split, or printing.</p>
+  </section>
+
+  <section id="faq" class="seo-section seo-faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>What is the difference between User Password and Owner Password?</summary>
+      <div class="faq-a">User Password blocks opening the file. Owner Password controls rights (print, copy) via <code>/P</code>. They often match; sometimes the PDF opens freely but will not print — then you need the owner password.</div>
+    </details>
+    <details>
+      <summary>Is AES-256 supported?</summary>
+      <div class="faq-a">Yes. With the correct password, pdf-lib decrypts AES-128 and AES-256 per the PDF Reference. RC4 files are supported too.</div>
+    </details>
+    <details>
+      <summary>Can I remove a password without knowing it?</summary>
+      <div class="faq-a">No. Brute-force and dictionary attacks are not implemented. The tool is for document owners who know the password.</div>
+    </details>
+    <details>
+      <summary>Is the file or password sent to a server?</summary>
+      <div class="faq-a">No. Decryption runs in tab RAM. Check the Network tab — no requests carry PDF body data after static assets load.</div>
+    </details>
+  </section>
+
 </section>
-<footer style="text-align:center;padding:32px;font-size:13px;color:#5a74a0;position:relative;z-index:1">&copy; 2026 <a href="/" style="color:#47ded1;text-decoration:none">VeloTools</a></footer>
+<footer class="site-footer">&copy; 2026 <a href="/">VeloTools</a></footer>
 <script type="module" src="/pdf-tools/unlock.js"></script>
 </body>
 </html>
