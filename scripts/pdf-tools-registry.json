@@ -1,0 +1,66 @@
+{
+  "tools": [
+    {
+      "slug": "merge-pdf",
+      "mode": "merge",
+      "script": "/pdf-tools/merge.js",
+      "title": "Merge PDF Online Free — Combine PDF Files in Browser, No Upload | VeloTools",
+      "description": "Merge PDF files online for free. Combine multiple PDFs into one document in your browser — drag to reorder, no server upload.",
+      "h1": "Merge PDF files into one document",
+      "h1Em": "PDF files",
+      "heroLead": "Drop two or more PDFs, drag to set the order, and download a single combined file.",
+      "featureList": ["Merge up to 30 PDFs", "Drag to reorder", "Lossless page copy", "No server upload"],
+      "contentBlocks": ["merge-how-it-works", "merge-vs-compress", "merge-password-note", "privacy-architecture"],
+      "tier": "P0",
+      "status": "live"
+    },
+    {
+      "slug": "compress-pdf",
+      "mode": "compress",
+      "script": "/pdf-tools/compress.js",
+      "title": "Free PDF Compressor Online — Reduce PDF Size Without Losing Quality | VeloTools",
+      "description": "Compress PDF files online for free. Reduce PDF size by up to 90% in your browser — no upload.",
+      "h1": "Compress any PDF file up to 90% smaller",
+      "tier": "P0",
+      "status": "live",
+      "note": "Hand-maintained page with full SEO — not generated"
+    },
+    {
+      "slug": "split-pdf",
+      "mode": "split",
+      "script": "/pdf-tools/split.js",
+      "title": "Split PDF Online Free — Extract Pages in Browser | VeloTools",
+      "description": "Split PDF files online for free. Extract every page or custom ranges without uploading.",
+      "h1": "Split a PDF into separate files",
+      "h1Em": "PDF",
+      "tier": "P0",
+      "status": "live"
+    },
+    {
+      "slug": "unlock-pdf",
+      "mode": "unlock",
+      "script": "/pdf-tools/unlock.js",
+      "title": "Unlock PDF Online Free — Remove Password in Browser | VeloTools",
+      "description": "Remove PDF password protection when you know the password. Browser-only, no upload.",
+      "h1": "Remove PDF password protection",
+      "h1Em": "PDF password",
+      "tier": "P0",
+      "status": "live"
+    },
+    {
+      "slug": "pdf-to-jpg",
+      "mode": "pdf-to-jpg",
+      "script": "/pdf-tools/pdf-to-jpg.js",
+      "title": "PDF to JPG Online Free — Convert PDF Pages to Images | VeloTools",
+      "tier": "P0",
+      "status": "planned",
+      "contentBlocks": ["dpi-guide-print-vs-web", "transparency-layers", "extract-vs-rasterize"]
+    },
+    {
+      "slug": "rotate-pdf",
+      "mode": "rotate",
+      "tier": "P1",
+      "status": "planned"
+    }
+  ]
+}

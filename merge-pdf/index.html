@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Merge PDF Online Free — Combine PDF Files in Browser, No Upload | VeloTools</title>
+<meta name="description" content="Merge PDF files online for free. Combine multiple PDFs into one document in your browser — drag to reorder, no server upload, no signup. Lossless page merge.">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://velotools.app/merge-pdf/">
+<meta property="og:title" content="Merge PDF Online Free — No Upload | VeloTools">
+<meta property="og:description" content="Combine PDF files in your browser. Drag to reorder, download instantly. Files never leave your device.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://velotools.app/merge-pdf/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Merge PDF","description":"Free browser-based PDF merger. Combine multiple PDFs with drag-to-reorder. No upload, lossless page copy.","url":"https://velotools.app/merge-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Merge up to 30 PDFs","Drag to reorder files","Lossless page combination","No server upload","No account required","Works offline after load"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does VeloTools merge PDFs on a server?","acceptedAnswer":{"@type":"Answer","text":"No. PDFs are combined entirely in your browser using pdf-lib. Your files never leave your device."}},{"@type":"Question","name":"Will merging reduce PDF quality?","acceptedAnswer":{"@type":"Answer","text":"No. Merge copies original pages losslessly — text stays vector, images keep their original encoding."}},{"@type":"Question","name":"Can I change the order of PDFs before merging?","acceptedAnswer":{"@type":"Answer","text":"Yes. Drag files in the list to reorder them before clicking Merge."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/pdf-core/shared.css">
+<style>
+:root{--bg0:#0a0f1c;--tx:#fff;--tx2:#c8d8f8}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg0);color:var(--tx2);font-family:"DM Sans",system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,#0a0f1c,#0e1528)}
+.vt-gnav{height:60px;background:rgba(20,30,54,.96);border-bottom:1px solid rgba(73,175,235,.25);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(12px)}
+.vt-glinks{display:flex;gap:2px;justify-self:center}
+.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(200,216,248,.85);text-decoration:none;transition:all .15s;white-space:nowrap}
+.vt-glink:hover{background:rgba(73,175,235,.15);color:#fff}
+.vt-glink.act{background:linear-gradient(135deg,rgba(77,122,201,.4),rgba(144,94,242,.3));color:#fff;font-weight:600;border:1px solid rgba(73,175,235,.4)}
+@media(max-width:680px){.vt-glinks{display:none}.vt-gnav{padding:0 16px}}
+.file-row.drag-over{border-color:#47ded1;background:rgba(71,222,209,.08)}
+</style>
+</head>
+<body>
+
+<nav class="vt-gnav" aria-label="Site navigation">
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44" decoding="async"></picture>
+    <span class="vt-logo-text">velotools</span>
+  </a>
+  <div class="vt-glinks">
+    <a href="/image-compress/" class="vt-glink">Image</a>
+    <a href="/invoice/" class="vt-glink">Invoice</a>
+    <a href="/qr/" class="vt-glink">QR Code</a>
+    <a href="/focus/" class="vt-glink">Focus</a>
+    <a href="/bgremover/" class="vt-glink">BG Remover</a>
+    <a href="/compress-pdf/" class="vt-glink act">PDF</a>
+    <a href="/about/" class="vt-glink">About</a>
+  </div>
+  <div style="justify-self:end;display:flex;gap:4px">
+    <a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a>
+    <a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a>
+  </div>
+</nav>
+
+<div class="pdf-related" aria-label="PDF tools">
+  <a href="/merge-pdf/" class="act">Merge PDF</a>
+  <a href="/compress-pdf/">Compress PDF</a>
+  <a href="/split-pdf/">Split PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+</div>
+
+<section class="pdf-tool-hero">
+  <div class="trust-bar">
+    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Processed in your browser — never uploaded to any server
+  </div>
+  <h1>Merge <em>PDF files</em> into one document</h1>
+  <p class="lead">Drop two or more PDFs, drag to set the order, and download a single combined file. Lossless merge — original page quality preserved.</p>
+</section>
+
+<main class="tool-shell" id="merge-app">
+  <div class="upload-zone" id="merge-upload-zone" role="button" tabindex="0" aria-label="Upload PDF files to merge">
+    <input type="file" id="merge-file-input" accept=".pdf,application/pdf" multiple>
+    <div class="uz-icon">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+    </div>
+    <p class="uz-h">Drop PDF files here to combine</p>
+    <p class="uz-p">or <strong>click to browse</strong> · Up to 30 files · Drag rows to reorder</p>
+  </div>
+
+  <div id="merge-file-list" class="file-list" style="display:none" aria-live="polite"></div>
+
+  <div id="merge-status" class="status-msg" style="display:none" role="status"></div>
+
+  <div class="action-bar">
+    <button type="button" class="btn-primary" id="btn-merge" disabled>Merge PDFs</button>
+    <button type="button" class="btn-primary" id="btn-download" style="display:none">↓ Download merged PDF</button>
+    <button type="button" class="btn-secondary" id="btn-clear">Clear all</button>
+  </div>
+</main>
+
+<section class="editorial" aria-label="Guide to merging PDF files">
+  <h2>How PDF merging works (and why order matters)</h2>
+  <p>When you merge PDFs, you are appending <strong>page trees</strong> from each source document into a new file. VeloTools uses <strong>lossless page copy</strong> — each page is transferred with its original vector text, embedded fonts, and image streams intact. Nothing is re-rendered to JPEG, so a 50-page report followed by a 3-page contract produces a 53-page PDF that looks identical to printing each file and stapling them in order.</p>
+  <p><strong>File order is the merge order.</strong> If you drop <code>cover.pdf</code>, <code>appendix.pdf</code>, and <code>terms.pdf</code>, the output runs cover → appendix → terms. Use drag-and-drop on the file list to fix order before merging — there is no undo after download.</p>
+
+  <h2>Merge vs compress — different jobs</h2>
+  <p>Merging <em>combines</em> documents; compressing <em>shrinks</em> them. A common mistake is running merge on already-compressed scans, then compressing the result — that works, but merge itself does not reduce file size. If your goal is one smaller email attachment, merge first, then use our <a href="/compress-pdf/" style="color:#47ded1">PDF Compressor</a> on the combined file.</p>
+
+  <h2>Password-protected PDFs</h2>
+  <p>Encrypted PDFs cannot be merged until they are unlocked. If merge fails with a password error, open the file in <a href="/unlock-pdf/" style="color:#47ded1">Unlock PDF</a> (you must know the password), download the unlocked copy, then merge.</p>
+
+  <h2>Privacy architecture</h2>
+  <p>Server-based merge tools upload every file to cloud storage. VeloTools reads PDFs with the browser File API and combines them with pdf-lib in local memory. <strong>No network request is made.</strong> Suitable for contracts, medical records, and financial statements you would never send to a third party.</p>
+
+  <div class="faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Is merging PDFs online safe for confidential documents?</summary>
+      <div class="faq-a">Yes — with VeloTools, your files never leave your device. There is no server processing step to breach. After the page loads, you can disconnect from the internet and merge still works.</div>
+    </details>
+    <details>
+      <summary>Does merge change image or text quality?</summary>
+      <div class="faq-a">No. Pages are copied as-is. Vector text remains vector; photos keep their original compression. This is different from tools that rasterize every page to images.</div>
+    </details>
+    <details>
+      <summary>What is the maximum number of files?</summary>
+      <div class="faq-a">Up to 30 PDFs per merge. Total size is limited by your device RAM — most users merge dozens of pages without issue.</div>
+    </details>
+    <details>
+      <summary>Can I merge PDFs on iPhone or Android?</summary>
+      <div class="faq-a">Yes. Modern mobile browsers support the File API and pdf-lib. Use the file picker to select multiple PDFs from Files or Google Drive.</div>
+    </details>
+  </div>
+</section>
+
+<footer style="position:relative;z-index:1;text-align:center;padding:32px 24px;border-top:1px solid #3a5080;font-size:13px;color:#5a74a0">
+  <p>&copy; 2026 <a href="/" style="color:#47ded1;text-decoration:none">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
+</footer>
+
+<script type="module" src="/pdf-tools/merge.js"></script>
+</body>
+</html>

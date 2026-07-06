@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Split PDF Online Free — Extract Pages in Browser, No Upload | VeloTools</title>
+<meta name="description" content="Split PDF files online for free. Extract every page or custom ranges into separate PDFs in your browser — no upload, no signup.">
+<link rel="canonical" href="https://velotools.app/split-pdf/">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Split PDF","description":"Free browser-based PDF splitter. Extract pages or ranges without uploading.","url":"https://velotools.app/split-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Split every page","Custom page ranges","ZIP download","No server upload","Lossless extraction"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/pdf-core/shared.css">
+<style>
+:root{--bg0:#0a0f1c}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg0);color:#c8d8f8;font-family:"DM Sans",system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,#0a0f1c,#0e1528)}
+.vt-gnav{height:60px;background:rgba(20,30,54,.96);border-bottom:1px solid rgba(73,175,235,.25);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(12px)}
+.vt-glinks{display:flex;gap:2px;justify-self:center}
+.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(200,216,248,.85);text-decoration:none}
+.vt-glink.act{background:linear-gradient(135deg,rgba(77,122,201,.4),rgba(144,94,242,.3));color:#fff;font-weight:600;border:1px solid rgba(73,175,235,.4)}
+@media(max-width:680px){.vt-glinks{display:none}}
+.split-modes{margin:20px 0;display:flex;flex-direction:column;gap:12px}
+.split-modes label{display:flex;align-items:center;gap:10px;font-size:14px;color:#c8d8f8;cursor:pointer}
+.split-modes input{accent-color:#47ded1}
+.split-range{margin-top:8px}
+.split-range input{width:100%;max-width:320px;padding:12px 14px;border-radius:10px;border:1px solid #5070a8;background:#162038;color:#fff;font-size:14px}
+.split-range input::placeholder{color:#5a74a0}
+</style>
+</head>
+<body>
+<nav class="vt-gnav" aria-label="Site navigation">
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44"></picture>
+    <span class="vt-logo-text">velotools</span>
+  </a>
+  <div class="vt-glinks">
+    <a href="/image-compress/" class="vt-glink">Image</a>
+    <a href="/invoice/" class="vt-glink">Invoice</a>
+    <a href="/qr/" class="vt-glink">QR Code</a>
+    <a href="/compress-pdf/" class="vt-glink act">PDF</a>
+    <a href="/about/" class="vt-glink">About</a>
+  </div>
+  <div></div>
+</nav>
+<div class="pdf-related">
+  <a href="/merge-pdf/">Merge PDF</a>
+  <a href="/compress-pdf/">Compress PDF</a>
+  <a href="/split-pdf/" class="act">Split PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+</div>
+<section class="pdf-tool-hero">
+  <div class="trust-bar"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Processed in your browser — never uploaded</div>
+  <h1>Split a <em>PDF</em> into separate files</h1>
+  <p class="lead">Extract every page as its own PDF, or pull specific page ranges — all locally in your browser.</p>
+</section>
+<main class="tool-shell">
+  <div class="upload-zone" id="split-upload-zone" role="button" tabindex="0">
+    <input type="file" id="split-file-input" accept=".pdf,application/pdf">
+    <div class="uz-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    <p class="uz-h">Drop one PDF to split</p>
+    <p class="uz-p">or <strong>click to browse</strong></p>
+  </div>
+  <div id="split-file-info" style="display:none;margin-top:16px"></div>
+  <div class="split-modes">
+    <label><input type="radio" name="split-mode" value="each" checked> Split into separate file per page</label>
+    <label><input type="radio" name="split-mode" value="range"> Extract page range</label>
+    <div class="split-range" id="split-range-wrap" style="display:none">
+      <input type="text" id="split-range" placeholder="e.g. 1-3, 5, 8-10" aria-label="Page range">
+    </div>
+  </div>
+  <div id="split-status" class="status-msg" style="display:none" role="status"></div>
+  <div class="action-bar">
+    <button type="button" class="btn-primary" id="btn-split" disabled>Split PDF</button>
+    <button type="button" class="btn-primary" id="btn-download" style="display:none">↓ Download</button>
+    <button type="button" class="btn-secondary" id="btn-clear">Clear</button>
+  </div>
+</main>
+<section class="editorial">
+  <h2>Split vs extract: what this tool does</h2>
+  <p><strong>Split</strong> creates new PDF documents from selected pages using lossless page copy — fonts and images stay intact. <strong>Per-page mode</strong> outputs <code>page_1.pdf</code>, <code>page_2.pdf</code>, etc. <strong>Range mode</strong> pulls contiguous or scattered pages into one new file (e.g. pages 1–3 and 5 → one PDF).</p>
+  <h2>When to split before compressing</h2>
+  <p>Large scanned PDFs sometimes fail to compress in one pass on low-memory devices. Split into chunks, compress each with <a href="/compress-pdf/" style="color:#47ded1">Compress PDF</a>, then <a href="/merge-pdf/" style="color:#47ded1">merge</a> again if needed.</p>
+  <h2>Privacy</h2>
+  <p>Your document is read with the File API and processed with pdf-lib locally. No bytes are transmitted over the network.</p>
+</section>
+<footer style="text-align:center;padding:32px;font-size:13px;color:#5a74a0;position:relative;z-index:1">&copy; 2026 <a href="/" style="color:#47ded1;text-decoration:none">VeloTools</a></footer>
+<script type="module" src="/pdf-tools/split.js"></script>
+</body>
+</html>
