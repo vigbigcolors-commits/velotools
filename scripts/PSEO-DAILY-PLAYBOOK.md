@@ -6,16 +6,21 @@
 
 ---
 
-## Текущий статус (на 2026-07-06)
+## Текущий статус (на 2026-07-06, обновлено)
 
 | Метрика | Значение |
 |---------|----------|
 | **Сегодняшний день плана** | День 1 завершён → следующий **День 2** |
-| **Опубликовано в sitemap** | 2 / 15 слотов за сегодня |
-| **published** | `compress-pdf-for-gmail`, `compress-pdf-for-canvas` |
-| **built (ждут publish)** | `image-resizer-for-amazon`, `image-resizer-for-etsy`, `image-resizer-for-ozon` |
-| **draft** | 0 |
-| **Production** | Stateful-страницы **ещё не задеплоены** (только локально + sitemap в репо) |
+| **Stateful страниц (HTML)** | **5** (все `index.html` в репо) |
+| **P0 PDF tools (ручные)** | **5** (`compress`, `merge`, `split`, `unlock`, `pdf-to-jpg`) |
+| **Опубликовано в sitemap** | **5 / 5** stateful (все) |
+| **Слотов publish сегодня** | 5 / 15 использовано |
+| **published intents** | gmail, canvas, amazon, etsy, ozon |
+| **built / draft** | 0 / 0 |
+| **Live HTML** | страницы отдают **200** (проверено) |
+| **Live sitemap** | нужен **push** локального `sitemap.xml` (3 image URL добавлены локально) |
+
+**Незакоммичено сейчас:** `sitemap.xml`, `publish-state.json`, `intents/image-resizer.json` → сделай push для синхронизации sitemap с продом.
 
 ---
 
@@ -192,9 +197,9 @@ draft  →  build  →  built  →  publish  →  published
 - [x] E2E stateful: `tests/e2e/stateful-pseo.spec.mjs` (3 теста)
 
 ### Публикация (локально)
-- [x] `pseo:publish` — 2 URL в sitemap (gmail, canvas)
-- [x] Осталось 13 слотов на 2026-07-06 (если публикуешь в тот же день)
-- [ ] **Деплой на velotools.app** — не сделан
+- [x] `pseo:publish` — **все 5** stateful URL в sitemap
+- [x] HTML на live отдаёт 200 (gmail, amazon, pdf-to-jpg проверены)
+- [ ] **Push** обновлённого `sitemap.xml` на origin (3 image URL были добавлены после первого publish)
 
 ### Что сказать агенту для Дня 2
 ```

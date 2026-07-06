@@ -6,7 +6,7 @@
     "platform": "amazon-product-image",
     "formatIn": "jpg",
     "formatOut": "jpg",
-    "publishStatus": "built",
+    "publishStatus": "published",
     "title": "Image Resizer for Amazon — 2000×2000, 1:1, sRGB, 10 MB | VeloTools",
     "h1": "Image resizer for Amazon product listings",
     "h1Em": "Amazon",
@@ -27,7 +27,8 @@
       "limitWarning": "Output exceeds Amazon 10 MB limit — lower quality or enable stronger compression.",
       "activePanel": "compress"
     },
-    "intentBanner": "Amazon mode: 1:1 crop · 2000×2000 px · JPEG 85% · 10 MB checker"
+    "intentBanner": "Amazon mode: 1:1 crop · 2000×2000 px · JPEG 85% · 10 MB checker",
+    "publishedAt": "2026-07-06"
   },
   {
     "slug": "image-resizer-for-etsy",
@@ -36,7 +37,7 @@
     "platform": "etsy-listing-image",
     "formatIn": "jpg",
     "formatOut": "jpg",
-    "publishStatus": "built",
+    "publishStatus": "published",
     "title": "Image Resizer for Etsy — 2000px Min, 10 MB Limit | VeloTools",
     "h1": "Image resizer for Etsy listing photos",
     "h1Em": "Etsy",
@@ -55,7 +56,8 @@
       "limitWarning": "Output exceeds Etsy 10 MB limit — reduce quality.",
       "activePanel": "compress"
     },
-    "intentBanner": "Etsy mode: 2000×2000 px target · JPEG 82% · 10 MB checker"
+    "intentBanner": "Etsy mode: 2000×2000 px target · JPEG 82% · 10 MB checker",
+    "publishedAt": "2026-07-06"
   },
   {
     "slug": "image-resizer-for-ozon",
@@ -64,7 +66,7 @@
     "platform": "ozon-product-card",
     "formatIn": "jpg",
     "formatOut": "jpg",
-    "publishStatus": "built",
+    "publishStatus": "published",
     "title": "Image Resizer for Ozon — 900×1200, 3:4, 10 MB | VeloTools",
     "h1": "Image resizer for Ozon product cards",
     "h1Em": "Ozon",
@@ -85,6 +87,7 @@
       "limitWarning": "Output exceeds Ozon 10 MB limit.",
       "activePanel": "compress"
     },
-    "intentBanner": "Ozon mode: 3:4 · 900×1200 px · JPEG 80% · 10 MB checker"
+    "intentBanner": "Ozon mode: 3:4 · 900×1200 px · JPEG 80% · 10 MB checker",
+    "publishedAt": "2026-07-06"
   }
 ]
