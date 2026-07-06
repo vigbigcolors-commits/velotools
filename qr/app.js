@@ -10,7 +10,7 @@ var Q = {
   dotStyle:   'square',
   cornerStyle:'square',
   fgColor:    '#000000',
-  fgColor2:   '#7C3480',
+  fgColor2:   '#905ef2',
   bgColor:    '#ffffff',
   bgTransparent: false,
   gradient:   false,
@@ -29,11 +29,14 @@ var Q = {
 /* ---------- PRESETS ---------- */
 var PRESETS = [
   { dot:'square',  corner:'square', fg:'#000000', fg2:null,     bg:'#ffffff', grad:false, name:'Classic' },
-  { dot:'square',  corner:'square', fg:'#ffffff', fg2:null,     bg:'#1a1a2e', grad:false, name:'Dark'    },
-  { dot:'rounded', corner:'extra-rounded', fg:'#7C3480', fg2:'#C87AFF', bg:'#ffffff', grad:true,  gradType:'linear', gradAngle:135, name:'Violet'  },
-  { dot:'dots',    corner:'extra-rounded', fg:'#0F4C81', fg2:'#00BFFF', bg:'#ffffff', grad:true,  gradType:'linear', gradAngle:135, name:'Ocean'   },
-  { dot:'classy-rounded', corner:'extra-rounded', fg:'#FF6B35', fg2:'#F7C948', bg:'#ffffff', grad:true, gradType:'linear', gradAngle:135, name:'Sunset' },
-  { dot:'rounded', corner:'dot',   fg:'#1B5E20', fg2:'#66BB6A', bg:'#ffffff', grad:true,  gradType:'linear', gradAngle:135, name:'Forest'  }
+  { dot:'square',  corner:'square', fg:'#eef3ff', fg2:null,     bg:'#1a2540', grad:false, name:'Dark'    },
+  { dot:'rounded', corner:'extra-rounded', fg:'#905ef2', fg2:'#9d56f5', bg:'#ffffff', grad:true,  gradType:'linear', gradAngle:135, name:'Violet'  },
+  { dot:'dots',    corner:'extra-rounded', fg:'#4d7ac9', fg2:'#49afeb', bg:'#ffffff', grad:true,  gradType:'linear', gradAngle:135, name:'Ocean'   },
+  { dot:'classy-rounded', corner:'extra-rounded', fg:'#57bac9', fg2:'#47cade', bg:'#ffffff', grad:true, gradType:'linear', gradAngle:135, name:'Sunset' },
+  { dot:'rounded', corner:'dot',   fg:'#8bc99d', fg2:'#a1edb7', bg:'#ffffff', grad:true,  gradType:'linear', gradAngle:135, name:'Forest'  },
+  { dot:'extra-rounded', corner:'extra-rounded', fg:'#47ded1', fg2:'#90d6d5', bg:'#ffffff', grad:true, gradType:'radial', gradAngle:0, name:'Mint' },
+  { dot:'classy', corner:'extra-rounded', fg:'#4d7ac9', fg2:'#47ded1', bg:'#ffffff', grad:true, gradType:'linear', gradAngle:45, name:'Velo' },
+  { dot:'dots', corner:'dot', fg:'#9d56f5', fg2:'#49afeb', bg:'#ffffff', grad:true, gradType:'linear', gradAngle:160, name:'Aurora' }
 ];
 
 /* ---------- DOM HELPERS ---------- */
@@ -47,7 +50,9 @@ function init(){
   bindColorPickers();
   bindSegButtons();
   bindInputs();
-  createQR();
+  updateTypeTip(Q.type);
+  applyPreset(3);
+  initHumanBlink();
 }
 
 /* ---------- TYPE TABS ---------- */
@@ -68,6 +73,7 @@ function showForm(type){
     var el = $('form-'+t);
     if(el) el.style.display = (t===type) ? '' : 'none';
   });
+  updateTypeTip(type);
   // focus first input in the active form
   var form = $('form-'+type);
   if(form){
@@ -76,13 +82,42 @@ function showForm(type){
   }
 }
 
+var TYPE_TIPS = {
+  url:      'Shorter URLs = simpler QR = faster scans! Use a link shortener for long links 🔗',
+  text:     'Keep text under 300 chars for the cleanest, most scannable pattern 📝',
+  wifi:     'Guests scan once and connect — no more typing passwords on a tiny screen 📶',
+  vcard:    'Perfect for business cards — scan saves your full contact instantly 👤',
+  email:    'Pre-fill subject & body so customers just tap Send ✉️',
+  phone:    'Always include country code (+1, +44…) for international scans 📞',
+  sms:      'Pre-written SMS = higher reply rates from print materials 💬',
+  location: 'Opens Google/Apple Maps directly — great for events & stores 📍',
+  event:    'Adds to calendar with one scan — no manual entry needed 📅',
+  crypto:   'Wallet apps read the address & amount automatically 💰',
+  zoom:     'Paste any Zoom, Meet, or Teams link — works everywhere 🎥',
+  app:      'Link straight to App Store or Google Play — one tap to install 📱'
+};
+
+function updateTypeTip(type){
+  var el = $('type-tip-text');
+  if(!el) return;
+  el.innerHTML = '<strong>Pro tip:</strong> ' + (TYPE_TIPS[type] || TYPE_TIPS.url);
+}
+
 /* ---------- BIND ALL INPUT FIELDS ---------- */
 function bindInputs(){
   var ids = [
     'f-url','f-text','f-wifi-ssid','f-wifi-pass','f-wifi-hidden',
     'f-vc-first','f-vc-last','f-vc-org','f-vc-title','f-vc-phone','f-vc-email','f-vc-url','f-vc-addr',
     'f-email-to','f-email-subj','f-email-body',
-    'f-phone','f-sms-phone','f-sms-msg','f-lat','f-lng'
+    'f-phone','f-sms-phone','f-sms-msg','f-lat','f-lng',
+    // Event (were missing — QR would not update on typing)
+    'f-ev-title','f-ev-start','f-ev-end','f-ev-loc','f-ev-desc',
+    // Crypto (were missing)
+    'f-crypto-addr','f-crypto-amount','f-crypto-label',
+    // Meeting / Zoom (were missing)
+    'f-zoom-url','f-zoom-id','f-zoom-pass',
+    // App (was missing)
+    'f-app-url'
   ];
   ids.forEach(function(id){
     var el = $(id);
@@ -96,7 +131,7 @@ function bindInputs(){
     ta.addEventListener('input', function(){
       var n = ta.value.length;
       $('char-count').textContent = n;
-      $('char-count').style.color = n > 1800 ? '#ff7c95' : '';
+      $('char-count').style.color = n > 1800 ? '#9d56f5' : '';
     });
   }
 }
@@ -220,10 +255,14 @@ function escapeWifi(str){
   return str.replace(/[\\"';,:]/g, function(c){ return '\\'+c; });
 }
 
+function getEffectiveData(){
+  return buildData() || 'https://velotools.app';
+}
+
 /* ---------- CREATE QR (first time) ---------- */
 function createQR(){
-  var data = buildData() || 'https://velotools.app';
-  updateDataDisplay(data);
+  var data = getEffectiveData();
+  updateDataDisplay(buildData(), data);
 
   var opts = buildQROptions(data);
   Q.qrInstance = new QRCodeStyling(opts);
@@ -236,8 +275,9 @@ function createQR(){
 
 /* ---------- UPDATE QR ---------- */
 function updateQR(){
-  var data = buildData();
-  updateDataDisplay(data);
+  var raw = buildData();
+  var data = raw || 'https://velotools.app';
+  updateDataDisplay(raw, data);
 
   if(!Q.qrInstance){
     createQR();
@@ -247,11 +287,50 @@ function updateQR(){
   $('preview-placeholder').style.display = 'none';
 }
 
-function updateDataDisplay(data){
-  if(!data){ $('qr-data-row').style.display='none'; return; }
-  $('qr-data-row').style.display = '';
-  var val = data.length > 60 ? data.slice(0,57)+'…' : data;
-  $('qr-data-val').textContent = val;
+function updateDataDisplay(raw, effective){
+  effective = effective || raw || getEffectiveData();
+  if(!raw){
+    $('qr-data-row').style.display='none';
+  } else {
+    $('qr-data-row').style.display = '';
+    var val = raw.length > 55 ? raw.slice(0,52)+'…' : raw;
+    $('qr-data-val').textContent = val;
+    var lenEl=$('qr-data-len');
+    if(lenEl) lenEl.textContent = raw.length+' chars';
+  }
+  updateScanQuality(effective.length, !raw);
+}
+
+function updateScanQuality(len, isPreview){
+  var badge=$('sq-badge'), dot=$('sq-dot'), lbl=$('sq-label');
+  if(!badge||!dot||!lbl) return;
+  var quality, color;
+  if(len<=100){     quality='Excellent'; color='#a1edb7'; }
+  else if(len<=250){ quality='Good';      color='#49afeb'; }
+  else if(len<=500){ quality='Fair';      color='#47cade'; }
+  else{              quality='Complex';   color='#905ef2'; }
+  dot.style.background=color;
+  dot.style.boxShadow='0 0 8px '+color;
+  lbl.textContent=quality+(isPreview?' (demo)':'');
+  lbl.style.color=color;
+}
+
+function copyQRData(){
+  var val=$('qr-data-val'); if(!val) return;
+  var btn=$('qr-copy-btn');
+  // get full data (not truncated)
+  var data=buildData()||'';
+  if(!data) return;
+  navigator.clipboard.writeText(data).then(function(){
+    if(btn){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); },1800); }
+  }).catch(function(){
+    // fallback
+    var ta=document.createElement('textarea');
+    ta.value=data; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    if(btn){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); },1800); }
+  });
 }
 
 /* ---------- BUILD OPTIONS OBJECT ---------- */
@@ -452,7 +531,7 @@ function applyPreset(idx){
   Q.dotStyle    = p.dot;
   Q.cornerStyle = p.corner;
   Q.fgColor     = p.fg;
-  Q.fgColor2    = p.fg2 || '#7C3480';
+  Q.fgColor2    = p.fg2 || '#905ef2';
   Q.bgColor     = p.bg;
   Q.gradient    = !!p.grad;
   Q.gradType    = p.gradType || 'linear';
@@ -471,6 +550,7 @@ function applyPreset(idx){
   $('corner-styles').querySelectorAll('.cs').forEach(function(b){ b.classList.toggle('act', b.dataset.corner===Q.cornerStyle); });
   // grad type
   $('grad-type').querySelectorAll('.seg-btn').forEach(function(b){ b.classList.toggle('act', b.dataset.val===Q.gradType); });
+  $('grad-angle-row').style.display = Q.gradType === 'linear' ? '' : 'none';
   updatePresetHighlight(idx);
   scheduleUpdate();
 }
@@ -510,6 +590,9 @@ function togglePassword(){
 // eslint-disable-next-line no-unused-vars
 function downloadQR(format, size){
   if(!Q.qrInstance) return;
+  // Flash the main download button for feedback
+  var mainBtn = document.querySelector('.exp-btn.exp-main');
+  if(mainBtn){ mainBtn.classList.add('dl-flash'); setTimeout(function(){ mainBtn.classList.remove('dl-flash'); },500); }
   var filename = 'velotools-qr-'+Q.type;
   if(format === 'svg'){
     Q.qrInstance.download({ extension:'svg', name:filename });
@@ -560,3 +643,61 @@ function copyQR(){
 /* ---------- START ---------- */
 if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); }
 else { init(); }
+
+/* ---------- CHAOTIC HUMAN BLINK (preview eyes) ---------- */
+function initHumanBlink(){
+  var eyes = document.querySelectorAll('.he-eye');
+  if(!eyes.length) return;
+  var timer = null;
+
+  function blinkOne(eye, delay){
+    setTimeout(function(){
+      eye.classList.add('blink');
+      setTimeout(function(){ eye.classList.remove('blink'); }, 70 + Math.random() * 50);
+    }, delay);
+  }
+
+  function doBlink(extra){
+    extra = extra || 0;
+    eyes.forEach(function(eye, i){
+      blinkOne(eye, i * (12 + Math.random() * 28));
+    });
+    if(extra > 0){
+      setTimeout(function(){ doBlink(extra - 1); }, 190 + Math.random() * 90);
+    }
+  }
+
+  function schedule(){
+    var wait = 2200 + Math.random() * 6500;
+    if(Math.random() < 0.08) wait = 800 + Math.random() * 1200;
+    timer = setTimeout(function(){
+      var doubles = Math.random() < 0.14 ? 1 : 0;
+      if(Math.random() < 0.04) doubles = 2;
+      doBlink(doubles);
+      schedule();
+    }, wait);
+  }
+
+  function driftEyes(){
+    document.querySelectorAll('.he-eye').forEach(function(eye){
+      var iris = eye.querySelector('.he-iris');
+      if(!iris) return;
+      var base = eye.dataset.eye === 'left' ? [-48,-44] : [-42,-40];
+      var x = (Math.random() - 0.5) * 5;
+      var y = (Math.random() - 0.5) * 4;
+      iris.style.transform = 'translate(calc('+base[0]+'% + '+x+'px), calc('+base[1]+'% + '+y+'px))';
+    });
+    setTimeout(driftEyes, 1800 + Math.random() * 4000);
+  }
+
+  setTimeout(function(){
+    doBlink(Math.random() < 0.3 ? 1 : 0);
+    schedule();
+    driftEyes();
+  }, 600 + Math.random() * 900);
+
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ clearTimeout(timer); }
+    else { schedule(); }
+  });
+}
