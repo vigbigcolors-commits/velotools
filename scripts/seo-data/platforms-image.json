@@ -1,0 +1,53 @@
+{
+  "amazon-product-image": {
+    "id": "amazon-product-image",
+    "name": "Amazon Seller Central (product images)",
+    "category": "marketplace",
+    "source_url": "https://sellercentral.amazon.com/gp/help/external/G1881",
+    "aspect_ratio": "1:1",
+    "min_width_px": 2000,
+    "min_height_px": 2000,
+    "max_output_bytes": 10485760,
+    "max_output_label": "10 MB",
+    "color_profile": "sRGB",
+    "background": "RGB 255,255,255 (main image)",
+    "accepted_formats": ["JPEG", "PNG", "GIF", "TIFF"],
+    "recommended_format": "JPEG",
+    "recommended_quality": 85,
+    "notes": "Longest side minimum 1000px (1600px+ zoom). 2000px+ recommended. Main image must fill 85%+ of frame on white background."
+  },
+  "etsy-listing-image": {
+    "id": "etsy-listing-image",
+    "name": "Etsy listing photos",
+    "category": "marketplace",
+    "source_url": "https://www.etsy.com/seller-handbook/article/etsy-listing-photos/223987038179",
+    "aspect_ratio": "flexible",
+    "min_width_px": 2000,
+    "min_height_px": 2000,
+    "max_output_bytes": 10485760,
+    "max_output_label": "10 MB",
+    "color_profile": "sRGB",
+    "background": "any (lifestyle shots allowed)",
+    "accepted_formats": ["JPEG", "PNG", "GIF"],
+    "recommended_format": "JPEG",
+    "recommended_quality": 82,
+    "notes": "Etsy recommends 2000px on the shortest side. Up to 20 images per listing."
+  },
+  "ozon-product-card": {
+    "id": "ozon-product-card",
+    "name": "Ozon product card",
+    "category": "marketplace",
+    "source_url": "https://docs.ozon.ru/global/en/products/upload/adding-content/media/",
+    "aspect_ratio": "3:4",
+    "min_width_px": 900,
+    "min_height_px": 1200,
+    "max_output_bytes": 10485760,
+    "max_output_label": "10 MB",
+    "color_profile": "sRGB",
+    "background": "white or neutral for main photo",
+    "accepted_formats": ["JPEG", "PNG", "WebP"],
+    "recommended_format": "JPEG",
+    "recommended_quality": 80,
+    "notes": "Minimum 200×200px; 900×1200px or larger recommended for clothing and general catalog cards."
+  }
+}

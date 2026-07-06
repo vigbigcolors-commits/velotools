@@ -500,6 +500,7 @@
         pb.style.width = '0%';
         gb.disabled = false;
         res.classList.add('on');
+        document.dispatchEvent(new CustomEvent('velo:image-processed', { detail: { size: r.blob.size } }));
         var top = res.getBoundingClientRect().top + window.pageYOffset - 70;
         window.scrollTo({ top: top, behavior: 'smooth' });
       }, 280);

@@ -11,7 +11,13 @@
     "test": "vitest run --globals",
     "test:watch": "vitest --globals",
     "test:e2e": "playwright test",
-    "test:e2e:fixtures": "node tests/e2e/generate-fixtures.mjs"
+    "test:e2e:fixtures": "node tests/e2e/generate-fixtures.mjs",
+    "build:stateful": "node scripts/pseo-pipeline.mjs build",
+    "pseo:status": "node scripts/pseo-pipeline.mjs status",
+    "pseo:validate": "node scripts/pseo-pipeline.mjs validate",
+    "pseo:build": "node scripts/pseo-pipeline.mjs build",
+    "pseo:publish": "node scripts/pseo-pipeline.mjs publish",
+    "pseo:daily": "node scripts/pseo-pipeline.mjs daily"
   },
   "repository": {
     "type": "git",

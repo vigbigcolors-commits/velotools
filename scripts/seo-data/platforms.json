@@ -1,0 +1,52 @@
+{
+  "gmail": {
+    "id": "gmail",
+    "name": "Gmail",
+    "category": "email",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "Consumer Gmail attachment limit per message (Google Workspace may differ by admin policy).",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "outlook-web": {
+    "id": "outlook-web",
+    "name": "Outlook on the web",
+    "category": "email",
+    "max_attachment_bytes": 20971520,
+    "max_attachment_label": "20 MB",
+    "notes": "Default limit for Outlook.com / OWA attachments unless tenant policy overrides.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "canvas-lms": {
+    "id": "canvas-lms",
+    "name": "Canvas LMS",
+    "category": "education",
+    "max_attachment_bytes": 5242880,
+    "max_attachment_label": "5 MB",
+    "notes": "Common default upload cap on Canvas course assignments (institution-configurable).",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "blackboard": {
+    "id": "blackboard",
+    "name": "Blackboard Learn",
+    "category": "education",
+    "max_attachment_bytes": 10485760,
+    "max_attachment_label": "10 MB",
+    "notes": "Typical assignment upload ceiling on many Blackboard Ultra courses.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "usps-online": {
+    "id": "usps-online",
+    "name": "USPS online forms",
+    "category": "government",
+    "max_attachment_bytes": 10485760,
+    "max_attachment_label": "10 MB",
+    "notes": "Many federal and municipal portals enforce single-file PDF caps near 10 MB.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  }
+}

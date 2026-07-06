@@ -28,6 +28,7 @@ var SETTINGS = {
 
 var FILES = [];
 var fileIdCounter = 0;
+var PAGE_CONFIG = null;
 
 /** Chrome tab-crashes above ~8192px/side or ~16M pixels — stay conservative */
 var CANVAS_LIMITS = { MAX_SIDE: 4096, MAX_PIXELS: 6000000 };
@@ -80,6 +81,96 @@ function init(){
   bindSlider();
   syncSettings();
   updateSettingsSummary();
+  PAGE_CONFIG = readPageConfig();
+  if(PAGE_CONFIG) applyPageConfig(PAGE_CONFIG);
+}
+
+function readPageConfig(){
+  var el = document.getElementById('vt-page-config');
+  if(!el) return null;
+  try { return JSON.parse(el.textContent); }
+  catch(e){ console.warn('Invalid vt-page-config', e); return null; }
+}
+
+function applyPageConfig(cfg){
+  var w = cfg.widget;
+  if(!w) return;
+
+  if(w.preset && PRESETS[w.preset]){
+    var pbtn = document.querySelector('.preset-btn[data-preset="'+w.preset+'"]');
+    if(pbtn) pbtn.click();
+  }
+  if(w.quality != null){
+    SETTINGS.quality = w.quality;
+    if($('sl-quality')) $('sl-quality').value = w.quality;
+    if($('quality-val')) $('quality-val').textContent = w.quality+'%';
+  }
+  if(w.dpi != null){
+    SETTINGS.dpi = w.dpi;
+    document.querySelectorAll('.dpi-btn').forEach(function(b){
+      b.classList.toggle('act', +b.dataset.dpi === w.dpi);
+    });
+    if($('dpi-val')) $('dpi-val').textContent = w.dpi;
+  }
+  if(w.grayscale != null && $('opt-grayscale')){
+    $('opt-grayscale').checked = !!w.grayscale;
+  }
+  if(w.stripMetadata != null && $('opt-metadata')){
+    $('opt-metadata').checked = !!w.stripMetadata;
+  }
+  if(w.stripAnnotations != null && $('opt-annotations')){
+    $('opt-annotations').checked = !!w.stripAnnotations;
+  }
+  syncSettings();
+  updateSettingsSummary();
+
+  if(w.lock && w.lock.length){
+    lockWidgetControls(w.lock);
+  }
+
+  if(cfg.intentBanner){
+    showIntentBanner(cfg.intentBanner);
+  }
+}
+
+function lockWidgetControls(keys){
+  keys.forEach(function(key){
+    if(key === 'preset'){
+      document.querySelectorAll('.preset-btn').forEach(function(b){ b.disabled = true; b.style.opacity = '0.55'; });
+    }
+    if(key === 'dpi'){
+      document.querySelectorAll('.dpi-btn').forEach(function(b){ b.disabled = true; b.style.opacity = '0.55'; });
+    }
+    if(key === 'grayscale' && $('opt-grayscale')){
+      $('opt-grayscale').disabled = true;
+    }
+    if(key === 'quality' && $('sl-quality')){
+      $('sl-quality').disabled = true;
+    }
+  });
+}
+
+function showIntentBanner(msg){
+  var bar = document.getElementById('vt-intent-bar');
+  if(!bar){
+    bar = document.createElement('div');
+    bar.id = 'vt-intent-bar';
+    bar.className = 'vt-intent-bar';
+    var hero = document.querySelector('.hero');
+    if(hero && hero.parentNode) hero.parentNode.insertBefore(bar, hero.nextSibling);
+    else document.body.insertBefore(bar, document.body.firstChild);
+  }
+  bar.textContent = msg;
+  bar.hidden = false;
+}
+
+function checkPlatformLimit(f){
+  if(!PAGE_CONFIG || !PAGE_CONFIG.widget || !PAGE_CONFIG.widget.maxOutputBytes) return;
+  if(f.compressedSize > PAGE_CONFIG.widget.maxOutputBytes){
+    f.limitWarning = PAGE_CONFIG.widget.limitWarning || 'Output exceeds platform attachment limit.';
+  } else {
+    f.limitWarning = null;
+  }
 }
 
 function syncSettings(){
@@ -211,6 +302,7 @@ function buildFileCard(f){
 
   var pageHint = f.pageCount ? ' · '+f.pageCount+' page'+(f.pageCount>1?'s':'') : '';
   var scaleNoteHtml = f.scaleNote ? '<div class="fc-scale-note">'+escHtml(f.scaleNote)+'</div>' : '';
+  var limitHtml = f.limitWarning ? '<div class="vt-limit-warn">&#9888; '+escHtml(f.limitWarning)+'</div>' : '';
 
   card.innerHTML =
     '<div class="fc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'+
@@ -223,6 +315,7 @@ function buildFileCard(f){
       '</div>'+
       progressHtml+
       scaleNoteHtml+
+      limitHtml+
       savingsHtml+
     '</div>'+
     '<div class="fc-actions">'+
@@ -1201,6 +1294,7 @@ async function doCompress(f){
     f.compressedSize  = compressed.byteLength;
     f.status = 'done';
     f.progress = 100;
+    checkPlatformLimit(f);
 
   } catch(err){
     console.error('Compression error:', err);
@@ -1220,6 +1314,7 @@ async function doCompress(f){
         f.status = 'done';
         f.progress = 100;
         f.scaleNote = buildFallbackScaleNote(hybrid);
+        checkPlatformLimit(f);
         return;
       } catch(hybridErr){
         console.error('Hybrid compression failed:', hybridErr);
@@ -1233,6 +1328,7 @@ async function doCompress(f){
           f.status = 'done';
           f.progress = 100;
           f.scaleNote = 'Light optimize — layered PDF, images preserved. Re-export as flat PDF for 60–80% savings';
+          checkPlatformLimit(f);
           return;
         } catch(copyErr){
           console.error('Copy fallback failed:', copyErr);

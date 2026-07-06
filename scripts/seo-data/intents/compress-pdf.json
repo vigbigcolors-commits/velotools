@@ -1,0 +1,63 @@
+[
+  {
+    "slug": "compress-pdf-for-gmail",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "gmail",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Gmail — Under 25 MB Attachment Limit | VeloTools",
+    "description": "Compress PDF files to fit Gmail's 25 MB attachment limit. Pre-configured Web preset in your browser — no upload.",
+    "h1": "Compress PDF for Gmail attachments",
+    "h1Em": "Gmail",
+    "heroLead": "Gmail blocks attachments over 25 MB. This page opens the compressor pre-tuned for email-sized PDFs and warns you if output still exceeds the limit.",
+    "widget": {
+      "preset": "web",
+      "quality": 65,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — try Screen preset or split the PDF first."
+    },
+    "intentBanner": "Gmail mode: Web preset (96 DPI · 65% JPEG) · 25 MB limit checker enabled",
+    "publishStatus": "published",
+    "publishedAt": "2026-07-06"
+  },
+  {
+    "slug": "compress-pdf-for-canvas",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "canvas-lms",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Canvas LMS — Under 5 MB Upload | VeloTools",
+    "description": "Shrink PDF assignments to fit Canvas LMS 5 MB upload limits. Screen preset applied automatically in your browser.",
+    "h1": "Compress PDF for Canvas uploads",
+    "h1Em": "Canvas",
+    "heroLead": "Canvas courses often cap assignment files at 5 MB. The tool starts in Screen preset (72 DPI) and flags files that still exceed the portal limit.",
+    "widget": {
+      "preset": "screen",
+      "quality": 40,
+      "dpi": 72,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 5242880,
+      "lock": [
+        "preset",
+        "dpi",
+        "grayscale"
+      ],
+      "limitWarning": "Still over 5 MB — remove scanned color pages or split into multiple files."
+    },
+    "intentBanner": "Canvas mode: Screen preset (72 DPI · 40% JPEG) · 5 MB limit checker enabled",
+    "publishStatus": "published",
+    "publishedAt": "2026-07-06"
+  }
+]

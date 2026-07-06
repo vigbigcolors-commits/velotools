@@ -1,0 +1,62 @@
+{
+  "pdf": {
+    "id": "pdf",
+    "name": "PDF",
+    "mime": "application/pdf",
+    "codec": "mixed stream codecs (Flate, DCT/JPEG, JPX, CCITT)",
+    "bit_depth": "variable (1–16 bit per component)",
+    "transparency": true,
+    "transparency_note": "Optional content groups and image SMask; not all viewers flatten the same way",
+    "color_spaces": ["DeviceRGB", "DeviceCMYK", "ICCBased", "Indexed"],
+    "origin": "Adobe Portable Document Format (1993+)",
+    "lossless_capable": true
+  },
+  "jpg": {
+    "id": "jpg",
+    "name": "JPEG",
+    "mime": "image/jpeg",
+    "codec": "DCT (Discrete Cosine Transform)",
+    "bit_depth": "8-bit per channel",
+    "transparency": false,
+    "transparency_note": "No alpha channel — transparent areas must be flattened to a background color",
+    "color_spaces": ["YCbCr", "grayscale"],
+    "origin": "JPEG / JFIF (1992)",
+    "lossless_capable": false
+  },
+  "heic": {
+    "id": "heic",
+    "name": "HEIC",
+    "mime": "image/heic",
+    "codec": "H.265 (HEVC) in HEIF container",
+    "bit_depth": "up to 16-bit",
+    "transparency": true,
+    "transparency_note": "Alpha supported in HEIF auxiliary images",
+    "color_spaces": ["display P3", "sRGB", "wide gamut"],
+    "origin": "Apple iOS 11+ default camera format (2017)",
+    "lossless_capable": true
+  },
+  "png": {
+    "id": "png",
+    "name": "PNG",
+    "mime": "image/png",
+    "codec": "DEFLATE on scanlines",
+    "bit_depth": "8-bit or 16-bit per channel",
+    "transparency": true,
+    "transparency_note": "Full alpha channel per pixel",
+    "color_spaces": ["sRGB", "gamma-encoded RGB"],
+    "origin": "PNG specification (1996)",
+    "lossless_capable": true
+  },
+  "webp": {
+    "id": "webp",
+    "name": "WebP",
+    "mime": "image/webp",
+    "codec": "VP8 / VP8L / VP9 keyframes",
+    "bit_depth": "8-bit",
+    "transparency": true,
+    "transparency_note": "Lossy and lossless modes; alpha in lossless",
+    "color_spaces": ["YUV 4:2:0", "ARGB"],
+    "origin": "Google (2010)",
+    "lossless_capable": true
+  }
+}
