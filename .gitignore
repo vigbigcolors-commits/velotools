@@ -1,2 +1,5 @@
 node_modules/
 .aider*
+tests/e2e/fixtures/*.pdf
+test-results/
+playwright-report/

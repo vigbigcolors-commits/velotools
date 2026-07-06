@@ -58,6 +58,7 @@
   <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/split-pdf/">Split PDF</a>
   <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/pdf-to-jpg/">PDF to JPG</a>
 </div>
 
 <header class="hdr">
@@ -246,267 +247,91 @@
 </div><!-- /tool-wrap -->
 </main>
 
-<!-- ===== SEO ===== -->
-<section class="seo">
+<section class="editorial" aria-label="Guide to compressing PDF files">
 
-  <div class="seo-divider">
-    <div class="sdl"></div>
-    <div class="sdi"><svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.5"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="9" x2="12" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></div>
-    <div class="sdl"></div>
-  </div>
+  <section id="security" class="seo-section seo-security">
+    <h2>Security: compression without server upload</h2>
+    <p>VeloTools PDF Compressor never transmits document bytes over the network. After you select files, the browser reads them via the <strong>File API</strong> into an <code>ArrayBuffer</code>; <strong>PDF.js</strong> renders each page to a canvas in tab memory; <strong>pdf-lib</strong> assembles a new PDF from JPEG page images. No <code>fetch</code>, presigned URL, or cloud queue participates in the pipeline.</p>
+    <p>This is structural privacy, not a policy promise. With Wi-Fi disabled after the page loads, compression still runs — proof that work is local. For NDAs, HIPAA-covered records, and financial statements, no third party can access file content because no upload step exists. Server-based compressors (iLovePDF, Smallpdf) must copy your file to remote storage; VeloTools cannot, by design.</p>
+  </section>
 
-  <!-- STATS HERO -->
-  <div class="seo-block">
-    <div class="pdf-stats-big">
-      <div class="psb-item"><div class="psb-n">90<span class="psb-u">%</span></div><div class="psb-l">Max compression — Screen preset on scanned PDFs</div></div>
-      <div class="psb-item"><div class="psb-n">20</div><div class="psb-l">Files at once — true batch with per-file progress</div></div>
-      <div class="psb-item"><div class="psb-n">0</div><div class="psb-l">Bytes sent to any server — ever</div></div>
-      <div class="psb-item"><div class="psb-n">&#8734;</div><div class="psb-l">Free compressions — no daily cap, no account</div></div>
-    </div>
+  <section id="how-it-works" class="seo-section seo-steps">
+    <h2>How to compress a PDF in 3 steps</h2>
+    <ol>
+      <li>Drop one or more PDFs (up to 20), or pick files via the dialog. Choose a preset — Screen, Web, Print, or Archive — or tune DPI and JPEG quality manually.</li>
+      <li>Click Compress All. Each file shows a live progress bar and before/after size. Processing is sequential to limit RAM spikes on large batches.</li>
+      <li>Download individual <code>_compressed.pdf</code> files or use Download All (ZIP) — packaged locally with JSZip, never on a server.</li>
+    </ol>
+  </section>
 
-    <!-- Feature cards inside stats block -->
-    <div class="seo-cards">
-      <div class="sc"><div class="sc-icon">&#128274;</div><h3>100% Private</h3><p>Every step runs entirely in your browser. Your PDF bytes never travel over a network connection to any server. Ideal for contracts, financial statements, medical records, and any document you&rsquo;d never email to a stranger.</p></div>
-      <div class="sc"><div class="sc-icon">&#9889;</div><h3>Instant — No Queue</h3><p>No server queue, no waiting for a processing slot. Compression starts the moment you click Compress and runs on your device&rsquo;s CPU. A 10-page scanned PDF typically compresses in under 8 seconds. A 100-page document in 30&ndash;60 seconds.</p></div>
-      <div class="sc"><div class="sc-icon">&#128196;</div><h3>True Batch Mode</h3><p>Drop up to 20 PDFs at once. Each file gets its own real-time progress bar, compression ratio, and before/after size readout. Download any file individually the moment it&rsquo;s done, or click &ldquo;Download All (ZIP)&rdquo; to get every compressed file in one click.</p></div>
-      <div class="sc"><div class="sc-icon">&#127775;</div><h3>4 Presets + Manual Control</h3><p>Screen (smallest), Web (balanced), Print (sharp), Archive (near-lossless). Or override with the quality slider (10&ndash;95%) and DPI selector (72&ndash;300) for exact control. Grayscale mode adds an additional 10&ndash;20% reduction on monochrome documents.</p></div>
-    </div>
-  </div>
+  <section id="tech-specs" class="seo-section">
+    <h2>Technical specifications</h2>
+    <table class="seo-table">
+      <tbody>
+        <tr><th>Max files per batch</th><td>20 PDFs</td></tr>
+        <tr><th>Max file size</th><td>No hard cap — limited by device RAM (guide: ~100 MB per file on desktop)</td></tr>
+        <tr><th>Supported PDF versions</th><td>PDF 1.4 – 2.0; scanned, vector, and mixed content</td></tr>
+        <tr><th>Compression method</th><td>Rasterize pages via PDF.js → JPEG encode → pdf-lib reassembly</td></tr>
+        <tr><th>Presets</th><td>Screen (72 DPI / 40%), Web (96 / 65%), Print (150 / 80%), Archive (200 / 90%)</td></tr>
+        <tr><th>Manual controls</th><td>DPI 72–300, JPEG quality 10–95%, grayscale, strip metadata, remove annotations</td></tr>
+        <tr><th>Typical savings</th><td>Scanned PDFs 70–90%; text-only exports 10–25%</td></tr>
+        <tr><th>RAM usage</th><td>~DPI² per page during render (96 DPI A4 ≈ 6 MB bitmap per page)</td></tr>
+        <tr><th>Network</th><td>0 bytes of PDF content leave the browser</td></tr>
+        <tr><th>Encrypted PDFs</th><td>Require password at open — use <a href="/unlock-pdf/">Unlock PDF</a> first if needed</td></tr>
+      </tbody>
+    </table>
+  </section>
 
-  <!-- PRIVACY COMPARISON -->
-  <div class="seo-block">
-    <span class="seo-eyebrow">Privacy architecture</span>
-    <h2>Other tools send your PDFs to a server.<br><em class="gr">We don&rsquo;t.</em></h2>
-    <p class="seo-lead">This isn&rsquo;t a privacy policy statement &mdash; it&rsquo;s an architectural difference. Most online PDF compressors upload your file to AWS S3 or similar cloud storage, process it on their servers, then give you a download link. Your document exists on their infrastructure for some period of time. Here, that is structurally impossible.</p>
-    <div class="pdf-pvsc">
-      <div class="pdf-pvsc-side pdf-pvsc-bad">
-        <div class="pdf-pvsc-badge pdf-pvsc-badge-bad">&#9729; Server-based tools (iLovePDF, Smallpdf, etc.)</div>
-        <ul>
-          <li>Your PDF uploads to a remote server over the internet</li>
-          <li>Stored in cloud storage (often AWS S3) temporarily or permanently</li>
-          <li>Accessible to the service&rsquo;s employees and systems</li>
-          <li>Subject to data breaches if the provider is compromised</li>
-          <li>Often used to improve their own AI/ML compression models</li>
-          <li>Daily limits on free tier (2&ndash;10 tasks per day)</li>
-          <li>File size caps often at 5MB or 10MB on free plans</li>
-        </ul>
-      </div>
-      <div class="pdf-pvsc-vs">VS</div>
-      <div class="pdf-pvsc-side pdf-pvsc-good">
-        <div class="pdf-pvsc-badge pdf-pvsc-badge-good">&#11201; VeloTools — runs in your browser</div>
-        <ul>
-          <li>Your PDF is read locally by the browser&rsquo;s FileReader API</li>
-          <li>Compression runs in JavaScript — no network request issued</li>
-          <li>Output file is generated in browser memory and downloaded directly</li>
-          <li>Structurally impossible for us to access your file</li>
-          <li>Zero data collection on document content</li>
-          <li>No daily limits, no file size caps beyond your device&rsquo;s RAM</li>
-          <li>Works offline after the page loads — WiFi not required</li>
-        </ul>
-      </div>
-    </div>
-    <div class="pdf-facts">
-      <div class="pdf-fact"><div class="pdf-fact-ico">&#128274;</div><div><h4>GDPR compliant by architecture</h4><p>Because no data ever leaves your device, there is nothing to log, nothing to retain, and nothing to report. GDPR, HIPAA, and similar regulations apply to data processing systems — our architecture has no data processing system to regulate. Legal teams appreciate this property for client documents.</p></div></div>
-      <div class="pdf-fact"><div class="pdf-fact-ico">&#9889;</div><div><h4>Works entirely offline after first load</h4><p>Once the page loads in your browser, the pdf.js, pdf-lib, and jszip libraries are cached. Close your WiFi, go to airplane mode — compression still works perfectly. This is critical for users on metered connections, traveling, or in environments with restricted internet access.</p></div></div>
-    </div>
-  </div>
+  <section id="deep-dive" class="seo-section seo-deep-dive">
+    <h2>DPI, JPEG quality, and why scans compress more than Word exports</h2>
+    <p>Compression here is <strong>lossy rasterization</strong>, not in-place stream stripping. PDF.js draws each page onto a white canvas at <code>scale = DPI / 72</code>. The canvas is encoded as JPEG at your quality setting. pdf-lib embeds those JPEGs into a clean new PDF without legacy fonts, scripts, or redundant object streams.</p>
+    <p><strong>Two independent levers.</strong> Lower DPI shrinks the canvas area (halving DPI cuts pixels by ~75%). Lower JPEG quality applies DCT compression on that bitmap. Presets combine both for sensible defaults: Screen maximizes size reduction for email; Archive keeps near-lossless output for legal archives.</p>
+    <p><strong>Scanned vs vector text.</strong> A scanned page is already a photo — JPEG excels here (70–90% smaller). A Word-export PDF is mostly vector text and paths; rasterizing sharp edges produces JPEG-unfriendly high-contrast data, so savings are modest (10–25%). That is content physics, not a tool bug. Use grayscale on monochrome scans for an extra 15–25% reduction.</p>
+    <p><strong>Smart compress path.</strong> For some image-heavy pages, the engine extracts embedded JPEG streams without full canvas render when safe — faster and preserves source quality on single-image pages. Complex layered PDFs fall back to full render.</p>
+    <p><strong>Compress vs merge/split.</strong> <a href="/merge-pdf/">Merge</a> and <a href="/split-pdf/">Split</a> use lossless <code>copyPages</code>. Compress intentionally trades fidelity for size. Merge first, compress second, is a common workflow for smaller email attachments.</p>
+    <p><strong>Export to images.</strong> Need JPG/PNG per page instead of a smaller PDF? Use <a href="/pdf-to-jpg/">PDF to JPG</a> — same PDF.js render path, image output instead of pdf-lib assembly.</p>
+  </section>
 
-  <!-- PRESETS DEEP DIVE -->
-  <div class="seo-block">
-    <span class="seo-eyebrow ey-gold">Preset guide</span>
-    <h2>The right preset for <em class="gr">every situation</em></h2>
-    <p class="seo-lead">The four presets represent four distinct positions on the quality&ndash;size trade-off curve. Choosing the wrong one either wastes file size (too conservative) or degrades the document unnecessarily (too aggressive). Here&rsquo;s exactly when to use each one.</p>
-    <div class="seo-presets-explain">
-      <div class="spe">
-        <div class="spe-header">
-          <div class="spe-icon">&#128190;</div>
-          <div><div class="spe-name">Screen</div><div class="spe-specs">72 DPI &middot; JPEG 40% &middot; ~85% smaller</div></div>
-          <div class="spe-badge spe-badge-max">Maximum compression</div>
-        </div>
-        <p>Optimised exclusively for screen reading. At 72 DPI (the screen resolution standard), pages look sharp on any monitor or phone screen but will print blurry. JPEG quality 40% produces visible artifacts at close zoom, but at normal reading scale on a screen the difference is nearly imperceptible for most content. A 20-page scanned report that starts at 15MB will typically end at 2&ndash;3MB &mdash; small enough for any email attachment, messaging app, or document portal.</p>
-        <div class="comp-bar-wrap">
-          <div class="comp-bar-row"><div class="comp-bar-lbl">Before</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-before" style="width:100%"></div></div><div class="comp-bar-val">100%</div></div>
-          <div class="comp-bar-row"><div class="comp-bar-lbl">After</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-after" style="width:15%"></div></div><div class="comp-bar-val">~15%</div></div>
-        </div>
-        <div class="spe-usecases"><span>Email attachments</span><span>Slack &amp; Teams</span><span>Web portals</span><span>Cloud storage</span></div>
-      </div>
-      <div class="spe">
-        <div class="spe-header">
-          <div class="spe-icon">&#127760;</div>
-          <div><div class="spe-name">Web</div><div class="spe-specs">96 DPI &middot; JPEG 65% &middot; ~70% smaller</div></div>
-          <div class="spe-badge spe-badge-balanced">Balanced</div>
-        </div>
-        <p>The default preset for a reason: 96 DPI matches the CSS reference pixel and renders beautifully on retina and standard displays at any normal reading zoom. JPEG quality 65% is perceptually close to lossless for typical document content (text on coloured backgrounds, charts, photos at reading scale). The quality reduction is essentially invisible unless you zoom to 400%+ and compare side-by-side. This is the correct choice for client deliverables, portfolio PDFs, and any document where quality perception matters but emailing a 25MB file is not an option.</p>
-        <div class="comp-bar-wrap">
-          <div class="comp-bar-row"><div class="comp-bar-lbl">Before</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-before" style="width:100%"></div></div><div class="comp-bar-val">100%</div></div>
-          <div class="comp-bar-row"><div class="comp-bar-lbl">After</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-after" style="width:30%"></div></div><div class="comp-bar-val">~30%</div></div>
-        </div>
-        <div class="spe-usecases"><span>Client proposals</span><span>Presentations</span><span>Reports</span><span>Portfolios</span></div>
-      </div>
-      <div class="spe">
-        <div class="spe-header">
-          <div class="spe-icon">&#128438;</div>
-          <div><div class="spe-name">Print</div><div class="spe-specs">150 DPI &middot; JPEG 80% &middot; ~50% smaller</div></div>
-          <div class="spe-badge spe-badge-print">Print-ready</div>
-        </div>
-        <p>150 DPI is generally considered the minimum acceptable for office printing. Text at this resolution prints sharply at A4 and US Letter size on a standard laser or inkjet printer. JPEG quality 80% preserves photo content well enough that most recipients won&rsquo;t notice any quality difference compared to the original. This preset is the correct choice for documents that will be printed and handed to someone: contracts, brochures, flyers, and office reports. It halves the file size while maintaining professional print quality.</p>
-        <div class="comp-bar-wrap">
-          <div class="comp-bar-row"><div class="comp-bar-lbl">Before</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-before" style="width:100%"></div></div><div class="comp-bar-val">100%</div></div>
-          <div class="comp-bar-row"><div class="comp-bar-lbl">After</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-after" style="width:50%"></div></div><div class="comp-bar-val">~50%</div></div>
-        </div>
-        <div class="spe-usecases"><span>Office printing</span><span>Flyers</span><span>Contracts</span><span>Brochures</span></div>
-      </div>
-      <div class="spe">
-        <div class="spe-header">
-          <div class="spe-icon">&#128736;</div>
-          <div><div class="spe-name">Archive</div><div class="spe-specs">200 DPI &middot; JPEG 90% &middot; ~30% smaller</div></div>
-          <div class="spe-badge spe-badge-quality">High quality</div>
-        </div>
-        <p>200 DPI is sufficient for professional printing on most commercial printers. JPEG quality 90% is considered near-lossless for most photographic content &mdash; compression artifacts are virtually invisible even under close inspection. The resulting file is still 25&ndash;35% smaller than the original, primarily from re-encoding inefficiencies in the original PDF and metadata removal. Use this preset when the document will be used for high-quality printing, long-term archiving, or any situation where quality must be beyond reproach.</p>
-        <div class="comp-bar-wrap">
-          <div class="comp-bar-row"><div class="comp-bar-lbl">Before</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-before" style="width:100%"></div></div><div class="comp-bar-val">100%</div></div>
-          <div class="comp-bar-row"><div class="comp-bar-lbl">After</div><div class="comp-bar-track"><div class="comp-bar-fill comp-bar-after" style="width:70%"></div></div><div class="comp-bar-val">~70%</div></div>
-        </div>
-        <div class="spe-usecases"><span>Legal documents</span><span>Photography</span><span>Professional print</span><span>Archiving</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TECH STACK -->
-  <div class="seo-block">
-    <span class="seo-eyebrow">Technical deep-dive</span>
-    <h2>How the compression <em>actually</em> works</h2>
-    <p class="seo-lead">Unlike server-based tools that are a black box, our compression pipeline uses three open-source libraries that you can audit. Here&rsquo;s what each one does &mdash; and why this approach is both more private and more transparent than cloud alternatives.</p>
-    <div class="pdf-tech-grid">
-      <div class="pdf-tech-card" style="--tc-col:linear-gradient(90deg,#2d5a2d,var(--ac3))">
-        <div class="pdf-tc-badge">PDF Parsing</div>
-        <h4>PDF.js</h4>
-        <p>Mozilla&rsquo;s open-source PDF rendering engine, used in Firefox&rsquo;s built-in PDF viewer. It parses the raw PDF binary format, resolves cross-reference tables, and renders each page to an HTML Canvas element at the specified DPI. <strong>Every page becomes a bitmap canvas</strong> at exactly the resolution you chose. The canvas is then compressed as JPEG, which is where the size reduction happens. PDF.js handles complex PDFs including multi-layer, form-containing, and encrypted documents.</p>
-      </div>
-      <div class="pdf-tech-card" style="--tc-col:linear-gradient(90deg,#5a4e20,var(--gold))">
-        <div class="pdf-tc-badge">PDF Assembly</div>
-        <h4>pdf-lib</h4>
-        <p>A JavaScript library for creating and modifying PDF documents from scratch. After PDF.js renders each page as a JPEG image, pdf-lib assembles these compressed images into a brand new PDF document. <strong>The output is a clean, minimal PDF</strong> containing only the compressed page images — no embedded fonts, no metadata, no form fields, no annotations (unless you chose to keep them). This clean construction approach produces smaller files than attempting to strip content from the original PDF in-place.</p>
-      </div>
-      <div class="pdf-tech-card" style="--tc-col:linear-gradient(90deg,#1a3a5a,#7ac4e8)">
-        <div class="pdf-tc-badge">ZIP Packaging</div>
-        <h4>JSZip</h4>
-        <p>A client-side ZIP file creation library used for the &ldquo;Download All (ZIP)&rdquo; batch download feature. When you compress multiple PDFs and click to download all, JSZip collects all compressed PDF bytes in browser memory and packages them into a single <code>.zip</code> archive — entirely locally. <strong>No server is involved in the ZIP creation.</strong> The ZIP is assembled on your device and downloaded directly. JSZip also powers the per-file naming (preserving the original filename with <code>_compressed</code> suffix).</p>
-      </div>
-    </div>
-    <div class="seo-steps" style="margin-top:24px">
-      <div class="seo-step"><div class="ss-num">01</div><div class="ss-body"><h4>FileReader API loads PDF bytes into browser memory</h4><p>The PDF is read by the browser&rsquo;s native <code>FileReader</code> API into an <code>ArrayBuffer</code>. This is a direct local memory operation — no network connection is involved. The raw bytes live in your browser tab&rsquo;s memory and are never transmitted anywhere.</p></div></div>
-      <div class="seo-step"><div class="ss-num">02</div><div class="ss-body"><h4>PDF.js parses and renders each page to a canvas at your chosen DPI</h4><p>PDF.js receives the array buffer and parses the PDF structure. Each page is rendered onto an opaque white canvas at <code>scale = DPI / 72</code>. Grayscale is applied after render via a safe compositing pass (never raw pixel overwrite, which breaks transparency). Annotations are skipped when &ldquo;Remove annotations&rdquo; is enabled.</p></div></div>
-      <div class="seo-step"><div class="ss-num">03</div><div class="ss-body"><h4>Canvas is converted to JPEG bytes via <code>toDataURL</code></h4><p>The rendered canvas is encoded as a JPEG data URL at your quality setting (0.1&ndash;0.95). This is where the majority of compression occurs: JPEG&rsquo;s DCT (Discrete Cosine Transform) algorithm is extremely efficient at compressing photographic and scanned content. A canvas image at 40% quality retains full perceptual quality at normal screen zoom while being ~10&times; smaller than a lossless PNG.</p></div></div>
-      <div class="seo-step"><div class="ss-num">04</div><div class="ss-body"><h4>pdf-lib assembles all pages into a new clean PDF</h4><p>Each page&rsquo;s JPEG bytes are embedded as images in a new PDF document created from scratch by pdf-lib. The output PDF uses <code>Object Streams</code> compression internally, and includes only the page images — no embedded fonts, no JavaScript, no metadata (unless &ldquo;Strip metadata&rdquo; is off). The final output is downloaded as <code>{filename}_compressed.pdf</code>.</p></div></div>
-    </div>
-  </div>
-
-  <!-- WHO USES -->
-  <div class="seo-block">
-    <span class="seo-eyebrow ey-gold">Real use cases</span>
-    <h2>Who compresses PDFs <em class="gr">every day</em></h2>
-    <p class="seo-lead">PDF compression is one of the most universal document tasks — it spans every industry that handles files digitally. Here&rsquo;s how six distinct professional contexts use it, and what each one specifically needs from a compression tool.</p>
-    <div class="pdf-user-grid">
-      <div class="pdf-user-card puc-1">
-        <span class="puc-ico">&#9878;</span>
-        <h4>Legal Professionals</h4>
-        <p>Law firms handle vast volumes of scanned court filings, contracts, discovery documents, and case files. These are almost always scanned PDFs &mdash; the highest-compression use case. A court filing that starts at 80MB can reach 8MB at Web preset with no practical quality loss. Confidentiality is paramount: uploading client documents to any third-party server violates legal privilege in most jurisdictions. Browser-based compression solves this cleanly. Use Print preset for documents that will be filed physically.</p>
-      </div>
-      <div class="pdf-user-card puc-2">
-        <span class="puc-ico">&#128200;</span>
-        <h4>Marketing &amp; Agencies</h4>
-        <p>Marketing agencies produce large presentation PDFs, brand books, media kits, and proposal decks filled with high-resolution images. These routinely exceed 50&ndash;100MB in their native form. Web preset reduces a 60MB brand guide to 18MB &mdash; small enough for client email while preserving the visual quality that justifies the creative work. Batch mode is essential for agencies: compress the full proposal deck, the rate card, the case studies, and the appendices simultaneously before a client meeting.</p>
-      </div>
-      <div class="pdf-user-card puc-3">
-        <span class="puc-ico">&#127979;</span>
-        <h4>Students &amp; Academics</h4>
-        <p>University online portals and learning management systems (Blackboard, Canvas, Moodle) routinely enforce 5MB or 10MB upload limits for assignment submissions. A thesis with scanned references or a research report with figures easily exceeds these limits. Screen or Web preset reduces most student PDFs to well within portal limits. Academic institutions also frequently require scanned physical forms &mdash; admission documents, transcripts, letters of recommendation &mdash; that compress dramatically from their raw scan sizes.</p>
-      </div>
-      <div class="pdf-user-card puc-4">
-        <span class="puc-ico">&#128188;</span>
-        <h4>HR &amp; Operations</h4>
-        <p>Human resources departments handle continuous flows of CVs, onboarding packets, signed offer letters, tax forms, ID copies, and policy acknowledgements. Scanned HR documents compress 70&ndash;85% with the Web preset. The grayscale option is particularly effective for black-and-white forms and letterheaded documents &mdash; most HR paperwork has no colour content worth preserving. Batch compression of incoming CV pools (20 at once) dramatically reduces storage requirements on shared drives and HR systems.</p>
-      </div>
-      <div class="pdf-user-card puc-5">
-        <span class="puc-ico">&#9877;</span>
-        <h4>Healthcare Administration</h4>
-        <p>Medical records, patient intake forms, insurance claims, and referral letters are frequently scanned physical documents. These are among the most sensitive files that exist &mdash; sharing them with a third-party cloud service to compress them is a clear HIPAA violation in US healthcare contexts and a GDPR violation in European contexts. Browser-based compression is not just convenient here; it&rsquo;s the only architecturally compliant approach. Archive preset is recommended to maintain diagnostic-quality image content in clinical photographs.</p>
-      </div>
-      <div class="pdf-user-card puc-6">
-        <span class="puc-ico">&#127968;</span>
-        <h4>Real Estate</h4>
-        <p>Property listings, valuation reports, survey documents, lease agreements, and planning permissions are all PDF-heavy workflows. A 40-page survey report with site photographs often starts at 35&ndash;60MB. Web preset reduces this to 10&ndash;18MB for portal upload and client email. Lease agreements and contracts are better served by Print preset to maintain quality for signing and physical filing. Real estate portals (Rightmove, Zillow, Zoopla) all have document size limits that batch PDF compression routinely solves.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- TIPS -->
-  <div class="seo-block">
-    <span class="seo-eyebrow">Expert tips</span>
-    <h2>Get maximum compression <em>without surprises</em></h2>
-    <div class="seo-tips-grid">
-      <div class="stg"><div class="stg-icon">&#128247;</div><h3>Scanned PDFs compress 70&ndash;90%</h3><p>Scanned documents are images inside a PDF wrapper — every page is already raster data. JPEG compression on raster content is extremely efficient. A 20-page scanned contract at 15MB will typically reach 1.5&ndash;3MB at Screen or Web preset. This is the compression scenario the tool is optimised for. If your PDF looks like a photo of a page, expect dramatic results.</p></div>
-      <div class="stg"><div class="stg-icon">&#128203;</div><h3>Enable grayscale for monochrome documents</h3><p>If your document is black and white &mdash; contracts, letters, financial statements, academic papers &mdash; enabling Grayscale mode removes all colour channel data. JPEG compresses single-channel grayscale images significantly more efficiently than three-channel colour images. Expect an additional 15&ndash;25% size reduction on top of the JPEG preset savings, with zero visible quality difference on monochrome content.</p></div>
-      <div class="stg"><div class="stg-icon">&#128190;</div><h3>Text PDFs compress less — and that&rsquo;s normal</h3><p>A PDF created in Microsoft Word, Google Docs, or InDesign with clean vector text compresses 10&ndash;25% rather than 70&ndash;90%. This is not a tool limitation — it&rsquo;s the nature of the content. Clean vector text, when rendered to canvas at any DPI, produces very JPEG-unfriendly image data (sharp edges, high contrast). The main savings for text PDFs come from metadata removal and re-encoding. For text PDFs, Archive preset is often the best choice to avoid any visible degradation.</p></div>
-      <div class="stg"><div class="stg-icon">&#128268;</div><h3>Use ZIP download for batch workflows</h3><p>When processing multiple files, avoid clicking individual download buttons &mdash; click &ldquo;Download All (ZIP)&rdquo; once all files are done. The ZIP is assembled entirely in your browser (JSZip) with no server involvement. Files retain their original names with <code>_compressed</code> suffix for easy identification. The ZIP approach is also cleaner for sharing: a single compressed archive is easier to attach to an email or upload to a shared drive than 15 individual files.</p></div>
-    </div>
-  </div>
-
-  <!-- COMPARISON -->
-  <div class="seo-block">
-    <span class="seo-eyebrow">Honest comparison</span>
-    <h2>VeloTools PDF vs <em class="gr">the alternatives</em></h2>
-    <p class="seo-lead">Here&rsquo;s an honest comparison of VeloTools PDF Compressor against the most popular alternatives. The key differentiator is not compression ratio &mdash; it&rsquo;s privacy architecture and the absence of artificial free-tier limitations.</p>
-    <div class="pdf-comp-wrap">
-      <table class="pdf-comp-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th class="hl">VeloTools &#9733;</th>
-            <th>iLovePDF</th>
-            <th>Smallpdf</th>
-            <th>Adobe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>No upload (100% private)</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcx">&#10007;</span></td></tr>
-          <tr><td>Unlimited free files</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pcm">2 tasks/day free</span></td><td><span class="pcm">2 tasks/day free</span></td><td><span class="pcx">Paid only</span></td></tr>
-          <tr><td>Batch processing (up to 20)</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pck">&#10003;</span></td><td><span class="pcm">Paid only</span></td><td><span class="pck">&#10003;</span></td></tr>
-          <tr><td>No watermarks</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pck">&#10003;</span></td><td><span class="pcx">✗ Free adds watermark</span></td><td><span class="pck">&#10003;</span></td></tr>
-          <tr><td>Works offline</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcx">&#10007;</span></td></tr>
-          <tr><td>Grayscale compression mode</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcm">Paid only</span></td></tr>
-          <tr><td>Custom DPI + quality control</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pcm">Paid only</span></td><td><span class="pcx">&#10007;</span></td><td><span class="pcm">Paid only</span></td></tr>
-          <tr><td>No account required</td><td class="hl"><span class="pck">&#10003;</span></td><td><span class="pck">&#10003;</span></td><td><span class="pck">&#10003;</span></td><td><span class="pcx">&#10007;</span></td></tr>
-          <tr><td>Cost</td><td class="hl"><span class="pck">Free forever</span></td><td><span class="pcm">Free (limited)</span></td><td><span class="pcm">Free (limited)</span></td><td><span class="pcm">$14.99/month</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <div class="seo-block">
-    <span class="seo-eyebrow">FAQ</span>
-    <h2>Frequently asked questions about <em>PDF compression</em></h2>
-    <div class="faq-list">
-      <details class="faq-item"><summary>Does this PDF compressor upload my files to a server?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Absolutely not. Every step happens in your browser using JavaScript. Your PDF file never leaves your device. You can turn off your internet connection after the page loads and compression still works perfectly. The three libraries (PDF.js, pdf-lib, JSZip) run entirely client-side. There is no API call, no presigned upload URL, no S3 bucket &mdash; the compression architecture makes server transmission structurally impossible, not just policy-prohibited.</div></details>
-      <details class="faq-item"><summary>How much can I reduce a PDF file size?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It depends entirely on the content type. <strong>Scanned documents</strong> (images of physical pages): 70&ndash;90% smaller with Screen or Web preset. <strong>Presentation PDFs</strong> with photos and graphics: 50&ndash;80% smaller. <strong>Text-only PDFs</strong> (Word exports, contracts, academic papers): 10&ndash;25% smaller, primarily from metadata removal and re-encoding inefficiencies. The before/after size display in the tool shows your exact result in real time.</div></details>
-      <details class="faq-item"><summary>Will compression reduce the visual quality of my PDF?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; every preset except Archive involves a quality trade-off. <strong>Archive</strong> (JPEG 90%): virtually indistinguishable from original at any zoom. <strong>Print</strong> (JPEG 80%): essentially invisible quality difference at reading scale. <strong>Web</strong> (JPEG 65%): slight softening visible only at 300%+ zoom. <strong>Screen</strong> (JPEG 40%): visible artifacts at close zoom, completely acceptable at normal reading scale. For final client deliverables or documents that must survive close inspection, use Print or Archive. For internal sharing and email, Web is optimal.</div></details>
-      <details class="faq-item"><summary>What is the difference between DPI and JPEG quality?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">These are two independent compression levers that multiply together. <strong>DPI (dots per inch)</strong> determines the canvas resolution each page is rendered at before encoding. Lower DPI = smaller canvas = smaller source image before compression. 72 DPI is screen resolution; 300 DPI is print quality. <strong>JPEG quality</strong> (10&ndash;95%) controls how aggressively the JPEG encoder compresses the canvas image. Both controls affect file size: halving the DPI reduces the image area by 75%; reducing quality from 90% to 40% reduces JPEG size by roughly 60%. The presets combine both levers for sensible defaults.</div></details>
-      <details class="faq-item"><summary>Is there a file size or page count limit?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No hard limits &mdash; the constraint is your device&rsquo;s available RAM. Each page requires memory proportional to DPI&sup2;: a 300 DPI canvas for an A4 page is approximately 3500&times;4950 pixels, requiring ~66MB of uncompressed bitmap memory per page. At 96 DPI, the same page requires ~6MB. For very large PDFs (200+ pages) or very high DPI settings, compression may slow significantly or trigger memory warnings on devices with limited RAM. Most 100-page scanned PDFs at Web preset process without issues on a modern laptop or desktop.</div></details>
-      <details class="faq-item"><summary>Can I compress multiple PDFs at once?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; up to 20 PDFs simultaneously. Drag and drop them all at once or use the file picker with multi-select. Files are processed sequentially (one at a time internally) to prevent memory spikes, but each shows a real-time progress bar. As each file finishes, its download button appears immediately. When all files are done, &ldquo;Download All (ZIP)&rdquo; becomes available &mdash; it packages all compressed files into a single ZIP archive assembled in your browser via JSZip.</div></details>
-      <details class="faq-item"><summary>What does &ldquo;Strip metadata&rdquo; do?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">When enabled (default), the output PDF has author, creation date, title, and producer fields cleared. This removes identifying information and saves a small amount of space. Turn it off if you need to preserve the original document metadata.</div></details>
-      <details class="faq-item"><summary>Why does my text-only PDF barely compress?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Our compressor works by re-rendering pages as JPEG images. Text rendered to a canvas at any DPI produces hard-edged, high-contrast pixel data &mdash; exactly the content type JPEG handles least efficiently (JPEG is designed for photographic content with smooth gradients). A Word-export PDF with clean text at Web preset might only compress 15&ndash;20%, compared to 70&ndash;80% for the same page count with scanned content. For text-heavy PDFs, Archive preset with grayscale enabled is usually the right choice &mdash; it minimises quality loss while still achieving meaningful savings from re-encoding.</div></details>
-      <details class="faq-item"><summary>Can I use this for confidential or legally sensitive documents?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes &mdash; this is specifically one of the most appropriate use cases. Because the compression happens entirely in your browser with no network transmission, there is no data controller relationship, no third-party data processor agreement needed, and no risk of document exposure through a third-party security breach. For law firms (legal privilege), healthcare providers (HIPAA/GDPR), financial institutions (data protection regulations), and anyone handling NDA-covered content, browser-based compression is the architecturally correct approach.</div></details>
-      <details class="faq-item"><summary>Does it work offline?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes, fully. After the page loads and the three JavaScript libraries (PDF.js ~2MB, pdf-lib ~0.8MB, JSZip ~0.3MB) are cached in your browser, the tool works without any internet connection. Go to airplane mode &mdash; compression, batch processing, and ZIP download all continue to work perfectly. This is useful for compressing documents on trains, planes, or in environments with restricted internet access. The browser cache persists until you clear your browser data.</div></details>
-    </div>
-  </div>
+  <section id="faq" class="seo-section seo-faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Does this compressor upload my files to a server?</summary>
+      <div class="faq-a">No. PDF.js, pdf-lib, and JSZip run entirely in your browser. Disconnect the internet after load — compression still works. No API call carries PDF body data.</div>
+    </details>
+    <details>
+      <summary>How much can I reduce PDF file size?</summary>
+      <div class="faq-a">Scanned documents: 70–90% with Screen or Web. Photo-heavy presentations: 50–80%. Text-only exports: 10–25%. The tool shows exact before/after bytes per file.</div>
+    </details>
+    <details>
+      <summary>Will compression reduce visual quality?</summary>
+      <div class="faq-a">Yes — except Archive preset, every mode trades size for fidelity. Print and Archive are best for client deliverables; Screen is best for internal email and portals.</div>
+    </details>
+    <details>
+      <summary>What is the difference between DPI and JPEG quality?</summary>
+      <div class="faq-a">DPI sets render resolution (canvas size). JPEG quality sets encoder aggressiveness. Both multiply: lower either to shrink output. Presets tune both together.</div>
+    </details>
+    <details>
+      <summary>Is there a page count or file size limit?</summary>
+      <div class="faq-a">No hard limit — RAM is the constraint. A 100-page scan at Web preset typically works on a modern laptop. Very high DPI on 200+ pages may slow or warn on low-memory devices.</div>
+    </details>
+    <details>
+      <summary>Can I compress multiple PDFs at once?</summary>
+      <div class="faq-a">Yes — up to 20 files. Each gets a progress bar; Download All (ZIP) packages results locally via JSZip.</div>
+    </details>
+    <details>
+      <summary>Why does my text-only PDF barely compress?</summary>
+      <div class="faq-a">Vector text rasterizes to sharp edges that JPEG compresses poorly. Use Archive preset and grayscale for text-heavy docs, or accept modest savings from metadata stripping and clean reassembly.</div>
+    </details>
+    <details>
+      <summary>Does it work offline?</summary>
+      <div class="faq-a">Yes, after CDN libraries cache (~3 MB total). Airplane mode does not block compression, batch mode, or ZIP download.</div>
+    </details>
+  </section>
 
 </section>
 
-<footer class="footer">
-  <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
-  <div class="fbs"><span class="fb">No upload</span><span class="fb">No signup</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>
+<footer class="site-footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>

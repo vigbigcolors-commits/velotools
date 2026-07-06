@@ -30,6 +30,7 @@ const files = [
   'merge-pdf/index.html',
   'split-pdf/index.html',
   'unlock-pdf/index.html',
+  'pdf-to-jpg/index.html',
   'qr/index.html',
   'compress-jpg-online/index.html',
   'invoice-no-watermark/index.html',

@@ -51,10 +51,12 @@
       "slug": "pdf-to-jpg",
       "mode": "pdf-to-jpg",
       "script": "/pdf-tools/pdf-to-jpg.js",
-      "title": "PDF to JPG Online Free — Convert PDF Pages to Images | VeloTools",
+      "title": "PDF to JPG Online Free — Convert PDF Pages to Images in Browser | VeloTools",
+      "description": "Convert PDF to JPG online for free. Export pages as JPEG images in your browser — no upload.",
+      "h1": "Convert PDF pages to JPG images",
+      "h1Em": "PDF",
       "tier": "P0",
-      "status": "planned",
-      "contentBlocks": ["dpi-guide-print-vs-web", "transparency-layers", "extract-vs-rasterize"]
+      "status": "live"
     },
     {
       "slug": "rotate-pdf",

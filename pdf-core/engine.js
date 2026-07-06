@@ -193,6 +193,35 @@ export function parsePageRanges(spec, totalPages) {
   return [sorted];
 }
 
+export async function loadPdfJs() {
+  if (window['pdfjs-dist/build/pdf']) {
+    const lib = window['pdfjs-dist/build/pdf'];
+    if (!lib.GlobalWorkerOptions.workerSrc) {
+      lib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+    return lib;
+  }
+  return new Promise(function (resolve, reject) {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = function () {
+      const lib = window['pdfjs-dist/build/pdf'];
+      if (!lib) {
+        reject(new Error('PDF.js failed to load'));
+        return;
+      }
+      lib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      resolve(lib);
+    };
+    s.onerror = function () {
+      reject(new Error('PDF.js failed to load'));
+    };
+    document.head.appendChild(s);
+  });
+}
+
 /** Placeholder for Phase 2 PDFium.wasm */
 export async function initWasmEngine() {
   return null;

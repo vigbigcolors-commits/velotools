@@ -6,10 +6,11 @@
 const BASE = process.env.AUDIT_BASE || 'http://localhost:3000';
 
 const PAGES = [
-  { path: '/compress-pdf/', seo: [], faqMarker: 'faq-list' },
+  { path: '/compress-pdf/', seo: ['security', 'how-it-works', 'tech-specs', 'deep-dive', 'faq'] },
   { path: '/merge-pdf/', seo: ['security', 'how-it-works', 'tech-specs', 'deep-dive', 'faq'] },
   { path: '/split-pdf/', seo: ['security', 'how-it-works', 'tech-specs', 'deep-dive', 'faq'] },
   { path: '/unlock-pdf/', seo: ['security', 'how-it-works', 'tech-specs', 'deep-dive', 'faq'] },
+  { path: '/pdf-to-jpg/', seo: ['security', 'how-it-works', 'tech-specs', 'deep-dive', 'faq'] },
   { path: '/pdf-compress/', seo: [] },
 ];
 
@@ -21,6 +22,7 @@ const REQUIRED_ASSETS = [
   '/pdf-tools/split.js',
   '/pdf-tools/unlock.js',
   '/pdf-tools/compress.js',
+  '/pdf-tools/pdf-to-jpg.js',
   '/compress-pdf/style.css',
 ];
 
@@ -72,7 +74,7 @@ async function main() {
   console.log('PDF Tools Audit — base:', BASE, '\n');
 
   for (const page of PAGES) {
-    const { path, seo, faqMarker } = page;
+    const { path, seo } = page;
     const r = await fetchStatus(BASE + path);
     if (!r.ok) fail('PAGE', `${path} → HTTP ${r.status || r.error}`);
     else {
@@ -92,11 +94,6 @@ async function main() {
       for (const id of seo) {
         if (!r.text.includes(`id="${id}"`)) fail('SEO', `${path} missing #${id} section`);
         else pass(`${path}: #${id} present`);
-      }
-      if (faqMarker && !r.text.includes(faqMarker)) {
-        fail('SEO', `${path} missing FAQ content (${faqMarker})`);
-      } else if (faqMarker) {
-        pass(`${path}: FAQ content present`);
       }
 
       if (r.text.match(/[а-яА-ЯёЁ]/)) fail('I18N', `${path} contains Cyrillic in HTML`);
@@ -118,7 +115,7 @@ async function main() {
 
   const merge = await fetchStatus(BASE + '/merge-pdf/');
   if (merge.ok) {
-    for (const link of ['/compress-pdf/', '/split-pdf/', '/unlock-pdf/']) {
+    for (const link of ['/compress-pdf/', '/split-pdf/', '/unlock-pdf/', '/pdf-to-jpg/']) {
       if (!merge.text.includes(link)) fail('NAV', `merge-pdf missing link to ${link}`);
       else pass(`merge-pdf links to ${link}`);
     }
