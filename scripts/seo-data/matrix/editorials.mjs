@@ -9,7 +9,7 @@
 export const EDITORIALS = {
   'backend-developer-focus-room': {
     eyebrow: 'Backend deep work',
-    h2: 'Focus Room tuned for backend developers',
+    h2: 'Deep blocks for systems that fight interrupts',
     lead:
       'This page locks a 50/10 deep-work rhythm for API design, migrations, and long debugging sessions. Midnight theme and lofi keep language centers quiet while you hold complex system state in working memory.',
     whyPreset:
@@ -31,7 +31,7 @@ export const EDITORIALS = {
   },
   'frontend-developer-focus-room': {
     eyebrow: 'Frontend craft mode',
-    h2: 'Focus Room for frontend developers',
+    h2: 'UI implementation without tab chaos',
     lead:
       'Classic 25/5 Pomodoro with teal theme and cafe ambient for UI implementation, component polish, and design-system work where short feedback loops beat marathon blocks.',
     whyPreset:
@@ -53,7 +53,7 @@ export const EDITORIALS = {
   },
   'devops-engineer-focus-room': {
     eyebrow: 'Infra calm focus',
-    h2: 'Focus Room for DevOps engineers',
+    h2: 'Calm pacing for infra changes',
     lead:
       'A 45/10 jade + rain preset for runbooks, Terraform reviews, and pipeline work where calm pacing beats adrenaline-driven clicking.',
     whyPreset:
@@ -75,7 +75,7 @@ export const EDITORIALS = {
   },
   'ux-designer-focus-room': {
     eyebrow: 'UX synthesis',
-    h2: 'Focus Room for UX designers',
+    h2: 'Synthesis time that protects insight quality',
     lead:
       'Thirty/five amber + forest for research synthesis, journey maps, and problem framing where thinking quality matters more than raw output speed.',
     whyPreset:
@@ -97,7 +97,7 @@ export const EDITORIALS = {
   },
   'ui-designer-focus-room': {
     eyebrow: 'UI polish sprints',
-    h2: 'Focus Room for UI designers',
+    h2: 'Short loops for visual decisions',
     lead:
       'Twenty-five/five midnight + lofi for visual systems, spacing passes, and component states where rhythm keeps critiques honest.',
     whyPreset:
@@ -119,7 +119,7 @@ export const EDITORIALS = {
   },
   'copywriter-focus-room': {
     eyebrow: 'Copy sprints',
-    h2: 'Focus Room for copywriters',
+    h2: 'Sprint writing with a clean edit pass',
     lead:
       'Twenty-five/five teal + cafe for headlines, landing sections, and offer copy that benefits from the coffee-shop effect without leaving your desk.',
     whyPreset:
@@ -141,7 +141,7 @@ export const EDITORIALS = {
   },
   'content-writer-focus-room': {
     eyebrow: 'Longform drafting',
-    h2: 'Focus Room for content writers',
+    h2: 'Longform flow without analytics rabbit holes',
     lead:
       'Forty/eight amber + rain for articles and guides where you need a longer on-ramp to hold outline, sources, and voice in mind together.',
     whyPreset:
@@ -163,7 +163,7 @@ export const EDITORIALS = {
   },
   'product-manager-focus-room': {
     eyebrow: 'PM spec focus',
-    h2: 'Focus Room for product managers',
+    h2: 'Decision-grade focus for specs',
     lead:
       'Thirty-five/seven midnight + ocean for PRDs, decision logs, and prioritization where interruptions destroy decision quality.',
     whyPreset:
@@ -185,7 +185,7 @@ export const EDITORIALS = {
   },
   'data-analyst-focus-room': {
     eyebrow: 'Analysis blocks',
-    h2: 'Focus Room for data analysts',
+    h2: 'Keep the analytical thread intact',
     lead:
       'Fifty/ten jade + rain for query building, notebook cleaning, and chart narratives that collapse if context is broken mid-thought.',
     whyPreset:
@@ -207,7 +207,7 @@ export const EDITORIALS = {
   },
   'qa-engineer-focus-room': {
     eyebrow: 'Test-pass rhythm',
-    h2: 'Focus Room for QA engineers',
+    h2: 'Charter-sized test passes',
     lead:
       'Twenty-five/five teal + forest for exploratory passes and checklist execution where steady cadence beats burnout from endless suites.',
     whyPreset:
@@ -229,7 +229,7 @@ export const EDITORIALS = {
   },
   'student-focus-room': {
     eyebrow: 'Study Pomodoro',
-    h2: 'Focus Room for students',
+    h2: 'Simple study loop, zero accounts',
     lead:
       'Classic 25/5 amber + lofi for reading, problem sets, and revision without accounts, paywalls, or study-data tracking.',
     whyPreset:
@@ -251,7 +251,7 @@ export const EDITORIALS = {
   },
   'freelancer-focus-room': {
     eyebrow: 'Billable deep work',
-    h2: 'Focus Room for freelancers',
+    h2: 'Billable bricks between messages',
     lead:
       'Forty-five/ten midnight + cafe for client deliverables where billable focus must survive Slack, email, and context switching.',
     whyPreset:
@@ -273,7 +273,7 @@ export const EDITORIALS = {
   },
   'seo-specialist-focus-room': {
     eyebrow: 'SEO audit focus',
-    h2: 'Focus Room for SEO specialists',
+    h2: 'One artifact per sealed block',
     lead:
       'Thirty/five jade + rain for audits, SERP reviews, and brief writing where tab chaos usually destroys depth.',
     whyPreset:
@@ -295,7 +295,7 @@ export const EDITORIALS = {
   },
   'mobile-developer-focus-room': {
     eyebrow: 'Mobile build sprints',
-    h2: 'Focus Room for mobile developers',
+    h2: 'Absorb build waits inside focus',
     lead:
       'Forty/eight teal + lofi for Xcode/Android Studio sessions where emulator lag already taxes patience and interrupts are expensive.',
     whyPreset:
@@ -317,7 +317,7 @@ export const EDITORIALS = {
   },
   'sysadmin-focus-room': {
     eyebrow: 'Ops maintenance focus',
-    h2: 'Focus Room for sysadmins',
+    h2: 'Checklist pace for safe changes',
     lead:
       'Fifty/ten midnight + fire for maintenance windows and careful production changes where calm beats heroics.',
     whyPreset:
@@ -339,7 +339,7 @@ export const EDITORIALS = {
   },
   'backend-developer-focus-room-ultradian': {
     eyebrow: 'Ultradian backend blocks',
-    h2: '90-minute deep work for backend developers',
+    h2: 'Full ultradian peak for architecture',
     lead:
       'Ultradian 90/20 jade + ocean for architecture days when a short Pomodoro would chop a system design in half.',
     whyPreset:
@@ -361,7 +361,7 @@ export const EDITORIALS = {
   },
   'copywriter-focus-room-sprint': {
     eyebrow: 'Headline sprints',
-    h2: '15-minute writing sprints for copywriters',
+    h2: 'High-volume hooks, then select',
     lead:
       'Fifteen/three amber + rain for rapid hook and subject-line batches where volume and selection matter more than long narrative flow.',
     whyPreset:
@@ -383,7 +383,7 @@ export const EDITORIALS = {
   },
   'student-focus-room-exam': {
     eyebrow: 'Exam prep',
-    h2: 'Exam prep Pomodoro for students',
+    h2: 'Longer sealed recall practice',
     lead:
       'Fifty/ten midnight + forest for recall drills, past papers, and spaced repetition days that need longer sealed study.',
     whyPreset:
@@ -405,7 +405,7 @@ export const EDITORIALS = {
   },
   'ux-designer-focus-room-research': {
     eyebrow: 'Research synthesis',
-    h2: 'UX research synthesis timer',
+    h2: 'Cluster interviews without losing the thread',
     lead:
       'Forty-five/ten teal + cafe for affinity mapping and insight writing after interviews when patterns need uninterrupted comparison.',
     whyPreset:
@@ -427,7 +427,7 @@ export const EDITORIALS = {
   },
   'devops-engineer-focus-room-oncall': {
     eyebrow: 'On-call calm',
-    h2: 'On-call calm timer for DevOps',
+    h2: 'Progress between pages, not fake deep work',
     lead:
       'Twenty/five amber + fire for on-call shifts where focus must start quickly and yield to alerts without guilt.',
     whyPreset:
@@ -449,7 +449,7 @@ export const EDITORIALS = {
   },
   'frontend-developer-focus-room-css': {
     eyebrow: 'CSS polish',
-    h2: 'CSS polish focus for frontend developers',
+    h2: 'Finish a coherent visual slice',
     lead:
       'Thirty/five jade + lofi for token refactors, spacing systems, and responsive passes that need slightly longer than a tiny ticket.',
     whyPreset:
@@ -471,7 +471,7 @@ export const EDITORIALS = {
   },
   'data-analyst-focus-room-sql': {
     eyebrow: 'SQL focus',
-    h2: 'SQL query focus for data analysts',
+    h2: 'Write, run, adjust without chat noise',
     lead:
       'Forty/eight midnight + cafe for iterative SQL where each run teaches the next filter and you need a stable thinking loop.',
     whyPreset:
@@ -493,7 +493,7 @@ export const EDITORIALS = {
   },
   'product-manager-focus-room-roadmap': {
     eyebrow: 'Roadmap writing',
-    h2: 'Roadmap writing timer for product managers',
+    h2: 'Outcomes before timelines',
     lead:
       'Fifty/ten teal + forest for sequencing bets, dependencies, and narrative that must survive executive review.',
     whyPreset:
@@ -515,7 +515,7 @@ export const EDITORIALS = {
   },
   'qa-engineer-focus-room-regression': {
     eyebrow: 'Regression endurance',
-    h2: 'Regression testing focus for QA',
+    h2: 'Endurance without false passes',
     lead:
       'Forty-five/ten midnight + rain for long suite days where attention drift creates false passes and missed defects.',
     whyPreset:
@@ -537,7 +537,7 @@ export const EDITORIALS = {
   },
   'content-writer-focus-room-blog': {
     eyebrow: 'Blog drafting',
-    h2: 'Blog drafting Pomodoro for content writers',
+    h2: 'Section-by-section publishing cadence',
     lead:
       'Twenty-five/five jade + cafe for blog posts and lighter explainers that ship faster than long technical guides.',
     whyPreset:
@@ -559,7 +559,7 @@ export const EDITORIALS = {
   },
   'freelancer-focus-room-deadline': {
     eyebrow: 'Deadline sprints',
-    h2: 'Deadline sprint timer for freelancers',
+    h2: 'Finish mode, then return to quality',
     lead:
       'Twenty/five amber + lofi for final delivery pushes when you need momentum without pretending deep-work conditions exist.',
     whyPreset:
@@ -581,7 +581,7 @@ export const EDITORIALS = {
   },
   'seo-specialist-focus-room-briefs': {
     eyebrow: 'Brief building',
-    h2: 'Content brief timer for SEO specialists',
+    h2: 'Complete briefs, not tab collections',
     lead:
       'Thirty-five/seven teal + ocean for briefs that need search intent, outline, and examples in one coherent artifact.',
     whyPreset:
@@ -603,7 +603,7 @@ export const EDITORIALS = {
   },
   'mobile-developer-focus-room-debug': {
     eyebrow: 'Mobile debug',
-    h2: 'Mobile debug focus timer',
+    h2: 'Reproduce before you rewrite',
     lead:
       'Fifty/ten amber + rain for crash traces, perf graphs, and heisenbugs that punish every notification.',
     whyPreset:
@@ -625,7 +625,7 @@ export const EDITORIALS = {
   },
   'sysadmin-focus-room-docs': {
     eyebrow: 'Runbook writing',
-    h2: 'Runbook writing timer for sysadmins',
+    h2: 'Write rollback while memory is fresh',
     lead:
       'Thirty/five jade + forest for documenting procedures while the steps are still fresh — without uploading internal details anywhere.',
     whyPreset:
@@ -647,7 +647,7 @@ export const EDITORIALS = {
   },
   'ui-designer-focus-room-critique': {
     eyebrow: 'Critique prep',
-    h2: 'Design critique prep for UI designers',
+    h2: 'Prep the story stakeholders need',
     lead:
       'Twenty/five teal + ocean for preparing critique narratives, alternatives, and open questions before a review meeting.',
     whyPreset:
