@@ -476,8 +476,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-lock.on{border-color:var(--ac);background:var(--ac-l)}
 .v-lock svg{width:15px;height:15px;color:var(--tx-2)}
 .v-lock.on svg{color:var(--ac)}
-.v-psz{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
-.v-szb{padding:5px 11px;border-radius:7px;border:1px solid var(--br-2);background:var(--bg-2);font-size:11px;font-weight:600;color:var(--tx-2);cursor:pointer;font-family:var(--font);transition:all .14s}
+.v-psz{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin-top:10px;width:100%;max-width:100%;min-width:0}
+.v-szb{padding:8px 6px;border-radius:7px;border:1px solid var(--br-2);background:var(--bg-2);font-size:11px;font-weight:600;color:var(--tx-2);cursor:pointer;font-family:var(--font);transition:all .14s;text-align:center;width:100%;min-width:0;box-sizing:border-box}
 .v-szb:hover{border-color:var(--ac);color:var(--ac)}
 
 /* Rotate */
