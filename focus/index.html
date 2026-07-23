@@ -902,9 +902,9 @@ body.zen-mode .f-timer-wrap {
   <div class="f-timer-wrap">
     <!-- Mode tabs -->
     <div class="f-modes">
-      <button class="f-mode-btn active" data-mode="focus"  onclick="setMode('focus',this)">Focus</button>
-      <button class="f-mode-btn"        data-mode="short"  onclick="setMode('short',this)">Short Break</button>
-      <button class="f-mode-btn"        data-mode="long"   onclick="setMode('long',this)">Long Break</button>
+      <button class="f-mode-btn active" data-mode="focus" id="mode-btn-focus" onclick="setMode('focus',this)">Focus · 25m</button>
+      <button class="f-mode-btn"        data-mode="short" id="mode-btn-short" onclick="setMode('short',this)">Short · 5m</button>
+      <button class="f-mode-btn"        data-mode="long"  id="mode-btn-long"  onclick="setMode('long',this)">Long · 15m</button>
     </div>
 
     <!-- Ring timer -->
@@ -2149,8 +2149,8 @@ function escHtml(s){
     <!-- STATS -->
     <div class="f-stat-hero">
       <div class="f-shi">
-        <div class="f-sh-n">25<span class="f-sh-u">min</span></div>
-        <div class="f-sh-l">Optimal focus sprint — backed by cognitive fatigue research</div>
+        <div class="f-sh-n" id="vt-stat-focus-min">25<span class="f-sh-u">min</span></div>
+        <div class="f-sh-l" id="vt-stat-focus-label">Optimal focus sprint — backed by cognitive fatigue research</div>
       </div>
       <div class="f-shi">
         <div class="f-sh-n">6</div>

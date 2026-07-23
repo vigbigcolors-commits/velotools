@@ -64,11 +64,63 @@ function pageConfig(entry) {
   return {
     id: entry.id,
     profession: entry.profession,
+    professionLabel: entry.professionLabel,
     tool: entry.tool,
     variant: entry.variant ?? null,
     intentBanner: entry.intentBanner,
     config: entry.config,
   };
+}
+
+function pad2(n) {
+  return String(n).padStart(2, '0');
+}
+
+/**
+ * Bake preset into visible HTML so first paint matches config (no 25min flash).
+ * @param {string} html
+ * @param {import('zod').infer<typeof import('../seo-data/matrix/schema.mjs').MatrixEntrySchema>} entry
+ */
+function applyPresetToShell(html, entry) {
+  const f = entry.config.timers.focusMinutes;
+  const sh = entry.config.timers.shortBreakMinutes;
+  const lo = entry.config.timers.longBreakMinutes;
+  const clock = `${pad2(f)}:00`;
+  const label = `${f}/${sh} preset for this page — focus ${f} min, short break ${sh} min, long break ${lo} min`;
+
+  html = html.replace(
+    /<div class="f-timer-display" id="timer-display">[^<]*<\/div>/,
+    `<div class="f-timer-display" id="timer-display">${clock}</div>`,
+  );
+  html = html.replace(
+    /<div class="f-timer-phase"\s+id="timer-phase">[^<]*<\/div>/,
+    `<div class="f-timer-phase"   id="timer-phase">Ready · ${f}-min focus</div>`,
+  );
+  html = html.replace(
+    /(<button[^>]*id="mode-btn-focus"[^>]*>)[^<]*(<\/button>)/,
+    `$1Focus · ${f}m$2`,
+  );
+  html = html.replace(
+    /(<button[^>]*id="mode-btn-short"[^>]*>)[^<]*(<\/button>)/,
+    `$1Short · ${sh}m$2`,
+  );
+  html = html.replace(
+    /(<button[^>]*id="mode-btn-long"[^>]*>)[^<]*(<\/button>)/,
+    `$1Long · ${lo}m$2`,
+  );
+  html = html.replace(
+    /id="vt-stat-focus-min">[\s\S]*?<\/div>/,
+    `id="vt-stat-focus-min">${f}<span class="f-sh-u">min</span></div>`,
+  );
+  html = html.replace(
+    /id="vt-stat-focus-label">[^<]*<\/div>/,
+    `id="vt-stat-focus-label">${esc(label)}</div>`,
+  );
+
+  // Default theme attribute on body for first paint
+  html = html.replace(/<body([^>]*)>/, `<body$1 data-theme="${esc(entry.config.theme)}">`);
+
+  return html;
 }
 
 /**
@@ -91,6 +143,8 @@ export function buildMatrixPage(entry, dryRun = false) {
     /<link rel="canonical" href="[^"]*">/,
     `<link rel="canonical" href="${canonical}">`,
   );
+
+  html = applyPresetToShell(html, entry);
 
   // Absolute asset paths (page lives under /tools/...)
   html = html.replace(/(href|src)="(?!https?:|\/|#|data:)([^"]+)"/g, (_, attr, rel) => {

@@ -819,7 +819,7 @@ body.zen-mode .f-timer-wrap {
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 </head>
-<body data-theme="teal">
+<body data-theme="teal" data-theme="midnight">
 <div id="vt-intent-banner" role="status" style="position:sticky;top:0;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(0,201,167,.12);border-bottom:1px solid rgba(0,201,167,.28);color:var(--ac,#00c9a7)">Freelancer preset · 45/10 · midnight · cafe</div>
 
 <!-- NAV -->
@@ -903,9 +903,9 @@ body.zen-mode .f-timer-wrap {
   <div class="f-timer-wrap">
     <!-- Mode tabs -->
     <div class="f-modes">
-      <button class="f-mode-btn active" data-mode="focus"  onclick="setMode('focus',this)">Focus</button>
-      <button class="f-mode-btn"        data-mode="short"  onclick="setMode('short',this)">Short Break</button>
-      <button class="f-mode-btn"        data-mode="long"   onclick="setMode('long',this)">Long Break</button>
+      <button class="f-mode-btn active" data-mode="focus" id="mode-btn-focus" onclick="setMode('focus',this)">Focus · 45m</button>
+      <button class="f-mode-btn"        data-mode="short" id="mode-btn-short" onclick="setMode('short',this)">Short · 10m</button>
+      <button class="f-mode-btn"        data-mode="long"  id="mode-btn-long"  onclick="setMode('long',this)">Long · 20m</button>
     </div>
 
     <!-- Ring timer -->
@@ -922,9 +922,9 @@ body.zen-mode .f-timer-wrap {
         <circle class="f-ring-progress" cx="120" cy="120" r="115" id="ring-progress"/>
       </svg>
       <div class="f-timer-inner">
-        <div class="f-timer-display" id="timer-display">25:00</div>
+        <div class="f-timer-display" id="timer-display">45:00</div>
         <div class="f-timer-session" id="timer-session">Session 1 of 4</div>
-        <div class="f-timer-phase"   id="timer-phase">Ready to focus</div>
+        <div class="f-timer-phase"   id="timer-phase">Ready · 45-min focus</div>
       </div>
     </div>
 
@@ -1366,7 +1366,7 @@ window.addEventListener('load',function(){setTimeout(function(){var c=document.g
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Focus Room for Freelancer","applicationCategory":"ProductivityApplication","operatingSystem":"Web Browser","url":"https://velotools.app/tools/freelancer/focus-room/","description":"Billable deep-work timer: 45/10 blocks, midnight theme, cafe ambient. Track focus without sending client notes to a server.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no data upload)","Focus 45 min","Short break 10 min","Theme midnight","Sound cafe"]}</script>
-<script type="application/json" id="vt-page-config">{"id":"freelancer-focus-room","profession":"freelancer","tool":"focus-room","variant":null,"intentBanner":"Freelancer preset · 45/10 · midnight · cafe","config":{"timers":{"focusMinutes":45,"shortBreakMinutes":10,"longBreakMinutes":20},"soundPreset":"cafe","volume":0.6,"theme":"midnight"}}</script>
+<script type="application/json" id="vt-page-config">{"id":"freelancer-focus-room","profession":"freelancer","professionLabel":"Freelancer","tool":"focus-room","variant":null,"intentBanner":"Freelancer preset · 45/10 · midnight · cafe","config":{"timers":{"focusMinutes":45,"shortBreakMinutes":10,"longBreakMinutes":20},"soundPreset":"cafe","volume":0.6,"theme":"midnight"}}</script>
 <script src="/focus/js/pseo-hydrate.js"></script>
 <!-- TOAST -->
 <div class="f-toast" id="toast"></div>
@@ -2153,8 +2153,8 @@ function escHtml(s){
     <!-- STATS -->
     <div class="f-stat-hero">
       <div class="f-shi">
-        <div class="f-sh-n">25<span class="f-sh-u">min</span></div>
-        <div class="f-sh-l">Optimal focus sprint — backed by cognitive fatigue research</div>
+        <div class="f-sh-n" id="vt-stat-focus-min">45<span class="f-sh-u">min</span></div>
+        <div class="f-sh-l" id="vt-stat-focus-label">45/10 preset for this page — focus 45 min, short break 10 min, long break 20 min</div>
       </div>
       <div class="f-shi">
         <div class="f-sh-n">6</div>
