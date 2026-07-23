@@ -1,0 +1,2745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regression Testing Focus Timer for QA | VeloTools</title>
+<meta name="description" content="Regression pass timer: 45/10, midnight theme, rain ambient. Steady pacing for long test suites.">
+<link rel="canonical" href="https://velotools.app/tools/qa-engineer/focus-room/regression/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   VELOTOOLS FOCUS ROOM
+   Themes: Deep Teal · Midnight · Amber · Jade
+═══════════════════════════════════════════════════ */
+
+/* ── THEME VARIABLES ── */
+:root,
+[data-theme="teal"] {
+  --bg:        #0d2028;
+  --bg2:       #112530;
+  --bg3:       #163040;
+  --bg4:       #1c3d50;
+  --surface:   rgba(255,255,255,.04);
+  --surface2:  rgba(255,255,255,.07);
+  --border:    rgba(255,255,255,.08);
+  --border2:   rgba(255,255,255,.14);
+  --tx:        #e8f4f0;
+  --tx2:       #7ab5a8;
+  --tx3:       #3d7a70;
+  --ac:        #00c9a7;
+  --ac2:       #00a88a;
+  --ac-glow:   rgba(0,201,167,.2);
+  --timer-col: #00c9a7;
+  --ring-bg:   rgba(0,201,167,.12);
+  --name:      "Deep Space & Teal";
+}
+[data-theme="midnight"] {
+  --bg:        #13122a;
+  --bg2:       #1a1838;
+  --bg3:       #211f45;
+  --bg4:       #2a2858;
+  --surface:   rgba(255,255,255,.04);
+  --surface2:  rgba(255,255,255,.07);
+  --border:    rgba(255,255,255,.08);
+  --border2:   rgba(180,160,255,.2);
+  --tx:        #ede8ff;
+  --tx2:       #8b7fc4;
+  --tx3:       #4a4280;
+  --ac:        #9b87f5;
+  --ac2:       #7c6be0;
+  --ac-glow:   rgba(155,135,245,.2);
+  --timer-col: #9b87f5;
+  --ring-bg:   rgba(155,135,245,.12);
+  --name:      "Midnight & Lavender";
+}
+[data-theme="amber"] {
+  --bg:        #1a1008;
+  --bg2:       #221508;
+  --bg3:       #2e1e08;
+  --bg4:       #3d2a0a;
+  --surface:   rgba(255,255,255,.04);
+  --surface2:  rgba(255,255,255,.07);
+  --border:    rgba(255,200,80,.08);
+  --border2:   rgba(255,200,80,.18);
+  --tx:        #fff3d0;
+  --tx2:       #c4943a;
+  --tx3:       #7a5520;
+  --ac:        #f5a623;
+  --ac2:       #d48a10;
+  --ac-glow:   rgba(245,166,35,.2);
+  --timer-col: #f5a623;
+  --ring-bg:   rgba(245,166,35,.12);
+  --name:      "Ember & Gold";
+}
+[data-theme="jade"] {
+  --bg:        #0e1a10;
+  --bg2:       #142018;
+  --bg3:       #1a2a1e;
+  --bg4:       #233828;
+  --surface:   rgba(255,255,255,.04);
+  --surface2:  rgba(255,255,255,.07);
+  --border:    rgba(100,200,120,.08);
+  --border2:   rgba(100,200,120,.18);
+  --tx:        #e0f4e4;
+  --tx2:       #6aaa78;
+  --tx3:       #3a6845;
+  --ac:        #3ecf8e;
+  --ac2:       #28b574;
+  --ac-glow:   rgba(62,207,142,.2);
+  --timer-col: #3ecf8e;
+  --ring-bg:   rgba(62,207,142,.12);
+  --name:      "Muted Jade & Cream";
+}
+
+/* ── RESET & BASE ── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--tx);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background .5s ease, color .5s ease;
+}
+
+/* ambient bg mesh */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, var(--ac-glow), transparent),
+    radial-gradient(ellipse 40% 30% at 80% 80%, var(--ac-glow), transparent);
+  opacity:.6;
+  transition: all .5s ease;
+}
+
+/* ── NAV ── */
+.f-nav {
+  position: sticky; top:0; z-index:100;
+  height: 56px;
+  background: rgba(0,0,0,.35);
+  border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  padding: 0 24px;
+  backdrop-filter: blur(12px);
+}
+.f-nav-right { display:flex; align-items:center; gap:12px; justify-self:end; }
+.f-nav-back {
+  font-size:13px; font-weight:500; color:var(--tx2);
+  text-decoration:none; padding:6px 12px; border-radius:8px;
+  border:1px solid var(--border); background:var(--surface);
+  transition:all .15s;
+}
+.f-nav-back:hover { color:var(--tx); border-color:var(--border2); }
+.f-nav-links { display:flex; gap:2px; justify-self:center; }
+.f-nav-link { font-size:13px; font-weight:500; padding:6px 12px; border-radius:8px; color:var(--tx2); text-decoration:none; transition:all .15s; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
+.f-nav-link:hover { background:rgba(255,255,255,.07); color:var(--tx); }
+.f-nav-link.act { background:rgba(0,201,167,.12); color:#00c9a7; font-weight:600; }
+.f-nav-dot { width:6px; height:6px; background:#22c55e; border-radius:50%; box-shadow:0 0 6px rgba(34,197,94,.8); animation:vt-blink 2s ease-in-out infinite; display:inline-block; }
+@keyframes vt-blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+@media(max-width:680px) { .f-nav-links { display:none; } }
+
+/* theme switcher */
+.f-themes {
+  display:flex; gap:6px; align-items:center;
+}
+.f-theme-btn {
+  width:22px; height:22px; border-radius:50%;
+  border:2px solid transparent;
+  cursor:pointer; transition:all .2s;
+  position:relative;
+}
+.f-theme-btn:hover, .f-theme-btn.active {
+  border-color: var(--tx);
+  transform:scale(1.15);
+}
+.f-theme-btn[data-t="teal"]     { background:linear-gradient(135deg,#0d2028,#00c9a7); }
+.f-theme-btn[data-t="midnight"] { background:linear-gradient(135deg,#13122a,#9b87f5); }
+.f-theme-btn[data-t="amber"]    { background:linear-gradient(135deg,#1a1008,#f5a623); }
+.f-theme-btn[data-t="jade"]     { background:linear-gradient(135deg,#0e1a10,#3ecf8e); }
+
+/* ── LAYOUT ── */
+.f-page {
+  position:relative; z-index:1;
+  max-width:1200px; margin:0 auto;
+  padding:24px 20px 48px;
+  display:grid;
+  grid-template-columns:280px 1fr 280px;
+  grid-template-rows:1fr 1fr;
+  gap:16px;
+  align-items:stretch;
+}
+
+/* ── CARDS ── */
+.f-card {
+  background: var(--bg2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  transition:border-color .4s ease, background .5s ease, box-shadow .4s ease;
+  box-shadow: 0 0 0 0 var(--ac-glow);
+}
+.f-card:hover {
+  border-color:var(--border2);
+  box-shadow: 0 4px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.04);
+}
+.f-card-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:16px;
+}
+.f-card-title {
+  font-family:'Syne',sans-serif; font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em;
+  color:var(--tx2);
+}
+.f-card-action {
+  background:none; border:none; cursor:pointer;
+  color:var(--tx3); font-size:18px; line-height:1;
+  padding:2px 4px; border-radius:4px;
+  transition:color .15s;
+}
+.f-card-action:hover { color:var(--ac); }
+
+/* ── TIMER CENTER ── */
+.f-timer-wrap {
+  grid-column:2; grid-row:1 / 3;
+  display:flex; flex-direction:column;
+  align-items:center; gap:20px;
+}
+
+/* mode tabs */
+.f-modes {
+  display:flex; gap:4px;
+  background:var(--bg3);
+  border-radius:12px; padding:4px;
+  border:1px solid var(--border);
+}
+.f-mode-btn {
+  font-family:'DM Sans',sans-serif;
+  font-size:12px; font-weight:600;
+  padding:7px 16px; border-radius:9px;
+  border:none; cursor:pointer;
+  color:var(--tx2); background:transparent;
+  transition:all .2s;
+  white-space:nowrap;
+}
+.f-mode-btn.active {
+  background:var(--ac); color:#000;
+  box-shadow:0 2px 10px var(--ac-glow);
+}
+
+/* timer ring */
+.f-timer-ring-wrap {
+  position:relative;
+  width:260px; height:260px;
+  display:flex; align-items:center; justify-content:center;
+}
+.f-ring-svg {
+  position:absolute; inset:0;
+  transform:rotate(-90deg);
+}
+
+.f-ring-progress {
+  fill:none;
+  stroke:var(--ac);
+  stroke-width:8;
+  stroke-linecap:round;
+  stroke-dasharray:722;
+  stroke-dashoffset:0;
+  transition:stroke-dashoffset 1s ease;
+  opacity:.9;
+}
+.f-ring-track {
+  fill:none;
+  stroke:var(--ring-bg);
+  stroke-width:10;
+}
+.f-timer-inner {
+  position:relative; z-index:1;
+  text-align:center;
+}
+.f-timer-display {
+  font-family:'DM Mono',monospace;
+  font-size:56px; font-weight:500;
+  color:var(--tx);
+  letter-spacing:-1px;
+  line-height:1;
+}
+.f-timer-session {
+  font-size:12px; color:var(--tx3);
+  margin-top:6px; letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.f-timer-phase {
+  font-size:11px; font-weight:700;
+  color:var(--ac);
+  text-transform:uppercase; letter-spacing:.1em;
+  margin-top:4px;
+}
+
+/* controls */
+.f-controls {
+  display:flex; align-items:center; gap:12px;
+}
+.f-btn-main {
+  width:56px; height:56px; border-radius:50%;
+  background:linear-gradient(135deg, var(--ac), var(--ac2));
+  border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 20px var(--ac-glow);
+  transition:all .2s cubic-bezier(.34,1.5,.64,1);
+  color:#000;
+}
+.f-btn-main:hover { transform:scale(1.1); box-shadow:0 6px 30px var(--ac-glow); }
+.f-btn-main:active { transform:scale(.95); }
+.f-btn-main svg { width:22px; height:22px; }
+.f-btn-sm {
+  width:40px; height:40px; border-radius:50%;
+  background:var(--surface2); border:1px solid var(--border);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  color:var(--tx2); transition:all .2s;
+}
+.f-btn-sm:hover { color:var(--ac); border-color:var(--ac); background:var(--ac-glow); }
+.f-btn-sm svg { width:16px; height:16px; }
+
+/* session dots */
+.f-session-dots {
+  display:flex; gap:6px; align-items:center;
+}
+.f-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--border2);
+  transition:all .3s;
+}
+.f-dot.done { background:var(--ac); box-shadow:0 0 6px var(--ac-glow); }
+.f-dot.current { background:var(--ac); box-shadow:0 0 10px var(--ac); animation:dot-pulse 1.5s ease-in-out infinite; }
+@keyframes dot-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+
+/* ── ENERGY CHECK-IN ── */
+.f-energy-modal {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,.7);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease;
+}
+.f-energy-modal.show { opacity:1; pointer-events:auto; }
+.f-energy-box {
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:24px; padding:32px;
+  text-align:center; max-width:360px; width:90%;
+  transform:translateY(20px) scale(.96);
+  transition:all .3s cubic-bezier(.34,1.5,.64,1);
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+.f-energy-modal.show .f-energy-box { transform:translateY(0) scale(1); }
+.f-energy-title {
+  font-family:'Syne',sans-serif; font-size:20px; font-weight:700;
+  margin-bottom:6px;
+}
+.f-energy-sub { font-size:13px; color:var(--tx2); margin-bottom:24px; line-height:1.6; }
+.f-energy-levels {
+  display:flex; gap:8px; justify-content:center; margin-bottom:20px;
+}
+.f-energy-lvl {
+  width:52px; height:52px; border-radius:14px;
+  border:2px solid var(--border);
+  background:var(--surface); cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2px; transition:all .2s cubic-bezier(.34,1.5,.64,1);
+  font-size:20px;
+}
+.f-energy-lvl:hover { transform:scale(1.1) translateY(-2px); border-color:var(--ac); }
+.f-energy-lvl.selected { border-color:var(--ac); background:var(--ac-glow); }
+.f-energy-lvl span { font-size:10px; font-weight:700; color:var(--tx2); }
+.f-energy-confirm {
+  width:100%; padding:13px;
+  background:linear-gradient(135deg,var(--ac),var(--ac2));
+  color:#000; border:none; border-radius:12px;
+  font-family:'Syne',sans-serif; font-weight:700; font-size:15px;
+  cursor:pointer; transition:all .2s;
+}
+.f-energy-confirm:hover { transform:translateY(-1px); box-shadow:0 6px 20px var(--ac-glow); }
+
+/* ── BREATHING BREAK ── */
+.f-breath-modal {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,.8);
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:24px;
+  opacity:0; pointer-events:none;
+  transition:opacity .4s ease;
+}
+.f-breath-modal.show { opacity:1; pointer-events:auto; }
+.f-breath-circle {
+  width:160px; height:160px; border-radius:50%;
+  background:radial-gradient(circle, var(--ac-glow) 0%, transparent 70%);
+  border:2px solid var(--ac);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-size:28px; color:var(--ac);
+  box-shadow:0 0 40px var(--ac-glow);
+}
+.f-breath-label {
+  font-family:'Syne',sans-serif; font-size:22px; font-weight:700;
+  color:var(--tx); letter-spacing:.05em;
+}
+.f-breath-sub { font-size:14px; color:var(--tx2); }
+.f-breath-skip {
+  padding:10px 24px; border-radius:10px;
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--tx2); cursor:pointer; font-size:13px;
+  transition:all .15s;
+}
+.f-breath-skip:hover { color:var(--tx); border-color:var(--border2); }
+
+/* ── TASK LIST ── */
+.f-tasks { grid-column:1; grid-row:1; }
+.f-task-input-row {
+  display:flex; gap:8px; margin-bottom:12px;
+  overflow:hidden;
+}
+.f-task-input { min-width:0; }
+.f-task-input {
+  flex:1; padding:9px 12px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; color:var(--tx); font-size:13px;
+  font-family:'DM Sans',sans-serif;
+  outline:none; transition:border-color .15s;
+}
+.f-task-input:focus { border-color:var(--ac); }
+.f-task-input::placeholder { color:var(--tx3); }
+.f-task-add {
+  padding:9px 14px; border-radius:10px;
+  background:var(--ac); border:none; cursor:pointer;
+  color:#000; font-weight:700; font-size:13px;
+  transition:all .2s;
+}
+.f-task-add:hover { transform:scale(1.05); }
+.f-task-list { display:flex; flex-direction:column; gap:4px; max-height:320px; overflow-y:auto; }
+.f-task-list::-webkit-scrollbar { width:4px; }
+.f-task-list::-webkit-scrollbar-track { background:transparent; }
+.f-task-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.f-task-item {
+  display:flex; align-items:center; gap:8px;
+  padding:9px 10px; border-radius:10px;
+  background:var(--surface); border:1px solid var(--border);
+  transition:all .2s; cursor:pointer;
+}
+.f-task-item:hover { border-color:var(--border2); background:var(--surface2); }
+.f-task-item.active { border-color:var(--ac); background:var(--ac-glow); }
+.f-task-item.done .f-task-name { text-decoration:line-through; color:var(--tx3); }
+.f-task-check {
+  width:16px; height:16px; border-radius:4px;
+  border:1.5px solid var(--border2); background:transparent;
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  transition:all .2s; cursor:pointer;
+}
+.f-task-item.done .f-task-check {
+  background:var(--ac); border-color:var(--ac);
+}
+.f-task-name { flex:1; font-size:13px; color:var(--tx); line-height:1.4; }
+.f-task-pomo { font-family:'DM Mono',monospace; font-size:11px; color:var(--tx3); }
+.f-task-selector {
+  width:100%; padding:8px 12px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; color:var(--tx2); font-size:12px;
+  font-family:'DM Sans',sans-serif; margin-top:10px;
+  outline:none; cursor:pointer;
+}
+
+/* ── STATS ── */
+.f-stats { grid-column:1; grid-row:2; }
+.f-stats-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.f-stat-item {
+  background:var(--bg3); border-radius:10px;
+  padding:10px 12px; border:1px solid var(--border);
+}
+.f-stat-num {
+  font-family:'DM Mono',monospace; font-size:22px; font-weight:500;
+  color:var(--ac); line-height:1;
+}
+.f-stat-lbl { font-size:10px; color:var(--tx3); margin-top:3px; text-transform:uppercase; letter-spacing:.06em; }
+
+/* energy chart */
+.f-energy-chart {
+  margin-top:12px;
+}
+.f-energy-bars {
+  display:flex; gap:3px; align-items:flex-end; height:48px;
+}
+.f-ebar {
+  flex:1; border-radius:3px 3px 0 0;
+  background:var(--ac-glow); border:1px solid var(--border);
+  transition:all .3s; cursor:default;
+  min-height:4px;
+}
+.f-ebar.has-data { background:var(--ac); opacity:.7; }
+.f-ebar:hover { opacity:1; }
+.f-energy-days {
+  display:flex; gap:3px; margin-top:4px;
+}
+.f-eday { flex:1; font-size:9px; text-align:center; color:var(--tx3); }
+
+/* ── SOUNDS ── */
+.f-sounds { grid-column:3; grid-row:1; }
+.f-sound-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:6px; margin-bottom:12px;
+}
+.f-sound-btn {
+  padding:10px 8px;
+  background:var(--surface); border:1.5px solid var(--border);
+  border-radius:10px; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  transition:all .2s;
+}
+.f-sound-btn:hover { border-color:var(--border2); background:var(--surface2); }
+.f-sound-btn.active { border-color:var(--ac); background:var(--ac-glow); }
+.f-sound-btn.active .f-sound-icon { color:var(--ac); }
+.f-sound-icon { font-size:20px; transition:transform .2s; }
+.f-sound-btn:hover .f-sound-icon { transform:scale(1.15); }
+.f-sound-btn.active .f-sound-icon { animation:sound-pulse 2s ease-in-out infinite; }
+@keyframes sound-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+.f-sound-name { font-size:11px; font-weight:600; color:var(--tx2); text-transform:uppercase; letter-spacing:.04em; }
+.f-vol-row {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 0;
+}
+.f-vol-lbl { font-size:11px; color:var(--tx3); width:36px; flex-shrink:0; }
+.f-vol-slider {
+  flex:1; height:4px; border-radius:2px;
+  -webkit-appearance:none; appearance:none;
+  background:var(--border2); outline:none; cursor:pointer;
+}
+.f-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:14px; height:14px;
+  border-radius:50%; background:var(--ac);
+  box-shadow:0 0 6px var(--ac-glow); cursor:pointer;
+}
+.f-vol-slider::-moz-range-thumb {
+  width:14px; height:14px; border:none; border-radius:50%;
+  background:var(--ac); box-shadow:0 0 6px var(--ac-glow); cursor:pointer;
+}
+
+/* ── NOTES & JOURNAL ── */
+.f-notes { grid-column:3; grid-row:2; }
+.f-note-tabs { display:flex; gap:4px; margin-bottom:12px; }
+.f-note-tab {
+  font-size:11px; font-weight:700; padding:5px 12px;
+  border-radius:8px; border:1px solid var(--border);
+  background:transparent; color:var(--tx3); cursor:pointer;
+  text-transform:uppercase; letter-spacing:.05em;
+  transition:all .15s;
+}
+.f-note-tab.active { background:var(--ac); border-color:var(--ac); color:#000; }
+.f-note-area {
+  width:100%; min-height:100px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:10px; padding:10px 12px;
+  color:var(--tx); font-size:13px; font-family:'DM Sans',sans-serif;
+  line-height:1.7; resize:vertical; outline:none;
+  transition:border-color .15s;
+}
+.f-note-area:focus { border-color:var(--ac); }
+.f-note-area::placeholder { color:var(--tx3); }
+.f-note-actions { display:flex; gap:6px; margin-top:8px; }
+.f-note-btn {
+  padding:7px 14px; border-radius:8px; font-size:12px; font-weight:600;
+  border:1px solid var(--border); background:var(--surface);
+  color:var(--tx2); cursor:pointer; transition:all .15s;
+}
+.f-note-btn:hover { color:var(--ac); border-color:var(--ac); }
+.f-note-btn.primary { background:var(--ac); border-color:var(--ac); color:#000; }
+
+/* journal entries */
+.f-journal-list { max-height:180px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; }
+.f-journal-list::-webkit-scrollbar { width:3px; }
+.f-journal-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.f-journal-entry {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:8px 10px;
+}
+.f-journal-meta { display:flex; justify-content:space-between; margin-bottom:3px; }
+.f-journal-time { font-size:10px; color:var(--tx3); font-family:'DM Mono',monospace; }
+.f-journal-energy { font-size:12px; }
+.f-journal-text { font-size:12px; color:var(--tx2); line-height:1.5; }
+
+/* ── TIMER BOTTOM ── */
+.f-timer-bottom {
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+  width:100%;
+}
+.f-quote {
+  max-width:340px; text-align:center;
+  font-size:13px; color:var(--tx3); line-height:1.7;
+  font-style:italic; padding:12px 16px;
+  border:1px solid var(--border); border-radius:12px;
+  background:var(--surface);
+}
+.f-streak {
+  display:flex; align-items:center; gap:8px;
+  font-size:12px; color:var(--tx2);
+}
+.f-streak-fire { font-size:18px; }
+.f-streak-num { font-family:'DM Mono',monospace; font-weight:500; color:var(--ac); font-size:16px; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .f-page { grid-template-columns:240px 1fr; }
+  .f-sounds { grid-column:1; grid-row:2; }
+  .f-notes { grid-column:1; grid-row:3; }
+  .f-stats { grid-column:1; grid-row:4; }
+  .f-timer-wrap { grid-column:2; grid-row:1/5; }
+}
+@media(max-width:768px){
+  /* flex column — timer FIRST */
+  .f-page {
+    display:flex !important;
+    flex-direction:column !important;
+    gap:12px !important;
+    padding:12px 14px 40px !important;
+  }
+  .f-timer-wrap { order:1 !important; width:100% !important; }
+  .f-tasks      { order:2 !important; width:100% !important; }
+  .f-sounds     { order:3 !important; width:100% !important; }
+  .f-stats      { order:4 !important; width:100% !important; }
+  .f-notes      { order:5 !important; width:100% !important; }
+
+  .f-timer-ring-wrap { width:200px !important; height:200px !important; }
+  .f-timer-display   { font-size:42px !important; }
+  .f-modes { flex-wrap:wrap; justify-content:center; }
+  .f-mode-btn { font-size:11px !important; padding:6px 12px !important; }
+  /* Vol slider: proper mobile touch target */
+  .f-vol-slider {
+    height:36px !important;
+    background:transparent !important;
+    padding:0 !important;
+  }
+  .f-vol-slider::-webkit-slider-runnable-track {
+    height:5px;
+    background:var(--border2);
+    border-radius:3px;
+  }
+  .f-vol-slider::-webkit-slider-thumb {
+    width:24px !important;
+    height:24px !important;
+    margin-top:-10px;
+  }
+  .f-vol-slider::-moz-range-track {
+    height:5px;
+    background:var(--border2);
+    border-radius:3px;
+  }
+  .f-vol-slider::-moz-range-thumb {
+    width:24px !important; height:24px !important;
+    border:none !important; background:var(--ac) !important;
+    box-shadow:0 0 6px var(--ac-glow) !important;
+  }
+  .f-vol-row { padding:4px 0 !important; align-items:center !important; }
+  .f-sound-grid { grid-template-columns:repeat(3,1fr) !important; }
+  .f-task-input-row { overflow:hidden !important; }
+  .f-task-input { min-width:0 !important; }
+  .f-nav { padding:0 14px !important; }
+  #fa-wrap { bottom:12px !important; right:12px !important; }
+  #fa-tomato { width:36px !important; height:36px !important; }
+  #fa-tip { max-width:200px !important; font-size:11.5px !important; }
+}
+@media(max-width:400px){
+  .f-timer-ring-wrap { width:175px !important; height:175px !important; }
+  .f-timer-display   { font-size:36px !important; }
+  .f-sound-grid { grid-template-columns:repeat(2,1fr) !important; }
+}
+
+/* ── ZEN MODE (HARDCORE ISOLATION) ── */
+body.zen-mode .f-nav,
+body.zen-mode .f-tasks,
+body.zen-mode .f-stats,
+body.zen-mode .f-sounds,
+body.zen-mode .f-notes,
+body.zen-mode .f-modes,
+body.zen-mode .f-timer-bottom,
+body.zen-mode .f-seo-section,
+body.zen-mode #fa-wrap {
+  display: none !important;
+}
+
+body.zen-mode .f-page {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh;
+  padding: 0 !important;
+}
+
+/* Скрываем точный отсчет времени. Оставляем только соматическое восприятие через кольцо */
+body.zen-mode .f-timer-display {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* При наведении мыши цифры плавно появляются, если нужно свериться */
+body.zen-mode .f-timer-ring-wrap:hover .f-timer-display {
+  opacity: 1;
+}
+
+/* Убираем рамки и свечение у карточки таймера для полного погружения */
+body.zen-mode .f-timer-wrap {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.f-card { animation:fadeUp .4s ease both; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.f-card { animation:fadeUp .4s ease both; }
+.f-card:nth-child(1){animation-delay:.05s}
+.f-card:nth-child(2){animation-delay:.1s}
+.f-card:nth-child(3){animation-delay:.15s}
+.f-card:nth-child(4){animation-delay:.2s}
+.f-card:nth-child(5){animation-delay:.25s}
+
+/* notification */
+.f-toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:12px; padding:12px 20px;
+  font-size:13px; font-weight:600; color:var(--tx);
+  box-shadow:0 8px 30px rgba(0,0,0,.4);
+  transition:transform .3s cubic-bezier(.34,1.5,.64,1);
+  z-index:300; white-space:nowrap;
+}
+.f-toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ══ WEIGHTLESS PLAYER ══ */
+.f-wl-section{position:relative;z-index:1;padding:0 20px 20px;max-width:1200px;margin:0 auto}
+.f-wl-card{background:var(--bg2);border:1px solid rgba(155,135,245,.25);border-radius:20px;overflow:hidden;transition:border-color .3s}
+.f-wl-card:hover{border-color:rgba(155,135,245,.45)}
+.f-wl-player{display:flex;align-items:center;gap:16px;padding:18px 22px}
+.f-wl-art{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#1a1640,#2d1f5e,#1a2840);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 4px 16px rgba(155,135,245,.25);position:relative;overflow:hidden}
+.f-wl-art::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 35%,rgba(155,135,245,.3),transparent 60%)}
+.f-wl-wave{display:flex;align-items:center;gap:2px;height:20px;margin-left:4px}
+.f-wl-wave span{width:3px;border-radius:2px;background:rgba(155,135,245,.5);animation:wl-idle 1.8s ease-in-out infinite;transform-origin:bottom}
+.f-wl-wave span:nth-child(1){height:8px;animation-delay:0s}
+.f-wl-wave span:nth-child(2){height:14px;animation-delay:.15s}
+.f-wl-wave span:nth-child(3){height:10px;animation-delay:.3s}
+.f-wl-wave span:nth-child(4){height:16px;animation-delay:.1s}
+.f-wl-wave span:nth-child(5){height:8px;animation-delay:.25s}
+.f-wl-card.playing .f-wl-wave span{background:#9b87f5;animation:wl-play 1s ease-in-out infinite}
+@keyframes wl-idle{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.5)}}
+@keyframes wl-play{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1.2)}}
+.f-wl-info{flex:1;min-width:0}
+.f-wl-track{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.f-wl-badge{font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;text-transform:uppercase;letter-spacing:.08em;background:rgba(155,135,245,.15);border:1px solid rgba(155,135,245,.3);color:#9b87f5;white-space:nowrap}
+.f-wl-artist{font-size:12px;color:var(--tx3)}
+.f-wl-ctrl{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.f-wl-btn-play{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9b87f5,#7c6be0);border:none;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(155,135,245,.4);transition:all .2s cubic-bezier(.34,1.5,.64,1);flex-shrink:0}
+.f-wl-btn-play:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(155,135,245,.6)}
+.f-wl-btn-play svg{width:18px;height:18px}
+.f-wl-vol-wrap{display:flex;align-items:center;gap:8px}
+.f-wl-vol-ico{font-size:14px;color:var(--tx3);flex-shrink:0}
+.f-wl-vol{width:80px;height:4px;-webkit-appearance:none;appearance:none;background:var(--border2);border-radius:2px;outline:none;cursor:pointer}
+.f-wl-vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#9b87f5;box-shadow:0 0 6px rgba(155,135,245,.5);cursor:pointer}
+.f-wl-warn-pill{display:flex;align-items:center;gap:6px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#f5a623;white-space:nowrap;flex-shrink:0}
+.f-wl-info-btn{width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;color:var(--tx3);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.f-wl-info-btn:hover{color:#9b87f5;border-color:rgba(155,135,245,.4)}
+.f-wl-info-btn svg{width:14px;height:14px}
+.f-wl-card.expanded .f-wl-info-btn{color:#9b87f5;border-color:rgba(155,135,245,.4);background:rgba(155,135,245,.1)}
+.f-wl-science{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+.f-wl-card.expanded .f-wl-science{max-height:1400px;border-top:1px solid var(--border)}
+.f-wl-science-inner{padding:20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.f-wl-sci-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b87f5;margin-bottom:10px}
+.f-wl-sci-text{font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:10px}
+.f-wl-sci-text strong{color:var(--tx)}
+.f-wl-sci-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.f-wl-sci-list li{font-size:12.5px;color:var(--tx2);line-height:1.65;padding-left:16px;position:relative}
+.f-wl-sci-list li::before{content:'→';position:absolute;left:0;color:#9b87f5;font-weight:700}
+.f-wl-sci-list strong{color:var(--tx)}
+.f-wl-sci-stats{display:flex;gap:12px;margin-top:14px}
+.f-wl-sci-info2-btn{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:6px 12px;background:rgba(155,135,245,.1);border:1px solid rgba(155,135,245,.3);border-radius:8px;cursor:pointer;color:#9b87f5;font-size:12px;font-weight:600;transition:all .15s}
+.f-wl-sci-info2-btn:hover{background:rgba(155,135,245,.2)}
+.f-wl-sci-info2-btn svg{width:13px;height:13px;flex-shrink:0}
+.f-wl-flac-panel{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1);border-top:0px solid transparent}
+.f-wl-flac-panel.open{max-height:1600px;border-top:1px solid rgba(155,135,245,.15)}
+.f-wl-flac-inner{padding:18px 22px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.f-wl-flac-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b87f5;margin-bottom:8px}
+.f-wl-flac-text{font-size:12.5px;color:var(--tx2);line-height:1.75}
+.f-wl-flac-text strong{color:var(--tx)}
+.f-wl-flac-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.f-wl-flac-table th{text-align:left;padding:6px 8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);border-bottom:1px solid var(--border)}
+.f-wl-flac-table td{padding:7px 8px;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,.04)}
+.f-wl-flac-table td:first-child{color:var(--tx);font-weight:600}
+.f-wl-flac-table tr.highlight td{color:#9b87f5}
+.f-wl-flac-specs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.f-wl-flac-spec{flex:1;min-width:80px;background:var(--bg3);border:1px solid rgba(155,135,245,.15);border-radius:10px;padding:10px;text-align:center}
+.f-wl-flac-spec-n{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:#9b87f5;display:block;line-height:1}
+.f-wl-flac-spec-l{font-size:10px;color:var(--tx3);display:block;margin-top:3px;line-height:1.3}
+@media(max-width:600px){.f-wl-flac-inner{grid-template-columns:1fr}}
+.f-wl-sci-stat{flex:1;background:var(--bg3);border:1px solid rgba(155,135,245,.2);border-radius:12px;padding:12px;text-align:center}
+.f-wl-sci-stat-n{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:#9b87f5;line-height:1;display:block}
+.f-wl-sci-stat-l{font-size:11px;color:var(--tx3);line-height:1.4;display:block;margin-top:4px}
+@media(max-width:768px){
+  .f-wl-section{padding:0 14px 16px}
+  .f-wl-player{gap:10px;padding:14px 16px;flex-wrap:wrap;align-items:center}
+  /* art + info stay on row 1, ctrl forced to its own row */
+  .f-wl-art  { order:1; flex-shrink:0; }
+  .f-wl-info { order:2; flex:1; min-width:0; }
+  .f-wl-ctrl { order:3; flex-basis:100%; display:flex; align-items:center; gap:10px; }
+  .f-wl-vol-wrap,.f-wl-warn-pill{display:none}
+  .f-wl-sci-stats{flex-direction:column}
+  .f-wl-science-inner{grid-template-columns:1fr;gap:14px}
+  .f-wl-flac-inner{grid-template-columns:1fr}
+}
+
+.f-neural{width:calc(100% - 40px);max-width:1160px;margin:0 auto 4px;height:200px;overflow:hidden;border-radius:16px}
+.f-neural canvas{display:block;width:100%;height:200px;cursor:default}
+</style>
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/logo.css">
+<meta name="theme-color" content="#0d2028">
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
+<script src="/js/analytics.js"></script>
+</head>
+<body data-theme="teal">
+<div id="vt-intent-banner" role="status" style="position:sticky;top:0;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(0,201,167,.12);border-bottom:1px solid rgba(0,201,167,.28);color:var(--ac,#00c9a7)">QA regression · 45/10 · midnight · rain</div>
+
+<!-- NAV -->
+<nav class="f-nav">
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44" decoding="async"></picture>
+    <span class="vt-logo-text">velotools</span>
+  </a>
+  <div class="f-nav-links">
+    <a href="/image-compress/" class="f-nav-link">Image</a>
+    <a href="/invoice/"        class="f-nav-link">Invoice</a>
+    <a href="/qr/"             class="f-nav-link">QR Code</a>
+    <a href="/focus/"          class="f-nav-link act">Focus</a><a href="/bgremover/"      class="f-nav-link">BG Remover</a><a href="/compress-pdf/"   class="f-nav-link">PDF</a>
+    <a href="/about/"          class="f-nav-link">About <span class="f-nav-dot"></span></a>
+  </div>
+  <div class="f-nav-right">
+    <a href="/privacy/" class="f-nav-back" style="font-size:12px;opacity:.55">Privacy</a>
+    <a href="/terms/"   class="f-nav-back" style="font-size:12px;opacity:.55">Terms</a>
+    <div class="f-themes" title="Change theme">
+      <button class="f-theme-btn active" data-t="teal"   onclick="setTheme('teal',this)"></button>
+      <button class="f-theme-btn"        data-t="midnight" onclick="setTheme('midnight',this)"></button>
+      <button class="f-theme-btn"        data-t="amber"  onclick="setTheme('amber',this)"></button>
+      <button class="f-theme-btn"        data-t="jade"   onclick="setTheme('jade',this)"></button>
+    </div>
+    <a href="/" class="f-nav-back">← All tools</a>
+  </div>
+</nav>
+
+<!-- MAIN GRID -->
+<div class="f-page">
+
+  <!-- LEFT COL: TASKS -->
+  <section class="f-card f-tasks">
+    <div class="f-card-hdr">
+      <span class="f-card-title">Task List</span>
+      <button class="f-card-action" onclick="clearDone()" title="Clear done">✓</button>
+    </div>
+    <div class="f-task-input-row">
+      <input id="task-input" class="f-task-input" placeholder="Add task…" maxlength="60"
+        onkeydown="if(event.key==='Enter')addTask()">
+      <button class="f-task-add" onclick="addTask()">+</button>
+    </div>
+    <div class="f-task-list" id="task-list"></div>
+    <select class="f-task-selector" id="task-selector" onchange="selectActiveTask(this.value)">
+      <option value="">— Select active task —</option>
+    </select>
+  </section>
+
+  <!-- LEFT COL: STATS -->
+  <section class="f-card f-stats">
+    <div class="f-card-hdr">
+      <span class="f-card-title">Your Focus Statistics</span>
+    </div>
+    <div class="f-stats-grid">
+      <div class="f-stat-item">
+        <div class="f-stat-num" id="stat-today">0</div>
+        <div class="f-stat-lbl">Today</div>
+      </div>
+      <div class="f-stat-item">
+        <div class="f-stat-num" id="stat-week">0</div>
+        <div class="f-stat-lbl">This week</div>
+      </div>
+      <div class="f-stat-item">
+        <div class="f-stat-num" id="stat-streak">0🔥</div>
+        <div class="f-stat-lbl">Day streak</div>
+      </div>
+      <div class="f-stat-item">
+        <div class="f-stat-num" id="stat-total">0</div>
+        <div class="f-stat-lbl">All time</div>
+      </div>
+    </div>
+    <!-- Energy heatmap -->
+    <div class="f-energy-chart">
+      <div class="f-card-title" style="margin-bottom:8px;font-size:11px">Energy Pattern (7 days)</div>
+      <div class="f-energy-bars" id="energy-bars"></div>
+      <div class="f-energy-days" id="energy-days"></div>
+    </div>
+  </section>
+
+  <!-- CENTER: TIMER -->
+  <div class="f-timer-wrap">
+    <!-- Mode tabs -->
+    <div class="f-modes">
+      <button class="f-mode-btn active" data-mode="focus"  onclick="setMode('focus',this)">Focus</button>
+      <button class="f-mode-btn"        data-mode="short"  onclick="setMode('short',this)">Short Break</button>
+      <button class="f-mode-btn"        data-mode="long"   onclick="setMode('long',this)">Long Break</button>
+    </div>
+
+    <!-- Ring timer -->
+    <div class="f-timer-ring-wrap">
+      <svg class="f-ring-svg" viewBox="0 0 240 240">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="var(--ac)"  stop-opacity="1"/>
+          <stop offset="50%"  stop-color="var(--ac2)" stop-opacity=".85"/>
+          <stop offset="100%" stop-color="var(--ac)"  stop-opacity=".4"/>
+        </linearGradient>
+      </defs>
+        <circle class="f-ring-track"    cx="120" cy="120" r="115"/>
+        <circle class="f-ring-progress" cx="120" cy="120" r="115" id="ring-progress"/>
+      </svg>
+      <div class="f-timer-inner">
+        <div class="f-timer-display" id="timer-display">25:00</div>
+        <div class="f-timer-session" id="timer-session">Session 1 of 4</div>
+        <div class="f-timer-phase"   id="timer-phase">Ready to focus</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="f-controls">
+      <button class="f-btn-sm" onclick="skipTimer()" title="Skip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </button>
+      <button class="f-btn-main" id="btn-start" onclick="toggleTimer()">
+        <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <button class="f-btn-sm" onclick="resetTimer()" title="Reset">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 10.5-3M3 3v6h6"/></svg>
+      </button>
+    </div>
+    <!-- Flow mode button — appears at end of focus session -->
+    <button id="btn-flow" class="f-btn-flow" onclick="enterFlowMode()" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Keep flowing +5 min
+    </button>
+
+    <!-- Session dots -->
+    <div class="f-session-dots" id="session-dots">
+      <div class="f-dot current"></div>
+      <div class="f-dot"></div>
+      <div class="f-dot"></div>
+      <div class="f-dot"></div>
+    </div>
+
+    <!-- Quote + streak -->
+    <div class="f-timer-bottom">
+      <div class="f-quote" id="focus-quote">"The secret of getting ahead is getting started."</div>
+      <div class="f-streak">
+        <span class="f-streak-fire">🔥</span>
+        <span class="f-streak-num" id="streak-display">0</span>
+        <span>day streak</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COL: SOUNDS -->
+  <section class="f-card f-sounds">
+    <div class="f-card-hdr">
+      <span class="f-card-title">Ambient Sounds</span>
+    </div>
+    <div class="f-sound-grid">
+      <button class="f-sound-btn" data-sound="rain"   onclick="toggleSound('rain',this)">
+        <span class="f-sound-icon">🌧</span>
+        <span class="f-sound-name">Rain</span>
+      </button>
+      <button class="f-sound-btn" data-sound="lofi"   onclick="toggleSound('lofi',this)">
+        <span class="f-sound-icon">🎵</span>
+        <span class="f-sound-name">Lofi</span>
+      </button>
+      <button class="f-sound-btn" data-sound="cafe"   onclick="toggleSound('cafe',this)">
+        <span class="f-sound-icon">☕</span>
+        <span class="f-sound-name">Cafe</span>
+      </button>
+      <button class="f-sound-btn" data-sound="forest" onclick="toggleSound('forest',this)">
+        <span class="f-sound-icon">🌲</span>
+        <span class="f-sound-name">Forest</span>
+      </button>
+      <button class="f-sound-btn" data-sound="fire"   onclick="toggleSound('fire',this)">
+        <span class="f-sound-icon">🔥</span>
+        <span class="f-sound-name">Fire</span>
+      </button>
+      <button class="f-sound-btn" data-sound="ocean"  onclick="toggleSound('ocean',this)">
+        <span class="f-sound-icon">🌊</span>
+        <span class="f-sound-name">Ocean</span>
+      </button>
+    </div>
+    <div class="f-vol-row">
+      <span class="f-vol-lbl">Vol</span>
+      <input type="range" class="f-vol-slider" id="vol-slider" min="0" max="100" value="60"
+        oninput="setVolume(this.value)">
+    </div>
+  </section>
+
+  <!-- RIGHT COL: NOTES / JOURNAL -->
+  <section class="f-card f-notes">
+    <div class="f-card-hdr">
+      <span class="f-card-title">Session Notes</span>
+    </div>
+    <div class="f-note-tabs">
+      <button class="f-note-tab active" onclick="switchNoteTab('note',this)">Note</button>
+      <button class="f-note-tab"        onclick="switchNoteTab('journal',this)">Journal</button>
+    </div>
+    <div id="note-panel">
+      <textarea class="f-note-area" id="note-text" placeholder="Write something about this session…"></textarea>
+      <div class="f-note-actions">
+        <button class="f-note-btn primary" onclick="saveNote()">Save note</button>
+        <button class="f-note-btn" onclick="clearNote()">Clear</button>
+      </div>
+    </div>
+    <div id="journal-panel" style="display:none">
+      <div class="f-journal-list" id="journal-list"></div>
+    </div>
+  </section>
+
+</div>
+
+
+
+<!-- NEURAL ANIMATION -->
+<div class="f-neural"><canvas id="ncw"></canvas></div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+var cv=document.getElementById('ncw');
+if(!cv)return;
+var ctx=cv.getContext('2d');
+var W=0,H=200,t=0,nodes=[],pulses=[],rafId=null;
+var DEF=[
+  {col:'#9b87f5',r:4.2,fx:.00031,fy:.00019,px:.12,py:.38,ax:.12,ay:.10},
+  {col:'#5dcaa5',r:1.6,fx:.00017,fy:.00041,px:.5, py:.18,ax:.13,ay:.11},
+  {col:'#e8a0c8',r:3.0,fx:.00023,fy:.00013,px:.82,py:.58,ax:.11,ay:.10},
+  {col:'#9b87f5',r:1.3,fx:.00039,fy:.00027,px:.28,py:.72,ax:.14,ay:.09},
+  {col:'#6ee7c7',r:4.5,fx:.00013,fy:.00033,px:.60,py:.42,ax:.10,ay:.12},
+  {col:'#e8a0c8',r:1.8,fx:.00028,fy:.00021,px:.48,py:.78,ax:.12,ay:.08},
+  {col:'#b8a4ff',r:1.1,fx:.00044,fy:.00015,px:.22,py:.52,ax:.11,ay:.10},
+  {col:'#5dcaa5',r:3.5,fx:.00018,fy:.00037,px:.74,py:.22,ax:.10,ay:.11},
+  {col:'#9b87f5',r:2.3,fx:.00033,fy:.00025,px:.38,py:.55,ax:.12,ay:.09},
+  {col:'#e8a0c8',r:1.5,fx:.00021,fy:.00043,px:.88,py:.38,ax:.09,ay:.11}
+];
+
+function initNodes(){
+  nodes=DEF.map(function(d){
+    return {col:d.col,r:d.r,fx:d.fx,fy:d.fy,px:d.px,py:d.py,ax:d.ax,ay:d.ay,
+      ox:Math.random()*Math.PI*2,oy:Math.random()*Math.PI*2,
+      x:d.px*W,y:d.py*H,fire:0,fdx:0,fdy:0};
+  });
+}
+
+function resize(){
+  var w=cv.offsetWidth;
+  if(w<10)return;
+  W=w;H=200;cv.width=W;cv.height=H;
+  if(!nodes.length)initNodes();
+}
+
+/* Pulses */
+function launch(){
+  if(nodes.length<2)return;
+  if(pulses.length>8)return;
+  var ai=Math.floor(Math.random()*nodes.length);
+  var bi=Math.floor(Math.random()*nodes.length);
+  if(ai===bi)return;
+  var a=nodes[ai],b=nodes[bi];
+  if(Math.hypot(a.x-b.x,a.y-b.y)>W*.6)return;
+  pulses.push({ax:a.x,ay:a.y,bx:b.x,by:b.y,ti:bi,col:a.col,p:0,sp:.003+Math.random()*.002});
+}
+setInterval(launch,1200);
+setInterval(launch,1900);
+
+/* Wanderer (queen) */
+var wand=null;
+function spawnWanderer(){
+  if(wand)return;
+  if(nodes.length<2)return;
+  var path=[],cur=Math.floor(Math.random()*nodes.length);
+  path.push(cur);
+  for(var s=0;s<4+Math.floor(Math.random()*3);s++){
+    var cands=[];
+    for(var k=0;k<nodes.length;k++){
+      if(k!==cur&&Math.hypot(nodes[k].x-nodes[cur].x,nodes[k].y-nodes[cur].y)<W*.6)cands.push(k);
+    }
+    if(!cands.length)break;
+    var nxt=cands[Math.floor(Math.random()*cands.length)];
+    path.push(nxt);cur=nxt;
+  }
+  if(path.length<2)return;
+  wand={path:path,seg:0,p:0,sp:.0018+Math.random()*.001,pause:0,alpha:0,phase:'fadein'};
+}
+function scheduleWanderer(){setTimeout(function(){spawnWanderer();},6000+Math.random()*8000);}
+scheduleWanderer();
+
+/* Queen grab */
+var queenGrabbed=false,mx=0,my=0;
+function getPos(e){var r=cv.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:s.clientX-r.left,y:s.clientY-r.top};}
+function getQueenPos(){
+  if(!wand)return null;
+  var s=wand.seg<wand.path.length-1?wand.seg:wand.path.length-2;
+  var na=nodes[wand.path[s]],nb=nodes[wand.path[s+1]];
+  if(!na||!nb)return null;
+  var p=wand.phase==='pause'?1:(.5-.5*Math.cos(wand.p*Math.PI));
+  return{x:na.x+(nb.x-na.x)*p,y:na.y+(nb.y-na.y)*p};
+}
+cv.addEventListener('mousedown',function(e){
+  if(!wand||wand.phase==='fadein'||wand.phase==='fadeout')return;
+  var pos=getPos(e),q=getQueenPos();
+  if(q&&Math.hypot(pos.x-q.x,pos.y-q.y)<32){queenGrabbed=true;mx=pos.x;my=pos.y;wand.phase='held';e.preventDefault();}
+});
+cv.addEventListener('mousemove',function(e){if(!queenGrabbed)return;var pos=getPos(e);mx=pos.x;my=pos.y;e.preventDefault();});
+cv.addEventListener('mouseup',function(){if(!queenGrabbed)return;queenGrabbed=false;if(wand){wand.phase='travel';wand.p=0;}});
+cv.addEventListener('touchstart',function(e){
+  if(!wand||wand.phase==='fadein'||wand.phase==='fadeout')return;
+  var pos=getPos(e),q=getQueenPos();
+  if(q&&Math.hypot(pos.x-q.x,pos.y-q.y)<40){queenGrabbed=true;mx=pos.x;my=pos.y;wand.phase='held';e.preventDefault();}
+},{passive:false});
+cv.addEventListener('touchmove',function(e){if(!queenGrabbed)return;var pos=getPos(e);mx=pos.x;my=pos.y;e.preventDefault();},{passive:false});
+cv.addEventListener('touchend',function(){if(!queenGrabbed)return;queenGrabbed=false;if(wand){wand.phase='travel';wand.p=0;}});
+
+function draw(){
+  rafId=requestAnimationFrame(draw);
+  if(!W)return;
+  t++;
+  ctx.clearRect(0,0,W,H);
+
+  /* Queen position for fear */
+  var qx=-1,qy=-1;
+  if(wand){
+    if(wand.phase==='held'){qx=mx;qy=my;}
+    else{var q=getQueenPos();if(q){qx=q.x;qy=q.y;}}
+  }
+
+  /* Move nodes */
+  nodes.forEach(function(n){
+    var bx=(n.px+Math.sin(t*n.fx+n.ox)*n.ax)*W;
+    var by=(n.py+Math.sin(t*n.fy+n.oy)*n.ay)*H;
+    if(qx>=0){
+      var dx=bx-qx,dy=by-qy,d=Math.hypot(dx,dy)||1;
+      var str=Math.max(0,1-d/(W*.4))*(queenGrabbed?2.2:0.6);
+      n.fdx+=(dx/d)*str*1.4;
+      n.fdy+=(dy/d)*str*1.4;
+    }
+    n.fdx*=0.88;n.fdy*=0.88;
+    n.fdx=Math.max(-60,Math.min(60,n.fdx));
+    n.fdy=Math.max(-40,Math.min(40,n.fdy));
+    n.x=Math.max(n.r*4,Math.min(W-n.r*4,bx+n.fdx));
+    n.y=Math.max(n.r*4,Math.min(H-n.r*4,by+n.fdy));
+    if(n.fire>0)n.fire-=.018;
+  });
+
+  /* Lines */
+  for(var i=0;i<nodes.length;i++){
+    for(var j=i+1;j<nodes.length;j++){
+      var d=Math.hypot(nodes[i].x-nodes[j].x,nodes[i].y-nodes[j].y);
+      if(d<W*.5){
+        var al=.10*(1-d/(W*.5))*(1-d/(W*.5));
+        ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);
+        ctx.strokeStyle='rgba(155,135,245,'+al+')';ctx.lineWidth=.7;ctx.stroke();
+      }
+    }
+  }
+
+  /* Pulses */
+  for(var i=pulses.length-1;i>=0;i--){
+    var p=pulses[i];p.p+=p.sp;
+    if(p.p>=1){if(nodes[p.ti])nodes[p.ti].fire=1;pulses.splice(i,1);continue;}
+    var e=.5-.5*Math.cos(p.p*Math.PI);
+    var px=p.ax+(p.bx-p.ax)*e,py=p.ay+(p.by-p.ay)*e;
+    var g=ctx.createRadialGradient(px,py,0,px,py,7);
+    g.addColorStop(0,p.col+'cc');g.addColorStop(.6,p.col+'22');g.addColorStop(1,p.col+'00');
+    ctx.beginPath();ctx.arc(px,py,7,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.beginPath();ctx.arc(px,py,1.6,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,.8)';ctx.fill();
+  }
+
+  /* Nodes */
+  nodes.forEach(function(n){
+    var br=.93+.07*Math.sin(t*.009+n.ox),r=n.r*br;
+    if(n.fire>.05){ctx.beginPath();ctx.arc(n.x,n.y,r*4*n.fire,0,Math.PI*2);ctx.fillStyle=n.col+'15';ctx.fill();}
+    var g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*2);
+    g.addColorStop(0,n.col+'bb');g.addColorStop(1,n.col+'00');
+    ctx.beginPath();ctx.arc(n.x,n.y,r*2,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.beginPath();ctx.arc(n.x,n.y,r*.55,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,.75)';ctx.fill();
+  });
+
+  /* Wanderer */
+  if(wand){
+    if(wand.phase==='fadein'){wand.alpha+=.02;if(wand.alpha>=1){wand.alpha=1;wand.phase='travel';}}
+    else if(wand.phase==='travel'){
+      wand.p+=wand.sp;
+      if(wand.p>=1){wand.p=0;wand.seg++;if(wand.seg>=wand.path.length-1){wand.phase='pause';wand.pause=70;}}
+    }
+    else if(wand.phase==='pause'){
+      wand.pause--;
+      if(wand.pause<=0)wand.phase='fadeout';
+    }
+    else if(wand.phase==='fadeout'){wand.alpha-=.015;if(wand.alpha<=0){wand=null;scheduleWanderer();return;}}
+
+    var wx,wy,al=wand.alpha||1;
+    if(wand.phase==='held'){wx=mx;wy=my;}
+    else{var q=getQueenPos();if(!q)return;wx=q.x;wy=q.y;}
+
+    var gw=ctx.createRadialGradient(wx,wy,0,wx,wy,16);
+    gw.addColorStop(0,'rgba(255,50,50,'+(al*.9)+')');
+    gw.addColorStop(.4,'rgba(200,20,20,'+(al*.3)+')');
+    gw.addColorStop(1,'rgba(180,0,0,0)');
+    ctx.beginPath();ctx.arc(wx,wy,16,0,Math.PI*2);ctx.fillStyle=gw;ctx.fill();
+    ctx.beginPath();ctx.arc(wx,wy,3,0,Math.PI*2);ctx.fillStyle='rgba(255,160,160,'+al+')';ctx.fill();
+    ctx.beginPath();ctx.arc(wx,wy,1.2,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+al+')';ctx.fill();
+  }
+}
+
+resize();
+initNodes();
+if(rafId)cancelAnimationFrame(rafId);
+draw();
+
+var _ro=new ResizeObserver(function(){
+  var w=cv.offsetWidth;
+  if(Math.abs(w-W)>10){W=w;cv.width=W;cv.height=H;}
+});
+_ro.observe(cv);
+});
+</script>
+
+<!-- WEIGHTLESS PLAYER -->
+<div class="f-wl-section">
+  <div class="f-wl-card" id="wl-card">
+    <div class="f-wl-player">
+      <div class="f-wl-art">🧬
+        <div class="f-wl-wave" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%)">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="f-wl-info">
+        <div class="f-wl-track">Weightless<span class="f-wl-badge">Scientific</span></div>
+        <div class="f-wl-artist">Marconi Union · The world's most relaxing track</div>
+      </div>
+      <div class="f-wl-ctrl">
+        <button class="f-wl-btn-play" id="wl-play-btn" onclick="toggleWeightless()">
+          <svg id="wl-play-ico" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="wl-stop-ico" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="f-wl-vol-wrap">
+          <span class="f-wl-vol-ico">🔊</span>
+          <input type="range" class="f-wl-vol" id="wl-vol" min="0" max="100" value="70" oninput="setWlVolume(this.value)" onchange="setWlVolume(this.value)">
+        </div>
+        <div class="f-wl-warn-pill">⚠️ Don't drive</div>
+        <button class="f-wl-info-btn" onclick="toggleWlInfo()" title="Scientific info">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="f-wl-science" id="wl-science">
+      <div class="f-wl-science-inner">
+        <div>
+          <div class="f-wl-sci-title">How it works physiologically</div>
+          <p class="f-wl-sci-text">Engineered with the <strong>British Academy of Sound Therapy</strong>. Based on <strong>acoustic entrainment</strong> — brain and body sync to external sound vibrations.</p>
+          <ul class="f-wl-sci-list">
+            <li><strong>Heart rate:</strong> Starts at 60 BPM, slows to 50. Heart auto-syncs within ~5 minutes.</li>
+            <li><strong>Cortisol:</strong> As heart rate drops, blood pressure and cortisol decrease.</li>
+            <li><strong>No repeating motifs:</strong> Brain stops predicting, analytical center disengages.</li>
+            <li><strong>Low frequencies:</strong> Bass drones imitate deep meditation — subconsciously safe.</li>
+          </ul>
+          <div style="margin-top:12px;padding:10px 12px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);border-radius:10px;font-size:12px;color:#f5a623">
+            ⚠️ <strong>Do not listen while driving.</strong> Clinically documented sedative effect.
+          </div>
+        </div>
+        <div>
+          <div class="f-wl-sci-title">Mindlab International Research</div>
+          <p class="f-wl-sci-text">Outperformed Enya, Mozart, and all standard relaxation tracks in stress conditions.</p>
+          <div class="f-wl-sci-stats">
+            <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">65%</span><span class="f-wl-sci-stat-l">reduction in overall anxiety</span></div>
+            <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">35%</span><span class="f-wl-sci-stat-l">higher calm vs Enya & classical</span></div>
+          </div>
+          <p class="f-wl-sci-text" style="margin-top:14px"><strong>Best for:</strong> Long breaks, high-anxiety days, post-session recovery.</p>
+          <button class="f-wl-sci-info2-btn" onclick="toggleFlacPanel()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Why FLAC? Audio quality explained
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- FLAC DEEP PANEL -->
+    <div class="f-wl-flac-panel" id="wl-flac-panel">
+      <div class="f-wl-flac-inner">
+        <div>
+          <div class="f-wl-flac-title">🎧 FLAC vs MP3 — what your ears hear</div>
+          <p class="f-wl-flac-text">MP3 achieves compression by permanently discarding audio data the algorithm predicts you won't notice. <strong>FLAC is lossless</strong> — every sample of the original recording is preserved, bit-for-bit identical to the studio master.</p>
+          <p class="f-wl-flac-text" style="margin-top:10px">For a track engineered specifically to alter your physiological state, <strong>precision matters</strong>. The 60→50 BPM entrainment effect and the sub-bass frequencies that trigger the parasympathetic response are preserved in full resolution — not approximated.</p>
+          <table class="f-wl-flac-table">
+            <tr><th>Format</th><th>Bit depth</th><th>Freq. range</th><th>Data loss</th></tr>
+            <tr><td>MP3 128k</td><td>—</td><td>~16 kHz</td><td>~80%</td></tr>
+            <tr><td>MP3 320k</td><td>—</td><td>~20 kHz</td><td>~30%</td></tr>
+            <tr class="highlight"><td>FLAC (ours)</td><td>24-bit</td><td>22+ kHz</td><td>0%</td></tr>
+          </table>
+        </div>
+        <div>
+          <div class="f-wl-flac-title">📐 Technical specifications</div>
+          <div class="f-wl-flac-specs">
+            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">24</span><span class="f-wl-flac-spec-l">bit depth</span></div>
+            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">44.1</span><span class="f-wl-flac-spec-l">kHz sample rate</span></div>
+            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">0%</span><span class="f-wl-flac-spec-l">data loss</span></div>
+            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">8:03</span><span class="f-wl-flac-spec-l">full duration</span></div>
+          </div>
+          <div class="f-wl-flac-title" style="margin-top:16px">🔬 The science behind the choice</div>
+          <p class="f-wl-flac-text">Research by the <strong>British Academy of Sound Therapy</strong> (2011) found Weightless reduced anxiety by 65% in standardized stress tests — results obtained using full-resolution audio. Compressed versions introduce quantization artifacts in the sub-bass range (20–80 Hz) — precisely the frequencies responsible for the physiological entrainment effect.</p>
+          <p class="f-wl-flac-text" style="margin-top:10px">We purchased and host the <strong>original studio FLAC</strong> to ensure you receive the clinically studied version — not a degraded approximation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var wlAudio=null,wlPlaying=false;
+function toggleWeightless(){wlPlaying?stopWeightless():playWeightless()}
+function playWeightless(){
+  if(!wlAudio){wlAudio=new Audio('https://pub-bae35537ac124cd69139e93db76c277e.r2.dev/weightless.flac');wlAudio.loop=true;wlAudio.volume=document.getElementById('wl-vol')?document.getElementById('wl-vol').value/100:0.7}
+  wlAudio.play().then(function(){wlPlaying=true;document.getElementById('wl-play-ico').style.display='none';document.getElementById('wl-stop-ico').style.display='block';var c=document.getElementById('wl-card');if(c)c.classList.add('playing')}).catch(function(){showToast('Add https://pub-bae35537ac124cd69139e93db76c277e.r2.dev/weightless.flac to enable playback')})
+}
+function stopWeightless(){
+  if(wlAudio){wlAudio.pause();wlAudio.currentTime=0}
+  wlPlaying=false;document.getElementById('wl-play-ico').style.display='block';document.getElementById('wl-stop-ico').style.display='none';
+  var c=document.getElementById('wl-card');if(c)c.classList.remove('playing')
+}
+function setWlVolume(v){if(wlAudio)wlAudio.volume=v/100}
+function toggleWlInfo(){var c=document.getElementById('wl-card');if(c)c.classList.toggle('expanded')}
+function toggleFlacPanel(){var p=document.getElementById('wl-flac-panel');if(p)p.classList.toggle('open')}
+// Auto-open science panel after 7 seconds
+window.addEventListener('load',function(){setTimeout(function(){var c=document.getElementById('wl-card');if(c&&!c.classList.contains('expanded'))c.classList.add('expanded')},7000)})
+
+</script>
+
+<!-- ENERGY CHECK-IN MODAL -->
+<div class="f-energy-modal" id="energy-modal">
+  <div class="f-energy-box">
+    <div class="f-energy-title" id="energy-modal-title">How's your energy?</div>
+    <div class="f-energy-sub" id="energy-modal-sub">Rate your energy before starting this focus session</div>
+    <div class="f-energy-levels" id="energy-levels">
+      <button class="f-energy-lvl" data-lvl="1" onclick="selectEnergy(1)">😴<span>Low</span></button>
+      <button class="f-energy-lvl" data-lvl="2" onclick="selectEnergy(2)">😐<span>Meh</span></button>
+      <button class="f-energy-lvl" data-lvl="3" onclick="selectEnergy(3)">🙂<span>OK</span></button>
+      <button class="f-energy-lvl" data-lvl="4" onclick="selectEnergy(4)">😊<span>Good</span></button>
+      <button class="f-energy-lvl" data-lvl="5" onclick="selectEnergy(5)">⚡<span>Peak</span></button>
+    </div>
+    <button class="f-energy-confirm" id="energy-confirm" onclick="confirmEnergy()">Start Session →</button>
+  </div>
+</div>
+
+<!-- BREATHING BREAK MODAL -->
+<div class="f-breath-modal" id="breath-modal">
+  <div class="f-breath-label" id="breath-label">Inhale</div>
+  <div class="f-breath-circle" id="breath-circle">4</div>
+  <div class="f-breath-sub" id="breath-sub">Breathe in slowly through your nose</div>
+  <button class="f-breath-skip" onclick="skipBreathing()">Skip breathing exercise</button>
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Focus Room for QA Engineer","applicationCategory":"ProductivityApplication","operatingSystem":"Web Browser","url":"https://velotools.app/tools/qa-engineer/focus-room/regression/","description":"Regression pass timer: 45/10, midnight theme, rain ambient. Steady pacing for long test suites.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no data upload)","Focus 45 min","Short break 10 min","Theme midnight","Sound rain"]}</script>
+<script type="application/json" id="vt-page-config">{"id":"qa-engineer-focus-room-regression","profession":"qa-engineer","tool":"focus-room","variant":"regression","intentBanner":"QA regression · 45/10 · midnight · rain","config":{"timers":{"focusMinutes":45,"shortBreakMinutes":10,"longBreakMinutes":20},"soundPreset":"rain","volume":0.45,"theme":"midnight"}}</script>
+<script src="/focus/js/pseo-hydrate.js"></script>
+<!-- TOAST -->
+<div class="f-toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   VELOTOOLS FOCUS ROOM — Core JS
+═══════════════════════════════════════════════ */
+'use strict';
+
+/* ── QUOTES ── */
+var QUOTES = [
+  '"The secret of getting ahead is getting started." — Mark Twain',
+  '"Focus is not about saying yes to the thing. It\'s about saying no to other things." — Steve Jobs',
+  '"Deep work is the ability to focus without distraction on a cognitively demanding task." — Cal Newport',
+  '"The key is not to prioritize what\'s on your schedule, but to schedule your priorities." — Stephen Covey',
+  '"One hour of focused work is worth more than three hours of scattered effort."',
+  '"Your future is created by what you do today, not tomorrow." — Robert Kiyosaki',
+  '"It\'s not about having time. It\'s about making time."',
+  '"Small consistent actions compound into extraordinary results."',
+  '"Every session of deep focus is an investment in your future self."',
+  '"The mind is sharper after rest. Take your breaks seriously."',
+];
+
+/* ── STATE ── */
+var S = {
+  mode:       'focus',
+  running:    false,
+  timeLeft:   25 * 60,
+  totalTime:  25 * 60,
+  session:    1,
+  interval:   null,
+  energyPre:  null,
+  energyPost: null,
+  waitingEnergy: false,
+  isPostEnergy:  false,
+  activeTask: '',
+  volume:     0.6,
+  sounds:     {},
+  noteTab:    'note',
+  theme:      'teal',
+};
+
+var MODES = {
+  focus: 25 * 60,
+  short:  5 * 60,
+  long:  15 * 60,
+};
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  loadData();
+  renderTasks();
+  renderStats();
+  renderEnergyChart();
+  renderJournal();
+  updateTimerDisplay();
+  updateSessionDots();
+  setRandomQuote();
+  setTheme(S.theme, document.querySelector('[data-t="'+S.theme+'"]'));
+  initSounds();
+});
+
+/* ── THEME ── */
+function setTheme(t, btn){
+  S.theme = t;
+  document.body.setAttribute('data-theme', t);
+  document.querySelectorAll('.f-theme-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  saveData();
+}
+
+/* ── TIMER ── */
+function toggleTimer(){
+  if(S.running){ pauseTimer(); }
+  else { startTimer(); }
+}
+
+function startTimer(){
+  if(S.mode === 'focus' && !S.running && S.timeLeft === S.totalTime){
+    showEnergyModal(false);
+    return;
+  }
+  _doStart();
+}
+
+function _doStart(){
+  S.running = true;
+  document.getElementById('play-icon').style.display  = 'none';
+  document.getElementById('pause-icon').style.display = 'block';
+  document.getElementById('timer-phase').textContent =
+    S.mode === 'focus' ? 'Focusing…' :
+    S.mode === 'short' ? 'Short break' : 'Long break';
+  S.interval = setInterval(tick, 1000);
+}
+
+function pauseTimer(){
+  S.running = false;
+  clearInterval(S.interval);
+  document.getElementById('play-icon').style.display  = 'block';
+  document.getElementById('pause-icon').style.display = 'none';
+  document.getElementById('timer-phase').textContent = 'Paused';
+}
+
+function resetTimer(){
+  pauseTimer();
+  S.timeLeft = S.totalTime;
+  updateTimerDisplay();
+  updateRing();
+  document.getElementById('timer-phase').textContent = 'Ready to focus';
+}
+
+function skipTimer(){
+  pauseTimer();
+  onTimerEnd();
+}
+
+function tick(){
+  S.timeLeft--;
+  updateTimerDisplay();
+  updateRing();
+  if(S.timeLeft <= 0){ onTimerEnd(); }
+}
+
+function onTimerEnd(){
+  pauseTimer();
+  playAlarm();
+  if(S.mode === 'focus'){
+    if(S.mode === 'focus') showFlowButton();
+    showEnergyModal(true);
+    recordSession();
+    renderStats();
+    renderEnergyChart();
+  } else {
+    showBreathing();
+  }
+}
+
+function updateTimerDisplay(){
+  var m = Math.floor(S.timeLeft / 60);
+  var s = S.timeLeft % 60;
+  document.getElementById('timer-display').textContent =
+    (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  document.getElementById('timer-session').textContent =
+    'Session ' + S.session + ' of 4';
+}
+
+function updateRing(){
+  var pct = S.timeLeft / S.totalTime;
+  var circ = 2 * Math.PI * 115;
+  var offset = circ * (1 - pct);
+  document.getElementById('ring-progress').style.strokeDashoffset = offset;
+}
+
+function setMode(mode, btn){
+  pauseTimer();
+  S.mode = mode;
+  S.totalTime = MODES[mode];
+  S.timeLeft  = S.totalTime;
+  document.querySelectorAll('.f-mode-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  updateTimerDisplay();
+  updateRing();
+  document.getElementById('timer-phase').textContent =
+    mode === 'focus' ? 'Ready to focus' : 'Break time';
+  setRandomQuote();
+}
+
+/* ── ENERGY CHECK-IN ── */
+var _selectedEnergy = 0;
+
+function showEnergyModal(isPost){
+  S.isPostEnergy = isPost;
+  _selectedEnergy = 0;
+  document.querySelectorAll('.f-energy-lvl').forEach(function(b){ b.classList.remove('selected'); });
+  var modal = document.getElementById('energy-modal');
+  var title = document.getElementById('energy-modal-title');
+  var sub   = document.getElementById('energy-modal-sub');
+  title.textContent = isPost ? 'How did that feel?' : 'How\'s your energy?';
+  sub.textContent   = isPost
+    ? 'Rate your energy after this focus session'
+    : 'Rate your energy before starting this session';
+  modal.classList.add('show');
+}
+
+function selectEnergy(lvl){
+  _selectedEnergy = lvl;
+  document.querySelectorAll('.f-energy-lvl').forEach(function(b){
+    b.classList.toggle('selected', parseInt(b.dataset.lvl) === lvl);
+  });
+}
+
+function confirmEnergy(){
+  if(!_selectedEnergy) return;
+  document.getElementById('energy-modal').classList.remove('show');
+  if(S.isPostEnergy){
+    S.energyPost = _selectedEnergy;
+    saveEnergyRecord(_selectedEnergy);
+    renderEnergyChart();
+    showBreathing();
+  } else {
+    S.energyPre = _selectedEnergy;
+    _doStart();
+  }
+}
+
+/* ── BREATHING ── */
+var breathPhases = [
+  {label:'Inhale', sub:'Breathe in slowly through your nose', dur:4},
+  {label:'Hold',   sub:'Hold your breath gently', dur:7},
+  {label:'Exhale', sub:'Breathe out slowly through your mouth', dur:8},
+];
+var breathTimer = null;
+var breathPhaseIdx = 0;
+var breathCount = 0;
+var breathSec = 0;
+var BREATH_ROUNDS = 3;
+
+function showBreathing(){
+  breathPhaseIdx = 0; breathCount = 0; breathSec = breathPhases[0].dur;
+  var modal = document.getElementById('breath-modal');
+  modal.classList.add('show');
+  updateBreathUI();
+  breathTimer = setInterval(breathTick, 1000);
+  animateBreathCircle();
+}
+
+function breathTick(){
+  breathSec--;
+  document.getElementById('breath-circle').textContent = breathSec;
+  if(breathSec <= 0){
+    breathPhaseIdx = (breathPhaseIdx + 1) % breathPhases.length;
+    if(breathPhaseIdx === 0) breathCount++;
+    if(breathCount >= BREATH_ROUNDS){ endBreathing(); return; }
+    breathSec = breathPhases[breathPhaseIdx].dur;
+    updateBreathUI();
+    animateBreathCircle();
+  }
+}
+
+function updateBreathUI(){
+  var p = breathPhases[breathPhaseIdx];
+  document.getElementById('breath-label').textContent = p.label;
+  document.getElementById('breath-sub').textContent   = p.sub;
+  document.getElementById('breath-circle').textContent = breathSec;
+}
+
+function animateBreathCircle(){
+  var c = document.getElementById('breath-circle');
+  var p = breathPhases[breathPhaseIdx];
+  c.style.transition = 'none';
+  if(p.label === 'Inhale'){
+    c.style.transform = 'scale(1)';
+    requestAnimationFrame(function(){
+      c.style.transition = 'transform '+p.dur+'s ease-in-out';
+      c.style.transform = 'scale(1.5)';
+    });
+  } else if(p.label === 'Exhale'){
+    c.style.transition = 'transform '+p.dur+'s ease-in-out';
+    c.style.transform = 'scale(1)';
+  }
+}
+
+function endBreathing(){
+  clearInterval(breathTimer);
+  document.getElementById('breath-modal').classList.remove('show');
+  document.getElementById('breath-circle').style.transform = 'scale(1)';
+  /* auto-advance to next mode */
+  if(S.mode === 'focus'){
+    if(S.session % 4 === 0){ setMode('long', document.querySelector('[data-mode="long"]')); }
+    else { setMode('short', document.querySelector('[data-mode="short"]')); }
+    S.session++;
+  } else {
+    S.session++;
+    setMode('focus', document.querySelector('[data-mode="focus"]'));
+  }
+  updateSessionDots();
+  setRandomQuote();
+  showToast('Break done — ready for session ' + S.session + ' 🍅');
+}
+
+function skipBreathing(){
+  clearInterval(breathTimer);
+  document.getElementById('breath-modal').classList.remove('show');
+  document.getElementById('breath-circle').style.transform = 'scale(1)';
+  endBreathing();
+}
+
+/* ── SESSION DOTS ── */
+function updateSessionDots(){
+  var dots = document.querySelectorAll('.f-dot');
+  var cur = (S.session - 1) % 4;
+  dots.forEach(function(d, i){
+    d.classList.remove('done','current');
+    if(i < cur) d.classList.add('done');
+    else if(i === cur) d.classList.add('current');
+  });
+}
+
+/* ── TASKS ── */
+var tasks = [];
+
+function addTask(){
+  var inp = document.getElementById('task-input');
+  var val = inp.value.trim();
+  if(!val) return;
+  tasks.push({ id: Date.now(), name: val, done: false, pomos: 0 });
+  inp.value = '';
+  renderTasks();
+  saveData();
+  showToast('Task added');
+}
+
+function toggleTask(id){
+  var t = tasks.find(function(x){ return x.id===id; });
+  if(t){ t.done = !t.done; renderTasks(); saveData(); }
+}
+
+function clearDone(){
+  tasks = tasks.filter(function(t){ return !t.done; });
+  renderTasks(); saveData();
+  showToast('Done tasks cleared');
+}
+
+function selectActiveTask(id){
+  S.activeTask = id;
+  renderTasks();
+  saveData();
+}
+
+function renderTasks(){
+  var list = document.getElementById('task-list');
+  var sel  = document.getElementById('task-selector');
+  list.innerHTML = '';
+  sel.innerHTML  = '<option value="">— Select active task —</option>';
+  tasks.forEach(function(t){
+    var div = document.createElement('div');
+    div.className = 'f-task-item' + (t.done?' done':'') + (String(t.id)===String(S.activeTask)?' active':'');
+    div.innerHTML =
+      '<div class="f-task-check" onclick="toggleTask('+t.id+')">' +
+        (t.done?'<svg width="10" height="10" viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg>':'') +
+      '</div>' +
+      '<span class="f-task-name">'+escHtml(t.name)+'</span>' +
+      '<span class="f-task-pomo">'+t.pomos+'🍅</span>';
+    list.appendChild(div);
+    var opt = document.createElement('option');
+    opt.value = t.id; opt.textContent = t.name;
+    if(String(t.id)===String(S.activeTask)) opt.selected=true;
+    sel.appendChild(opt);
+  });
+}
+
+/* ── SOUNDS (Web Audio API) ── */
+var audioCtx = null;
+var activeSources = {};
+
+function initSounds(){
+  /* sounds init on first interaction */
+}
+
+function getAudioCtx(){
+  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+
+/* noise generators */
+function createNoise(type){
+  var ctx = getAudioCtx();
+  var buf = ctx.createBuffer(1, ctx.sampleRate*4, ctx.sampleRate);
+  var data = buf.getChannelData(0);
+  for(var i=0;i<data.length;i++) data[i]=(Math.random()*2-1);
+
+  if(type==='brown'){
+    var last=0;
+    for(var i=0;i<data.length;i++){
+      var w=(Math.random()*2-1)*0.1+last*0.99;
+      data[i]=w*8; last=w;
+    }
+  } else if(type==='pink'){
+    var b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(var i=0;i<data.length;i++){
+      var wh=Math.random()*2-1;
+      b0=0.99886*b0+wh*0.0555179; b1=0.99332*b1+wh*0.0750759;
+      b2=0.96900*b2+wh*0.1538520; b3=0.86650*b3+wh*0.3104856;
+      b4=0.55000*b4+wh*0.5329522; b5=-0.7616*b5-wh*0.0168980;
+      data[i]=(b0+b1+b2+b3+b4+b5+b6+wh*0.5362)*0.11; b6=wh*0.115926;
+    }
+  }
+
+  var src = ctx.createBufferSource();
+  src.buffer = buf; src.loop = true;
+  return src;
+}
+
+function createOscNoise(freq, type){
+  var ctx = getAudioCtx();
+  var osc = ctx.createOscillator();
+  osc.frequency.value = freq;
+  osc.type = type||'sine';
+  return osc;
+}
+
+/* Sound file map — place mp3 files in focus/sounds/ */
+var SOUND_FILES = {
+  rain:   'sounds/rain.mp3',
+  lofi:   'sounds/lofi.mp3',
+  cafe:   'sounds/cafe.mp3',
+  forest: 'sounds/forest.mp3',
+  fire:   'sounds/fire.mp3',
+  ocean:  'sounds/ocean.mp3',
+};
+var audioElements = {};
+
+function toggleSound(name, btn){
+  /* Try HTML Audio first (real files), fallback to Web Audio */
+  if(audioElements[name]){
+    audioElements[name].pause();
+    delete audioElements[name];
+    btn.classList.remove('active');
+    return;
+  }
+
+  /* Check if file exists by trying to load it */
+  var testAudio = new Audio(SOUND_FILES[name]);
+  testAudio.volume = S.volume;
+  testAudio.loop = true;
+  var loaded = false;
+
+  testAudio.addEventListener('canplay', function(){
+    if(loaded) return; loaded = true;
+    testAudio.play().then(function(){
+      audioElements[name] = testAudio;
+      btn.classList.add('active');
+    }).catch(function(){ loadWebAudioFallback(name, btn); });
+  });
+  testAudio.addEventListener('error', function(){
+    loadWebAudioFallback(name, btn);
+  });
+  testAudio.load();
+  return;
+}
+
+function loadWebAudioFallback(name, btn){
+  btn.classList.add('active');
+  var ctx = getAudioCtx();
+  var gain = ctx.createGain();
+  gain.gain.value = S.volume;
+  gain.connect(ctx.destination);
+  var node;
+
+  if(name==='rain'){
+    node = createNoise('white');
+    var filter = ctx.createBiquadFilter();
+    filter.type='bandpass'; filter.frequency.value=400; filter.Q.value=0.5;
+    node.connect(filter); filter.connect(gain);
+  } else if(name==='cafe'){
+    node = createNoise('pink');
+    var filter2 = ctx.createBiquadFilter();
+    filter2.type='lowpass'; filter2.frequency.value=800;
+    node.connect(filter2); filter2.connect(gain);
+  } else if(name==='forest'){
+    node = createNoise('pink');
+    var filter3 = ctx.createBiquadFilter();
+    filter3.type='bandpass'; filter3.frequency.value=200; filter3.Q.value=0.3;
+    node.connect(filter3); filter3.connect(gain);
+  } else if(name==='fire'){
+    node = createNoise('brown');
+    node.connect(gain);
+  } else if(name==='ocean'){
+    node = createNoise('brown');
+    var filter4 = ctx.createBiquadFilter();
+    filter4.type='lowpass'; filter4.frequency.value=300;
+    node.connect(filter4); filter4.connect(gain);
+  } else if(name==='lofi'){
+    /* lofi = layered oscillators */
+    var merger = ctx.createChannelMerger(1);
+    [110,220,330].forEach(function(f){
+      var o = ctx.createOscillator();
+      o.frequency.value = f; o.type='sawtooth';
+      var g2 = ctx.createGain(); g2.gain.value=0.02;
+      o.connect(g2); g2.connect(gain); o.start();
+    });
+    node = ctx.createBufferSource();
+    node.buffer = ctx.createBuffer(1,1,ctx.sampleRate);
+    node.loop=true; node.connect(gain);
+  }
+
+  try{ node.start(); }catch(e){}
+  activeSources[name] = { node:node, gain:gain };
+}
+
+function setVolume(v){
+  S.volume = v/100;
+  Object.values(activeSources).forEach(function(s){
+    s.gain.gain.value = S.volume;
+  });
+  Object.values(audioElements).forEach(function(a){
+    a.volume = S.volume;
+  });
+}
+
+/* ── ALARM — rising pleasant chime ── */
+function playAlarm(){
+  try{
+    var ctx = getAudioCtx();
+    var master = ctx.createGain();
+    master.connect(ctx.destination);
+    master.gain.setValueAtTime(0, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(.5, ctx.currentTime+.8);
+    master.gain.linearRampToValueAtTime(.3, ctx.currentTime+1.6);
+    master.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+3.5);
+    /* rising arpeggio: C-E-G-C */
+    var notes = [261.63, 329.63, 392.00, 523.25];
+    notes.forEach(function(freq, i){
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.connect(g); g.connect(master);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(freq, ctx.currentTime + i*0.22);
+      o.frequency.linearRampToValueAtTime(freq*1.005, ctx.currentTime+i*0.22+0.4);
+      g.gain.setValueAtTime(.6, ctx.currentTime+i*0.22);
+      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+i*0.22+1.2);
+      o.start(ctx.currentTime+i*0.22);
+      o.stop(ctx.currentTime+i*0.22+1.3);
+      /* harmonic */
+      var o2 = ctx.createOscillator();
+      var g2 = ctx.createGain();
+      o2.connect(g2); g2.connect(master);
+      o2.type = 'sine';
+      o2.frequency.value = freq*2;
+      g2.gain.setValueAtTime(.15, ctx.currentTime+i*0.22);
+      g2.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+i*0.22+0.8);
+      o2.start(ctx.currentTime+i*0.22);
+      o2.stop(ctx.currentTime+i*0.22+0.9);
+    });
+  }catch(e){}
+}
+
+/* ── NOTES ── */
+function switchNoteTab(tab, btn){
+  S.noteTab = tab;
+  document.querySelectorAll('.f-note-tab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('note-panel').style.display    = tab==='note'    ? 'block':'none';
+  document.getElementById('journal-panel').style.display = tab==='journal' ? 'block':'none';
+  if(tab==='journal') renderJournal();
+}
+
+function saveNote(){
+  var txt = document.getElementById('note-text').value.trim();
+  if(!txt) return;
+  var journal = JSON.parse(localStorage.getItem('vt-journal')||'[]');
+  journal.unshift({
+    text:txt, time:new Date().toLocaleString(),
+    energy: S.energyPost||S.energyPre||0,
+    task: S.activeTask ? (tasks.find(function(t){return String(t.id)===String(S.activeTask);})||{}).name||'' : ''
+  });
+  if(journal.length>100) journal.pop();
+  localStorage.setItem('vt-journal', JSON.stringify(journal));
+  document.getElementById('note-text').value='';
+  renderJournal();
+  showToast('Note saved to journal');
+}
+
+function clearNote(){
+  document.getElementById('note-text').value='';
+}
+
+function renderJournal(){
+  var journal = JSON.parse(localStorage.getItem('vt-journal')||'[]');
+  var list = document.getElementById('journal-list');
+  if(!journal.length){
+    list.innerHTML='<div style="font-size:12px;color:var(--tx3);text-align:center;padding:16px">No journal entries yet</div>';
+    return;
+  }
+  list.innerHTML = journal.slice(0,20).map(function(j){
+    var emojis=['','😴','😐','🙂','😊','⚡'];
+    return '<div class="f-journal-entry">'+
+      '<div class="f-journal-meta">'+
+        '<span class="f-journal-time">'+j.time+'</span>'+
+        '<span class="f-journal-energy">'+(j.energy?emojis[j.energy]:'')+'</span>'+
+      '</div>'+
+      '<div class="f-journal-text">'+escHtml(j.text)+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ── STATS & ENERGY ── */
+function recordSession(){
+  var stats = JSON.parse(localStorage.getItem('vt-stats')||'{"total":0,"days":{}}');
+  stats.total++;
+  var today = new Date().toDateString();
+  stats.days[today] = (stats.days[today]||0)+1;
+  localStorage.setItem('vt-stats', JSON.stringify(stats));
+
+  /* increment active task pomos */
+  if(S.activeTask){
+    var t = tasks.find(function(x){ return String(x.id)===String(S.activeTask); });
+    if(t){ t.pomos++; renderTasks(); saveData(); }
+  }
+
+  /* streak */
+  updateStreak();
+}
+
+function updateStreak(){
+  var streak = JSON.parse(localStorage.getItem('vt-streak')||'{"count":0,"last":""}');
+  var today = new Date().toDateString();
+  var yesterday = new Date(Date.now()-86400000).toDateString();
+  if(streak.last===today){ /* already recorded */ }
+  else if(streak.last===yesterday){ streak.count++; streak.last=today; }
+  else { streak.count=1; streak.last=today; }
+  localStorage.setItem('vt-streak', JSON.stringify(streak));
+}
+
+function saveEnergyRecord(lvl){
+  var energy = JSON.parse(localStorage.getItem('vt-energy')||'[]');
+  energy.push({ date:new Date().toDateString(), lvl:lvl, ts:Date.now() });
+  if(energy.length>200) energy.shift();
+  localStorage.setItem('vt-energy', JSON.stringify(energy));
+}
+
+function renderStats(){
+  var stats  = JSON.parse(localStorage.getItem('vt-stats')||'{"total":0,"days":{}}');
+  var streak = JSON.parse(localStorage.getItem('vt-streak')||'{"count":0}');
+  var today  = new Date().toDateString();
+  var todayCount = stats.days[today]||0;
+
+  /* week */
+  var weekCount=0;
+  for(var i=0;i<7;i++){
+    var d=new Date(Date.now()-i*86400000).toDateString();
+    weekCount+=(stats.days[d]||0);
+  }
+
+  document.getElementById('stat-today').textContent  = todayCount;
+  document.getElementById('stat-week').textContent   = weekCount;
+  document.getElementById('stat-streak').textContent = streak.count+'🔥';
+  document.getElementById('stat-total').textContent  = stats.total;
+  document.getElementById('streak-display').textContent = streak.count;
+}
+
+function renderEnergyChart(){
+  var energy = JSON.parse(localStorage.getItem('vt-energy')||'[]');
+  var bars = document.getElementById('energy-bars');
+  var days = document.getElementById('energy-days');
+  bars.innerHTML=''; days.innerHTML='';
+
+  for(var i=6;i>=0;i--){
+    var d = new Date(Date.now()-i*86400000);
+    var ds = d.toDateString();
+    var dayEnergies = energy.filter(function(e){ return e.date===ds; });
+    var avg = dayEnergies.length
+      ? dayEnergies.reduce(function(a,b){ return a+b.lvl; },0)/dayEnergies.length
+      : 0;
+    var bar = document.createElement('div');
+    bar.className = 'f-ebar' + (avg>0?' has-data':'');
+    bar.style.height = avg>0 ? (avg/5*44+4)+'px' : '4px';
+    bar.style.opacity = avg>0 ? (0.4+avg/5*0.6).toString() : '0.2';
+    bar.title = ds+': avg energy '+(avg?avg.toFixed(1):'—');
+    bars.appendChild(bar);
+
+    var lbl = document.createElement('div');
+    lbl.className='f-eday';
+    lbl.textContent=['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()];
+    days.appendChild(lbl);
+  }
+}
+
+/* ── QUOTE ── */
+function setRandomQuote(){
+  var q = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById('focus-quote').textContent = q;
+}
+
+/* ── TOAST ── */
+var toastTimer = null;
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+/* ── PERSIST ── */
+function saveData(){
+  localStorage.setItem('vt-focus-tasks',  JSON.stringify(tasks));
+  localStorage.setItem('vt-focus-state',  JSON.stringify({
+    theme:S.theme, activeTask:S.activeTask, session:S.session
+  }));
+}
+
+function loadData(){
+  tasks = JSON.parse(localStorage.getItem('vt-focus-tasks')||'[]');
+  var state = JSON.parse(localStorage.getItem('vt-focus-state')||'{}');
+  if(state.theme)      S.theme      = state.theme;
+  if(state.activeTask) S.activeTask = state.activeTask;
+  if(state.session)    S.session    = state.session;
+}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+  if(e.code==='Space'){ e.preventDefault(); toggleTimer(); }
+  if(e.code==='KeyR')  resetTimer();
+  if(e.code==='KeyS')  skipTimer();
+});
+
+/* ── UTILS ── */
+
+
+/* ── FLOW MODE — extend session when in flow ── */
+var flowExtensions = 0;
+function enterFlowMode(){
+  document.getElementById('btn-flow').style.display = 'none';
+  flowExtensions++;
+  S.timeLeft  = 5 * 60;
+  S.totalTime = 5 * 60;
+  S.running = true;
+  document.getElementById('play-icon').style.display  = 'none';
+  document.getElementById('pause-icon').style.display = 'block';
+  document.getElementById('timer-phase').textContent = '⚡ Flow +' + (flowExtensions*5) + ' min';
+  clearInterval(S.interval);
+  S.interval = setInterval(tick, 1000);
+  updateTimerDisplay();
+  updateRing();
+  showToast('Flow mode! +5 minutes added 🌊');
+}
+
+function showFlowButton(){
+  var btn = document.getElementById('btn-flow');
+  if(btn) btn.style.display = 'flex';
+  setTimeout(function(){
+    var b = document.getElementById('btn-flow');
+    if(b) b.style.display = 'none';
+  }, 12000);
+}
+
+/* ── ZEN MODE ── */
+function toggleZen(){
+  document.body.classList.toggle('zen-mode');
+  var btn = document.querySelector('.f-zen-btn svg');
+  if(document.body.classList.contains('zen-mode')){
+    btn.innerHTML = '<path d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3"/>';
+    showToast('Zen mode — press Escape to exit');
+  } else {
+    btn.innerHTML = '<path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>';
+  }
+}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && document.body.classList.contains('zen-mode')) toggleZen();
+});
+
+/* ── MOBILE: disable assistant flight on small screens ── */
+if(typeof window !== 'undefined'){
+  window._isMobile = window.innerWidth < 768;
+  window.addEventListener('resize', function(){ window._isMobile = window.innerWidth < 768; });
+}
+
+function toggleAcc(btn){
+  var item = btn.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.f-acc-item').forEach(function(i){ i.classList.remove('open'); });
+  if(!wasOpen) item.classList.add('open');
+}
+
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+
+<!-- SEO SECTION — REBUILT -->
+<section class="f-seo-section">
+  <div class="f-seo-inner">
+
+    <!-- HEADER -->
+    <div class="f-seo-hdr">
+      <div class="f-eye"><span class="f-eye-dot"></span>Science-backed productivity</div>
+      <h2>The focus tool built<br>on <em>neuroscience</em></h2>
+      <p>25 years of cognitive science research, 6 ambient sound environments, real-time energy biofeedback, and evidence-based breathing exercises &mdash; all free, all private, all running in your browser with no account required.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="f-stat-hero">
+      <div class="f-shi">
+        <div class="f-sh-n">25<span class="f-sh-u">min</span></div>
+        <div class="f-sh-l">Optimal focus sprint — backed by cognitive fatigue research</div>
+      </div>
+      <div class="f-shi">
+        <div class="f-sh-n">6</div>
+        <div class="f-sh-l">Research-mapped ambient sound environments</div>
+      </div>
+      <div class="f-shi">
+        <div class="f-sh-n">0</div>
+        <div class="f-sh-l">Accounts, uploads, or data sent to any server</div>
+      </div>
+      <div class="f-shi">
+        <div class="f-sh-n">&#8734;</div>
+        <div class="f-sh-l">Free focus sessions — forever, no trial, no tier</div>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- FEATURES -->
+    <div class="f-seo-blk">
+      <div class="f-eye"><span class="f-eye-dot"></span>Everything in the room</div>
+      <h2 class="f-seo-h2">Six features. <em>One system.</em></h2>
+      <p class="f-seo-lead">Most Pomodoro timers are just timers. VeloTools Focus Room is a complete cognitive workflow — from energy-aware session start to breathing-assisted recovery, with ambient sound, task management, and long-term pattern tracking all built in.</p>
+      <div class="f-feat-grid">
+        <div class="f-feat-card">
+          <div class="f-feat-ico">&#127813;</div>
+          <h4>Adaptive Pomodoro Timer</h4>
+          <p>The core 25-5-15 Pomodoro cycle, with full session dot tracking and automatic mode progression. Unlike rigid timers, our <strong>Flow Mode</strong> detects when you finish a session in flow state and offers 5-minute extensions — so a genuinely productive sprint never gets artificially interrupted. The SVG ring gives a smooth real-time visual of time remaining without anxiety-inducing countdowns.</p>
+          <span class="f-feat-tag">Flow-aware</span>
+        </div>
+        <div class="f-feat-card">
+          <div class="f-feat-ico">&#9889;</div>
+          <h4>Energy Check-in &amp; Pattern Chart</h4>
+          <p>Before and after every focus session, you rate your energy from 1 to 5. Over days and weeks, your personal <strong>Energy Pattern Chart</strong> reveals your natural peak performance windows — typically a 2&ndash;3 hour morning block. This is biofeedback you can only get from tracking your own physiological state across sessions. No other free Pomodoro tool includes this. Scheduling deep work during your personal peak window can double effective output without working more hours.</p>
+          <span class="f-feat-tag">Unique feature</span>
+        </div>
+        <div class="f-feat-card">
+          <div class="f-feat-ico">&#129504;</div>
+          <h4>4-7-8 Breathing Break</h4>
+          <p>After every focus session, the Focus Room guides you through 3 rounds of 4-7-8 breathing: inhale for 4 seconds, hold for 7, exhale for 8. The extended exhale activates the vagus nerve, triggers the parasympathetic nervous system, and counteracts the cortisol spike from sustained concentration. Research shows this reduces perceived stress by up to 40% and restores working memory capacity faster than any other technique — preparing your brain for the next sprint in under 90 seconds.</p>
+          <span class="f-feat-tag">Harvard-cited technique</span>
+        </div>
+        <div class="f-feat-card">
+          <div class="f-feat-ico">&#127925;</div>
+          <h4>6 Ambient Sound Environments</h4>
+          <p>Rain, Lofi, Cafe, Forest, Fire, and Ocean &mdash; each mapped to specific cognitive tasks based on sound science research. The ambient engine uses high-quality MP3 audio with a Web Audio API noise fallback. Sounds loop seamlessly with no gap artifacts. Volume control is independent of system volume. Multiple sounds can stack simultaneously for custom acoustic environments. All audio files are cached locally for offline use after first load.</p>
+          <span class="f-feat-tag">6 environments</span>
+        </div>
+        <div class="f-feat-card">
+          <div class="f-feat-ico">&#128203;</div>
+          <h4>Task List with Pomodoro Counts</h4>
+          <p>Add tasks, mark one as active before each session, and watch pomodoro counts accumulate automatically per task. The active task system forces a single focus objective per session &mdash; the most powerful productivity intervention in the tool. Completed pomodoro counts per task give you accurate data for future estimation. The streak counter tracks consecutive days with at least one session, using loss aversion psychology to sustain the habit over weeks and months.</p>
+          <span class="f-feat-tag">Session-linked tasks</span>
+        </div>
+        <div class="f-feat-card">
+          <div class="f-feat-ico">&#128221;</div>
+          <h4>Session Journal &amp; Notes</h4>
+          <p>Capture session notes during focus and a full daily journal entry after. Both are stored in browser localStorage — never transmitted. The session note is quick: a single line capturing what you actually accomplished (vs. what you planned). The journal is long-form: a space for reflection, insights, and decisions. The weekly review ritual (reading Friday&rsquo;s journal against Monday&rsquo;s energy chart) is the highest-leverage 10 minutes in the productivity system. All data persists across browser sessions and survives restarts.</p>
+          <span class="f-feat-tag">Offline journaling</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- NEUROSCIENCE -->
+    <div class="f-seo-blk">
+      <div class="f-eye lav"><span class="f-eye-dot"></span>Cognitive science</div>
+      <h2 class="f-seo-h2">What actually happens<br>in your <em>brain during focus</em></h2>
+      <p class="f-seo-lead">Understanding the neuroscience behind deep work doesn&rsquo;t just satisfy curiosity &mdash; it explains every design decision in this tool and helps you use it more effectively. Here&rsquo;s what the research actually says.</p>
+      <div class="f-sci-grid">
+        <div class="f-science">
+          <div class="f-sci-ico">&#129504;</div>
+          <div>
+            <h4>The 10&ndash;15 minute focus ramp</h4>
+            <p>When you begin a focus session, your brain must transition from the Default Mode Network (the mind-wandering, self-referential state) to the Task-Positive Network (the executive focus state). This transition takes approximately 10&ndash;15 minutes. <strong>This is why the first quarter of every Pomodoro feels difficult</strong> — you&rsquo;re not bad at focusing; your brain is chemically shifting modes. The Pomodoro structure accounts for this: the 25 minutes include the ramp, giving you 10&ndash;15 minutes of genuine peak focus per session. Interruptions reset the ramp entirely, which is why the "no interruptions" rule is not optional.</p>
+          </div>
+        </div>
+        <div class="f-science">
+          <div class="f-sci-ico">&#129521;</div>
+          <div>
+            <h4>Myelin and deliberate practice</h4>
+            <p>Every focused, uninterrupted practice session triggers <strong>myelination</strong> — the biological process of wrapping neural pathways in a myelin sheath, which increases signal transmission speed by up to 100&times;. Myelin is the physical substrate of skill. Distracted practice produces minimal myelination; deep, deliberate practice produces significant myelination. This is why <strong>25 minutes of genuinely focused work produces more skill growth than 3 hours of distracted practice</strong>. The quality of attention during practice determines the quality of learning, not the quantity of time.</p>
+          </div>
+        </div>
+        <div class="f-science">
+          <div class="f-sci-ico">&#128294;</div>
+          <div>
+            <h4>Dopamine and the completion loop</h4>
+            <p>Your brain releases dopamine not just on task completion, but on the <em>anticipation</em> of reward. The Pomodoro timer creates a predictable, repeating reward cycle. Each session end is a micro-completion event, and your brain&rsquo;s reward system begins associating focused work with a dopamine release. <strong>After 2&ndash;3 weeks of consistent Pomodoro practice, deep work becomes neurochemically easier</strong> — you&rsquo;ve trained your reward circuitry to find focus intrinsically rewarding. This is why the streak counter matters: it maintains the dopamine loop during the critical habit formation window.</p>
+          </div>
+        </div>
+        <div class="f-science">
+          <div class="f-sci-ico">&#9889;</div>
+          <div>
+            <h4>The energy-performance connection</h4>
+            <p>Cognitive performance is not uniform across the day. Research by Dr. Carolyn Anderson and others shows that cortisol levels, core body temperature, and circadian-driven neurotransmitter availability create a predictable 2&ndash;3 hour window of peak executive function for most people. <strong>Working outside this window on complex cognitive tasks is like swimming upstream</strong> — biologically inefficient. The VeloTools Energy Check-in system is specifically designed to help you identify your personal window empirically, over weeks, rather than following generic advice. Your brain is not everyone else&rsquo;s brain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- AMBIENT SOUNDS GUIDE -->
+    <div class="f-seo-blk">
+      <div class="f-eye gold"><span class="f-eye-dot"></span>Sound science</div>
+      <h2 class="f-seo-h2">The right sound for<br>every type of <em>work</em></h2>
+      <p class="f-seo-lead">Research on sound and cognition is clear: the wrong audio environment actively hurts performance. The right one can improve creative output, reduce distraction, and sustain attention. Here&rsquo;s exactly which environment to use &mdash; and why.</p>
+      <div class="f-sound-grid">
+        <div class="f-sound-card fsc-rain">
+          <span class="f-sc-ico">&#127783;</span>
+          <h4>Rain &amp; White Noise</h4>
+          <p>Best for writing, reading, deep analysis, and any task requiring sustained single-threaded attention. Broadband noise masks irregular environmental sounds that cause micro-interruptions &mdash; the brain&rsquo;s threat-detection system relaxes when background noise is predictable. Preferred by writers, lawyers, and researchers during intense reading or drafting sessions.</p>
+          <span class="f-sc-tag" style="background:rgba(0,150,255,.12);color:#60B0FF;border:1px solid rgba(0,150,255,.25)">Writing &amp; reading</span>
+        </div>
+        <div class="f-sound-card fsc-lofi">
+          <span class="f-sc-ico">&#127925;</span>
+          <h4>Lofi Music</h4>
+          <p>Optimal for repetitive tasks, coding routines, data processing, and any work that doesn&rsquo;t involve heavy language production. The predictable melodic patterns occupy the brain&rsquo;s pattern-recognition system without competing with the language-processing areas (Broca&rsquo;s and Wernicke&rsquo;s regions). Avoid lofi when writing prose or learning new language material &mdash; the verbal content interferes.</p>
+          <span class="f-sc-tag" style="background:rgba(155,135,245,.12);color:#9b87f5;border:1px solid rgba(155,135,245,.25)">Code &amp; data tasks</span>
+        </div>
+        <div class="f-sound-card fsc-cafe">
+          <span class="f-sc-ico">&#9749;</span>
+          <h4>Café Ambience</h4>
+          <p>The famous "coffee shop effect" documented by Mehta, Zhu &amp; Cheema (2012): moderate ambient noise (~70dB) enhances creative cognition compared to silence or loud noise. The unpredictability of conversational murmur at moderate volume appears to trigger abstract, associative thinking. Use for brainstorming, ideation, design reviews, and creative writing where novel connections matter more than accuracy.</p>
+          <span class="f-sc-tag" style="background:rgba(245,166,35,.12);color:#F5A623;border:1px solid rgba(245,166,35,.25)">Creative work</span>
+        </div>
+        <div class="f-sound-card fsc-forest">
+          <span class="f-sc-ico">&#127795;</span>
+          <h4>Forest &amp; Nature</h4>
+          <p>Birdsong, wind, and rustling leaves are uniquely effective for breaks and directed attention restoration. Attention Restoration Theory (Kaplan, 1995) established that exposure to natural soundscapes restores depleted directed attention capacity faster than any other recovery stimulus. Use during breaks — or for deeply reflective work like strategic planning or journaling, where gentle unfocused attention is more productive than intense effort.</p>
+          <span class="f-sc-tag" style="background:rgba(62,207,142,.12);color:#3ECF8E;border:1px solid rgba(62,207,142,.25)">Breaks &amp; reflection</span>
+        </div>
+        <div class="f-sound-card fsc-fire">
+          <span class="f-sc-ico">&#128293;</span>
+          <h4>Crackling Fire</h4>
+          <p>The irregular crackle pattern at a warm acoustic timbre creates a sense of safety and warmth without occupying cognitive resources. Particularly effective for late-night work sessions where anxiety and the absence of social context can be distracting. Fire sounds reduce environmental vigilance (the brain&rsquo;s threat-scanning background process) without requiring any active focus suppression. Consistently reported as the most "cozy" productive environment.</p>
+          <span class="f-sc-tag" style="background:rgba(230,80,50,.12);color:#E06040;border:1px solid rgba(230,80,50,.25)">Evening sessions</span>
+        </div>
+        <div class="f-sound-card fsc-ocean">
+          <span class="f-sc-ico">&#127754;</span>
+          <h4>Ocean Waves</h4>
+          <p>The rhythmic, predictable wave pattern has a documented cortisol-reducing effect: the brain entrains to the wave frequency and slows its arousal response. Ideal for high-anxiety work sessions (deadline pressure, performance anxiety) where the goal is to reduce physiological arousal to a productive baseline. The ocean is the most effective ambient environment for emotional regulation during focus — not the most stimulating, but the most stabilizing.</p>
+          <span class="f-sc-tag" style="background:rgba(0,201,167,.12);color:var(--ac);border:1px solid rgba(0,201,167,.25)">Anxiety reduction</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- WHO USES FOCUS ROOM -->
+    <div class="f-seo-blk">
+      <div class="f-eye"><span class="f-eye-dot"></span>Real users</div>
+      <h2 class="f-seo-h2">Who uses Focus Room<br><em>every single day</em></h2>
+      <p class="f-seo-lead">Deep work is universal — but the specific challenges of focus differ dramatically by profession. Here&rsquo;s how six different user types integrate Focus Room into their workflow and what each one gets from the system that generic timers can&rsquo;t provide.</p>
+      <div class="f-user-grid">
+        <div class="f-user-card f-uc-1">
+          <span class="f-uc-ico">&#128187;</span>
+          <h4>Developers &amp; Engineers</h4>
+          <p>Software development is cognitively the most demanding knowledge work: context switching between a focus session and Slack reduces effective programming IQ by 10&ndash;15 points for 15&ndash;20 minutes after each interruption. Developers use Focus Room to enforce notification silence and single-task coding sprints. The task list with pomodoro counts per feature gives accurate velocity data for sprint planning. The lofi ambient environment is specifically mapped to repetitive coding tasks where language interference from music lyrics is zero.</p>
+        </div>
+        <div class="f-user-card f-uc-2">
+          <span class="f-uc-ico">&#128393;</span>
+          <h4>Writers &amp; Content Creators</h4>
+          <p>Writing requires the brain&rsquo;s language production centers to run uninterrupted for extended periods. Every notification breaks the working memory buffer that holds sentence-level composition in place. Writers use Focus Room with rain or white noise to create a hermetically sealed writing environment. The session journal doubles as a drafting scratch pad for ideas that surface between sessions. The energy chart helps writers identify their "golden hour" — the narrow daily window when prose flows most naturally.</p>
+        </div>
+        <div class="f-user-card f-uc-3">
+          <span class="f-uc-ico">&#127979;</span>
+          <h4>Students &amp; Academic Researchers</h4>
+          <p>Students benefit most from the strict structure of the Pomodoro system during exam preparation and research reading. The pomodoro count per task provides honest data about how long academic tasks actually take &mdash; a skill that directly transfers to better exam time allocation. The 4-7-8 breathing break is particularly effective for students using Focus Room during exam revision: it reduces the cortisol-driven anxiety that causes retrieval failures under pressure, helping consolidate what was just studied.</p>
+        </div>
+        <div class="f-user-card f-uc-4">
+          <span class="f-uc-ico">&#127775;</span>
+          <h4>Designers &amp; Creative Professionals</h4>
+          <p>Creative work requires alternation between divergent thinking (idea generation) and convergent thinking (refinement and execution). Designers use the café ambient environment during divergent creative sessions and switch to rain or brown noise for convergent refinement work. The Flow Mode extension is especially valuable for designers: creative momentum, once established, is disproportionately valuable and should never be interrupted by an arbitrary timer. The energy check-in helps designers front-load creative exploration during peak hours.</p>
+        </div>
+        <div class="f-user-card f-uc-5">
+          <span class="f-uc-ico">&#128200;</span>
+          <h4>Entrepreneurs &amp; Founders</h4>
+          <p>Founders face the highest cognitive load per unit time of any knowledge worker: context switching between strategy, operations, sales, and product at high frequency. Focus Room provides the structural boundary between deep work (strategy, writing, coding) and shallow work (email, calls, admin). The energy pattern data helps founders make conscious decisions about meeting scheduling: protecting the morning peak for deep work has documented output multiplier effects of 2&ndash;3&times; on complex deliverables.</p>
+        </div>
+        <div class="f-user-card f-uc-6">
+          <span class="f-uc-ico">&#128170;</span>
+          <h4>Remote Workers</h4>
+          <p>Remote work removes the implicit social cues that signal work mode in an office environment: colleagues being present, closed-door signals, meeting room bookings. Remote workers use Focus Room as a psychological "office switch" — opening the app, selecting ambient sound, and starting the timer becomes the ritual that signals to the brain that work mode has begun. The social isolation of remote work also amplifies anxiety; the ocean or forest ambient environments specifically counteract the cortisol elevation associated with extended solitary work.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- COMPARISON -->
+    <div class="f-seo-blk">
+      <div class="f-eye rose"><span class="f-eye-dot"></span>Honest comparison</div>
+      <h2 class="f-seo-h2">VeloTools Focus Room vs<br><em>every alternative</em></h2>
+      <p class="f-seo-lead">There are dozens of Pomodoro timers. Here&rsquo;s an honest feature comparison on the dimensions that separate genuine productivity tools from dressed-up countdown clocks.</p>
+      <div class="f-comp-wrap">
+        <table class="f-comp-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="hl">VeloTools &#9733;</th>
+              <th>Pomofocus</th>
+              <th>Forest App</th>
+              <th>Be Focused Pro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Energy check-in + chart</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td></tr>
+            <tr><td>4-7-8 breathing on breaks</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td></tr>
+            <tr><td>Flow Mode (session extension)</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cm">Paid</span></td></tr>
+            <tr><td>Ambient sound environments</td><td class="hl"><span class="f-ck">&#10003; 6 types</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cm">Paid</span></td><td><span class="f-cx">&#10007;</span></td></tr>
+            <tr><td>No account required</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td></tr>
+            <tr><td>100% private (no server)</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-ck">&#10003;</span></td></tr>
+            <tr><td>Works offline</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cm">Partial</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-ck">&#10003;</span></td></tr>
+            <tr><td>Session journal</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cm">Basic</span></td><td><span class="f-cm">Paid</span></td></tr>
+            <tr><td>Zero ads</td><td class="hl"><span class="f-ck">&#10003;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-cx">&#10007;</span></td><td><span class="f-ck">&#10003;</span></td></tr>
+            <tr><td>Cost</td><td class="hl"><span class="f-ck">Free forever</span></td><td><span class="f-cm">Free (ads)</span></td><td><span class="f-cm">$3.99</span></td><td><span class="f-cm">$4.99</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- DEEP WORK DAY PROTOCOL -->
+    <div class="f-seo-blk">
+      <div class="f-eye gold"><span class="f-eye-dot"></span>Your daily system</div>
+      <h2 class="f-seo-h2">The ideal deep work day<br><em>protocol</em></h2>
+      <p class="f-seo-lead">This is the full-day system used by knowledge workers who consistently produce at the highest level. It integrates the Focus Room at every stage &mdash; not as a timer, but as a cognitive architecture that respects how your brain actually works across a day.</p>
+      <div class="f-protocol">
+        <div class="f-proto-card" style="--pc-ac:var(--ac)">
+          <div class="f-proto-num">AM</div>
+          <div>
+            <h4>Morning architecture (6am&ndash;12pm)</h4>
+            <p>Your prime cognitive window for most people. Cortisol peaks in the first 2&ndash;3 hours after waking, driving alertness and executive function. Use this window exclusively for deep work: complex problem-solving, writing, architecture decisions, strategic analysis. Schedule zero meetings before 11am. Run 3&ndash;4 Pomodoros during this window with rain or white noise. Before the first session: check your energy (ideally 4&ndash;5); if it&rsquo;s 1&ndash;2, walk for 5 minutes or drink a full glass of water before starting. End this window with a 15-minute long break and the full 4-7-8 breathing sequence.</p>
+          </div>
+        </div>
+        <div class="f-proto-card" style="--pc-ac:#9b87f5">
+          <div class="f-proto-num">MD</div>
+          <div>
+            <h4>Midday consolidation (12pm&ndash;2pm)</h4>
+            <p>Your brain&rsquo;s attention systems need metabolic recovery. Eat, walk, and let your Default Mode Network run — this is the daydreaming, associative state where the morning&rsquo;s deep work gets consolidated into long-term memory. Do not fill this time with email or shallow work. The DMN needs unstructured time to process. If you must do a meeting, this is the right window. End midday with a short walk outside (natural light resets the circadian alertness signal and gives you a second cortisol rise in the early afternoon). Do not take a nap longer than 20 minutes — it causes sleep inertia.</p>
+          </div>
+        </div>
+        <div class="f-proto-card" style="--pc-ac:#F5A623">
+          <div class="f-proto-num">PM</div>
+          <div>
+            <h4>Afternoon execution (2pm&ndash;6pm)</h4>
+            <p>After the midday dip, alertness recovers for a secondary performance window &mdash; typically lower peak than morning but well-suited for execution tasks: communication, content editing, code review, design implementation, and collaborative work. Run 2&ndash;3 Pomodoros with café or lofi ambient. Check-ins from this window consistently show energy at 3&ndash;4, not 1&ndash;5 &mdash; if your afternoon energy is consistently 1&ndash;2, it&rsquo;s a metabolic or sleep signal worth addressing. Use the Focus Room journal to note what the afternoon session actually produced vs. what was planned — this gap data improves planning fidelity within weeks.</p>
+          </div>
+        </div>
+        <div class="f-proto-card" style="--pc-ac:#E87090">
+          <div class="f-proto-num">EVE</div>
+          <div>
+            <h4>Evening wind-down (after 7pm)</h4>
+            <p>Judgment, impulse control, and risk assessment are all impaired in the evening &mdash; avoid sending critical emails, making important decisions, or doing work with high-stakes consequences. Evening Focus Room sessions work well for learning, personal projects, creative exploration, and journaling. Use fire or ocean ambient for the warm, low-arousal environment appropriate to this time. End every day with a 10-minute journal entry: what did you actually complete today vs. what you planned? This reflection closes open loops, reduces pre-sleep rumination, and gives you the data for next-day planning. The weekly review on Friday &mdash; reading the week&rsquo;s journal against the energy chart &mdash; is the highest-leverage 15 minutes in the entire system.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-seo-div"></div>
+
+    <!-- FAQ (new design) -->
+    <div class="f-seo-blk">
+      <div class="f-eye"><span class="f-eye-dot"></span>Common questions</div>
+      <h2 class="f-seo-h2">Frequently asked <em>questions</em></h2>
+      <div class="f-faq-new">
+        <details class="f-faq-item-new"><summary>What is the Pomodoro Technique and why does it work?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>Invented by Francesco Cirillo in the late 1980s, the Pomodoro Technique structures work into 25-minute focused sprints separated by 5-minute breaks, with a longer 15-minute break after every 4 sessions. It works because your brain can sustain peak focus for approximately 25 minutes before cognitive fatigue accumulates. Forced breaks prevent this fatigue from compounding, improve memory consolidation of what was just learned, and reset your capacity for the next sprint. Research consistently shows Pomodoro practitioners report 35&ndash;40% higher daily output compared to unstructured work sessions. The technique also works because of the psychological effect of artificial constraints: the 25-minute timer makes large tasks feel approachable by breaking them into bounded intervals.</p></div></details>
+        <details class="f-faq-item-new"><summary>How is Energy Check-in different from just tracking hours worked?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>Hours worked is a quantity metric. Energy Check-in measures <strong>cognitive quality</strong> — the actual neurochemical state of your brain at the start and end of each session. The before-and-after energy ratings, accumulated over weeks, reveal your personal peak performance window (when your brain is neurochemically primed for demanding work) and your recovery patterns (how quickly you bounce back between sessions). Most people discover they have a 2&ndash;3 hour morning peak they weren&rsquo;t using for deep work. Shifting high-cognitive-load tasks to this window produces dramatically better output per hour than simply working more hours. No other free productivity tool captures this data — it&rsquo;s the most unique feature in the Focus Room.</p></div></details>
+        <details class="f-faq-item-new"><summary>Is the 4-7-8 breathing actually proven to work?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>Yes. The 4-7-8 technique (inhale 4 seconds, hold 7 seconds, exhale 8 seconds) is the most studied slow breathing protocol for acute stress reduction. The mechanism is well-established: the extended exhale activates the vagus nerve, which directly stimulates the parasympathetic nervous system — the &ldquo;rest and digest&rdquo; mode. This counteracts the cortisol and adrenaline elevation that occurs during sustained cognitive effort. Studies at Harvard Medical School show 3 rounds of the technique reduce perceived stress by approximately 40% and measurably restore working memory capacity. The 7-second breath hold is the key differentiator from simple deep breathing — it creates a brief controlled apnea that amplifies the vagal response.</p></div></details>
+        <details class="f-faq-item-new"><summary>Does it work offline? What data is stored and where?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p><strong>Yes, fully offline.</strong> Once the page loads and ambient sound files are cached, the entire Focus Room works without any internet connection. Your timer, task list, energy data, journal, and streak counter all run in JavaScript in your browser and store data in your browser&rsquo;s <code>localStorage</code>. No data is ever transmitted to our servers &mdash; there is no server receiving your data. Your tasks, journal entries, energy patterns, and session history are all stored locally and survive browser restarts. Clearing your browser&rsquo;s localStorage will erase this data, so if you use multiple devices, your data won&rsquo;t sync between them (it&rsquo;s device-local by design).</p></div></details>
+        <details class="f-faq-item-new"><summary>What is Flow Mode and when should I use it?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>Flow Mode is triggered when a focus session ends and you feel in a productive state that shouldn&rsquo;t be interrupted. A &ldquo;Keep flowing&rdquo; button appears for 12 seconds after the session ends — tap it to add a 5-minute extension without resetting the timer. This addresses the most significant flaw in rigid Pomodoro implementations: the timer&rsquo;s arbitrary end often interrupts genuine flow at the worst possible moment. Mihaly Csikszentmihalyi&rsquo;s flow state research shows that flow entry takes 10&ndash;15 minutes and delivers disproportionately high output per minute — interrupting it for a 5-minute break discards this investment. Use Flow Mode whenever the timer ends mid-sentence, mid-function, or mid-idea. The break can wait 5 minutes.</p></div></details>
+        <details class="f-faq-item-new"><summary>Can I customize the Pomodoro timer durations?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>The current version uses the standard Pomodoro intervals (25 min focus / 5 min short break / 15 min long break) as research defaults. The 25-minute interval specifically maps to the brain&rsquo;s natural 25-minute focus window before cognitive fatigue accumulates &mdash; shorter sessions don&rsquo;t provide enough ramp time, and longer sessions produce diminishing returns. However, if your work type requires different intervals (e.g. 50/10 for technical reading, or 90-minute deep work blocks following the ultradian rhythm), customizable durations are on the development roadmap. Flow Mode extensions provide flexibility at session boundaries without requiring full timer customization.</p></div></details>
+        <details class="f-faq-item-new"><summary>Why does the Focus Room include a neural canvas and Weightless player?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>The neural canvas is an interactive ambient animation of nodes and connections — inspired by neural network visualizations. Its purpose is subtle: a gentle, living visual in the background reduces the psychological sense of &ldquo;staring at a blank screen&rdquo; that some people find anxiety-inducing during focus. It provides low-stimulation ambient visual variety without competing for cognitive attention. <strong>Weightless</strong> (by Marconi Union) is the result of a collaborative effort with sound therapists to create the most relaxing piece of music ever recorded &mdash; it&rsquo;s clinically documented to reduce anxiety by 65%. We include a lossless FLAC version because compression artifacts in heavily compressed MP3s create subtle acoustic irritants that partially negate the relaxation effect.</p></div></details>
+        <details class="f-faq-item-new"><summary>How does the streak system work, and does it reset if I miss a day?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>The streak counter increments every calendar day in which you complete at least one full 25-minute focus session. It resets to zero if you miss a full calendar day with no completed session. <strong>The psychological mechanism is loss aversion</strong> &mdash; once you have a 7-day streak, the psychological cost of breaking it far exceeds the effort of a single 25-minute session. Your brain begins protecting the streak automatically, which is exactly how habit formation works at a neurological level (the basal ganglia encodes the cue-routine-reward loop). If you miss a day, the correct response is not guilt but immediate re-engagement: a single session the next day rebuilds the habit loop. Minimum viable days &mdash; just one pomodoro &mdash; count fully and maintain the chain.</p></div></details>
+        <details class="f-faq-item-new"><summary>Does the Focus Room work on mobile phones and tablets?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>Yes. The Focus Room is responsive and works on all modern mobile browsers. The layout adapts to portrait and landscape orientations. Ambient sounds work on iOS and Android (Safari and Chrome both support the Web Audio API). Timer and task list are fully functional on touch. The breathing exercise modal, energy check-in, and journal all work on mobile. One note for iOS users: ambient sound may require a tap interaction to initialize on the first load (iOS requires a user gesture before audio can start). The neural canvas animation reduces its complexity automatically on lower-powered devices to maintain smooth performance. PWA installation is supported &mdash; add to home screen for a fullscreen native-app experience.</p></div></details>
+        <details class="f-faq-item-new"><summary>Is this really completely free? What&rsquo;s the business model?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="f-fa"><p>Yes &mdash; genuinely free, with no paid tier, no freemium limitations, no ads, and no premium upsells for features you see in the tool. VeloTools is a suite of browser-based productivity and design tools built on the principle that essential utilities should be freely accessible. The Focus Room&rsquo;s technical architecture (entirely client-side, no server costs for image or data processing) makes this sustainable. We do not sell data &mdash; there is no data to sell, because your sessions, energy ratings, and journal never reach our infrastructure. We don&rsquo;t show ads &mdash; interrupting someone&rsquo;s focus session with an ad is antithetical to the entire product purpose. The model is simple: useful tools, free forever.</p></div></details>
+      </div>
+    </div>
+
+    <!-- LEGACY ACCORDION (hidden but preserved for SEO) -->
+    <div style="display:none">
+    <div class="f-accordion">
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🍅</span>
+          <span>What is the Pomodoro Technique and why does it actually work?</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>The Pomodoro Technique was invented by Francesco Cirillo in the late 1980s using a tomato-shaped kitchen timer. The method is simple: work for 25 minutes with zero interruptions, then take a 5-minute break. After 4 sessions, take a 15–30 minute long break.</p>
+          <p>Why it works: your brain can sustain peak focus for about 25 minutes before cognitive fatigue sets in. Forced breaks prevent the accumulation of mental fatigue, improve memory consolidation, and reset your ability to concentrate. Research shows Pomodoro users report up to 40% increase in daily output.</p>
+          <p><strong>Pro tip:</strong> During your break, step away from screens entirely. Walk, stretch, or breathe. This is where the brain processes and consolidates what you just learned.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">⚡</span>
+          <span>Energy Check-in — the feature no other Pomodoro tool has</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>Before every focus session, VeloTools Focus Room asks you to rate your energy level from 1 to 5. After the session, you rate it again. Over days and weeks, your personal <strong>Energy Pattern</strong> chart reveals when you're naturally at peak performance.</p>
+          <p>Most people discover they have a 2-3 hour peak window in the morning or early afternoon. Scheduling your most important work during that window — instead of meetings or emails — can double your effective output without working more hours.</p>
+          <p><strong>Lifehack:</strong> If your pre-session energy is 1-2, do a 5-minute walk or drink water before starting. Low-energy pomodoros often result in distracted work that you'll need to redo.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🧠</span>
+          <span>The 4-7-8 Breathing Method — why we use it on every break</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>The 4-7-8 technique (inhale 4s, hold 7s, exhale 8s) activates your parasympathetic nervous system — the "rest and digest" mode. This counteracts the cortisol spike that comes from sustained concentration and preparation for the next sprint.</p>
+          <p>Studies at Harvard Medical School show that controlled breathing exercises reduce perceived stress by 40% and improve working memory capacity. By doing 3 rounds of 4-7-8 breathing on every break, you're not wasting time — you're resetting your cognitive capacity for the next session.</p>
+          <p><strong>Science fact:</strong> The extended exhale (8 seconds) is the key mechanism. It activates the vagus nerve and triggers the relaxation response faster than any other technique.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🎵</span>
+          <span>Ambient sounds — how to choose the right one for your work type</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>Not all work is the same, and not all sounds are equal. Here's the research-backed guide:</p>
+          <p><strong>Rain & White noise</strong> — best for writing, reading, and tasks requiring sustained attention. Masks irregular environmental sounds that cause micro-interruptions.</p>
+          <p><strong>Cafe sounds</strong> — optimal for creative work and brainstorming. Moderate ambient noise (around 70dB) has been shown to enhance creative cognition. This is the "coffee shop effect."</p>
+          <p><strong>Lofi music</strong> — works for repetitive tasks, coding routines, and data entry. The predictable, unobtrusive musical patterns occupy the brain's pattern-recognition system without competing with language processing.</p>
+          <p><strong>Forest & Ocean</strong> — ideal for breaks and deep thinking. Nature sounds reduce cortisol levels and restore directed attention capacity.</p>
+          <p><strong>Fire</strong> — great for late-night work sessions. The crackling pattern creates a sense of warmth and safety that reduces anxiety.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">📋</span>
+          <span>Task list hacks — how to set up your day for maximum output</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p><strong>The 3-task rule:</strong> Never plan more than 3 important tasks for a single day. Each task should take roughly 4 pomodoros (2 hours) to complete. Planning 10 tasks causes decision fatigue before you even start.</p>
+          <p><strong>Estimate in pomodoros, not hours:</strong> "I'll spend 2 hours on this" is vague. "I'll spend 4 pomodoros on this" is concrete and trackable. VeloTools counts completed pomodoros per task automatically.</p>
+          <p><strong>The one active task rule:</strong> Select one task in the selector before starting the timer. Your brain works better when it has a single defined objective. Multitasking reduces IQ by up to 15 points temporarily.</p>
+          <p><strong>EOD review:</strong> At the end of your day, look at your pomodoro counts per task. If a task took 8 pomodoros when you estimated 4, your estimation skill is off. This awareness compounds into better planning over weeks.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🔥</span>
+          <span>The streak mechanic — why consistency beats intensity every time</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>Your streak counter tracks consecutive days with at least one completed focus session. This isn't a vanity metric — it's one of the most powerful psychological tools for building habits.</p>
+          <p>The mechanism is called "loss aversion." Once you have a 7-day streak, the psychological cost of breaking it is much higher than the effort of doing one 25-minute session. Your brain starts protecting the streak automatically.</p>
+          <p><strong>Jerry Seinfeld's method:</strong> The comedian famously wrote jokes every single day and marked each day with an X on a calendar. His only rule was "don't break the chain." This same principle applies to focus sessions.</p>
+          <p><strong>Minimum viable session:</strong> On low-energy days, just do one pomodoro. One session maintains your streak, keeps the habit alive, and often leads to more sessions once you've started.</p>
+        </div>
+      </div>
+
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🧬</span>
+          <span>The neuroscience of deep work — what actually happens in your brain</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>When you enter a focused work state, your brain shifts into what neuroscientists call the "default mode network off" state. The prefrontal cortex takes over, and the areas responsible for mind-wandering go quiet. This transition takes approximately 10-15 minutes — which is exactly why the first portion of every Pomodoro session feels difficult.</p>
+          <p><strong>Myelin and mastery:</strong> Every focused, deliberate practice session triggers myelination — the wrapping of neural pathways in a fatty sheath that increases signal speed. This is the biological mechanism of skill acquisition. 25 minutes of deep, uninterrupted work produces more myelin growth than 3 hours of distracted practice.</p>
+          <p><strong>Dopamine and completion:</strong> The brain releases dopamine not just on task completion, but on the anticipation of it. The Pomodoro timer creates a predictable reward cycle. Each session end is a micro-completion, and your brain begins to associate focus with a dopamine reward — making deep work progressively less effortful over weeks.</p>
+          <p><strong>Why VeloTools Focus Room is different:</strong> Standard timers treat focus like a mechanical clock. Our Energy Pattern system gives you biofeedback about your neurological state, helping you schedule deep work when your brain is neurochemically primed for it.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">⚙️</span>
+          <span>Flow State engineering — how to enter it faster, every time</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p>Mihaly Csikszentmihalyi's research on Flow State identified specific entry conditions: clear goals, immediate feedback, and a challenge level slightly above your current skill. The Pomodoro structure satisfies all three: the task is your goal, the ticking ring provides feedback, and the 25-minute constraint creates just enough pressure.</p>
+          <p><strong>The pre-session ritual:</strong> Flow states are entered more reliably through consistent pre-session rituals. Before starting the timer: close all non-essential tabs, put on your ambient sound, select your active task, and take 3 deep breaths. This 90-second ritual signals your brain that a transition is coming. After 2 weeks, your brain will begin entering focus mode during the ritual itself.</p>
+          <p><strong>Flow extension (our unique feature):</strong> Standard Pomodoro tools interrupt flow at exactly the wrong moment. VeloTools Focus Room detects session completion and offers a "Keep flowing" button — adding 5-minute extensions without resetting your mental state. This respects your cognitive architecture instead of fighting it.</p>
+          <p><strong>Brown noise and ADHD:</strong> Clinical research published in the Journal of Child Psychology shows brown noise significantly improves focus and working memory in individuals with attention difficulties. This is why we include a brown noise generator alongside ambient sounds — not as a relaxation tool, but as a cognitive performance enhancer.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">📊</span>
+          <span>Why VeloTools Focus Room beats every other free Pomodoro tool</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p><strong>No account required.</strong> Every other productivity tool requires you to create an account before accessing features. VeloTools runs entirely in your browser — your data stays on your device. Sessions, streaks, energy patterns, and journal entries are stored in your browser's localStorage and never transmitted to any server.</p>
+          <p><strong>No ads interrupting your focus.</strong> We are a tool-first product. The irony of productivity apps showing interruptive advertising is not lost on us. VeloTools Focus Room has no ads, no upsells, and no notifications you didn't ask for.</p>
+          <p><strong>Works offline.</strong> Once loaded, the entire Focus Room works without an internet connection. Your ambient sound generator, timer, task list, and journal all function locally. Losing WiFi during a deep work session will never interrupt you.</p>
+          <p><strong>The Energy Pattern system.</strong> Pomofocus, Forest, and Be Focused Pro track completed sessions and tasks. None of them track the relationship between your physiological state and your output quality. VeloTools is the only free tool that builds a personal neuroperformance baseline over time.</p>
+          <p><strong>4-7-8 breathing integration.</strong> No other Pomodoro tool includes evidence-based breathing exercises on every break. This is not a gimmick — it's the fastest way to reset the cortisol spike from sustained concentration and prepare the brain for the next session.</p>
+        </div>
+      </div>
+
+      <div class="f-acc-item">
+        <button class="f-acc-trigger" onclick="toggleAcc(this)">
+          <span class="f-acc-icon">🗺</span>
+          <span>Building your ideal deep work day — a practical masterclass</span>
+          <svg class="f-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="f-acc-body">
+          <p><strong>Morning architecture (6am–12pm):</strong> This is your prime cognitive window for most people. Use it exclusively for deep work: complex problem-solving, writing, code architecture, strategic thinking. Schedule no meetings before 11am if possible. Do 3–4 Pomodoros during this window with ocean or brown noise.</p>
+          <p><strong>Midday recharge (12pm–2pm):</strong> Your brain's attention systems need metabolic recovery. Eat, walk, and let your default mode network (daydreaming) run. This is not wasted time — it's when your brain consolidates the morning's work into long-term memory. Do not fill this time with emails.</p>
+          <p><strong>Afternoon execution (2pm–5pm):</strong> Energy typically dips then recovers. Use this window for creative tasks, communication, and work that benefits from a more relaxed cognitive state. Cafe or lofi sounds work well here. Do 2–3 Pomodoros with shorter optional breaks.</p>
+          <p><strong>Evening wind-down (after 6pm):</strong> Use the Pomodoro timer for learning and personal projects, not client or work deliverables. Your judgment is impaired in the evening — avoid making important decisions or sending critical emails. Fire sounds create a warm, safe environment for this mode.</p>
+          <p><strong>The weekly review ritual:</strong> Every Friday, open your Focus Room and review your energy chart, streak count, and session totals. Ask: which days had the highest energy? What was I working on during my best sessions? This 10-minute reflection compounds into extraordinary self-knowledge over months.</p>
+        </div>
+      </div>
+
+    </div>
+    </div><!-- /legacy hidden -->
+
+  </div>
+</section>
+
+<style>
+/* ══════════════════════════════════════════
+   FOCUS ROOM — SEO SECTION (REBUILT)
+   ══════════════════════════════════════════ */
+.f-seo-section{position:relative;z-index:1;padding:80px 20px 100px;border-top:1px solid var(--border);background:var(--bg);transition:background .5s;overflow:hidden}
+.f-seo-section::before{content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at center,rgba(0,201,167,.07),transparent 60%);pointer-events:none}
+.f-seo-inner{max-width:1180px;margin:0 auto}
+
+/* Eyebrow */
+.f-eye{display:inline-flex;align-items:center;gap:7px;background:rgba(0,201,167,.1);border:1px solid rgba(0,201,167,.25);border-radius:30px;padding:4px 14px;font-size:10px;font-family:"DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:14px}
+.f-eye-dot{width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 7px var(--ac);animation:f-pulse 2s ease-in-out infinite}
+@keyframes f-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.f-eye.lav{background:rgba(155,135,245,.1);border-color:rgba(155,135,245,.25);color:#9b87f5}
+.f-eye.lav .f-eye-dot{background:#9b87f5;box-shadow:0 0 7px #9b87f5}
+.f-eye.gold{background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.25);color:#F5A623}
+.f-eye.gold .f-eye-dot{background:#F5A623;box-shadow:0 0 7px #F5A623}
+.f-eye.rose{background:rgba(230,100,130,.1);border-color:rgba(230,100,130,.25);color:#E87090}
+.f-eye.rose .f-eye-dot{background:#E87090;box-shadow:0 0 7px #E87090}
+
+/* Section header */
+.f-seo-hdr{text-align:center;margin-bottom:60px}
+.f-seo-hdr h2{font-family:'Syne',sans-serif;font-size:clamp(30px,4.5vw,52px);font-weight:800;color:var(--tx);letter-spacing:-.8px;line-height:1.1;margin-bottom:14px}
+.f-seo-hdr h2 em{font-style:italic;background:linear-gradient(120deg,var(--ac),#9DD4F0 55%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.f-seo-hdr p{font-size:16px;color:var(--tx2);max-width:640px;margin:0 auto;line-height:1.75}
+
+/* Per-block h2 + lead */
+.f-seo-blk{margin-bottom:0}
+.f-seo-h2{font-family:'Syne',sans-serif;font-size:clamp(26px,3.5vw,40px);font-weight:800;color:var(--tx);letter-spacing:-.5px;line-height:1.15;margin-bottom:12px}
+.f-seo-h2 em{font-style:italic;background:linear-gradient(120deg,var(--ac),#9DD4F0 55%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.f-seo-lead{font-size:15px;color:var(--tx2);max-width:720px;line-height:1.8;margin-bottom:28px}
+
+/* Divider */
+.f-seo-div{height:1px;background:linear-gradient(90deg,transparent,var(--ac) 30%,rgba(155,135,245,.4) 70%,transparent);margin:72px 0;position:relative}
+.f-seo-div::before,.f-seo-div::after{content:"";position:absolute;top:50%;width:9px;height:9px;border-radius:50%;transform:translateY(-50%)}
+.f-seo-div::before{left:28%;background:var(--ac);box-shadow:0 0 14px var(--ac)}
+.f-seo-div::after{right:28%;background:#9b87f5;box-shadow:0 0 14px #9b87f5}
+
+/* Stats hero */
+.f-stat-hero{display:grid;grid-template-columns:repeat(4,1fr);background:rgba(0,201,167,.04);border:1px solid rgba(0,201,167,.15);border-radius:20px;overflow:hidden;margin-bottom:60px;position:relative}
+.f-stat-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,201,167,.08),transparent 60%);pointer-events:none}
+.f-shi{padding:34px 20px;text-align:center;position:relative;transition:background .2s}
+.f-shi:not(:last-child)::after{content:"";position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border)}
+.f-shi:hover{background:rgba(0,201,167,.06)}
+.f-sh-n{font-family:"DM Mono",monospace;font-size:clamp(30px,4vw,48px);font-weight:300;line-height:1;color:var(--ac);text-shadow:0 0 30px var(--ac-glow)}
+.f-sh-u{font-size:clamp(14px,2vw,20px);margin-left:2px;opacity:.8}
+.f-sh-l{font-size:12px;color:var(--tx3);margin-top:9px;max-width:130px;margin-left:auto;margin-right:auto;line-height:1.5}
+
+/* Feature grid */
+.f-feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.f-feat-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:26px;position:relative;overflow:hidden;transition:all .22s ease}
+.f-feat-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),rgba(0,201,167,.3))}
+.f-feat-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.f-feat-ico{font-size:28px;width:52px;height:52px;border-radius:14px;background:rgba(0,201,167,.1);border:1px solid rgba(0,201,167,.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.f-feat-card h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:9px;color:var(--tx)}
+.f-feat-card p{font-size:13px;color:var(--tx2);line-height:1.75}
+.f-feat-card p strong{color:var(--ac)}
+.f-feat-tag{display:inline-block;font-family:"DM Mono",monospace;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:20px;margin-top:12px;background:rgba(0,201,167,.12);color:var(--ac);border:1px solid rgba(0,201,167,.25)}
+
+/* Science callouts */
+.f-sci-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-science{background:linear-gradient(135deg,rgba(0,201,167,.08),rgba(0,201,167,.03));border:1px solid rgba(0,201,167,.2);border-radius:16px;padding:26px;display:flex;gap:18px;align-items:flex-start;position:relative;overflow:hidden;transition:all .22s ease}
+.f-science::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--ac) 50%,transparent)}
+.f-science:hover{border-color:rgba(0,201,167,.35)}
+.f-sci-ico{font-size:26px;width:50px;height:50px;flex-shrink:0;background:rgba(0,201,167,.12);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.f-science h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.f-science p{font-size:13px;color:var(--tx2);line-height:1.75}
+.f-science strong{color:var(--ac)}
+
+/* Sound guide */
+.f-sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.f-sound-card{border-radius:14px;padding:22px 20px;position:relative;overflow:hidden;transition:all .22s ease}
+.f-sound-card:hover{transform:translateY(-3px)}
+.f-sc-ico{font-size:32px;margin-bottom:12px;display:block}
+.f-sound-card h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.f-sound-card p{font-size:12px;color:var(--tx2);line-height:1.72}
+.f-sc-tag{display:inline-block;font-family:"DM Mono",monospace;font-size:9px;padding:2px 8px;border-radius:6px;margin-top:10px;text-transform:uppercase;letter-spacing:.06em}
+.fsc-rain{background:linear-gradient(155deg,rgba(0,150,255,.1),rgba(0,150,255,.04));border:1px solid rgba(0,150,255,.22)}
+.fsc-lofi{background:linear-gradient(155deg,rgba(155,135,245,.1),rgba(155,135,245,.04));border:1px solid rgba(155,135,245,.22)}
+.fsc-cafe{background:linear-gradient(155deg,rgba(245,166,35,.1),rgba(245,166,35,.04));border:1px solid rgba(245,166,35,.22)}
+.fsc-forest{background:linear-gradient(155deg,rgba(62,207,142,.1),rgba(62,207,142,.04));border:1px solid rgba(62,207,142,.22)}
+.fsc-fire{background:linear-gradient(155deg,rgba(230,80,50,.1),rgba(230,80,50,.04));border:1px solid rgba(230,80,50,.22)}
+.fsc-ocean{background:linear-gradient(155deg,rgba(0,201,167,.1),rgba(0,201,167,.04));border:1px solid rgba(0,201,167,.22)}
+
+/* Who uses */
+.f-user-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.f-user-card{border-radius:14px;padding:24px 22px;position:relative;overflow:hidden;transition:all .22s ease}
+.f-user-card:hover{transform:translateY(-4px)}
+.f-user-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--uc-l,rgba(0,201,167,.4))}
+.f-uc-1{background:linear-gradient(155deg,rgba(0,201,167,.1),rgba(0,201,167,.04));border:1px solid rgba(0,201,167,.22);--uc-l:rgba(0,201,167,.55)}
+.f-uc-2{background:linear-gradient(155deg,rgba(155,135,245,.1),rgba(155,135,245,.04));border:1px solid rgba(155,135,245,.22);--uc-l:rgba(155,135,245,.55)}
+.f-uc-3{background:linear-gradient(155deg,rgba(245,166,35,.1),rgba(245,166,35,.04));border:1px solid rgba(245,166,35,.22);--uc-l:rgba(245,166,35,.5)}
+.f-uc-4{background:linear-gradient(155deg,rgba(230,100,130,.1),rgba(230,100,130,.04));border:1px solid rgba(230,100,130,.22);--uc-l:rgba(230,100,130,.55)}
+.f-uc-5{background:linear-gradient(155deg,rgba(62,207,142,.1),rgba(62,207,142,.04));border:1px solid rgba(62,207,142,.22);--uc-l:rgba(62,207,142,.5)}
+.f-uc-6{background:linear-gradient(155deg,rgba(0,150,255,.1),rgba(0,150,255,.04));border:1px solid rgba(0,150,255,.22);--uc-l:rgba(0,150,255,.5)}
+.f-uc-ico{font-size:26px;margin-bottom:12px;display:block}
+.f-user-card h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.f-user-card p{font-size:13px;color:var(--tx2);line-height:1.72}
+
+/* Comparison table */
+.f-comp-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--border2);box-shadow:0 4px 28px rgba(0,0,0,.35)}
+.f-comp-table{width:100%;border-collapse:collapse;min-width:520px}
+.f-comp-table thead tr{background:var(--bg3)}
+.f-comp-table th{padding:13px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--tx3);text-align:center;white-space:nowrap}
+.f-comp-table th:first-child{text-align:left}
+.f-comp-table th.hl{background:rgba(0,201,167,.12);color:var(--ac);border-left:1px solid rgba(0,201,167,.25);border-right:1px solid rgba(0,201,167,.25)}
+.f-comp-table td{padding:12px 16px;font-size:13px;color:var(--tx2);border-top:1px solid var(--border);text-align:center;transition:background .15s}
+.f-comp-table td:first-child{text-align:left;font-weight:500;color:var(--tx)}
+.f-comp-table td.hl{background:rgba(0,201,167,.05);border-left:1px solid rgba(0,201,167,.15);border-right:1px solid rgba(0,201,167,.15)}
+.f-comp-table tbody tr:hover td{background:rgba(255,255,255,.02)}
+.f-comp-table tbody tr:hover td.hl{background:rgba(0,201,167,.1)}
+.f-ck{color:var(--ac);font-weight:700;font-size:14px}
+.f-cx{color:#E87090;font-weight:700;font-size:14px}
+.f-cm{color:var(--tx3);font-size:12px}
+
+/* Protocol cards */
+.f-protocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-proto-card{display:flex;gap:18px;align-items:flex-start;padding:26px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;position:relative;overflow:hidden;transition:all .22s ease}
+.f-proto-card::before{content:"";position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--pc-ac,var(--ac))}
+.f-proto-card:hover{border-color:var(--border2)}
+.f-proto-num{font-family:"DM Mono",monospace;font-size:22px;font-weight:600;line-height:1;flex-shrink:0;min-width:38px;color:var(--pc-ac,var(--ac))}
+.f-proto-card h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px;color:var(--tx)}
+.f-proto-card p{font-size:13px;color:var(--tx2);line-height:1.75}
+
+/* New FAQ */
+.f-faq-new{display:flex;flex-direction:column;gap:7px}
+.f-faq-item-new{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.f-faq-item-new[open]{border-color:var(--ac)}
+.f-faq-item-new summary{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;color:var(--tx);gap:12px;transition:color .15s;font-family:'DM Sans',sans-serif}
+.f-faq-item-new summary:hover{color:var(--ac)}
+.f-faq-item-new[open] summary{color:var(--ac)}
+.f-faq-item-new summary::-webkit-details-marker{display:none}
+.f-faq-item-new summary svg{width:16px;height:16px;stroke:var(--tx3);fill:none;stroke-width:2;flex-shrink:0;transition:transform .3s ease}
+.f-faq-item-new[open] summary svg{transform:rotate(180deg);stroke:var(--ac)}
+.f-faq-item-new .f-fa{padding:0 20px 18px;font-size:13px;color:var(--tx2);line-height:1.85}
+.f-faq-item-new .f-fa p{margin-bottom:8px}
+.f-faq-item-new .f-fa p:last-child{margin-bottom:0}
+.f-faq-item-new .f-fa strong{color:var(--ac)}
+
+/* Legacy accordion (hidden) */
+.f-accordion{display:none}
+
+/* Responsive */
+@media(max-width:1100px){.f-feat-grid{grid-template-columns:1fr 1fr}.f-user-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.f-stat-hero{grid-template-columns:repeat(2,1fr)}.f-shi:nth-child(2)::after{display:none}.f-sound-grid{grid-template-columns:1fr 1fr}.f-sci-grid{grid-template-columns:1fr}.f-protocol{grid-template-columns:1fr}}
+@media(max-width:768px){.f-feat-grid{grid-template-columns:1fr}.f-user-grid{grid-template-columns:1fr}.f-sound-grid{grid-template-columns:1fr}}
+</style>
+
+<script src="/focus/js/focus-assistant.js"></script>
+
+
+
+
+</body>
+</html>

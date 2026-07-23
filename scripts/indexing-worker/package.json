@@ -1,0 +1,17 @@
+{
+  "name": "velotools-indexing-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated Google Indexing API worker for VeloTools (credentials via env only).",
+  "scripts": {
+    "start": "node index.mjs",
+    "dry-run": "node index.mjs --dry-run"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "googleapis": "^148.0.0"
+  }
+}

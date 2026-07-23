@@ -17,7 +17,12 @@
     "pseo:validate": "node scripts/pseo-pipeline.mjs validate",
     "pseo:build": "node scripts/pseo-pipeline.mjs build",
     "pseo:publish": "node scripts/pseo-pipeline.mjs publish",
-    "pseo:daily": "node scripts/pseo-pipeline.mjs daily"
+    "pseo:daily": "node scripts/pseo-pipeline.mjs daily",
+    "matrix:validate": "node -e \"import('./scripts/seo-data/matrix/index.mjs').then(m=>console.log('OK',m.MATRIX.length,'entries'))\"",
+    "matrix:build": "node scripts/pseo/matrix-build.mjs",
+    "matrix:publish": "node scripts/pseo/matrix-publish.mjs",
+    "indexing:install": "npm install --prefix scripts/indexing-worker",
+    "indexing:run": "npm start --prefix scripts/indexing-worker"
   },
   "repository": {
     "type": "git",
@@ -41,6 +46,7 @@
     "vitest": "^4.1.9"
   },
   "dependencies": {
-    "@jsquash/webp": "^1.4.0"
+    "@jsquash/webp": "^1.4.0",
+    "zod": "^4.4.3"
   }
 }

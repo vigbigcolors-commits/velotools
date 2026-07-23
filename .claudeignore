@@ -1,4 +1,34 @@
+# Dependencies / VCS
 node_modules/
-dist/
 .git/
-*.log
+.gitignore
+.aider*
+
+# Cursor / IDE noise
+.cursor/
+.vscode/
+
+# Runtime artifacts
+terminals/
+test-results/
+playwright-report/
+
+# Large/binary fixtures and generated files
+tests/e2e/fixtures/
+**/*.pdf
+**/*.zip
+**/*.wasm
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.webp
+**/*.gif
+
+# Logs & transcripts
+agent-transcripts/
+
+# Common build output (if present)
+dist/
+build/
+.next/
+out/

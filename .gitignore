@@ -3,3 +3,17 @@ node_modules/
 tests/e2e/fixtures/*.pdf
 test-results/
 playwright-report/
+
+# Secrets & indexing worker artifacts
+.env
+.env.*
+!.env.example
+*-key.json
+*credentials*.json
+secrets/
+**/service-account*.json
+scripts/indexing-worker/node_modules/
+scripts/indexing-worker/*.sqlite
+scripts/indexing-worker/.env
+scripts/indexing-worker/*-key.json
+scripts/indexing-worker/sa-key.json
