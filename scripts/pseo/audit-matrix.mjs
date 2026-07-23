@@ -23,10 +23,14 @@ for (const e of MATRIX) {
   const need = [
     ['vt-page-config', html.includes('id="vt-page-config"')],
     ['SoftwareApplication', html.includes('"@type":"SoftwareApplication"')],
+    ['FAQPage', html.includes('"@type":"FAQPage"')],
+    ['unique-seo', html.includes('id="vt-unique-seo"')],
+    ['no-cloned-neuro', !html.includes('The focus tool built')],
     ['hydrate', html.includes('/focus/js/pseo-hydrate.js')],
     ['banner', html.includes('id="vt-intent-banner"')],
     ['canonical', html.includes(`rel="canonical" href="https://velotools.app${entryPath(e)}"`)],
     ['title', html.includes(`<title>${esc(e.title)}</title>`)],
+    ['h1', html.includes(`>${esc(e.h1)}<`)],
     ['assistant-abs', !html.includes('src="js/focus-assistant.js"')],
   ];
   const bad = need.filter(([, v]) => !v).map(([k]) => k);

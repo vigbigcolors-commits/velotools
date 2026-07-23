@@ -1,7 +1,7 @@
 /**
  * VeloTools PSEO State Matrix — Zod schema
  *
- * Axes: Profession × Tool × Variant × Default_Config
+ * Axes: Profession × Tool × Variant × Default_Config × unique Editorial
  * .strict() rejects unknown keys (XSS / prototype pollution).
  */
 import { z } from 'zod';
@@ -26,7 +26,6 @@ export const ProfessionSlug = z.enum([
 
 export const ToolSlug = z.enum(['focus-room']);
 
-/** Optional third URL segment for alternate presets of the same profession×tool. */
 export const VariantSlug = z
   .enum([
     'ultradian',
@@ -88,6 +87,31 @@ const SafeLongText = z
   .max(320)
   .regex(/^[^<>{}`]*$/, 'HTML/script characters are not allowed');
 
+/** Longer body copy for unique editorial — still no HTML. */
+const SafeBody = z
+  .string()
+  .min(40)
+  .max(900)
+  .regex(/^[^<>{}`]*$/, 'HTML/script characters are not allowed');
+
+export const FaqItemSchema = z
+  .object({
+    question: SafeText,
+    answer: SafeBody,
+  })
+  .strict();
+
+export const EditorialSchema = z
+  .object({
+    eyebrow: SafeText,
+    h2: SafeText,
+    lead: SafeBody,
+    whyPreset: SafeBody,
+    workflowTip: SafeBody,
+    faqs: z.array(FaqItemSchema).min(2).max(4),
+  })
+  .strict();
+
 export const MatrixEntrySchema = z
   .object({
     id: z
@@ -104,6 +128,7 @@ export const MatrixEntrySchema = z
     h1: SafeText,
     intentBanner: SafeText,
     config: DefaultConfigSchema,
+    editorial: EditorialSchema,
   })
   .strict();
 
@@ -115,33 +140,41 @@ export const MatrixSchema = z.array(MatrixEntrySchema).min(1).max(500);
  */
 export function parseMatrix(data) {
   const list = MatrixSchema.parse(data);
-  const keys = new Set();
+  const routeKeys = new Set();
+  const leads = new Set();
+  const h2s = new Set();
+  const titles = new Set();
+
   for (const e of list) {
     const key = routeKey(e.profession, e.tool, e.variant);
-    if (keys.has(key)) {
-      throw new Error(`Duplicate matrix route: ${key}`);
+    if (routeKeys.has(key)) throw new Error(`Duplicate matrix route: ${key}`);
+    routeKeys.add(key);
+
+    const leadKey = e.editorial.lead.toLowerCase().trim();
+    if (leads.has(leadKey)) {
+      throw new Error(`Duplicate editorial.lead (doorway risk): ${e.id}`);
     }
-    keys.add(key);
+    leads.add(leadKey);
+
+    const h2Key = e.editorial.h2.toLowerCase().trim();
+    if (h2s.has(h2Key)) {
+      throw new Error(`Duplicate editorial.h2 (doorway risk): ${e.id}`);
+    }
+    h2s.add(h2Key);
+
+    const titleKey = e.title.toLowerCase().trim();
+    if (titles.has(titleKey)) {
+      throw new Error(`Duplicate title (doorway risk): ${e.id}`);
+    }
+    titles.add(titleKey);
   }
   return list;
 }
 
-/**
- * @param {string} profession
- * @param {string} tool
- * @param {string} [variant]
- */
 export function routeKey(profession, tool, variant) {
   return variant ? `${profession}/${tool}/${variant}` : `${profession}/${tool}`;
 }
 
-/**
- * Resolve entry from URL segments. Rejects anything outside allowlists.
- * @param {unknown} matrix
- * @param {string} profession
- * @param {string} tool
- * @param {string} [variant]
- */
 export function resolveEntry(matrix, profession, tool, variant) {
   const prof = ProfessionSlug.safeParse(profession);
   const toolOk = ToolSlug.safeParse(tool);
@@ -164,9 +197,6 @@ export function resolveEntry(matrix, profession, tool, variant) {
   );
 }
 
-/**
- * @param {z.infer<typeof MatrixEntrySchema>} entry
- */
 export function entryPath(entry) {
   return `/tools/${routeKey(entry.profession, entry.tool, entry.variant)}/`;
 }
