@@ -56,6 +56,21 @@ for (const e of MATRIX) {
   ok += 1;
 }
 
+const titles = new Set();
+const h1s = new Set();
+const leads = new Set();
+for (const e of MATRIX) {
+  const t = e.title.toLowerCase().trim();
+  const h = e.h1.toLowerCase().trim();
+  const l = e.editorial.lead.toLowerCase().trim();
+  if (titles.has(t) || h1s.has(h) || leads.has(l)) {
+    fails.push(`uniqueness broken in matrix: ${e.id}`);
+  }
+  titles.add(t);
+  h1s.add(h);
+  leads.add(l);
+}
+
 const sitemap = readFileSync('sitemap.xml', 'utf8');
 const inSitemap = MATRIX.filter((e) =>
   sitemap.includes(`https://velotools.app${entryPath(e)}`),
@@ -64,7 +79,11 @@ const inSitemap = MATRIX.filter((e) =>
 console.log(
   JSON.stringify(
     {
+      rule: 'EVERY page unique at any scale (30 / 2000 / 10000)',
       matrixEntries: MATRIX.length,
+      uniqueTitles: titles.size,
+      uniqueH1s: h1s.size,
+      uniqueLeads: leads.size,
       htmlPagesOk: ok,
       htmlFails: fails,
       inSitemap,

@@ -132,41 +132,79 @@ export const MatrixEntrySchema = z
   })
   .strict();
 
-export const MatrixSchema = z.array(MatrixEntrySchema).min(1).max(500);
+export const MatrixSchema = z.array(MatrixEntrySchema).min(1).max(10000);
+
+function norm(s) {
+  return String(s).toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function assertUnique(set, value, field, id) {
+  const key = norm(value);
+  if (!key) throw new Error(`Empty ${field} (uniqueness required): ${id}`);
+  if (set.has(key)) {
+    throw new Error(`Duplicate ${field} (every page must be unique at any scale): ${id}`);
+  }
+  set.add(key);
+}
 
 /**
+ * HARD RULE: at 30, 2000, or 10000 pages — every URL must be unique.
+ * Duplicate SEO copy = build failure (doorway / scaled-content risk).
  * @param {unknown} data
  * @returns {z.infer<typeof MatrixSchema>}
  */
 export function parseMatrix(data) {
   const list = MatrixSchema.parse(data);
   const routeKeys = new Set();
+  const titles = new Set();
+  const h1s = new Set();
+  const descriptions = new Set();
+  const banners = new Set();
   const leads = new Set();
   const h2s = new Set();
-  const titles = new Set();
+  const whys = new Set();
+  const tips = new Set();
+  const faqQuestions = new Set();
+  const stateFingerprints = new Set();
 
   for (const e of list) {
     const key = routeKey(e.profession, e.tool, e.variant);
     if (routeKeys.has(key)) throw new Error(`Duplicate matrix route: ${key}`);
     routeKeys.add(key);
 
-    const leadKey = e.editorial.lead.toLowerCase().trim();
-    if (leads.has(leadKey)) {
-      throw new Error(`Duplicate editorial.lead (doorway risk): ${e.id}`);
-    }
-    leads.add(leadKey);
+    assertUnique(titles, e.title, 'title', e.id);
+    assertUnique(h1s, e.h1, 'h1', e.id);
+    assertUnique(descriptions, e.description, 'description', e.id);
+    assertUnique(banners, e.intentBanner, 'intentBanner', e.id);
+    assertUnique(leads, e.editorial.lead, 'editorial.lead', e.id);
+    assertUnique(h2s, e.editorial.h2, 'editorial.h2', e.id);
+    assertUnique(whys, e.editorial.whyPreset, 'editorial.whyPreset', e.id);
+    assertUnique(tips, e.editorial.workflowTip, 'editorial.workflowTip', e.id);
 
-    const h2Key = e.editorial.h2.toLowerCase().trim();
-    if (h2s.has(h2Key)) {
-      throw new Error(`Duplicate editorial.h2 (doorway risk): ${e.id}`);
+    if (norm(e.h1) === norm(e.editorial.h2)) {
+      throw new Error(`h1 and h2 must differ (uniqueness within page): ${e.id}`);
     }
-    h2s.add(h2Key);
 
-    const titleKey = e.title.toLowerCase().trim();
-    if (titles.has(titleKey)) {
-      throw new Error(`Duplicate title (doorway risk): ${e.id}`);
+    for (const faq of e.editorial.faqs) {
+      assertUnique(faqQuestions, faq.question, 'faq.question', e.id);
     }
-    titles.add(titleKey);
+
+    // State fingerprint: same profession+tool+timers+theme+sound = duplicate experience
+    const stateKey = [
+      e.profession,
+      e.tool,
+      e.config.timers.focusMinutes,
+      e.config.timers.shortBreakMinutes,
+      e.config.timers.longBreakMinutes,
+      e.config.theme,
+      e.config.soundPreset,
+    ].join('|');
+    if (stateFingerprints.has(stateKey)) {
+      throw new Error(
+        `Duplicate widget state for same profession/tool (page must change utility state): ${e.id}`,
+      );
+    }
+    stateFingerprints.add(stateKey);
   }
   return list;
 }

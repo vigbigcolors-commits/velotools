@@ -11,7 +11,7 @@
 <style>
 /* ═══════════════════════════════════════════════════
    VELOTOOLS FOCUS ROOM
-   Themes: Deep Teal · Midnight · Amber · Jade
+   Themes: Deep Teal · Midnight · Slate · Jade
 ═══════════════════════════════════════════════════ */
 
 /* ── THEME VARIABLES ── */
@@ -54,24 +54,25 @@
   --ring-bg:   rgba(155,135,245,.12);
   --name:      "Midnight & Lavender";
 }
+/* Keep key "amber" for presets; palette is slate / gray-blue (no yellow gold) */
 [data-theme="amber"] {
-  --bg:        #1a1008;
-  --bg2:       #221508;
-  --bg3:       #2e1e08;
-  --bg4:       #3d2a0a;
+  --bg:        #0e141c;
+  --bg2:       #121a24;
+  --bg3:       #182230;
+  --bg4:       #1e2b3c;
   --surface:   rgba(255,255,255,.04);
   --surface2:  rgba(255,255,255,.07);
-  --border:    rgba(255,200,80,.08);
-  --border2:   rgba(255,200,80,.18);
-  --tx:        #fff3d0;
-  --tx2:       #c4943a;
-  --tx3:       #7a5520;
-  --ac:        #f5a623;
-  --ac2:       #d48a10;
-  --ac-glow:   rgba(245,166,35,.2);
-  --timer-col: #f5a623;
-  --ring-bg:   rgba(245,166,35,.12);
-  --name:      "Ember & Gold";
+  --border:    rgba(140,170,200,.08);
+  --border2:   rgba(140,170,200,.2);
+  --tx:        #e2eaf2;
+  --tx2:       #8fa3b8;
+  --tx3:       #5a6f86;
+  --ac:        #7a9bb8;
+  --ac2:       #5f849f;
+  --ac-glow:   rgba(122,155,184,.22);
+  --timer-col: #7a9bb8;
+  --ring-bg:   rgba(122,155,184,.12);
+  --name:      "Slate & Steel";
 }
 [data-theme="jade"] {
   --bg:        #0e1a10;
@@ -159,7 +160,7 @@ body::before {
 }
 .f-theme-btn[data-t="teal"]     { background:linear-gradient(135deg,#0d2028,#00c9a7); }
 .f-theme-btn[data-t="midnight"] { background:linear-gradient(135deg,#13122a,#9b87f5); }
-.f-theme-btn[data-t="amber"]    { background:linear-gradient(135deg,#1a1008,#f5a623); }
+  .f-theme-btn[data-t="amber"]    { background:linear-gradient(135deg,#0e141c,#7a9bb8); }
 .f-theme-btn[data-t="jade"]     { background:linear-gradient(135deg,#0e1a10,#3ecf8e); }
 
 /* ── LAYOUT ── */
@@ -751,7 +752,7 @@ body.zen-mode .f-timer-wrap {
 .f-wl-vol-ico{font-size:14px;color:var(--tx3);flex-shrink:0}
 .f-wl-vol{width:80px;height:4px;-webkit-appearance:none;appearance:none;background:var(--border2);border-radius:2px;outline:none;cursor:pointer}
 .f-wl-vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#9b87f5;box-shadow:0 0 6px rgba(155,135,245,.5);cursor:pointer}
-.f-wl-warn-pill{display:flex;align-items:center;gap:6px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#f5a623;white-space:nowrap;flex-shrink:0}
+.f-wl-warn-pill{display:flex;align-items:center;gap:6px;background:rgba(122,155,184,.1);border:1px solid rgba(122,155,184,.22);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#8fa3b8;white-space:nowrap;flex-shrink:0}
 .f-wl-info-btn{width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;color:var(--tx3);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
 .f-wl-info-btn:hover{color:#9b87f5;border-color:rgba(155,135,245,.4)}
 .f-wl-info-btn svg{width:14px;height:14px}
@@ -1270,7 +1271,7 @@ _ro.observe(cv);
             <li><strong>No repeating motifs:</strong> Brain stops predicting, analytical center disengages.</li>
             <li><strong>Low frequencies:</strong> Bass drones imitate deep meditation — subconsciously safe.</li>
           </ul>
-          <div style="margin-top:12px;padding:10px 12px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);border-radius:10px;font-size:12px;color:#f5a623">
+          <div style="margin-top:12px;padding:10px 12px;background:rgba(122,155,184,.08);border:1px solid rgba(122,155,184,.2);border-radius:10px;font-size:12px;color:#8fa3b8">
             ⚠️ <strong>Do not listen while driving.</strong> Clinically documented sedative effect.
           </div>
         </div>
@@ -2276,7 +2277,7 @@ function escHtml(s){
           <span class="f-sc-ico">&#9749;</span>
           <h4>Café Ambience</h4>
           <p>The famous "coffee shop effect" documented by Mehta, Zhu &amp; Cheema (2012): moderate ambient noise (~70dB) enhances creative cognition compared to silence or loud noise. The unpredictability of conversational murmur at moderate volume appears to trigger abstract, associative thinking. Use for brainstorming, ideation, design reviews, and creative writing where novel connections matter more than accuracy.</p>
-          <span class="f-sc-tag" style="background:rgba(245,166,35,.12);color:#F5A623;border:1px solid rgba(245,166,35,.25)">Creative work</span>
+          <span class="f-sc-tag" style="background:rgba(122,155,184,.12);color:#8fa3b8;border:1px solid rgba(122,155,184,.25)">Creative work</span>
         </div>
         <div class="f-sound-card fsc-forest">
           <span class="f-sc-ico">&#127795;</span>
@@ -2396,7 +2397,7 @@ function escHtml(s){
             <p>Your brain&rsquo;s attention systems need metabolic recovery. Eat, walk, and let your Default Mode Network run — this is the daydreaming, associative state where the morning&rsquo;s deep work gets consolidated into long-term memory. Do not fill this time with email or shallow work. The DMN needs unstructured time to process. If you must do a meeting, this is the right window. End midday with a short walk outside (natural light resets the circadian alertness signal and gives you a second cortisol rise in the early afternoon). Do not take a nap longer than 20 minutes — it causes sleep inertia.</p>
           </div>
         </div>
-        <div class="f-proto-card" style="--pc-ac:#F5A623">
+        <div class="f-proto-card" style="--pc-ac:#7a9bb8">
           <div class="f-proto-num">PM</div>
           <div>
             <h4>Afternoon execution (2pm&ndash;6pm)</h4>
@@ -2599,8 +2600,8 @@ function escHtml(s){
 @keyframes f-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
 .f-eye.lav{background:rgba(155,135,245,.1);border-color:rgba(155,135,245,.25);color:#9b87f5}
 .f-eye.lav .f-eye-dot{background:#9b87f5;box-shadow:0 0 7px #9b87f5}
-.f-eye.gold{background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.25);color:#F5A623}
-.f-eye.gold .f-eye-dot{background:#F5A623;box-shadow:0 0 7px #F5A623}
+.f-eye.gold{background:rgba(122,155,184,.1);border-color:rgba(122,155,184,.25);color:#8fa3b8}
+.f-eye.gold .f-eye-dot{background:#7a9bb8;box-shadow:0 0 7px #7a9bb8}
 .f-eye.rose{background:rgba(230,100,130,.1);border-color:rgba(230,100,130,.25);color:#E87090}
 .f-eye.rose .f-eye-dot{background:#E87090;box-shadow:0 0 7px #E87090}
 
@@ -2663,7 +2664,7 @@ function escHtml(s){
 .f-sc-tag{display:inline-block;font-family:"DM Mono",monospace;font-size:9px;padding:2px 8px;border-radius:6px;margin-top:10px;text-transform:uppercase;letter-spacing:.06em}
 .fsc-rain{background:linear-gradient(155deg,rgba(0,150,255,.1),rgba(0,150,255,.04));border:1px solid rgba(0,150,255,.22)}
 .fsc-lofi{background:linear-gradient(155deg,rgba(155,135,245,.1),rgba(155,135,245,.04));border:1px solid rgba(155,135,245,.22)}
-.fsc-cafe{background:linear-gradient(155deg,rgba(245,166,35,.1),rgba(245,166,35,.04));border:1px solid rgba(245,166,35,.22)}
+.fsc-cafe{background:linear-gradient(155deg,rgba(122,155,184,.1),rgba(122,155,184,.04));border:1px solid rgba(122,155,184,.22)}
 .fsc-forest{background:linear-gradient(155deg,rgba(62,207,142,.1),rgba(62,207,142,.04));border:1px solid rgba(62,207,142,.22)}
 .fsc-fire{background:linear-gradient(155deg,rgba(230,80,50,.1),rgba(230,80,50,.04));border:1px solid rgba(230,80,50,.22)}
 .fsc-ocean{background:linear-gradient(155deg,rgba(0,201,167,.1),rgba(0,201,167,.04));border:1px solid rgba(0,201,167,.22)}
@@ -2675,7 +2676,7 @@ function escHtml(s){
 .f-user-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--uc-l,rgba(0,201,167,.4))}
 .f-uc-1{background:linear-gradient(155deg,rgba(0,201,167,.1),rgba(0,201,167,.04));border:1px solid rgba(0,201,167,.22);--uc-l:rgba(0,201,167,.55)}
 .f-uc-2{background:linear-gradient(155deg,rgba(155,135,245,.1),rgba(155,135,245,.04));border:1px solid rgba(155,135,245,.22);--uc-l:rgba(155,135,245,.55)}
-.f-uc-3{background:linear-gradient(155deg,rgba(245,166,35,.1),rgba(245,166,35,.04));border:1px solid rgba(245,166,35,.22);--uc-l:rgba(245,166,35,.5)}
+.f-uc-3{background:linear-gradient(155deg,rgba(122,155,184,.1),rgba(122,155,184,.04));border:1px solid rgba(122,155,184,.22);--uc-l:rgba(122,155,184,.5)}
 .f-uc-4{background:linear-gradient(155deg,rgba(230,100,130,.1),rgba(230,100,130,.04));border:1px solid rgba(230,100,130,.22);--uc-l:rgba(230,100,130,.55)}
 .f-uc-5{background:linear-gradient(155deg,rgba(62,207,142,.1),rgba(62,207,142,.04));border:1px solid rgba(62,207,142,.22);--uc-l:rgba(62,207,142,.5)}
 .f-uc-6{background:linear-gradient(155deg,rgba(0,150,255,.1),rgba(0,150,255,.04));border:1px solid rgba(0,150,255,.22);--uc-l:rgba(0,150,255,.5)}
