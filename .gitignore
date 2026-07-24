@@ -1,4 +1,5 @@
 node_modules/
+dist-tool-cards/
 .aider*
 tests/e2e/fixtures/*.pdf
 test-results/
