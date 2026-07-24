@@ -13,7 +13,6 @@ import {
   Layers,
   Receipt,
   ArrowUpRight,
-  Bookmark,
   CheckCircle2,
   Maximize2,
   Volume2,
@@ -29,8 +28,6 @@ interface ToolCardProps {
   theme: ThemeStyle;
   variant: CardVariant;
   layout: LayoutMode;
-  isBookmarked: boolean;
-  onToggleBookmark: (id: string) => void;
   onOpenDetails: (tool: ToolItem) => void;
 }
 
@@ -39,8 +36,6 @@ export const ToolCard: React.FC<ToolCardProps> = ({
   theme,
   variant,
   layout,
-  isBookmarked,
-  onToggleBookmark,
   onOpenDetails,
 }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -293,22 +288,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
               />
             </div>
 
-            {/* Quick Action Buttons */}
+            {/* Launch */}
             <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-              <button
-                type="button"
-                id={`bookmark-btn-${tool.id}`}
-                onClick={() => onToggleBookmark(tool.id)}
-                title={isBookmarked ? 'Remove bookmark' : 'Bookmark tool'}
-                className={`p-2.5 rounded-xl border transition-all ${
-                  isBookmarked
-                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-300'
-                    : 'border-slate-800/80 hover:border-slate-700 text-slate-400 hover:text-slate-100 bg-slate-950/40'
-                }`}
-              >
-                <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-amber-400' : ''}`} />
-              </button>
-
               <button
                 type="button"
                 id={`launch-btn-${tool.id}`}

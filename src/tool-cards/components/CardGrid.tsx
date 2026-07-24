@@ -9,8 +9,6 @@ interface CardGridProps {
   theme: ThemeStyle;
   variant: CardVariant;
   layout: LayoutMode;
-  bookmarks: Record<string, boolean>;
-  onToggleBookmark: (id: string) => void;
   onOpenDetails: (tool: ToolItem) => void;
 }
 
@@ -19,8 +17,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
   theme,
   variant,
   layout,
-  bookmarks,
-  onToggleBookmark,
   onOpenDetails,
 }) => {
   if (tools.length === 0) {
@@ -59,8 +55,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
               theme={theme}
               variant={variant}
               layout={layout}
-              isBookmarked={!!bookmarks[tool.id]}
-              onToggleBookmark={onToggleBookmark}
               onOpenDetails={onOpenDetails}
             />
           ))}
