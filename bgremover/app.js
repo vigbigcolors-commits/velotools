@@ -1,8 +1,8 @@
 /* ============================================================
-   VeloTools Background Remover — Application Engine v3
-   - Scroll-based zoom (pixel-perfect brush at any zoom)
-   - Edge decontamination defringe (preserves fur/hair)
-   - Fixed Smart Erase
+   VeloTools Background Remover — Application Engine v4
+   - Stronger AI pass (PNG input, better model/device selection)
+   - Smart mask post-process: contrast, holes, speckles, matting
+   - Edge decontamination without killing hair/fur detail
    ============================================================ */
 'use strict';
 
@@ -20,7 +20,9 @@ var S = {
   needsRender:false,
   altDown:false, spaceDown:false, prevTool:null,
   removeBg:null,
-  panStart:null
+  panStart:null,
+  objDX:0, objDY:0,
+  dragObj:null
 };
 
 /* ---------- DOM ---------- */
@@ -31,13 +33,67 @@ var workCtx = workC.getContext('2d', { willReadFrequently:true });
 var compBuf = null;
 
 /* ---------- AI ENGINE ---------- */
+var IMGLY_VER = '1.7.0';
+var IMGLY_IMPORTS = [
+  'https://esm.sh/@imgly/background-removal@' + IMGLY_VER,
+  'https://cdn.jsdelivr.net/npm/@imgly/background-removal@' + IMGLY_VER + '/+esm'
+];
 var bgEnginePromise = null;
+
+function isMobileDevice(){
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent||'') ||
+    (navigator.maxTouchPoints>1 && Math.min(screen.width,screen.height)<900);
+}
+function pickModel(){
+  // fp16 = best reliability/quality balance. Full isnet is huge and often stalls.
+  if(isMobileDevice()) return 'isnet_quint8';
+  return 'isnet_fp16';
+}
+function baseAiConfig(extra){
+  // Do NOT override publicPath — wrong path hangs model download forever.
+  var cfg = {
+    proxyToWorker: true,
+    model: pickModel(),
+    output: { format:'image/png', quality:1, type:'foreground' }
+  };
+  if(extra){ for(var k in extra) cfg[k]=extra[k]; }
+  return cfg;
+}
 function preloadEngine(){
   if(bgEnginePromise) return bgEnginePromise;
-  bgEnginePromise = import('https://esm.sh/@imgly/background-removal@1.7.0')
-    .then(function(mod){ S.removeBg = mod.removeBackground; return mod.removeBackground; })
-    .catch(function(e){ console.warn('Engine preload failed', e); bgEnginePromise=null; });
+  bgEnginePromise = (async function(){
+    var lastErr = null;
+    for(var i=0;i<IMGLY_IMPORTS.length;i++){
+      try{
+        var mod = await import(IMGLY_IMPORTS[i]);
+        var fn = mod.removeBackground || mod.default;
+        if(typeof fn !== 'function') throw new Error('removeBackground export missing');
+        S.removeBg = fn;
+        return fn;
+      }catch(e){ lastErr = e; console.warn('BG engine import failed', IMGLY_IMPORTS[i], e); }
+    }
+    bgEnginePromise = null;
+    throw lastErr || new Error('Could not load AI engine');
+  })();
   return bgEnginePromise;
+}
+
+function withTimeout(promise, ms, label){
+  return new Promise(function(resolve, reject){
+    var done=false;
+    var t=setTimeout(function(){
+      if(done) return;
+      done=true;
+      reject(new Error((label||'Operation')+' timed out after '+Math.round(ms/1000)+'s'));
+    }, ms);
+    promise.then(function(v){
+      if(done) return;
+      done=true; clearTimeout(t); resolve(v);
+    }, function(e){
+      if(done) return;
+      done=true; clearTimeout(t); reject(e);
+    });
+  });
 }
 
 /* ---------- RENDER LOOP ---------- */
@@ -68,7 +124,8 @@ function renderNow(){
   } else if(S.bg!=='transparent'){
     dispCtx.fillStyle=S.bg; dispCtx.fillRect(0,0,W,H);
   }
-  dispCtx.drawImage(workC,0,0);
+  // Draw cutout at object offset (Move tool)
+  dispCtx.drawImage(workC, Math.round(S.objDX), Math.round(S.objDY));
   applyDisplaySize();
 }
 
@@ -168,6 +225,12 @@ function setTool(t){
   updateMobBar();
 }
 
+/** Click same tool again → turn it off */
+function toggleTool(t){
+  if(S.tool===t) setTool(null);
+  else setTool(t);
+}
+
 /* ---------- BACKGROUND ---------- */
 function setBg(color, idx){
   S.bg=color;
@@ -198,9 +261,21 @@ function getXY(e){
   };
 }
 
+/* Display → mask coordinates (accounts for Move offset) */
+function toMaskXY(x,y){
+  return { x:x - S.objDX, y:y - S.objDY };
+}
+function maskAlphaAt(mx,my){
+  var xi=Math.round(mx), yi=Math.round(my);
+  if(xi<0||yi<0||xi>=S.imgW||yi>=S.imgH||!S.maskData) return 0;
+  return S.maskData[yi*S.imgW+xi];
+}
+
 /* ---------- BRUSH PAINTING ---------- */
 function paintAt(x,y){
   if(!S.maskData) return;
+  var m=toMaskXY(x,y);
+  x=m.x; y=m.y;
   var isErase=S.tool==='erase-hard'||S.tool==='erase-soft';
   var isSoft =S.tool==='erase-soft'||S.tool==='restore-soft';
   var r=Math.max(2,S.brushSize*0.5);
@@ -217,7 +292,6 @@ function paintAt(x,y){
       if(isSoft){
         var tt=d/r; a=Math.max(0,1-tt*tt*(3-2*tt))*(0.35+S.brushHardness*0.65);
       } else {
-        // hardness controls edge sharpness: 100%=sharp, lower=softer gradient
         var softStart=r*S.brushHardness;
         if(d<=softStart){
           a=1;
@@ -321,6 +395,8 @@ function initPinchZoom(){
    - smooths the new edge after fill to eliminate jaggies */
 function smartErase(x,y){
   if(!S.origData||!S.maskData) return;
+  var m=toMaskXY(x,y);
+  x=m.x; y=m.y;
   var W=S.imgW,H=S.imgH,od=S.origData,md=S.maskData;
   var xi=Math.max(0,Math.min(W-1,Math.round(x)));
   var yi=Math.max(0,Math.min(H-1,Math.round(y)));
@@ -329,9 +405,10 @@ function smartErase(x,y){
 
   var pi=start*4;
   var sr=od[pi],sg=od[pi+1],sb=od[pi+2];
-  var tol=65;
+  var tol=58;
+  var maxR=Math.max(48, Math.min(220, S.brushSize*4.5));
+  var maxR2=maxR*maxR;
 
-  // BFS flood fill — efficient with head pointer (no O(n²) shift)
   var visited=new Uint8Array(W*H);
   var queue=new Int32Array(W*H);
   var qHead=0,qTail=0;
@@ -341,35 +418,34 @@ function smartErase(x,y){
   while(qHead<qTail){
     var curr=queue[qHead++];
     var cy=Math.floor(curr/W), cx=curr%W;
+    var dx0=cx-xi, dy0=cy-yi;
+    if(dx0*dx0+dy0*dy0>maxR2) continue;
+
     var cp=curr*4;
     var dr=od[cp]-sr, dg=od[cp+1]-sg, db=od[cp+2]-sb;
     var dist=Math.sqrt(dr*dr+dg*dg+db*db);
-
-    // stop expanding if color too different from seed
     if(dist>tol) continue;
 
-    // erase only if pixel is still visible
     if(md[curr]>0){
       var strength=1-(dist/tol);
+      var spat=1-Math.sqrt(dx0*dx0+dy0*dy0)/maxR;
+      strength*=0.55+0.45*spat;
       erased.push(curr);
       var v=md[curr]-Math.round(strength*255);
       md[curr]=v<0?0:v;
     }
 
-    // always expand to neighbors (even through transparent — catches gradients)
     if(cx>0   &&!visited[curr-1]){ visited[curr-1]=1; queue[qTail++]=curr-1; }
     if(cx<W-1 &&!visited[curr+1]){ visited[curr+1]=1; queue[qTail++]=curr+1; }
     if(cy>0   &&!visited[curr-W]){ visited[curr-W]=1; queue[qTail++]=curr-W; }
     if(cy<H-1 &&!visited[curr+W]){ visited[curr+W]=1; queue[qTail++]=curr+W; }
   }
 
-  // 1-pass edge anti-alias on the boundary of erased region
   var tmp=new Uint8ClampedArray(md);
   for(var i=0;i<erased.length;i++){
     var idx=erased[i];
     var cy2=Math.floor(idx/W), cx2=idx%W;
     if(cx2<1||cx2>W-2||cy2<1||cy2>H-2) continue;
-    // only smooth transition pixels (not fully erased)
     if(md[idx]>0&&md[idx]<240){
       tmp[idx]=Math.round(
         (md[idx]*4+md[idx-1]+md[idx+1]+md[idx-W]+md[idx+W])/8
@@ -380,61 +456,99 @@ function smartErase(x,y){
 }
 
 /* ---------- REFINE ---------- */
-/* Smooth 1-pixel Gaussian erosion — removes literally one thin layer of fringe
-   with NO sharp zigzags. Each click shrinks the edge by ~1 CSS pixel.
-   Algorithm:
-     1. 3×3 Gaussian blur of the mask (smooth local average)
-     2. Edge pixels (where blurred < current) are eroded proportionally
-     3. Final 4-neighbor anti-alias pass eliminates any residual staircase */
-function autoRefine(){
-  if(!S.maskData) return;
+/* Each click peels ~2px of fringe inward with a smooth feather. */
+function autoRefine(ev){
+  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+  endPan();
+  S.dragObj=null;
+  if(!S.maskData || !S.imgW) return;
   pushUndo();
-  removeIsolatedNoise();
 
   var W=S.imgW, H=S.imgH, md=S.maskData;
-  var tmp=new Uint8ClampedArray(md);
-  var STR=0.055; // ~5.5% erosion per click — ultra-gentle, sub-pixel
+  var out=new Uint8ClampedArray(md);
+  var BG=48;          // treat as background
+  var HARD=1.25;      // fully remove within this distance (px)
+  var SOFT=2.15;      // feather band ends here (~2px total peel)
+  var R=3;
 
-  for(var y=1;y<H-1;y++){
-    for(var x=1;x<W-1;x++){
+  for(var y=0;y<H;y++){
+    for(var x=0;x<W;x++){
       var idx=y*W+x;
       var a=md[idx];
       if(a===0) continue;
 
-      // 3×3 Gaussian weights: corners=1, edges=2, centre=4 (sum=16)
-      var g=(
-        md[(y-1)*W+(x-1)] + md[(y-1)*W+(x+1)] +
-        md[(y+1)*W+(x-1)] + md[(y+1)*W+(x+1)]
-      ) + (
-        md[(y-1)*W+x] + md[y*W+(x-1)] + md[y*W+(x+1)] + md[(y+1)*W+x]
-      )*2 + a*4;
-      g = g / 16;
+      var minD=SOFT+2;
+      for(var dy=-R;dy<=R;dy++){
+        for(var dx=-R;dx<=R;dx++){
+          var d=Math.sqrt(dx*dx+dy*dy);
+          if(d>=minD || d>SOFT+0.8) continue;
+          var nx=x+dx, ny=y+dy;
+          var na=(nx<0||ny<0||nx>=W||ny>=H)?0:md[ny*W+nx];
+          if(na<BG){
+            // Closer when neighbor is more transparent
+            var soft=d+(na/BG)*0.25;
+            if(soft<minD) minD=soft;
+          }
+        }
+      }
 
-      // Interior pixels: Gaussian ≈ self → skip (no erosion on solid regions)
-      if(g > a - 3) continue;
+      if(minD>=SOFT) continue;
 
-      // Edge strength: how much lower is the neighbourhood average vs self
-      var edge = (a - g) / Math.max(1, a); // 0=interior → 1=cliff
-      tmp[idx] = Math.max(0, Math.round(a * (1 - edge * STR)));
+      var keep;
+      if(minD<=HARD){
+        // Outer 1–1.25px: wipe fringe hard (tiny residual for AA)
+        keep=Math.max(0, minD/HARD)*0.12;
+      } else {
+        // 1.25–2.15px: smooth ramp back to full opacity
+        var t=(minD-HARD)/(SOFT-HARD);
+        t=t*t*(3-2*t);
+        keep=0.12+0.88*t;
+      }
+      out[idx]=Math.max(0, Math.min(255, Math.round(a*keep)));
     }
   }
 
-  // Anti-alias pass — gently smooths any remaining staircase artifacts
-  var out = new Uint8ClampedArray(tmp);
+  // Crush leftover fog in the peeled band
+  for(var i=0;i<out.length;i++){
+    if(out[i]>0 && out[i]<14) out[i]=0;
+  }
+
+  // Edge-only anti-alias
+  var final=new Uint8ClampedArray(out);
   for(var y2=1;y2<H-1;y2++){
     for(var x2=1;x2<W-1;x2++){
       var i2=y2*W+x2;
-      var av=tmp[i2];
-      if(av===0||av===255) continue; // skip transparent and fully solid
-      var avg4=(tmp[(y2-1)*W+x2]+tmp[(y2+1)*W+x2]+tmp[y2*W+(x2-1)]+tmp[y2*W+(x2+1)])/4;
-      if(Math.abs(avg4-av)<3) continue; // skip already-smooth pixels
-      out[i2]=Math.round(av*0.75+avg4*0.25); // 75% self, 25% neighbours
+      var av=out[i2];
+      if(av===0) continue;
+      // Only smooth pixels that actually changed or sit on a transition
+      if(out[i2]===md[i2] && av>250){
+        var n0=out[i2-1],n1=out[i2+1],n2=out[i2-W],n3=out[i2+W];
+        if(n0>250&&n1>250&&n2>250&&n3>250) continue;
+      }
+      if(av===255){
+        var anyLow=out[i2-1]<200||out[i2+1]<200||out[i2-W]<200||out[i2+W]<200;
+        if(!anyLow) continue;
+      }
+      var avg4=(out[i2-1]+out[i2+1]+out[i2-W]+out[i2+W])/4;
+      final[i2]=Math.round(av*0.55+avg4*0.45);
     }
   }
-  S.maskData=out;
-  requestRender();
+  S.maskData=final;
+
+  // Kill color halo left by the peeled fringe
+  if(S.origData) decontaminateEdges(S.maskData, W, H, S.origData);
+
+  renderNow();
+
+  // Visible click feedback on the button
+  var btn=$('tt-refine');
+  if(btn){
+    btn.classList.add('act');
+    clearTimeout(btn._refineFlash);
+    btn._refineFlash=setTimeout(function(){ btn.classList.remove('act'); }, 220);
+  }
 }
-// eslint-disable-next-line no-unused-vars
+
 function featherMask(r){
   var W=S.imgW,H=S.imgH,md=S.maskData,tmp=new Uint8ClampedArray(md),rr=r*r;
   for(var y=r;y<H-r;y++) for(var x=r;x<W-r;x++){
@@ -447,137 +561,216 @@ function featherMask(r){
   S.maskData=tmp;
 }
 
-/* ---------- ISOLATED NOISE REMOVAL ---------- */
-/* BFS flood-fill from all confirmed-foreground pixels (alpha ≥ SEED).
-   Expands into any connected semi-transparent pixel (alpha ≥ CONN).
-   Any non-zero pixel NOT reached = isolated patch → zero it out.
-   This removes scattered background specks while keeping all fur/hair
-   that is physically connected to the main subject. */
-function removeIsolatedNoise(){
-  if(!S.maskData) return;
-  var W=S.imgW, H=S.imgH, md=S.maskData;
-  var SEED=180; // definitely foreground
-  var CONN=8;   // traverse semi-transparent connections (hair strands alpha ~10-30)
+/* ---------- CONNECTED COMPONENTS ---------- */
+function labelComponents(md, W, H, thresh){
   var n=W*H;
+  var labels=new Int32Array(n);
+  var areas=[];
+  var maxA=[];
+  var touchesBorder=[];
+  var label=0;
+  var stack=new Int32Array(n);
 
-  var visited=new Uint8Array(n);
-  var queue=new Int32Array(n);
-  var qHead=0, qTail=0;
-
-  // Seed: all solid foreground pixels
   for(var i=0;i<n;i++){
-    if(md[i]>=SEED){ visited[i]=1; queue[qTail++]=i; }
+    if(labels[i]||md[i]<thresh) continue;
+    label++;
+    var area=0, peak=0, border=false;
+    var sp=0;
+    stack[sp++]=i;
+    labels[i]=label;
+    while(sp){
+      var curr=stack[--sp];
+      area++;
+      if(md[curr]>peak) peak=md[curr];
+      var cy=(curr/W)|0, cx=curr%W;
+      if(cx===0||cy===0||cx===W-1||cy===H-1) border=true;
+      if(cx>0   && !labels[curr-1] && md[curr-1]>=thresh){ labels[curr-1]=label; stack[sp++]=curr-1; }
+      if(cx<W-1 && !labels[curr+1] && md[curr+1]>=thresh){ labels[curr+1]=label; stack[sp++]=curr+1; }
+      if(cy>0   && !labels[curr-W] && md[curr-W]>=thresh){ labels[curr-W]=label; stack[sp++]=curr-W; }
+      if(cy<H-1 && !labels[curr+W] && md[curr+W]>=thresh){ labels[curr+W]=label; stack[sp++]=curr+W; }
+    }
+    areas[label]=area;
+    maxA[label]=peak;
+    touchesBorder[label]=border;
   }
+  return { labels:labels, areas:areas, maxA:maxA, touchesBorder:touchesBorder, count:label };
+}
 
-  // BFS — expand to connected semi-transparent neighbors
-  while(qHead<qTail){
-    var curr=queue[qHead++];
-    var cy=Math.floor(curr/W), cx=curr%W;
-    if(cx>0   && !visited[curr-1] && md[curr-1]>=CONN){ visited[curr-1]=1; queue[qTail++]=curr-1; }
-    if(cx<W-1 && !visited[curr+1] && md[curr+1]>=CONN){ visited[curr+1]=1; queue[qTail++]=curr+1; }
-    if(cy>0   && !visited[curr-W] && md[curr-W]>=CONN){ visited[curr-W]=1; queue[qTail++]=curr-W; }
-    if(cy<H-1 && !visited[curr+W] && md[curr+W]>=CONN){ visited[curr+W]=1; queue[qTail++]=curr+W; }
+/* Drop tiny disconnected speckles; keep largest + any sizable secondary subjects */
+function removeSmallSpeckles(md, W, H, frac, minPeak){
+  if(!md) return;
+  W=W||S.imgW; H=H||S.imgH;
+  var n=W*H;
+  var cc=labelComponents(md, W, H, 18);
+  if(cc.count===0) return;
+
+  var minArea=Math.max(64, Math.round(n*(frac||0.0006)));
+  var keep=new Uint8Array(cc.count+1);
+  var best=1;
+  for(var L=1;L<=cc.count;L++){
+    if(cc.areas[L]>cc.areas[best]) best=L;
   }
-
-  // Zero out any non-zero pixel that was never reached
-  for(var j=0;j<n;j++){
-    if(!visited[j] && md[j]>0) md[j]=0;
+  keep[best]=1;
+  for(var L2=1;L2<=cc.count;L2++){
+    if(L2===best) continue;
+    if(cc.areas[L2] >= minArea && cc.maxA[L2] >= (minPeak||160)) keep[L2]=1;
+    else if(cc.areas[L2] >= Math.max(minArea*3, Math.round(n*0.004))) keep[L2]=1;
+  }
+  for(var i=0;i<n;i++){
+    var lab=cc.labels[i];
+    if(lab && !keep[lab]) md[i]=0;
   }
 }
 
-/* ---------- AI CLEANUP — gentle, fur-preserving ---------- */
-function autoCleanup(){
-  if(!S.maskData) return;
-  var md=S.maskData, W=S.imgW, H=S.imgH;
-  // 1) clean extremes — raise floor to 15 to catch more background noise
-  for(var i=0;i<md.length;i++){
-    var a=md[i];
-    if(a<15) md[i]=0;
-    else if(a>248) md[i]=255;
-  }
-  // 2) remove isolated background patches BEFORE matting (faster, less work after)
-  removeIsolatedNoise();
-  // 3) alpha-matting refinement on the border band (pulls back fur & whiskers)
-  alphaMatteRefine();
-  // 4) light edge anti-alias (smooth jaggies only)
-  var md2=S.maskData, tmp=new Uint8ClampedArray(md2);
-  for(var y=1;y<H-1;y++){
-    for(var x=1;x<W-1;x++){
-      var idx=y*W+x, cur=md2[idx];
-      if(cur===0||cur===255){
-        if(md2[idx-1]===cur&&md2[idx+1]===cur&&md2[idx-W]===cur&&md2[idx+W]===cur) continue;
-      }
-      var s=md2[idx]*4 + md2[idx-1]+md2[idx+1]+md2[idx-W]+md2[idx+W]
-            + (md2[idx-W-1]+md2[idx-W+1]+md2[idx+W-1]+md2[idx+W+1])*0.5;
-      tmp[idx]=s/10;
+/* Fill enclosed background holes inside the subject */
+function fillInteriorHoles(md, W, H, maxFrac){
+  if(!md) return;
+  W=W||S.imgW; H=H||S.imgH;
+  var n=W*H;
+  var inv=new Uint8ClampedArray(n);
+  for(var i=0;i<n;i++) inv[i]=md[i]<40?255:0;
+  var cc=labelComponents(inv, W, H, 128);
+  var maxHole=Math.max(80, Math.round(n*(maxFrac||0.015)));
+  for(var L=1;L<=cc.count;L++){
+    if(cc.touchesBorder[L]) continue;
+    if(cc.areas[L] > maxHole) continue;
+    for(var j=0;j<n;j++){
+      if(cc.labels[j]===L) md[j]=255;
     }
   }
-  S.maskData=tmp;
-  // 5) decontaminate edge color (kills white halo, keeps hair)
-  decontaminateEdges();
-  // 6) second noise pass — catches any specks introduced by matting
-  removeIsolatedNoise();
 }
 
-/* Alpha-matting: within the uncertain border band, recompute each edge pixel's
-   alpha from how close its color is to confirmed-foreground vs confirmed-background
-   samples nearby. This recovers thin structures (whiskers, fur tips) that a hard
-   mask clips. Single-pass, local, fast — runs once after AI. */
-function alphaMatteRefine(){
-  if(!S.maskData||!S.origData) return;
-  var W=S.imgW,H=S.imgH,md=S.maskData,od=S.origData;
+/* Soft contrast on alpha: crush weak bg fog, lock solid subject, keep hair band */
+function contrastStretchMask(md){
+  if(!md) return;
+  for(var i=0;i<md.length;i++){
+    var a=md[i];
+    if(a<=6){ md[i]=0; continue; }
+    if(a>=250){ md[i]=255; continue; }
+    var shaped;
+    if(a<55){
+      shaped=Math.pow(a/55, 1.65)*55;
+    } else if(a>210){
+      shaped=210+Math.pow((a-210)/45, 0.75)*45;
+    } else {
+      shaped=55+((a-55)/155)*155;
+      var u=(shaped-55)/155;
+      shaped=55+(u*u*(3-2*u))*155;
+    }
+    md[i]=Math.max(0, Math.min(255, Math.round(shaped)));
+  }
+}
+
+/* Backward-compatible alias used by manual Clean Noise button */
+function removeIsolatedNoise(){
+  removeSmallSpeckles(S.maskData, S.imgW, S.imgH, 0.0006, 150);
+}
+
+/* ---------- AI CLEANUP — smart, fur-preserving ---------- */
+function autoCleanup(md, W, H, od){
+  md=md||S.maskData;
+  W=W||S.imgW; H=H||S.imgH;
+  od=od||S.origData;
+  if(!md) return;
+  contrastStretchMask(md);
+  removeSmallSpeckles(md, W, H, 0.0007, 145);
+  fillInteriorHoles(md, W, H, 0.012);
+  alphaMatteRefine(md, W, H, od);
+  edgeOnlyAntiAlias(md, W, H);
+  decontaminateEdges(md, W, H, od);
+  removeSmallSpeckles(md, W, H, 0.00035, 170);
+}
+
+/* Edge-only AA — never blur solid interiors or empty bg */
+function edgeOnlyAntiAlias(md, W, H){
+  md=md||S.maskData;
+  W=W||S.imgW; H=H||S.imgH;
+  if(!md) return;
+  var tmp=new Uint8ClampedArray(md);
+  for(var y=1;y<H-1;y++){
+    for(var x=1;x<W-1;x++){
+      var idx=y*W+x, cur=md[idx];
+      if(cur===0||cur===255) continue;
+      var n0=md[idx-1], n1=md[idx+1], n2=md[idx-W], n3=md[idx+W];
+      var avg=(n0+n1+n2+n3)/4;
+      if(Math.abs(avg-cur)<4) continue;
+      var minN=Math.min(n0,n1,n2,n3), maxN=Math.max(n0,n1,n2,n3);
+      if(maxN-minN<18 && Math.abs(cur-avg)<12) continue;
+      tmp[idx]=Math.round(cur*0.62 + avg*0.38);
+    }
+  }
+  for(var i=0;i<md.length;i++) md[i]=tmp[i];
+}
+
+/* Guided local alpha matting on uncertain border band */
+function alphaMatteRefine(md, W, H, od){
+  md=md||S.maskData;
+  W=W||S.imgW; H=H||S.imgH;
+  od=od||S.origData;
+  if(!md||!od) return;
   var src=new Uint8ClampedArray(md);
-  // R=5: larger sampling window catches thin hair strands and fur tips
-  var R=5;
+  var R=4; // smaller window = much faster, still recovers hair
   for(var y=R;y<H-R;y++){
     for(var x=R;x<W-R;x++){
       var idx=y*W+x, a=src[idx];
-      if(a>=248 || a<=8) continue; // only the uncertain border band
+      // Only uncertain band — skip solid/empty (big speed win)
+      if(a<=12 || a>=243) continue;
+
       var fr=0,fg=0,fb=0,fn=0, gr=0,gg=0,gb=0,gn=0;
       for(var dy=-R;dy<=R;dy++){
         for(var dx=-R;dx<=R;dx++){
+          if(dx*dx+dy*dy>R*R) continue;
           var ni=(y+dy)*W+(x+dx), na=src[ni], np=ni*4;
-          if(na>=248){ fr+=od[np]; fg+=od[np+1]; fb+=od[np+2]; fn++; }
-          else if(na<=8){ gr+=od[np]; gg+=od[np+1]; gb+=od[np+2]; gn++; }
+          if(na>=235){ fr+=od[np]; fg+=od[np+1]; fb+=od[np+2]; fn++; }
+          else if(na<=18){ gr+=od[np]; gg+=od[np+1]; gb+=od[np+2]; gn++; }
         }
       }
-      if(fn===0||gn===0) continue;
+      if(fn<2||gn<2) continue;
       fr/=fn; fg/=fn; fb/=fn; gr/=gn; gg/=gn; gb/=gn;
       var p=idx*4, pr=od[p],pg=od[p+1],pb=od[p+2];
-      // project pixel color onto fg↔bg line → estimated alpha
       var vx=fr-gr, vy=fg-gg, vz=fb-gb;
       var len2=vx*vx+vy*vy+vz*vz;
-      if(len2<16) continue; // fg and bg too similar to be useful
+      if(len2<36) continue;
       var t=((pr-gr)*vx+(pg-gg)*vy+(pb-gb)*vz)/len2;
       t=t<0?0:t>1?1:t;
       var est=Math.round(t*255);
-      // 50/50 blend: allows slight increases (recovers hair) + slight decreases (removes fringe)
-      // capped at 1.15× original to prevent hallucination
-      var newA=Math.round(a*0.5+est*0.5);
-      md[idx]=Math.max(0,Math.min(255,Math.min(Math.round(a*1.15),newA)));
+      var conf=Math.min(1, Math.sqrt(len2)/90);
+      var blend=0.35 + 0.45*conf;
+      var newA=Math.round(a*(1-blend)+est*blend);
+      if(est>a) newA=Math.min(255, Math.max(newA, Math.round(a*0.55+est*0.45)));
+      md[idx]=Math.max(0, Math.min(255, newA));
     }
   }
-  S.maskData=md;
 }
 
-function decontaminateEdges(){
-  var W=S.imgW,H=S.imgH,md=S.maskData,od=S.origData;
-  for(var y=1;y<H-1;y++){
-    for(var x=1;x<W-1;x++){
+/* Push fringe RGB toward nearby solid foreground — kills color halo */
+function decontaminateEdges(md, W, H, od){
+  md=md||S.maskData;
+  W=W||S.imgW; H=H||S.imgH;
+  od=od||S.origData;
+  if(!md||!od) return;
+  for(var y=2;y<H-2;y++){
+    for(var x=2;x<W-2;x++){
       var idx=y*W+x, a=md[idx];
-      if(a<=8 || a>=250) continue;
-      var bestA=a, br=0,bg=0,bb=0, found=false;
-      for(var dy=-1;dy<=1;dy++) for(var dx=-1;dx<=1;dx++){
-        var ni=(y+dy)*W+(x+dx);
-        if(md[ni]>bestA+40){ bestA=md[ni]; br=od[ni*4]; bg=od[ni*4+1]; bb=od[ni*4+2]; found=true; }
+      if(a<=12 || a>=248) continue;
+      var bestA=a, br=0,bgc=0,bb=0, found=false;
+      for(var dy=-2;dy<=2;dy++){
+        for(var dx=-2;dx<=2;dx++){
+          var ni=(y+dy)*W+(x+dx);
+          if(md[ni]>bestA+28){
+            bestA=md[ni];
+            br=od[ni*4]; bgc=od[ni*4+1]; bb=od[ni*4+2];
+            found=true;
+          }
+        }
       }
-      if(found){
-        var k=0.5*(1-a/255);
-        var p=idx*4;
-        od[p]  =od[p]  +(br-od[p])  *k;
-        od[p+1]=od[p+1]+(bg-od[p+1])*k;
-        od[p+2]=od[p+2]+(bb-od[p+2])*k;
-      }
+      if(!found) continue;
+      var k=0.72*(1-a/255);
+      if(k<0.08) continue;
+      var p=idx*4;
+      od[p]  =od[p]  +(br-od[p])  *k;
+      od[p+1]=od[p+1]+(bgc-od[p+1])*k;
+      od[p+2]=od[p+2]+(bb-od[p+2])*k;
     }
   }
 }
@@ -589,9 +782,27 @@ function pushUndo(){
   if(S.undo.length>60) S.undo.shift();
   S.redo=[]; updateHistory();
 }
-function doUndo(){ if(!S.undo.length) return; S.redo.push(new Uint8ClampedArray(S.maskData)); S.maskData=S.undo.pop(); requestRender(); updateHistory(); }
-function doRedo(){ if(!S.redo.length) return; S.undo.push(new Uint8ClampedArray(S.maskData)); S.maskData=S.redo.pop(); requestRender(); updateHistory(); }
-function doReset(){ if(!S.aiMaskData) return; pushUndo(); S.maskData=new Uint8ClampedArray(S.aiMaskData); requestRender(); }
+function doUndo(){
+  if(!S.undo.length) return;
+  S.redo.push(new Uint8ClampedArray(S.maskData));
+  S.maskData=S.undo.pop();
+  renderNow();
+  updateHistory();
+}
+function doRedo(){
+  if(!S.redo.length) return;
+  S.undo.push(new Uint8ClampedArray(S.maskData));
+  S.maskData=S.redo.pop();
+  renderNow();
+  updateHistory();
+}
+function doReset(){
+  if(!S.aiMaskData) return;
+  pushUndo();
+  S.maskData=new Uint8ClampedArray(S.aiMaskData);
+  S.objDX=0; S.objDY=0;
+  requestRender();
+}
 function updateHistory(){
   var u=$('tt-undo'), r=$('tt-redo');
   if(u) u.classList.toggle('disabled', S.undo.length===0);
@@ -601,8 +812,15 @@ function updateHistory(){
 
 /* ---------- POINTER EVENTS ---------- */
 function onDown(e){
-  if(!S.origData || !S.tool) return;
-  if(S.tool==='pan'){ startPan(e); e.preventDefault(); return; }
+  if(!S.origData) return;
+  // Space = always viewport pan
+  if(S.spaceDown || (S.tool==='pan' && e.altKey)){
+    startViewPan(e); e.preventDefault(); return;
+  }
+  if(S.tool==='pan'){
+    startObjDrag(e); e.preventDefault(); return;
+  }
+  if(!S.tool) return;
   if(S.tool==='magnifier'){ zoomAtClick(e); return; }
   var p=getXY(e);
   if(S.tool==='smart-erase'){ pushUndo(); smartErase(p.x,p.y); requestRender(); return; }
@@ -612,8 +830,12 @@ function onDown(e){
   e.preventDefault();
 }
 function onCanvasMove(e){
-  if(!S.origData || !S.tool) return;
-  if(S.tool==='pan'){ return; }
+  if(!S.origData) return;
+  if(S.tool==='pan' && !S.spaceDown){
+    // Show grab cursor; drag handled on window move
+    return;
+  }
+  if(!S.tool) return;
   if(S.tool==='magnifier'){
     dispC.classList.remove('zoom-in-cur','zoom-out-cur');
     dispC.classList.add(S.altDown?'zoom-out-cur':'zoom-in-cur'); return;
@@ -622,15 +844,16 @@ function onCanvasMove(e){
   var p=getXY(e); drawCursor(p.sx,p.sy);
 }
 function onWindowMove(e){
-  if(!S.origData || !S.tool) return;
-  if(S.tool==='pan' && S.panStart){ doPan(e); e.preventDefault(); return; }
-  if(!S.isDrawing) return;
+  if(!S.origData) return;
+  if(S.panStart){ doViewPan(e); e.preventDefault(); return; }
+  if(S.dragObj){ doObjDrag(e); e.preventDefault(); return; }
+  if(!S.tool || !S.isDrawing) return;
   var p=getXY(e); drawCursor(p.sx,p.sy);
   interpolate(S.lastX,S.lastY,p.x,p.y);
   S.lastX=p.x; S.lastY=p.y; requestRender();
   e.preventDefault();
 }
-function onUp(){ S.isDrawing=false; endPan(); }
+function onUp(){ S.isDrawing=false; endPan(); S.dragObj=null; }
 function onLeave(){ if(!S.isDrawing) clearCursor(); }
 
 /* ---------- MOBILE TOOLBAR ---------- */
@@ -652,20 +875,21 @@ function toggleMobileSidebar(){
   ov.classList.toggle('show',open);
 }
 
-/* ---------- PAN TOGGLE ---------- */
+/* ---------- PAN / MOVE TOGGLE ---------- */
 function togglePan(){
   if(S.tool==='pan') setTool(null);
   else setTool('pan');
 }
 
-/* ---------- PAN ---------- */
-function startPan(e){
+/* Viewport pan (Space) */
+function startViewPan(e){
   var area=$('cc-area'); area.classList.add('panning');
   var cx=e.touches?e.touches[0].clientX:e.clientX;
   var cy=e.touches?e.touches[0].clientY:e.clientY;
   S.panStart={ x:cx, y:cy, sl:area.scrollLeft, st:area.scrollTop };
+  S.dragObj=null;
 }
-function doPan(e){
+function doViewPan(e){
   if(!S.panStart) return;
   var area=$('cc-area');
   var cx=e.touches?e.touches[0].clientX:e.clientX;
@@ -674,6 +898,33 @@ function doPan(e){
   area.scrollTop =S.panStart.st-(cy-S.panStart.y);
 }
 function endPan(){ S.panStart=null; var a=$('cc-area'); if(a) a.classList.remove('panning'); }
+
+/* Move cutout object (Pan/Move tool) */
+function startObjDrag(e){
+  var p=getXY(e);
+  var m=toMaskXY(p.x,p.y);
+  // Allow drag from subject OR empty — empty still moves if already offset / always move
+  // Prefer starting on subject; if miss, still allow drag (user expectation)
+  S.dragObj={
+    x:p.x, y:p.y,
+    dx:S.objDX, dy:S.objDY,
+    onSubject: maskAlphaAt(m.x,m.y)>12
+  };
+  var area=$('cc-area'); if(area) area.classList.add('panning');
+}
+function doObjDrag(e){
+  if(!S.dragObj) return;
+  var p=getXY(e);
+  S.objDX=S.dragObj.dx+(p.x-S.dragObj.x);
+  S.objDY=S.dragObj.dy+(p.y-S.dragObj.y);
+  // Soft clamp so object can't fully leave the frame
+  var limX=S.imgW*0.85, limY=S.imgH*0.85;
+  if(S.objDX>limX) S.objDX=limX;
+  if(S.objDX<-limX) S.objDX=-limX;
+  if(S.objDY>limY) S.objDY=limY;
+  if(S.objDY<-limY) S.objDY=-limY;
+  requestRender();
+}
 
 /* ---------- DOWNLOAD ---------- */
 function doDownload(type){
@@ -691,7 +942,7 @@ function doDownload(type){
   for(var i=0,n=W*H;i<n;i++){ var j=i*4; out[j]=od[j]; out[j+1]=od[j+1]; out[j+2]=od[j+2]; out[j+3]=md[i]; }
   var tc=document.createElement('canvas'); tc.width=W; tc.height=H;
   tc.getContext('2d').putImageData(new ImageData(out,W,H),0,0);
-  ctx.drawImage(tc,0,0);
+  ctx.drawImage(tc, Math.round(S.objDX), Math.round(S.objDY));
   var fmt=type==='png'?'image/png':type==='webp'?'image/webp':'image/jpeg';
   var ext=type==='png'?'.png':type==='webp'?'.webp':'.jpg';
   c.toBlob(function(blob){
@@ -706,9 +957,56 @@ function doDownload(type){
 
 /* ---------- STAGES ---------- */
 function show(id){ ['s-upload','s-proc','s-err','s-edit'].forEach(function(s){ $(s).style.display=(s===id)?'block':'none'; }); }
-function gotoUpload(){ show('s-upload'); $('file-input').value=''; S.undo=[]; S.redo=[]; S.origData=null; S.maskData=null; var b=$('gpu-badge'); if(b) b.style.opacity='0'; }
+function gotoUpload(){
+  show('s-upload'); $('file-input').value='';
+  S.undo=[]; S.redo=[]; S.origData=null; S.maskData=null;
+  S.objDX=0; S.objDY=0; S.dragObj=null; endPan();
+  var b=$('gpu-badge'); if(b) b.style.opacity='0';
+}
 
 /* ---------- PROCESS FILE ---------- */
+function extractAlpha(rgba, w, h){
+  var md=new Uint8ClampedArray(w*h);
+  for(var i=0;i<w*h;i++) md[i]=rgba[i*4+3];
+  return md;
+}
+
+function upscaleMask(md, srcW, srcH, dstW, dstH){
+  if(srcW===dstW && srcH===dstH) return new Uint8ClampedArray(md);
+  var src=document.createElement('canvas'); src.width=srcW; src.height=srcH;
+  var sctx=src.getContext('2d',{willReadFrequently:true});
+  var img=sctx.createImageData(srcW, srcH);
+  for(var i=0;i<srcW*srcH;i++){
+    var j=i*4; img.data[j]=255; img.data[j+1]=255; img.data[j+2]=255; img.data[j+3]=md[i];
+  }
+  sctx.putImageData(img,0,0);
+  var dst=document.createElement('canvas'); dst.width=dstW; dst.height=dstH;
+  var dctx=dst.getContext('2d',{willReadFrequently:true});
+  dctx.imageSmoothingEnabled=true;
+  if(dctx.imageSmoothingQuality) dctx.imageSmoothingQuality='high';
+  dctx.clearRect(0,0,dstW,dstH);
+  dctx.drawImage(src,0,0,dstW,dstH);
+  return extractAlpha(dctx.getImageData(0,0,dstW,dstH).data, dstW, dstH);
+}
+
+function enterEditor(modelName){
+  $('cc-info').textContent=S.imgW+' × '+S.imgH+(modelName?' · '+modelName:'');
+  S.undo=[]; S.redo=[]; S.zoom=1; S.objDX=0; S.objDY=0; S.dragObj=null;
+  updateHistory();
+  show('s-edit');
+  // Default to Move so user can drag the cutout immediately
+  setTool('pan');
+  updateMobBar();
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      computeBaseScale();
+      renderNow();
+      zoomFit();
+      requestRender();
+    });
+  });
+}
+
 async function processFile(file){
   if(!file) return;
   show('s-proc');
@@ -716,106 +1014,141 @@ async function processFile(file){
   $('proc-st').textContent='Loading image…';
 
   try{
-    // 1. Load original image first to get dimensions and pixels
     var origURL=URL.createObjectURL(file);
     var origImg=new Image();
     await new Promise(function(res,rej){ origImg.onload=res; origImg.onerror=rej; origImg.src=origURL; });
     URL.revokeObjectURL(origURL);
     S.imgW=origImg.naturalWidth; S.imgH=origImg.naturalHeight;
+    if(!S.imgW||!S.imgH) throw new Error('Could not read image dimensions.');
 
     var sc=document.createElement('canvas'); sc.width=S.imgW; sc.height=S.imgH;
     var sctx=sc.getContext('2d',{willReadFrequently:true}); sctx.drawImage(origImg,0,0);
     S.origData=sctx.getImageData(0,0,S.imgW,S.imgH).data;
 
-    // 2. Pre-resize for AI — large images slow the model and can OOM on mobile
-    var MAX_AI=1920;
-    var aiFile=file;
+    // Cap AI input — PNG keeps edges; smaller = faster & stable
+    var mobile=isMobileDevice();
+    var MAX_AI=mobile?1280:1600;
+    var aiW=S.imgW, aiH=S.imgH;
     if(S.imgW>MAX_AI||S.imgH>MAX_AI){
       var ratio=Math.min(MAX_AI/S.imgW,MAX_AI/S.imgH);
-      var aiW=Math.round(S.imgW*ratio), aiH=Math.round(S.imgH*ratio);
-      var rc2=document.createElement('canvas'); rc2.width=aiW; rc2.height=aiH;
-      rc2.getContext('2d').drawImage(origImg,0,0,aiW,aiH);
-      $('proc-st').textContent='Optimizing for AI ('+aiW+'×'+aiH+')…';
-      aiFile=await new Promise(function(res){ rc2.toBlob(res,'image/jpeg',0.95); });
+      aiW=Math.round(S.imgW*ratio); aiH=Math.round(S.imgH*ratio);
     }
 
-    // 3. Load AI engine
+    var aiCanvas=document.createElement('canvas'); aiCanvas.width=aiW; aiCanvas.height=aiH;
+    var aiCtx=aiCanvas.getContext('2d',{willReadFrequently:true});
+    aiCtx.imageSmoothingEnabled=true;
+    if(aiCtx.imageSmoothingQuality) aiCtx.imageSmoothingQuality='high';
+    aiCtx.drawImage(origImg,0,0,aiW,aiH);
+    var aiOrigRGBA=aiCtx.getImageData(0,0,aiW,aiH).data;
+
+    $('proc-st').textContent='Preparing AI input ('+aiW+'×'+aiH+')…';
+    var aiFile=await new Promise(function(res,rej){
+      aiCanvas.toBlob(function(b){ if(b) res(b); else rej(new Error('Failed to encode AI input')); }, 'image/png');
+    });
+
     $('proc-st').textContent='Loading AI engine…';
-    var fn=S.removeBg||await preloadEngine();
+    var fn=S.removeBg;
+    try{ if(!fn) fn=await withTimeout(preloadEngine(), 60000, 'AI engine download'); }
+    catch(loadErr){ throw new Error('Could not load AI engine. Check your connection and try again.'); }
     if(!fn) throw new Error('Could not load AI engine. Check your connection.');
 
-    // 4. Detect acceleration — try GPU, auto-fallback to CPU on any WebGPU error
-    var useGpu=!!navigator.gpu;
-    var accelLabel=useGpu?'GPU ⚡':'CPU';
-    $('proc-st').textContent='Starting AI ('+accelLabel+')…';
+    var modelName=pickModel();
+    var preferGpu=!!navigator.gpu && !mobile;
+    var accelLabel=preferGpu?'GPU ⚡':'CPU';
+    $('proc-st').textContent='Starting AI ('+accelLabel+', '+modelName+')…';
     var badge=$('gpu-badge'),lbl=$('gpu-label');
-    if(badge&&lbl){ lbl.textContent=useGpu?'WebGPU acceleration active':'Running on CPU'; badge.style.opacity='1'; badge.style.color=useGpu?'var(--teal)':'var(--tx3)'; }
+    if(badge&&lbl){
+      lbl.textContent=preferGpu?'WebGPU acceleration active':'Running on CPU';
+      badge.style.opacity='1';
+      badge.style.color=preferGpu?'var(--teal)':'var(--tx3)';
+    }
 
     var progressCb=function(key,cur,tot){
       var p=tot>0?Math.round(cur/tot*100):0;
       $('pb-f').style.width=p+'%'; $('pb-l').textContent=p+'%';
-      if(key&&key.indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (~40MB, one-time)…';
-      else if(key&&key.indexOf('compute')>=0) $('proc-st').textContent='AI analyzing image ('+accelLabel+')…';
+      if(key&&String(key).indexOf('fetch')>=0) $('proc-st').textContent='Downloading AI model (one-time)…';
+      else if(key&&String(key).indexOf('compute')>=0) $('proc-st').textContent='AI analyzing image ('+accelLabel+')…';
+      else if(key) $('proc-st').textContent='Processing…';
     };
 
+    async function runAi(device, model){
+      return withTimeout(fn(aiFile, baseAiConfig({
+        device: device,
+        model: model,
+        progress: progressCb
+      })), 180000, 'AI background removal');
+    }
+
     var resultBlob;
-    try{
-      resultBlob=await fn(aiFile,{
-        model:'isnet_fp16', device:'gpu',
-        output:{format:'image/png',quality:1.0,type:'foreground'},
-        progress:progressCb
-      });
-    }catch(gpuErr){
-      // createBuffer / GPUDevice / session errors = GPU not capable → retry on CPU
-      var isGpuIssue=gpuErr&&gpuErr.message&&(
-        gpuErr.message.indexOf('createBuffer')>=0||
-        gpuErr.message.indexOf('GPUDevice')>=0||
-        gpuErr.message.indexOf('session')>=0||
-        gpuErr.message.indexOf('WebGPU')>=0||
-        gpuErr.message.indexOf('mappedAtCreation')>=0
-      );
-      if(isGpuIssue){
-        accelLabel='CPU';
-        if(badge&&lbl){lbl.textContent='GPU unavailable — using CPU';badge.style.color='var(--tx3)';}
-        $('proc-st').textContent='GPU unavailable, switching to CPU…';
-        $('pb-f').style.width='0%'; $('pb-l').textContent='0%';
-        resultBlob=await fn(aiFile,{
-          model:'isnet_fp16', device:'cpu',
-          output:{format:'image/png',quality:1.0,type:'foreground'},
-          progress:progressCb
-        });
-      } else {
-        throw gpuErr;
+    async function runWithFallback(device){
+      try{
+        return await runAi(device, modelName);
+      }catch(modelErr){
+        if(modelName==='isnet_fp16'){
+          console.warn('isnet_fp16 failed, trying isnet_quint8', modelErr);
+          modelName='isnet_quint8';
+          $('proc-st').textContent='Retrying with lighter model…';
+          return await runAi(device, modelName);
+        }
+        throw modelErr;
       }
     }
-    $('proc-st').textContent='Refining edges…';
 
-    // 5. Load AI result and scale mask up to original dimensions
+    if(preferGpu){
+      try{
+        resultBlob=await runWithFallback('gpu');
+      }catch(gpuErr){
+        console.warn('GPU path failed, falling back to CPU', gpuErr);
+        accelLabel='CPU';
+        if(badge&&lbl){ lbl.textContent='GPU unavailable — using CPU'; badge.style.color='var(--tx3)'; }
+        $('proc-st').textContent='GPU unavailable, switching to CPU…';
+        $('pb-f').style.width='0%'; $('pb-l').textContent='0%';
+        resultBlob=await runWithFallback('cpu');
+      }
+    } else {
+      resultBlob=await runWithFallback('cpu');
+    }
+
+    if(!resultBlob) throw new Error('AI returned empty result.');
+
+    $('proc-st').textContent='Refining cutout…';
+    $('pb-f').style.width='92%'; $('pb-l').textContent='92%';
+
     var resURL=URL.createObjectURL(resultBlob);
     var resImg=new Image();
     await new Promise(function(res,rej){ resImg.onload=res; resImg.onerror=rej; resImg.src=resURL; });
     URL.revokeObjectURL(resURL);
 
-    var rc=document.createElement('canvas'); rc.width=S.imgW; rc.height=S.imgH;
+    // Work at AI resolution first (fast), then upscale mask
+    var rw=resImg.naturalWidth||aiW, rh=resImg.naturalHeight||aiH;
+    var rc=document.createElement('canvas'); rc.width=rw; rc.height=rh;
     var rctx=rc.getContext('2d',{willReadFrequently:true});
-    rctx.drawImage(resImg,0,0,S.imgW,S.imgH); // bilinear upscale if pre-resized
-    var rd=rctx.getImageData(0,0,S.imgW,S.imgH).data;
-    S.maskData=new Uint8ClampedArray(S.imgW*S.imgH);
-    for(var i=0,n=S.imgW*S.imgH;i<n;i++) S.maskData[i]=rd[i*4+3];
+    rctx.drawImage(resImg,0,0);
+    var aiMask=extractAlpha(rctx.getImageData(0,0,rw,rh).data, rw, rh);
 
-    autoCleanup();
+    // If AI returned different size, align color buffer
+    var colorRGBA=aiOrigRGBA;
+    if(rw!==aiW||rh!==aiH){
+      var c2=document.createElement('canvas'); c2.width=rw; c2.height=rh;
+      var c2x=c2.getContext('2d',{willReadFrequently:true});
+      c2x.drawImage(origImg,0,0,rw,rh);
+      colorRGBA=c2x.getImageData(0,0,rw,rh).data;
+    }
+
+    autoCleanup(aiMask, rw, rh, colorRGBA);
+
+    S.maskData=upscaleMask(aiMask, rw, rh, S.imgW, S.imgH);
+    // Light full-res defringe only (mask already cleaned)
+    decontaminateEdges(S.maskData, S.imgW, S.imgH, S.origData);
     S.aiMaskData=new Uint8ClampedArray(S.maskData);
 
-    $('cc-info').textContent=S.imgW+' × '+S.imgH;
-    S.undo=[]; S.redo=[]; S.zoom=1; updateHistory();
-    show('s-edit');
-    requestAnimationFrame(function(){
-      computeBaseScale();
-      requestRender();
-      zoomFit();
-    });
-    setTool(null);
-    updateMobBar();
+    // Sanity: empty mask → show error instead of blank canvas
+    var nonzero=0;
+    for(var zi=0;zi<S.maskData.length;zi+=64){ if(S.maskData[zi]>8){ nonzero++; if(nonzero>20) break; } }
+    if(nonzero===0) throw new Error('AI produced an empty cutout. Try another photo or a clearer subject.');
+
+    $('pb-f').style.width='100%'; $('pb-l').textContent='100%';
+    enterEditor(modelName);
   }catch(err){
     console.error('BG removal error:',err);
     $('err-msg').textContent=(err&&err.message)?('Error: '+err.message):'Could not process this image.';
@@ -839,40 +1172,59 @@ function initUpload(){
 /* ---------- KEYBOARD ---------- */
 function initKeyboard(){
   document.addEventListener('keydown', function(e){
-    var inField=(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA');
+    var inField=(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable);
     if(e.key==='Alt'){ S.altDown=true; updateZoomCursor(); }
+
+    // Ctrl/Cmd+Z = Undo, Ctrl/Cmd+Y = Redo (also Ctrl+Shift+Z)
+    // Use capture + e.code so browser chrome / focused buttons don't steal it
+    var mod=e.ctrlKey||e.metaKey;
+    if(mod && !inField){
+      var code=e.code||'';
+      var k=(e.key||'').toLowerCase();
+      if((code==='KeyZ'||k==='z') && !e.shiftKey){
+        e.preventDefault(); e.stopPropagation();
+        doUndo();
+        return;
+      }
+      if(code==='KeyY'||k==='y'||((code==='KeyZ'||k==='z')&&e.shiftKey)){
+        e.preventDefault(); e.stopPropagation();
+        doRedo();
+        return;
+      }
+    }
+
     if((e.code==='Space'||e.key===' ') && !inField){
       e.preventDefault();
       if(!S.spaceDown){
         S.spaceDown=true;
-        if(S.origData && S.tool!=='pan'){ S.prevTool=S.tool; setTool('pan'); }
+        var area=$('cc-area');
+        if(area) area.classList.add('tool-pan');
       }
       return;
     }
     if(inField) return;
-    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!e.shiftKey){ e.preventDefault(); doUndo(); return; }
-    if((e.ctrlKey||e.metaKey)&&(e.key.toLowerCase()==='y'||(e.key.toLowerCase()==='z'&&e.shiftKey))){ e.preventDefault(); doRedo(); return; }
     if(e.ctrlKey||e.metaKey) return;
-    var k=e.key.toLowerCase();
-    if(k==='e') setTool('erase-hard');
-    else if(k==='r') setTool('restore-hard');
-    else if(k==='z') setTool('magnifier');
-    else if(k==='s') setTool('smart-erase');
-    else if(k==='b') setTool('erase-soft');
-    else if(k==='p') togglePan();
-    else if(k==='='||k==='+'){ e.preventDefault(); zoomIn(); }
-    else if(k==='-'){ e.preventDefault(); zoomOut(); }
-    else if(k==='0'){ e.preventDefault(); zoomFit(); }
-    else if(k==='['){ S.brushSize=Math.max(2,S.brushSize-5); $('sl-size').value=S.brushSize; $('sv-size').textContent=S.brushSize; updateBrushPreview(); }
-    else if(k===']'){ S.brushSize=Math.min(120,S.brushSize+5); $('sl-size').value=S.brushSize; $('sv-size').textContent=S.brushSize; updateBrushPreview(); }
-  });
+    var key=e.key.toLowerCase();
+    if(key==='e') setTool('erase-hard');
+    else if(key==='r') setTool('restore-hard');
+    else if(key==='z') setTool('magnifier');
+    else if(key==='s') toggleTool('smart-erase');
+    else if(key==='b') setTool('erase-soft');
+    else if(key==='p') togglePan();
+    else if(key==='='||key==='+'){ e.preventDefault(); zoomIn(); }
+    else if(key==='-'){ e.preventDefault(); zoomOut(); }
+    else if(key==='0'){ e.preventDefault(); zoomFit(); }
+    else if(key==='['){ S.brushSize=Math.max(2,S.brushSize-5); $('sl-size').value=S.brushSize; $('sv-size').textContent=S.brushSize; updateBrushPreview(); }
+    else if(key===']'){ S.brushSize=Math.min(120,S.brushSize+5); $('sl-size').value=S.brushSize; $('sv-size').textContent=S.brushSize; updateBrushPreview(); }
+  }, true);
   document.addEventListener('keyup', function(e){
     if(e.key==='Alt'){ S.altDown=false; updateZoomCursor(); }
     if(e.code==='Space'||e.key===' '){
       e.preventDefault(); S.spaceDown=false; endPan();
-      setTool(S.prevTool||null); S.prevTool=null;
+      var area=$('cc-area');
+      if(area && S.tool!=='pan') area.classList.remove('tool-pan');
     }
-  });
+  }, true);
 }
 
 /* ---------- SLIDERS ---------- */
@@ -915,7 +1267,7 @@ function doCleanNoise(){
 }
 
 /* ---------- EXPOSE ---------- */
-window.setTool=setTool; window.setBg=setBg; window.doUndo=doUndo; window.doRedo=doRedo;
+window.setTool=setTool; window.toggleTool=toggleTool; window.setBg=setBg; window.doUndo=doUndo; window.doRedo=doRedo;
 window.doReset=doReset; window.doDownload=doDownload; window.gotoUpload=gotoUpload;
 window.autoRefine=autoRefine; window.zoomIn=zoomIn; window.zoomOut=zoomOut; window.zoomFit=zoomFit;
 window.toggleMobileSidebar=toggleMobileSidebar; window.doCleanNoise=doCleanNoise; window.togglePan=togglePan;
@@ -925,6 +1277,14 @@ function init(){
   dispC=$('disp-c'); dispCtx=dispC.getContext('2d',{willReadFrequently:true});
   ovC=$('ov-c'); ovCtx=ovC.getContext('2d');
   initUpload(); initSliders(); initKeyboard(); initCanvas(); initWheelZoom(); initPinchZoom();
+  var refineBtn=$('tt-refine');
+  if(refineBtn){
+    // pointerdown so it always fires even while Move tool is capturing mouse intent
+    refineBtn.addEventListener('pointerdown', function(e){
+      e.preventDefault(); e.stopPropagation();
+      autoRefine(e);
+    });
+  }
   updateBrushPreview();
   renderLoop();
   show('s-upload');

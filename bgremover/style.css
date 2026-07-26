@@ -104,7 +104,9 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--ac3) 0%,var(--ro
   background:linear-gradient(180deg,var(--bg3),var(--bg2));
   border-bottom:1px solid var(--brd);
   flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;
+  position:relative;z-index:40;pointer-events:auto;flex-shrink:0;
 }
+.toptb .ttb,.toptb .zbtn{pointer-events:auto;position:relative;z-index:41}
 .toptb::-webkit-scrollbar{height:3px}
 .toptb::-webkit-scrollbar-thumb{background:var(--brd2)}
 .tb-sep{width:1px;height:28px;background:var(--brd);margin:0 4px;flex-shrink:0}
