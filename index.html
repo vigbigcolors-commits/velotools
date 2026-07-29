@@ -104,14 +104,7 @@
       <a href="/invoice/">Invoice Generator</a>
     </nav>
   </div>
-  <script type="module">
-    const boot = () => import('/js/tool-card-grid.js');
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => { boot(); }, { timeout: 1800 });
-    } else {
-      setTimeout(boot, 1);
-    }
-  </script>
+  <script type="module" src="/js/tool-card-grid.js"></script>
 </section>
 
 <p style="position:relative;z-index:1;text-align:center;font-size:15px;color:var(--tx3);line-height:1.7;max-width:680px;margin:0 auto;padding:0 24px 48px">Professional image compression, invoice generation, QR codes, background removal and PDF compression — all running directly in your browser. Your files never leave your device.</p>
