@@ -1,5 +1,4 @@
 import React from 'react';
-import { AnimatePresence } from 'motion/react';
 import { ToolItem, ThemeStyle, CardVariant, LayoutMode } from '../types';
 import { ToolCard } from './ToolCard';
 import { Sparkles } from 'lucide-react';
@@ -47,18 +46,16 @@ export const CardGrid: React.FC<CardGridProps> = ({
   return (
     <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 pb-20">
       <div className={getGridClass()}>
-        <AnimatePresence mode="popLayout">
-          {tools.map((tool) => (
-            <ToolCard
-              key={tool.id}
-              tool={tool}
-              theme={theme}
-              variant={variant}
-              layout={layout}
-              onOpenDetails={onOpenDetails}
-            />
-          ))}
-        </AnimatePresence>
+        {tools.map((tool) => (
+          <ToolCard
+            key={tool.id}
+            tool={tool}
+            theme={theme}
+            variant={variant}
+            layout={layout}
+            onOpenDetails={onOpenDetails}
+          />
+        ))}
       </div>
     </main>
   );
