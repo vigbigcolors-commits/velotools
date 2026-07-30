@@ -322,7 +322,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-chip:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-1px);box-shadow:0 3px 8px rgba(91,108,249,.15)}
 
 /* ── PAGE ────────────────────── */
-.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1180px;margin:0 auto;align-items:flex-start;width:100%;box-sizing:border-box}
+.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1320px;margin:0 auto;align-items:flex-start;width:100%;box-sizing:border-box}
 .v-main{flex:1;min-width:0;width:100%;overflow:hidden}
 .v-aside{width:284px;flex-shrink:0;display:flex;flex-direction:column;gap:14px;position:sticky;top:78px}
 
@@ -627,7 +627,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 
 /* ── SEO ─────────────────────── */
 .v-seo{padding:56px 36px;background:var(--bg);border-top:1px solid var(--br)}
-.v-seo-in{max-width:800px;margin:0 auto}
+.v-seo-in{max-width:1320px;margin:0 auto}
 .v-seo-in h2{font-size:27px;font-weight:800;color:var(--tx);letter-spacing:-.6px;margin-bottom:12px}
 .v-seo-in h3{font-size:18px;font-weight:700;color:var(--tx);margin:26px 0 9px}
 .v-seo-in p{font-size:15px;color:var(--tx-2);line-height:1.85;margin-bottom:12px}
@@ -662,7 +662,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-faq-in{max-width:840px;margin:0 auto}
 .v-faq-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ac);background:var(--ac-l);border:1px solid rgba(91,108,249,.25);border-radius:20px;padding:5px 13px;margin-bottom:14px}
 .v-faq-in h2{font-size:30px;font-weight:800;color:var(--tx);letter-spacing:-.7px;margin-bottom:10px}
-.v-faq-sub{font-size:14.5px;color:var(--tx-2);line-height:1.75;max-width:680px;margin-bottom:30px}
+.v-faq-sub{font-size:14.5px;color:var(--tx-2);line-height:1.75;max-width:none;margin-bottom:30px}
 .v-fi{border:1px solid var(--br);border-radius:13px;background:var(--bg);margin-bottom:10px;transition:border-color .18s,box-shadow .18s;overflow:hidden}
 .v-fi:hover{border-color:var(--br-2)}
 .v-fi.op{border-color:rgba(91,108,249,.45)!important;box-shadow:0 6px 24px rgba(91,108,249,.1)}
@@ -675,7 +675,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 
 /* ── FOOTER ──────────────────── */
 .v-foot{background:var(--bg);border-top:1px solid var(--br);padding:28px 36px}
-.v-foot-in{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.v-foot-in{max-width:1320px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
 .v-flinks{display:flex;gap:16px;flex-wrap:wrap}
 .v-flinks a{font-size:13px;color:var(--tx-2);text-decoration:none;transition:color .14s}
 .v-flinks a:hover{color:var(--ac)}
@@ -997,14 +997,14 @@ html,body{background:var(--bg-main)}
 /* ════════════════════════════════════════════
    PREMIUM SEO BLOCKS (vp-*)
 ════════════════════════════════════════════ */
-.v-seo-in{max-width:1080px}
+.v-seo-in{max-width:1320px}
 
 /* Block 1 — Hero hook */
 .vp-hook{text-align:center;padding:24px 0 48px;border-bottom:1px solid var(--br);margin-bottom:48px}
 .vp-eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--tx-2);background:var(--glass);border:1px solid var(--br);padding:7px 16px;border-radius:99px;margin-bottom:22px}
 .vp-h1{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-1.5px;line-height:1.08;color:var(--tx);margin-bottom:18px}
 .vp-grad{background:var(--ac-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.vp-lede{font-size:17px;line-height:1.65;color:var(--tx-2);max-width:680px;margin:0 auto 28px}
+.vp-lede{font-size:17px;line-height:1.65;color:var(--tx-2);max-width:none;margin:0 auto 28px}
 .vp-cta{display:inline-flex;align-items:center;gap:8px;background:var(--ac-grad);color:#fff;border:none;padding:16px 34px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);transition:transform .18s,box-shadow .18s;box-shadow:0 8px 30px rgba(99,102,241,.4)}
 .vp-cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(99,102,241,.55)}
 .vp-cta:active{transform:translateY(0) scale(.98)}
@@ -1054,7 +1054,7 @@ html,body{background:var(--bg-main)}
 .vp-fmt-meta span{font-size:12px;color:var(--tx-2)}
 .vp-fmt-pct{font-weight:800;color:var(--ac)!important;font-size:14px!important}
 .vp-fmt-desc{font-size:13px;line-height:1.6;color:var(--tx-2)}
-.vp-note{font-size:14px;line-height:1.7;color:var(--tx-2);text-align:center;max-width:760px;margin:0 auto 8px;padding:16px 20px;background:var(--ac-l);border:1px solid var(--br);border-radius:var(--radius-md)}
+.vp-note{font-size:14px;line-height:1.7;color:var(--tx-2);text-align:center;max-width:1320px;margin:0 auto 8px;padding:16px 20px;background:var(--ac-l);border:1px solid var(--br);border-radius:var(--radius-md)}
 .vp-note strong{color:var(--tx)}
 
 /* Block 5 — Final CTA */
@@ -1218,15 +1218,15 @@ html,body{background:var(--bg-main)}
 .ab-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ac);background:var(--ac-l);border:1px solid rgba(62,207,142,.25);border-radius:30px;padding:6px 16px;margin-bottom:22px}
 .ab-h1{font-size:clamp(34px,5.2vw,58px);font-weight:800;letter-spacing:-1.4px;line-height:1.08;margin-bottom:18px}
 .ab-h1 em{font-style:normal;background:linear-gradient(120deg,var(--ac) 0%,#7ee8b8 60%,#9ad5ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.ab-lede{font-size:18px;line-height:1.7;color:var(--tx-2);max-width:720px;margin:0 auto 30px}
-.ab-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:760px;margin:0 auto}
+.ab-lede{font-size:18px;line-height:1.7;color:var(--tx-2);max-width:1320px;margin:0 auto 30px}
+.ab-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1320px;margin:0 auto}
 .ab-stat{background:var(--bg-panel);border:1px solid var(--br);border-radius:var(--radius-lg);padding:18px 12px;text-align:center}
 .ab-stat b{display:block;font-size:26px;font-weight:800;color:var(--ac);letter-spacing:-.5px}
 .ab-stat span{font-size:12px;color:var(--tx-3)}
 
 .ab-section{padding:56px 0;border-top:1px solid var(--br)}
 .ab-section h2{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.7px;margin-bottom:14px}
-.ab-section p{font-size:15.5px;line-height:1.8;color:var(--tx-2);max-width:760px;margin-bottom:14px}
+.ab-section p{font-size:15.5px;line-height:1.8;color:var(--tx-2);max-width:none;margin-bottom:14px}
 .ab-section p strong{color:var(--tx)}
 
 .ab-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
@@ -1247,7 +1247,7 @@ html,body{background:var(--bg-main)}
 .ab-pillar h3{font-size:15px;font-weight:700;margin-bottom:7px}
 .ab-pillar p{font-size:13.5px;color:var(--tx-2);line-height:1.7;margin:0}
 
-.ab-steps{display:flex;flex-direction:column;gap:10px;margin-top:24px;max-width:760px}
+.ab-steps{display:flex;flex-direction:column;gap:10px;margin-top:24px;max-width:1320px}
 .ab-step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-panel);border:1px solid var(--br);border-radius:var(--radius-md);padding:16px 18px}
 .ab-step b{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--ac-l);color:var(--ac);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
 .ab-step div p{margin:4px 0 0;font-size:13.5px;color:var(--tx-2);line-height:1.7}
@@ -1285,7 +1285,7 @@ html,body{background:var(--bg-main)}
     <a href="/image-compress/" class="v-nl">Image</a>
     <a href="/invoice/"  class="v-nl">Invoice</a>
     <a href="/qr/"       class="v-nl">QR Code</a>
-    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/compress-pdf/" class="v-nl">PDF</a>
+    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/pdf-tools/" class="v-nl">PDF</a>
     <a href="/about/"    class="v-nl cur">About</a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">

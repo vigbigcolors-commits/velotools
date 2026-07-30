@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Compress PDF for Canvas LMS — Under 5 MB Upload | VeloTools</title>
-<meta name="description" content="Shrink PDF assignments to fit Canvas LMS 5 MB upload limits. Screen preset applied automatically in your browser.">
+<title>Compress PDF for Canvas LMS — File Too Large for Upload (5 MB) | VeloTools</title>
+<meta name="description" content="Canvas says your PDF is too large? Compress homework under 5 MB in-browser with a grayscale Screen preset — private, no account.">
 <meta name="keywords" content="compress pdf online free,reduce pdf size,pdf compressor no upload,pdf file size reducer,compress pdf without losing quality,batch pdf compressor,pdf size reducer 2026,free pdf compressor browser">
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -17,12 +17,13 @@
 <meta property="og:description" content="Compress PDFs up to 90% smaller. No server upload, completely private. Batch processing, 4 quality presets, grayscale mode.">
 <meta property="og:type" content="website">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools PDF Compressor","description":"Free browser-based PDF compressor. Reduce file size without uploading. Supports batch processing, multiple quality levels, grayscale mode.","url":"https://velotools.app/compress-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["PDF compression up to 90%","No server upload","Batch processing","4 quality presets","Grayscale mode","Metadata removal","Free forever"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why is the preset locked?","acceptedAnswer":{"@type":"Answer","text":"Page intent is Canvas LMS (5 MB). Widget state must match URL or Google classifies the page as thin doorway content."}},{"@type":"Question","name":"What if the PDF is still too large?","acceptedAnswer":{"@type":"Answer","text":"Still over 5 MB — remove scanned color pages or split into multiple files. Split at /split-pdf/ if the platform allows multiple files."}},{"@type":"Question","name":"Is the file uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Client-side PDF.js + pdf-lib only."}},{"@type":"Question","name":"Scanned vs text PDFs?","acceptedAnswer":{"@type":"Answer","text":"Scanned pages compress more. Text-heavy PDFs may stay above the cap — lower DPI preset or split."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Canvas says my file is too large — how do I fix it fast?","acceptedAnswer":{"@type":"Answer","text":"Compress on this page (5 MB checker on), download, and re-upload. Phone scans almost always shrink enough after the grayscale Screen preset."}},{"@type":"Question","name":"Will my professor mind if the PDF turns grayscale?","acceptedAnswer":{"@type":"Answer","text":"For handwritten homework, usually no. For color charts, ask first or compress on the main tool with color kept if the course allows a bigger file."}},{"@type":"Question","name":"Does this upload my assignment to VeloTools?","acceptedAnswer":{"@type":"Answer","text":"No. Nothing is sent to us. Only you upload the finished PDF into Canvas."}},{"@type":"Question","name":"Can I submit multiple smaller PDFs instead?","acceptedAnswer":{"@type":"Answer","text":"If the assignment allows multiple files, split first, then compress each part. Otherwise keep one file under the course cap."}},{"@type":"Question","name":"SpeedGrader looks blurry — what now?","acceptedAnswer":{"@type":"Answer","text":"Zoom in on a sample page after download. If pencil writing is faint, recompress once at slightly higher quality on Compress PDF, still watching the 5 MB check."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/compress-pdf/style.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
 <link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
@@ -50,18 +51,22 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/compress-pdf/"   class="vt-glink act">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/pdf-tools/"   class="vt-glink act">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <div class="pdf-related" aria-label="PDF tools">
+  <a href="/pdf-tools/">All PDF tools</a>
   <a href="/merge-pdf/">Merge PDF</a>
-  <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/split-pdf/">Split PDF</a>
-  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/rotate-pdf/">Rotate PDF</a>
+  <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/pdf-to-jpg/">PDF to JPG</a>
+  <a href="/jpg-to-pdf/">JPG to PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/protect-pdf/">Protect PDF</a>
 </div>
 
 <header class="hdr">
@@ -78,8 +83,8 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>Compress PDF for <em>Canvas</em> uploads</h1>
-    <p class="hero-sub">Canvas courses often cap assignment files at 5 MB. The tool starts in Screen preset (72 DPI) and flags files that still exceed the portal limit.</p>
+    <h1>Fix <em>Canvas</em> “file too large” PDF uploads</h1>
+    <p class="hero-sub">Stuck on a Canvas assignment upload? Many courses cap files at 5 MB. This page starts in a homework-friendly Screen + grayscale preset and warns you before the LMS rejects the file.</p>
     <div class="hero-badges">
       <span class="hbadge hbadge--private">&#128274; 100% Private</span>
       <span class="hbadge hbadge--speed">&#9889; Instant</span>
@@ -246,6 +251,8 @@
       </div>
     </div>
 
+    <div id="vt-recent-pdf-compress" class="vt-recent" hidden></div>
+
   </div><!-- /main-area -->
 </div><!-- /tool-wrap -->
 </main>
@@ -253,61 +260,68 @@
 <section class="editorial" aria-label="Guide for compress-pdf-for-canvas">
 
   <section id="security" class="seo-section seo-security">
-    <h2>Security: browser-only processing</h2>
-    <p>Compression runs entirely in your browser via PDF.js and pdf-lib. Canvas LMS limits are enforced in the widget; no PDF bytes are transmitted over the network.</p>
+    <h2>Submit to Canvas without sending homework to a compress site</h2>
+    <p>Canvas upload errors are stressful enough without dropping a graded PDF on a random “free compressor.” Here your assignment stays on the device: we only change how pages are re-saved so a common <strong>5 MB</strong> course limit has a fair chance of accepting it.</p>
+<p>Student IDs and handwritten pages never transit through our servers — you download, then upload into Canvas yourself.</p>
   </section>
 
   <section id="how-it-works" class="seo-section seo-steps">
-    <h2>How it works in 3 steps</h2>
+    <h2>What to do when Canvas rejects your PDF</h2>
     <ol>
-      <li>Drop your PDF — preset and DPI are locked for Canvas LMS.</li>
-      <li>Click Compress All. Processing runs locally.</li>
-      <li>Download when output is within 5 MB.</li>
+      <li>Add the file Canvas marked too large — Screen + grayscale for homework scans is already on.</li>
+      <li>Compress All until the checker shows under 5 MB.</li>
+      <li>Download and submit in Canvas. Still blocked? Remove blank pages or split the lab appendix.</li>
     </ol>
   </section>
 
   <section id="tech-specs" class="seo-section">
-    <h2>Technical specifications</h2>
+    <h2>Canvas-oriented defaults on this URL</h2>
     <table class="seo-table">
       <tbody>
-        <tr><th>Platform</th><td>Canvas LMS · max 5 MB</td></tr>
-        <tr><th>Locked preset</th><td>screen</td></tr>
-        <tr><th>DPI / JPEG quality</th><td>72 DPI · 40%</td></tr>
-        <tr><th>Grayscale</th><td>On (locked)</td></tr>
-        <tr><th>Limit checker</th><td>Warn if &gt; 5 MB</td></tr>
-        <tr><th>Processing</th><td>PDF.js → JPEG → pdf-lib</td></tr>
-        <tr><th>Network</th><td>0 bytes of PDF content transmitted</td></tr>
+        <tr><th>Problem it solves</th><td>Canvas file too large / assignment upload failed</td></tr>
+        <tr><th>Size check</th><td>5 MB (common course default)</td></tr>
+        <tr><th>Preset</th><td>Screen quality for phone scans</td></tr>
+        <tr><th>Color</th><td>Grayscale (cuts size on worksheet photos)</td></tr>
+        <tr><th>Privacy</th><td>Local only — you upload to Canvas</td></tr>
+        <tr><th>When to switch</th><td>Color diagrams → main Compress PDF</td></tr>
       </tbody>
     </table>
   </section>
 
   <section id="deep-dive" class="seo-section seo-deep-dive">
-    <h2>Platform limits and processing</h2>
-    <p>Compresses <strong>PDF</strong> (mixed stream codecs (Flate, DCT/JPEG, JPX, CCITT)) via PDF.js render at 72 DPI, JPEG 40%, pdf-lib reassembly — locked to Canvas LMS.</p>
-<p><strong>Canvas LMS</strong>: max 5 MB (5,242,880 bytes). Common default upload cap on Canvas course assignments (institution-configurable). Preset <code>screen</code> is locked on this URL.</p>
+    <h2>The real reason Canvas homework PDFs explode in size</h2>
+    <p>Students photograph worksheets in full color at 12 megapixels. Canvas courses often still use a small default upload cap near <strong>5 MB</strong>. One photo page can burn the whole quota.</p>
+<p>This URL assumes that failure mode on purpose: grayscale + lower resolution for “get it submitted tonight,” not for a printed portfolio. If your instructor raised the limit and you need color figures, use <a href="/compress-pdf/">Compress PDF</a> with a milder preset instead.</p>
+<p>Need a smaller sibling for another LMS? See <a href="/compress-pdf-for-blackboard/">Blackboard</a> or <a href="/compress-pdf-for-moodle/">Moodle</a> — each locks a different tradeoff. To break a giant scan into parts, open <a href="/split-pdf/">Split PDF</a>.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">
-    <h2>Frequently asked questions</h2>
+    <h2>Canvas PDF upload questions students actually ask</h2>
     <details>
-      <summary>Why is the preset locked?</summary>
-      <div class="faq-a">Page intent is Canvas LMS (5 MB). Widget state must match URL or Google classifies the page as thin doorway content.</div>
+      <summary>Canvas says my file is too large — how do I fix it fast?</summary>
+      <div class="faq-a">Compress on this page (5 MB checker on), download, and re-upload. Phone scans almost always shrink enough after the grayscale Screen preset.</div>
     </details>
     <details>
-      <summary>What if the PDF is still too large?</summary>
-      <div class="faq-a">Still over 5 MB — remove scanned color pages or split into multiple files. Split at /split-pdf/ if the platform allows multiple files.</div>
+      <summary>Will my professor mind if the PDF turns grayscale?</summary>
+      <div class="faq-a">For handwritten homework, usually no. For color charts, ask first or compress on the main tool with color kept if the course allows a bigger file.</div>
     </details>
     <details>
-      <summary>Is the file uploaded?</summary>
-      <div class="faq-a">No. Client-side PDF.js + pdf-lib only.</div>
+      <summary>Does this upload my assignment to VeloTools?</summary>
+      <div class="faq-a">No. Nothing is sent to us. Only you upload the finished PDF into Canvas.</div>
     </details>
     <details>
-      <summary>Scanned vs text PDFs?</summary>
-      <div class="faq-a">Scanned pages compress more. Text-heavy PDFs may stay above the cap — lower DPI preset or split.</div>
+      <summary>Can I submit multiple smaller PDFs instead?</summary>
+      <div class="faq-a">If the assignment allows multiple files, split first, then compress each part. Otherwise keep one file under the course cap.</div>
+    </details>
+    <details>
+      <summary>SpeedGrader looks blurry — what now?</summary>
+      <div class="faq-a">Zoom in on a sample page after download. If pencil writing is faint, recompress once at slightly higher quality on Compress PDF, still watching the 5 MB check.</div>
     </details>
   </section>
 
-</section></section>
+</section>
+
+
 
 <footer class="site-footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
@@ -316,6 +330,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script type="application/json" id="vt-page-config">{"slug":"compress-pdf-for-canvas","tool":"compress-pdf","toolMode":"compress","platform":"canvas-lms","widget":{"preset":"screen","quality":40,"dpi":72,"grayscale":true,"stripMetadata":true,"stripAnnotations":true,"maxOutputBytes":5242880,"lock":["preset","dpi","grayscale"],"limitWarning":"Still over 5 MB — remove scanned color pages or split into multiple files."},"intentBanner":"Canvas mode: Screen preset (72 DPI · 40% JPEG) · 5 MB limit checker enabled"}</script>
 <script src="/pdf-tools/compress.js"></script>
 </body>

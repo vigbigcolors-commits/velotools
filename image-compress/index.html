@@ -57,6 +57,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <meta name="application-name" content="VeloTools Image Compressor">
 
 <!-- ═══ SCHEMA 1: WebApplication — rich snippet with stars ═══ -->
@@ -362,7 +363,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-chip:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-l);transform:translateY(-1px);box-shadow:0 3px 8px rgba(91,108,249,.15)}
 
 /* ── PAGE ────────────────────── */
-.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1180px;margin:0 auto;align-items:flex-start;width:100%;box-sizing:border-box}
+.v-page{display:flex;gap:20px;padding:8px 36px 48px;max-width:1320px;margin:0 auto;align-items:flex-start;width:100%;box-sizing:border-box}
 .v-main{flex:1;min-width:0;width:100%;overflow:hidden}
 .v-aside{width:284px;flex-shrink:0;display:flex;flex-direction:column;gap:14px;position:sticky;top:78px;transform:translateZ(0);will-change:transform}
 
@@ -677,7 +678,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 
 /* ── SEO ─────────────────────── */
 .v-seo{padding:56px 36px;background:var(--bg);border-top:1px solid var(--br)}
-.v-seo-in{max-width:800px;margin:0 auto}
+.v-seo-in{max-width:1320px;margin:0 auto}
 .v-seo-in h2{font-size:27px;font-weight:800;color:var(--tx);letter-spacing:-.6px;margin-bottom:12px}
 .v-seo-in h3{font-size:18px;font-weight:700;color:var(--tx);margin:26px 0 9px}
 .v-seo-in p{font-size:15px;color:var(--tx-2);line-height:1.85;margin-bottom:12px}
@@ -712,7 +713,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-faq-in{max-width:840px;margin:0 auto}
 .v-faq-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ac);background:var(--ac-l);border:1px solid rgba(91,108,249,.25);border-radius:20px;padding:5px 13px;margin-bottom:14px}
 .v-faq-in h2{font-size:30px;font-weight:800;color:var(--tx);letter-spacing:-.7px;margin-bottom:10px}
-.v-faq-sub{font-size:14.5px;color:var(--tx-2);line-height:1.75;max-width:680px;margin-bottom:30px}
+.v-faq-sub{font-size:14.5px;color:var(--tx-2);line-height:1.75;max-width:none;margin-bottom:30px}
 .v-fi{border:1px solid var(--br);border-radius:13px;background:var(--bg);margin-bottom:10px;transition:border-color .18s,box-shadow .18s;overflow:hidden}
 .v-fi:hover{border-color:var(--br-2)}
 .v-fi.op{border-color:rgba(91,108,249,.45)!important;box-shadow:0 6px 24px rgba(91,108,249,.1)}
@@ -725,7 +726,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 
 /* ── FOOTER ──────────────────── */
 .v-foot{background:var(--bg);border-top:1px solid var(--br);padding:28px 36px}
-.v-foot-in{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.v-foot-in{max-width:1320px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
 .v-flinks{display:flex;gap:16px;flex-wrap:wrap}
 .v-flinks a{font-size:13px;color:var(--tx-2);text-decoration:none;transition:color .14s}
 .v-flinks a:hover{color:var(--ac)}
@@ -1063,14 +1064,14 @@ html,body{background:var(--bg-main)}
 /* ════════════════════════════════════════════
    PREMIUM SEO BLOCKS (vp-*)
 ════════════════════════════════════════════ */
-.v-seo-in{max-width:1080px}
+.v-seo-in{max-width:1320px}
 
 /* Block 1 — Hero hook */
 .vp-hook{text-align:center;padding:24px 0 48px;border-bottom:1px solid var(--br);margin-bottom:48px}
 .vp-eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--tx-2);background:var(--glass);border:1px solid var(--br);padding:7px 16px;border-radius:99px;margin-bottom:22px}
 .vp-h1{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-1.5px;line-height:1.08;color:var(--tx);margin-bottom:18px}
 .vp-grad{background:var(--ac-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.vp-lede{font-size:17px;line-height:1.65;color:var(--tx-2);max-width:680px;margin:0 auto 28px}
+.vp-lede{font-size:17px;line-height:1.65;color:var(--tx-2);max-width:none;margin:0 auto 28px}
 .vp-cta{display:inline-flex;align-items:center;gap:8px;background:var(--ac-grad);color:#fff;border:none;padding:16px 34px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);transition:transform .18s,box-shadow .18s;box-shadow:0 8px 30px rgba(99,102,241,.4)}
 .vp-cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(99,102,241,.55)}
 .vp-cta:active{transform:translateY(0) scale(.98)}
@@ -1120,7 +1121,7 @@ html,body{background:var(--bg-main)}
 .vp-fmt-meta span{font-size:12px;color:var(--tx-2)}
 .vp-fmt-pct{font-weight:800;color:var(--ac)!important;font-size:14px!important}
 .vp-fmt-desc{font-size:13px;line-height:1.6;color:var(--tx-2)}
-.vp-note{font-size:14px;line-height:1.7;color:var(--tx-2);text-align:center;max-width:760px;margin:0 auto 8px;padding:16px 20px;background:var(--ac-l);border:1px solid var(--br);border-radius:var(--radius-md)}
+.vp-note{font-size:14px;line-height:1.7;color:var(--tx-2);text-align:center;max-width:1320px;margin:0 auto 8px;padding:16px 20px;background:var(--ac-l);border:1px solid var(--br);border-radius:var(--radius-md)}
 .vp-note strong{color:var(--tx)}
 
 /* Block 5 — Final CTA */
@@ -1307,7 +1308,7 @@ html,body{background:var(--bg-main)}
     <a href="/image-compress/" class="v-nl cur">Image</a>
     <a href="/invoice/"  class="v-nl">Invoice</a>
     <a href="/qr/"       class="v-nl">QR Code</a>
-    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/compress-pdf/" class="v-nl">PDF</a>
+    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/pdf-tools/" class="v-nl">PDF</a>
     <a href="/about/"    class="v-nl v-nl-about">About<span class="v-nl-dot"></span></a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">
@@ -1769,6 +1770,8 @@ html,body{background:var(--bg-main)}
       </section>
 
     </div><!-- editor -->
+
+    <div id="vt-recent-image" class="vt-recent" hidden></div>
   </div><!-- single mode -->
 
   <!-- ═══ BATCH MODE ═══ -->
@@ -2002,6 +2005,7 @@ html,body{background:var(--bg-main)}
     <h2>Frequently asked questions</h2>
     <p class="v-faq-sub">Everything about compressing, converting and editing JPG, PNG, WebP, AVIF, GIF, SVG and camera RAW files directly in your browser — privacy, speed, formats, batch processing and image quality, answered.</p>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Why does PNG show 0% savings?<div class="v-fqico">+</div></button><div class="v-fa">PNG uses lossless compression — quality settings have no effect because PNG always produces mathematically lossless output. Use Convert → WebP (25–35% smaller, full transparency preserved) or AVIF to reduce PNG file size.</div></div>
+    <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Does Recent Files upload my images?<div class="v-fqico">+</div></button><div class="v-fa">No. The Recent panel stores only the file name and last settings in this browser by default. File bytes are kept locally only if you check “Keep file on this device for quick re-run,” auto-delete after 24 hours, and never leave your device.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Are my images uploaded to a server?<div class="v-fqico">+</div></button><div class="v-fa">No. All processing happens locally in your browser via JavaScript and the Canvas API. Files never leave your device. VeloTools has no server for image processing. The tool works offline once loaded.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">How do I compress images for a website?<div class="v-fqico">+</div></button><div class="v-fa">Use Convert → WebP at 80% quality. Resize to exact display dimensions. This typically reduces file sizes by 70–85% and directly improves Core Web Vitals and Google PageSpeed scores. For bulk website optimization, use Batch mode.</div></div>
     <div class="v-fi"><button class="v-fq" onclick="vTf(this)">What is the maximum file size?<div class="v-fqico">+</div></button><div class="v-fa">No file size limit. The only constraint is your device's available memory. For files above 100MB, Chrome or Edge performs best. Batch mode supports up to 15 images simultaneously.</div></div>
@@ -2049,6 +2053,7 @@ html,body{background:var(--bg-main)}
 }
 </script>
 <script type="module" src="js/webp-encoder.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script src="js/core-utils.js"></script>
 <script src="js/state.js"></script>
 <script src="js/effects.js"></script>

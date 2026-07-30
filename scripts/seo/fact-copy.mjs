@@ -1,10 +1,12 @@
 /**
  * Fact-driven copy — formula: [Task] + [Hard limits] + [Technical action]
  * No filler words (best, fast, ultimate).
+ * Compress-PDF PSEO pages prefer handcrafted editorials (anti-doorway).
  */
 import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { COMPRESS_PDF_EDITORIALS } from '../seo-data/intents/compress-pdf-editorials.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dataDir = join(__dirname, '..', 'seo-data');
@@ -229,6 +231,9 @@ export function buildFaqJsonLd(faqItems) {
 }
 
 export function renderEditorial(intent, esc) {
+  const hand = COMPRESS_PDF_EDITORIALS[intent.slug];
+  if (hand) return renderHandcraftedEditorial(intent, hand, esc);
+
   const specs = buildTechSpecsRows(intent)
     .map(([th, td]) => `        <tr><th>${th}</th><td>${td}</td></tr>`)
     .join('\n');
@@ -276,4 +281,59 @@ ${faq}
   </section>
 
 </section>`;
+}
+
+function renderHandcraftedEditorial(intent, hand, esc) {
+  const specs = hand.specs
+    .map(([th, td]) => `        <tr><th>${esc(th)}</th><td>${esc(td)}</td></tr>`)
+    .join('\n');
+  const steps = hand.steps.map((s) => `      <li>${esc(s)}</li>`).join('\n');
+  const faq = hand.faq
+    .map(
+      (item) =>
+        `    <details>\n      <summary>${esc(item.q)}</summary>\n      <div class="faq-a">${esc(item.a)}</div>\n    </details>`,
+    )
+    .join('\n');
+
+  return `<section class="editorial" aria-label="Guide for ${esc(intent.slug)}">
+
+  <section id="security" class="seo-section seo-security">
+    <h2>${esc(hand.securityH2)}</h2>
+    ${hand.securityHtml}
+  </section>
+
+  <section id="how-it-works" class="seo-section seo-steps">
+    <h2>${esc(hand.stepsH2)}</h2>
+    <ol>
+${steps}
+    </ol>
+  </section>
+
+  <section id="tech-specs" class="seo-section">
+    <h2>${esc(hand.specsH2)}</h2>
+    <table class="seo-table">
+      <tbody>
+${specs}
+      </tbody>
+    </table>
+  </section>
+
+  <section id="deep-dive" class="seo-section seo-deep-dive">
+    <h2>${esc(hand.deepH2)}</h2>
+    ${hand.deepHtml}
+  </section>
+
+  <section id="faq" class="seo-section seo-faq">
+    <h2>${esc(hand.faqH2)}</h2>
+${faq}
+  </section>
+
+</section>`;
+}
+
+/** Build FAQPage JSON-LD from handcrafted or formula FAQ */
+export function buildFaqForIntent(intent) {
+  const hand = COMPRESS_PDF_EDITORIALS[intent.slug];
+  if (hand) return hand.faq;
+  return buildFaq(intent);
 }

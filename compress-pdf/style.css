@@ -91,13 +91,26 @@ h1 em{
 .hero-sub{font-size:15px;color:var(--tx2);max-width:520px;margin-bottom:22px;line-height:1.75}
 .hero-badges{display:flex;gap:8px;flex-wrap:wrap}
 .hbadge{
-  font-size:12px;font-weight:600;border-radius:30px;padding:6px 14px;
+  font-size:12px;font-weight:700;border-radius:30px;padding:8px 14px;
   border:1.5px solid;color:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 4px 14px rgba(0,0,0,.2);
 }
-.hbadge--private{background:rgba(77,122,201,.2);border-color:rgba(73,175,235,.5)}
-.hbadge--speed{background:rgba(71,222,209,.15);border-color:rgba(71,222,209,.5)}
-.hbadge--batch{background:rgba(144,94,242,.18);border-color:rgba(144,94,242,.5)}
-.hbadge--save{background:rgba(91,165,95,.2);border-color:rgba(146,233,150,.5)}
+.hbadge--private{
+  background:linear-gradient(135deg,rgba(140,185,255,.5),rgba(77,122,201,.38));
+  border-color:rgba(190,220,255,.65);color:#f2f7ff;
+}
+.hbadge--speed{
+  background:linear-gradient(135deg,rgba(140,255,245,.48),rgba(71,222,209,.32));
+  border-color:rgba(170,255,245,.7);color:#eafffc;
+}
+.hbadge--batch{
+  background:linear-gradient(135deg,rgba(210,175,255,.48),rgba(144,94,242,.36));
+  border-color:rgba(230,200,255,.65);color:#faf5ff;
+}
+.hbadge--save{
+  background:linear-gradient(135deg,rgba(185,255,175,.45),rgba(91,165,95,.34));
+  border-color:rgba(200,255,185,.65);color:#f3fff3;
+}
 
 .hero-visual{display:flex;align-items:center;gap:20px;flex-shrink:0}
 .hv-card{
@@ -283,7 +296,7 @@ h1 em{
 .bb-clear svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
 /* SEO — keep structure, sharpen colors */
-.seo{max-width:1180px;margin:0 auto;padding:0 18px 90px;position:relative;z-index:1}
+.seo{max-width:1320px;margin:0 auto;padding:0 24px 90px;position:relative;z-index:1}
 .seo-divider{display:flex;align-items:center;gap:16px;margin:72px 0 64px}
 .sdl{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--brd2) 50%,transparent)}
 .sdi{width:44px;height:44px;min-width:44px;border-radius:50%;border:1.5px solid var(--brd2);display:flex;align-items:center;justify-content:center;background:var(--bg2)}
@@ -295,7 +308,7 @@ h1 em{
 .seo h2{font-family:"Playfair Display",serif;font-size:clamp(26px,3.4vw,42px);font-weight:400;margin-bottom:16px;line-height:1.18;color:#fff}
 .seo h2 em{font-style:italic;color:var(--c-mint)}
 .seo h2 em.gr{font-style:italic;background:linear-gradient(120deg,var(--c-sky),var(--c-mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.seo-lead{font-size:15px;color:var(--tx2);max-width:680px;line-height:1.85;margin-bottom:36px}
+.seo-lead{font-size:15px;color:var(--tx2);max-width:none;line-height:1.85;margin-bottom:36px}
 
 .pdf-stats-big{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--brd);border:1.5px solid var(--brd);border-radius:16px;overflow:hidden;margin-bottom:52px}
 .psb-item{background:var(--bg1);padding:32px 20px;text-align:center;transition:background .2s}

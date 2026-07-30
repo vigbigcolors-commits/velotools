@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Compress PDF for Gmail — Under 25 MB Attachment Limit | VeloTools</title>
-<meta name="description" content="Compress PDF files to fit Gmail's 25 MB attachment limit. Pre-configured Web preset in your browser — no upload.">
+<title>Compress PDF for Gmail Free — Fix “Attachment Too Large” (25 MB) | VeloTools</title>
+<meta name="description" content="PDF too big for Gmail? Shrink it under 25 MB in your browser — no upload. Locked email preset + live size warning before you attach.">
 <meta name="keywords" content="compress pdf online free,reduce pdf size,pdf compressor no upload,pdf file size reducer,compress pdf without losing quality,batch pdf compressor,pdf size reducer 2026,free pdf compressor browser">
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -17,12 +17,13 @@
 <meta property="og:description" content="Compress PDFs up to 90% smaller. No server upload, completely private. Batch processing, 4 quality presets, grayscale mode.">
 <meta property="og:type" content="website">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools PDF Compressor","description":"Free browser-based PDF compressor. Reduce file size without uploading. Supports batch processing, multiple quality levels, grayscale mode.","url":"https://velotools.app/compress-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["PDF compression up to 90%","No server upload","Batch processing","4 quality presets","Grayscale mode","Metadata removal","Free forever"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why is the preset locked?","acceptedAnswer":{"@type":"Answer","text":"Page intent is Gmail (25 MB). Widget state must match URL or Google classifies the page as thin doorway content."}},{"@type":"Question","name":"What if the PDF is still too large?","acceptedAnswer":{"@type":"Answer","text":"Still over 25 MB — try Screen preset or split the PDF first. Split at /split-pdf/ if the platform allows multiple files."}},{"@type":"Question","name":"Is the file uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Client-side PDF.js + pdf-lib only."}},{"@type":"Question","name":"Scanned vs text PDFs?","acceptedAnswer":{"@type":"Answer","text":"Scanned pages compress more. Text-heavy PDFs may stay above the cap — lower DPI preset or split."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does Gmail say my PDF attachment is too large?","acceptedAnswer":{"@type":"Answer","text":"Gmail blocks messages when the total size (body + attachments) crosses roughly 25 MB. A phone scan or slide deck often sits just over that line until you compress or split it."}},{"@type":"Question","name":"How do I compress a PDF for Gmail without uploading it online?","acceptedAnswer":{"@type":"Answer","text":"Use this page: processing runs in your browser only. Download the smaller file, then attach it in Gmail yourself — we never see the PDF."}},{"@type":"Question","name":"Will the other person still be able to open it?","acceptedAnswer":{"@type":"Answer","text":"Yes. You get a normal PDF that opens in Gmail preview, phones, and desktop readers. Very heavy scans become page images, so text search may be weaker."}},{"@type":"Question","name":"What if it is still over 25 MB after compressing?","acceptedAnswer":{"@type":"Answer","text":"Split long packets into two emails, remove unused pages, or try a stronger Screen pass on the main Compress PDF tool. One full-bleed photo page is often the culprit."}},{"@type":"Question","name":"Is Google Drive a better option than compressing?","acceptedAnswer":{"@type":"Answer","text":"Drive links avoid the attachment cap, but the recipient needs access. Compressing is better when the other person expects a simple attached file."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/compress-pdf/style.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
 <link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
@@ -50,18 +51,22 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/compress-pdf/"   class="vt-glink act">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/pdf-tools/"   class="vt-glink act">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <div class="pdf-related" aria-label="PDF tools">
+  <a href="/pdf-tools/">All PDF tools</a>
   <a href="/merge-pdf/">Merge PDF</a>
-  <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/split-pdf/">Split PDF</a>
-  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/rotate-pdf/">Rotate PDF</a>
+  <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/pdf-to-jpg/">PDF to JPG</a>
+  <a href="/jpg-to-pdf/">JPG to PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/protect-pdf/">Protect PDF</a>
 </div>
 
 <header class="hdr">
@@ -78,8 +83,8 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>Compress PDF for <em>Gmail</em> attachments</h1>
-    <p class="hero-sub">Gmail blocks attachments over 25 MB. This page opens the compressor pre-tuned for email-sized PDFs and warns you if output still exceeds the limit.</p>
+    <h1>Compress a PDF that <em>Gmail</em> keeps rejecting</h1>
+    <p class="hero-sub">Seeing “attachment too large” in Gmail? This page is locked to a 25 MB email preset so you can shrink the PDF on your device, check the size, then attach — without uploading the file to a random compressor.</p>
     <div class="hero-badges">
       <span class="hbadge hbadge--private">&#128274; 100% Private</span>
       <span class="hbadge hbadge--speed">&#9889; Instant</span>
@@ -246,6 +251,8 @@
       </div>
     </div>
 
+    <div id="vt-recent-pdf-compress" class="vt-recent" hidden></div>
+
   </div><!-- /main-area -->
 </div><!-- /tool-wrap -->
 </main>
@@ -253,61 +260,69 @@
 <section class="editorial" aria-label="Guide for compress-pdf-for-gmail">
 
   <section id="security" class="seo-section seo-security">
-    <h2>Security: browser-only processing</h2>
-    <p>Compression runs entirely in your browser via PDF.js and pdf-lib. Gmail limits are enforced in the widget; no PDF bytes are transmitted over the network.</p>
+    <h2>Shrink for Gmail without uploading your PDF</h2>
+    <p>If Gmail says the attachment is too large, you do not need a website that asks you to “upload to compress.” On this page the file never leaves your laptop: the browser reads it, shrinks pages with a locked email preset, and you download a smaller PDF to attach yourself.</p>
+<p>That is the difference between convenience and privacy. Contracts, tax packets, and medical letters stay in tab memory until you close the tab.</p>
   </section>
 
   <section id="how-it-works" class="seo-section seo-steps">
-    <h2>How it works in 3 steps</h2>
+    <h2>How to fix “attachment too large” in Gmail</h2>
     <ol>
-      <li>Drop your PDF — preset and DPI are locked for Gmail.</li>
-      <li>Click Compress All. Processing runs locally.</li>
-      <li>Download when output is within 25 MB.</li>
+      <li>Drop the PDF that Gmail rejected — the 25 MB email preset is already locked on this page.</li>
+      <li>Tap Compress All and wait for the green size check under 25 MB.</li>
+      <li>Download, open Gmail, attach the new file. Still oversized? Use Split PDF for chapters, then send two messages.</li>
     </ol>
   </section>
 
   <section id="tech-specs" class="seo-section">
-    <h2>Technical specifications</h2>
+    <h2>What this Gmail page locks for you</h2>
     <table class="seo-table">
       <tbody>
-        <tr><th>Platform</th><td>Gmail · max 25 MB</td></tr>
-        <tr><th>Locked preset</th><td>web</td></tr>
-        <tr><th>DPI / JPEG quality</th><td>96 DPI · 65%</td></tr>
-        <tr><th>Grayscale</th><td>Off</td></tr>
-        <tr><th>Limit checker</th><td>Warn if &gt; 25 MB</td></tr>
-        <tr><th>Processing</th><td>PDF.js → JPEG → pdf-lib</td></tr>
-        <tr><th>Network</th><td>0 bytes of PDF content transmitted</td></tr>
+        <tr><th>Problem it solves</th><td>Gmail attachment too large / over 25 MB</td></tr>
+        <tr><th>Size check</th><td>25 MB before download</td></tr>
+        <tr><th>Preset</th><td>Email-friendly Web quality (readable on phones)</td></tr>
+        <tr><th>Color</th><td>Kept (contracts and slides stay in color)</td></tr>
+        <tr><th>Privacy</th><td>No upload to VeloTools</td></tr>
+        <tr><th>Related tools</th><td>Split PDF · main Compress PDF</td></tr>
       </tbody>
     </table>
   </section>
 
   <section id="deep-dive" class="seo-section seo-deep-dive">
-    <h2>Platform limits and processing</h2>
-    <p>Compresses <strong>PDF</strong> (mixed stream codecs (Flate, DCT/JPEG, JPX, CCITT)) via PDF.js render at 96 DPI, JPEG 65%, pdf-lib reassembly — locked to Gmail.</p>
-<p><strong>Gmail</strong>: max 25 MB (26,214,400 bytes). Consumer Gmail attachment limit per message (Google Workspace may differ by admin policy). Preset <code>web</code> is locked on this URL.</p>
+    <h2>Why Gmail stops at 25 MB — and what to do next</h2>
+    <p>Gmail’s well-known ceiling is about <strong>25 MB per message</strong> for everyday accounts. Workspace admins can raise it, but most people still hit the classic wall with scanned packets and slide decks.</p>
+<p>This page is tuned for that moment: keep the file readable in Gmail’s preview, strip bulky metadata, and show a warning before you waste time on a failed Send. It is not meant for print-shop masters — keep your original if you still need perfect vector text later.</p>
+<p>Compared with <a href="/compress-pdf-for-outlook/">Outlook’s tighter 20 MB habit</a>, Gmail gives a little more room, so we use a gentler email preset here. If one file is still huge after compressing, <a href="/split-pdf/">split the PDF</a> or run a second pass on <a href="/compress-pdf/">Compress PDF</a> with the Screen preset.</p>
+<p>Also leave a little headroom: embedded images in the email body count toward the same message size.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">
-    <h2>Frequently asked questions</h2>
+    <h2>People also ask about Gmail PDF size</h2>
     <details>
-      <summary>Why is the preset locked?</summary>
-      <div class="faq-a">Page intent is Gmail (25 MB). Widget state must match URL or Google classifies the page as thin doorway content.</div>
+      <summary>Why does Gmail say my PDF attachment is too large?</summary>
+      <div class="faq-a">Gmail blocks messages when the total size (body + attachments) crosses roughly 25 MB. A phone scan or slide deck often sits just over that line until you compress or split it.</div>
     </details>
     <details>
-      <summary>What if the PDF is still too large?</summary>
-      <div class="faq-a">Still over 25 MB — try Screen preset or split the PDF first. Split at /split-pdf/ if the platform allows multiple files.</div>
+      <summary>How do I compress a PDF for Gmail without uploading it online?</summary>
+      <div class="faq-a">Use this page: processing runs in your browser only. Download the smaller file, then attach it in Gmail yourself — we never see the PDF.</div>
     </details>
     <details>
-      <summary>Is the file uploaded?</summary>
-      <div class="faq-a">No. Client-side PDF.js + pdf-lib only.</div>
+      <summary>Will the other person still be able to open it?</summary>
+      <div class="faq-a">Yes. You get a normal PDF that opens in Gmail preview, phones, and desktop readers. Very heavy scans become page images, so text search may be weaker.</div>
     </details>
     <details>
-      <summary>Scanned vs text PDFs?</summary>
-      <div class="faq-a">Scanned pages compress more. Text-heavy PDFs may stay above the cap — lower DPI preset or split.</div>
+      <summary>What if it is still over 25 MB after compressing?</summary>
+      <div class="faq-a">Split long packets into two emails, remove unused pages, or try a stronger Screen pass on the main Compress PDF tool. One full-bleed photo page is often the culprit.</div>
+    </details>
+    <details>
+      <summary>Is Google Drive a better option than compressing?</summary>
+      <div class="faq-a">Drive links avoid the attachment cap, but the recipient needs access. Compressing is better when the other person expects a simple attached file.</div>
     </details>
   </section>
 
-</section></section>
+</section>
+
+
 
 <footer class="site-footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
@@ -316,6 +331,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script type="application/json" id="vt-page-config">{"slug":"compress-pdf-for-gmail","tool":"compress-pdf","toolMode":"compress","platform":"gmail","widget":{"preset":"web","quality":65,"dpi":96,"grayscale":false,"stripMetadata":true,"stripAnnotations":true,"maxOutputBytes":26214400,"lock":["preset","dpi"],"limitWarning":"Still over 25 MB — try Screen preset or split the PDF first."},"intentBanner":"Gmail mode: Web preset (96 DPI · 65% JPEG) · 25 MB limit checker enabled"}</script>
 <script src="/pdf-tools/compress.js"></script>
 </body>

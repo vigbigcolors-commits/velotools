@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import {
   buildMetaDescription,
   buildHeroLead,
-  buildFaq,
+  buildFaqForIntent,
   buildFaqJsonLd,
   renderEditorial,
   isImageIntent,
@@ -39,7 +39,7 @@ function pageConfigJson(intent) {
 export function buildCompressPdfPage(intent) {
   let html = readFileSync(join(root, 'compress-pdf', 'index.html'), 'utf8');
   const canonical = `${baseUrl}/${intent.slug}/`;
-  const faqLd = JSON.stringify(buildFaqJsonLd(buildFaq(intent)));
+  const faqLd = JSON.stringify(buildFaqJsonLd(buildFaqForIntent(intent)));
 
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(intent.title)}</title>`);
   html = html.replace(
@@ -60,9 +60,10 @@ export function buildCompressPdfPage(intent) {
   );
 
   const editorialStart = html.indexOf('<section class="editorial"');
-  const editorialEnd = html.indexOf('</section>\n\n<footer class="site-footer">');
+  const footerMatch = html.match(/<\/section>\s*<footer class="site-footer">/);
+  const editorialEnd = footerMatch ? footerMatch.index : -1;
   if (editorialStart < 0 || editorialEnd < 0) throw new Error('compress-pdf editorial markers missing');
-  html = html.slice(0, editorialStart) + renderEditorial(intent, esc) + html.slice(editorialEnd);
+  html = html.slice(0, editorialStart) + renderEditorial(intent, esc) + '\n\n' + html.slice(editorialEnd + '</section>'.length);
 
   html = html.replace(
     /<script type="application\/ld\+json">\{"@context":"https:\/\/schema.org","@type":"FAQPage"[\s\S]*?<\/script>/,

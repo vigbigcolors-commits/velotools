@@ -83,6 +83,97 @@ function init(){
   updateSettingsSummary();
   PAGE_CONFIG = readPageConfig();
   if(PAGE_CONFIG) applyPageConfig(PAGE_CONFIG);
+  initRecentPanel();
+}
+
+var _recentPanel = null;
+
+function initRecentPanel(){
+  if(!window.VTRecent) return;
+  var mount = $('vt-recent-pdf-compress');
+  if(!mount) return;
+  _recentPanel = VTRecent.mountPanel(mount, {
+    toolId: 'pdf-compressor',
+    onRestore: function(payload){
+      applyRecentPresets(payload.meta && payload.meta.presets);
+      var intent = payload.intent || 'presets';
+      if(payload.file && intent !== 'pick'){
+        handleFiles([payload.file]);
+        return '';
+      }
+      if(intent === 'pick'){
+        var inp = $('file-input');
+        if(inp) inp.click();
+        return 'Presets applied. Pick “'+(payload.meta.name||'document')+'” — file stays on your device.';
+      }
+      return 'Presets applied for “'+(payload.meta.name||'document')+'”. Use Choose file when ready — nothing was uploaded.';
+    }
+  });
+}
+
+function applyRecentPresets(p){
+  if(!p || typeof p !== 'object') return;
+  if(p.preset && PRESETS[p.preset]){
+    var pbtn = document.querySelector('.preset-btn[data-preset="'+p.preset+'"]');
+    if(pbtn){
+      document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.remove('act'); });
+      pbtn.classList.add('act');
+      SETTINGS.preset = p.preset;
+      SETTINGS.quality = PRESETS[p.preset].quality;
+      SETTINGS.dpi = PRESETS[p.preset].dpi;
+    }
+  }
+  if(typeof p.quality === 'number'){
+    SETTINGS.quality = p.quality;
+    if($('sl-quality')) $('sl-quality').value = p.quality;
+    if($('quality-val')) $('quality-val').textContent = p.quality+'%';
+  }
+  if(typeof p.dpi === 'number'){
+    SETTINGS.dpi = p.dpi;
+    document.querySelectorAll('.dpi-btn').forEach(function(b){
+      b.classList.toggle('act', +b.dataset.dpi === p.dpi);
+    });
+    if($('dpi-val')) $('dpi-val').textContent = p.dpi;
+  }
+  if(typeof p.grayscale === 'boolean' && $('opt-grayscale')){
+    $('opt-grayscale').checked = p.grayscale;
+  }
+  if(typeof p.stripMetadata === 'boolean' && $('opt-metadata')){
+    $('opt-metadata').checked = p.stripMetadata;
+  }
+  if(typeof p.stripAnnotations === 'boolean' && $('opt-annotations')){
+    $('opt-annotations').checked = p.stripAnnotations;
+  }
+  syncSettings();
+  updateSettingsSummary();
+}
+
+function currentPresets(){
+  syncSettings();
+  return {
+    preset: SETTINGS.preset,
+    quality: SETTINGS.quality,
+    dpi: SETTINGS.dpi,
+    grayscale: SETTINGS.grayscale,
+    stripMetadata: SETTINGS.stripMetadata,
+    stripAnnotations: SETTINGS.stripAnnotations
+  };
+}
+
+function recordRecentPdf(fileEntry){
+  if(!window.VTRecent || !fileEntry || !fileEntry.file) return;
+  var keep = _recentPanel && _recentPanel.wantsKeepFile
+    ? _recentPanel.wantsKeepFile()
+    : VTRecent.wantsKeepFile('pdf-compressor');
+  VTRecent.recordAndRefresh(_recentPanel, {
+    toolId: 'pdf-compressor',
+    name: fileEntry.name || fileEntry.file.name,
+    size: fileEntry.originalSize || fileEntry.file.size || 0,
+    type: 'application/pdf',
+    presets: currentPresets(),
+    keepFile: keep,
+    blob: keep ? fileEntry.file : null
+  });
 }
 
 function readPageConfig(){
@@ -345,6 +436,7 @@ function compressOne(id){
       updateCard(f);
       updateBatchBar();
       updateDownloadAllBtn();
+      if(f.status === 'done') recordRecentPdf(f);
     });
   }, 32);
 }
@@ -1368,6 +1460,7 @@ function compressAll(){
     doCompress(item).then(function(){
       updateCard(item);
       updateBatchBar();
+      if(item.status === 'done') recordRecentPdf(item);
       setTimeout(next, 48);
     });
   }

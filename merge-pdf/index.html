@@ -21,6 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
 <style>
 :root{--bg0:#0a0f1c;--tx:#fff;--tx2:#c8d8f8}
@@ -52,7 +53,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <a href="/qr/" class="vt-glink">QR Code</a>
     <a href="/focus/" class="vt-glink">Focus</a>
     <a href="/bgremover/" class="vt-glink">BG Remover</a>
-    <a href="/compress-pdf/" class="vt-glink act">PDF</a>
+    <a href="/pdf-tools/" class="vt-glink act">PDF</a>
     <a href="/about/" class="vt-glink">About</a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">
@@ -62,11 +63,15 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 </nav>
 
 <div class="pdf-related" aria-label="PDF tools">
+  <a href="/pdf-tools/">All PDF tools</a>
   <a href="/merge-pdf/" class="act">Merge PDF</a>
-  <a href="/compress-pdf/">Compress PDF</a>
   <a href="/split-pdf/">Split PDF</a>
-  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/rotate-pdf/">Rotate PDF</a>
+  <a href="/compress-pdf/">Compress PDF</a>
   <a href="/pdf-to-jpg/">PDF to JPG</a>
+  <a href="/jpg-to-pdf/">JPG to PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/protect-pdf/">Protect PDF</a>
 </div>
 
 <section class="pdf-tool-hero">
@@ -97,6 +102,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <button type="button" class="btn-primary btn-hidden" id="btn-download">↓ Download merged PDF</button>
     <button type="button" class="btn-secondary" id="btn-clear">Clear all</button>
   </div>
+
+  <div id="vt-recent-merge" class="vt-recent" hidden></div>
 </main>
 
 <section class="editorial" aria-label="Guide to merging PDF files">
@@ -143,6 +150,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
   <section id="faq" class="seo-section seo-faq">
     <h2>Frequently asked questions</h2>
     <details>
+      <summary>Does Recent Files upload my PDFs?</summary>
+      <div class="faq-a">No. Recent stores only names and order hints in this browser by default. File bytes are kept locally only if you check “Keep file on this device,” auto-delete after 24 hours, and never leave your device.</div>
+    </details>
+    <details>
       <summary>Does merging PDFs reduce image quality?</summary>
       <div class="faq-a">No. Pages are copied without re-encoding: image bitstreams, ICC profiles, and vector graphics stay intact. Merge is not equivalent to PDF to JPEG to PDF export.</div>
     </details>
@@ -166,6 +177,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
   <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
 </footer>
 
+<script src="/js/vt-recent.js"></script>
 <script type="module" src="/pdf-tools/merge.js"></script>
 </body>
 </html>

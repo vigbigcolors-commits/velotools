@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="/compress-pdf/style.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
 <link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
@@ -50,18 +51,22 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/compress-pdf/"   class="vt-glink act">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/pdf-tools/"   class="vt-glink act">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <div class="pdf-related" aria-label="PDF tools">
+  <a href="/pdf-tools/">All PDF tools</a>
   <a href="/merge-pdf/">Merge PDF</a>
-  <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/split-pdf/">Split PDF</a>
-  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/rotate-pdf/">Rotate PDF</a>
+  <a href="/compress-pdf/" class="act">Compress PDF</a>
   <a href="/pdf-to-jpg/">PDF to JPG</a>
+  <a href="/jpg-to-pdf/">JPG to PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/protect-pdf/">Protect PDF</a>
 </div>
 
 <header class="hdr">
@@ -246,6 +251,8 @@
       </div>
     </div>
 
+    <div id="vt-recent-pdf-compress" class="vt-recent" hidden></div>
+
   </div><!-- /main-area -->
 </div><!-- /tool-wrap -->
 </main>
@@ -298,6 +305,10 @@
   <section id="faq" class="seo-section seo-faq">
     <h2>Frequently asked questions</h2>
     <details>
+      <summary>Does Recent Files upload my PDFs?</summary>
+      <div class="faq-a">No. By default only the file name and last compression settings are saved in this browser. File bytes stay local only if you opt in to “Keep file on this device,” auto-delete after 24 hours, and are never uploaded.</div>
+    </details>
+    <details>
       <summary>Does this compressor upload my files to a server?</summary>
       <div class="faq-a">No. PDF.js, pdf-lib, and JSZip run entirely in your browser. Disconnect the internet after load — compression still works. No API call carries PDF body data.</div>
     </details>
@@ -340,6 +351,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script src="/pdf-tools/compress.js"></script>
 </body>
 </html>

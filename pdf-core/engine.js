@@ -144,6 +144,190 @@ export async function unlockDocument(bytes, password) {
   return saved;
 }
 
+/**
+ * Rotate pages by 90/180/270 degrees (clockwise).
+ * @param {Uint8Array} bytes
+ * @param {90 | 180 | 270} degrees
+ * @param {'all' | number[]} pages — 'all' or 0-based page indices
+ */
+export async function rotateDocument(bytes, degrees, pages) {
+  const deg = Number(degrees);
+  if (deg !== 90 && deg !== 180 && deg !== 270) {
+    throw new Error('Rotation must be 90, 180, or 270 degrees');
+  }
+  const doc = await openDocument(bytes);
+  const total = doc.getPageCount();
+  let indices;
+  if (pages === 'all' || pages == null) {
+    indices = doc.getPageIndices();
+  } else if (Array.isArray(pages)) {
+    indices = pages.filter(function (i) {
+      return i >= 0 && i < total;
+    });
+  } else {
+    throw new Error('Invalid page selection');
+  }
+  if (!indices.length) throw new Error('No pages selected to rotate');
+
+  for (let i = 0; i < indices.length; i++) {
+    const page = doc.getPage(indices[i]);
+    const current = page.getRotation().angle || 0;
+    page.setRotation(getLib().degrees((current + deg) % 360));
+  }
+  return doc.save({ useObjectStreams: true });
+}
+
+/**
+ * Build a PDF from image files (JPG/PNG/WebP via canvas → JPEG embed).
+ * @param {{ bytes: Uint8Array, mime: string, name?: string }[]} images
+ * @param {{ pageSize?: 'a4' | 'letter' | 'fit', marginPt?: number }} [opts]
+ */
+export async function imagesToPdf(images, opts) {
+  if (!images || !images.length) throw new Error('Add at least one image');
+  const { PDFDocument, PageSizes } = getLib();
+  const out = await PDFDocument.create();
+  const pageSize = (opts && opts.pageSize) || 'fit';
+  const margin = opts && typeof opts.marginPt === 'number' ? Math.max(0, opts.marginPt) : 36;
+
+  let pageW = 0;
+  let pageH = 0;
+  if (pageSize === 'a4') {
+    pageW = PageSizes.A4[0];
+    pageH = PageSizes.A4[1];
+  } else if (pageSize === 'letter') {
+    pageW = PageSizes.Letter[0];
+    pageH = PageSizes.Letter[1];
+  }
+
+  for (let i = 0; i < images.length; i++) {
+    const jpegBytes = await imageBytesToJpeg(images[i].bytes, images[i].mime);
+    const embedded = await out.embedJpg(jpegBytes);
+    const imgW = embedded.width;
+    const imgH = embedded.height;
+
+    let w;
+    let h;
+    if (pageSize === 'fit') {
+      w = imgW;
+      h = imgH;
+    } else {
+      w = pageW;
+      h = pageH;
+    }
+
+    const page = out.addPage([w, h]);
+    const maxW = Math.max(1, w - margin * 2);
+    const maxH = Math.max(1, h - margin * 2);
+    const scale = Math.min(maxW / imgW, maxH / imgH, 1);
+    const drawW = imgW * scale;
+    const drawH = imgH * scale;
+    const x = (w - drawW) / 2;
+    const y = (h - drawH) / 2;
+    page.drawImage(embedded, { x: x, y: y, width: drawW, height: drawH });
+  }
+
+  return out.save({ useObjectStreams: true });
+}
+
+/**
+ * @param {Uint8Array} bytes
+ * @param {string} mime
+ * @returns {Promise<Uint8Array>}
+ */
+async function imageBytesToJpeg(bytes, mime) {
+  const type = (mime || '').toLowerCase();
+  if (type === 'image/jpeg' || type === 'image/jpg') return bytes;
+
+  if (typeof createImageBitmap === 'function') {
+    const blob = new Blob([bytes], { type: mime || 'image/png' });
+    const bitmap = await createImageBitmap(blob);
+    const canvas = document.createElement('canvas');
+    canvas.width = bitmap.width;
+    canvas.height = bitmap.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Canvas unavailable');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bitmap, 0, 0);
+    bitmap.close();
+    const jpegBlob = await new Promise(function (resolve, reject) {
+      canvas.toBlob(
+        function (b) {
+          if (b) resolve(b);
+          else reject(new Error('JPEG encode failed'));
+        },
+        'image/jpeg',
+        0.92,
+      );
+    });
+    return new Uint8Array(await jpegBlob.arrayBuffer());
+  }
+
+  throw new Error('Unsupported image format — use JPG or PNG');
+}
+
+let cantooLibPromise = null;
+
+/** Load @cantoo/pdf-lib (encrypt-capable fork) without overwriting stock PDFLib. */
+export function loadCantooPdfLib() {
+  if (window.__CantooPDFLib) return Promise.resolve(window.__CantooPDFLib);
+  if (cantooLibPromise) return cantooLibPromise;
+  cantooLibPromise = new Promise(function (resolve, reject) {
+    const prev = window.PDFLib;
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@cantoo/pdf-lib@2.2.4/dist/pdf-lib.min.js';
+    s.onload = function () {
+      const lib = window.PDFLib;
+      if (!lib || typeof lib.PDFDocument !== 'function') {
+        if (prev) window.PDFLib = prev;
+        reject(new Error('Cantoo pdf-lib failed to load'));
+        return;
+      }
+      window.__CantooPDFLib = lib;
+      if (prev) window.PDFLib = prev;
+      else delete window.PDFLib;
+      resolve(lib);
+    };
+    s.onerror = function () {
+      if (prev) window.PDFLib = prev;
+      reject(new Error('Cantoo pdf-lib failed to load'));
+    };
+    document.head.appendChild(s);
+  });
+  return cantooLibPromise;
+}
+
+/**
+ * Encrypt PDF with a user open password (AES via @cantoo/pdf-lib).
+ * @param {Uint8Array} bytes
+ * @param {string} userPassword
+ * @param {string} [ownerPassword]
+ */
+export async function protectDocument(bytes, userPassword, ownerPassword) {
+  if (!userPassword || !String(userPassword).length) {
+    throw new Error('Enter a password to protect this PDF');
+  }
+  const lib = await loadCantooPdfLib();
+  const doc = await lib.PDFDocument.load(bytes, { ignoreEncryption: false });
+  const opts = { userPassword: String(userPassword) };
+  if (ownerPassword && String(ownerPassword).length) {
+    opts.ownerPassword = String(ownerPassword);
+  } else {
+    opts.ownerPassword = String(userPassword);
+  }
+  opts.permissions = {
+    printing: 'highResolution',
+    modifying: false,
+    copying: false,
+    annotating: false,
+    fillingForms: true,
+    contentAccessibility: true,
+    documentAssembly: false,
+  };
+  doc.encrypt(opts);
+  return doc.save();
+}
+
 /** @param {File[]} files */
 export async function filesToBytes(files) {
   const out = [];

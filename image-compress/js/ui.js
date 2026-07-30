@@ -119,7 +119,115 @@
     }
 
     if (window.VBatch) VBatch.init();
+
+    _initRecentPanel();
   });
+
+  /* ═══════════════════════════════════════════════
+     RECENT (local-only)
+  ═══════════════════════════════════════════════ */
+  var _recentPanel = null;
+  var _pendingRecentPresets = null;
+
+  function _initRecentPanel() {
+    if (!window.VTRecent) return;
+    var mount = $('vt-recent-image');
+    if (!mount) return;
+    _recentPanel = VTRecent.mountPanel(mount, {
+      toolId: 'image-compressor',
+      onRestore: function (payload) {
+        var p = payload.meta && payload.meta.presets ? payload.meta.presets : {};
+        var intent = payload.intent || 'presets';
+        if (payload.file && intent !== 'pick') {
+          _pendingRecentPresets = p;
+          window.loadFile(payload.file);
+          return '';
+        }
+        _applyRecentPresets(p);
+        _pendingRecentPresets = p;
+        if (intent === 'pick') {
+          var fi = $('v-fi');
+          if (fi) fi.click();
+          return 'Presets applied. Pick “' +
+            (payload.meta.name || 'image') +
+            '” — file stays on your device.';
+        }
+        return 'Presets applied for “' +
+          (payload.meta.name || 'image') +
+          '”. Use Choose file when you are ready — nothing was uploaded.';
+      },
+    });
+  }
+
+  function _applyRecentPresets(p) {
+    if (!p || typeof p !== 'object') return;
+    if (typeof p.quality === 'number') {
+      S.quality = p.quality;
+      _syncQualitySliders(p.quality);
+    }
+    if (p.format) window.setFmt(p.format);
+    if (typeof p.targetW === 'number') {
+      S.targetW = p.targetW;
+      var rw = $('v-rw');
+      if (rw) rw.value = p.targetW;
+    }
+    if (typeof p.targetH === 'number') {
+      S.targetH = p.targetH;
+      var rh = $('v-rh');
+      if (rh) rh.value = p.targetH;
+    }
+    if (typeof p.webpEffort === 'number') {
+      S.webpEffort = p.webpEffort;
+      var ef = $('v-effort-sl');
+      if (ef) {
+        ef.value = p.webpEffort;
+        _sliderEffortUI(ef);
+      }
+    }
+    if (typeof p.webpLossless === 'boolean') {
+      S.webpLossless = p.webpLossless;
+      var lss = $('v-webp-lossless');
+      if (lss) lss.checked = p.webpLossless;
+    }
+    if (p.activePanel) {
+      var map = {
+        compress: 'v-tb-compress',
+        convert: 'v-tb-convert',
+        resize: 'v-tb-resize',
+        rotate: 'v-tb-rotate',
+        effects: 'v-tb-effects',
+        blur: 'v-tb-blur',
+        crop: 'v-tb-crop',
+      };
+      var btn = map[p.activePanel] ? $(map[p.activePanel]) : null;
+      window.switchPanel(p.activePanel, btn);
+    }
+  }
+
+  function _recordRecentImage() {
+    if (!window.VTRecent || !S.file) return;
+    var keep = _recentPanel && _recentPanel.wantsKeepFile
+      ? _recentPanel.wantsKeepFile()
+      : VTRecent.wantsKeepFile('image-compressor');
+    var srcBlob = S.file instanceof Blob ? S.file : null;
+    VTRecent.recordAndRefresh(_recentPanel, {
+      toolId: 'image-compressor',
+      name: S.file.name || 'image',
+      size: S.file.size || 0,
+      type: S.fileMime || S.file.type || '',
+      presets: {
+        quality: S.quality,
+        format: S.format,
+        targetW: S.targetW,
+        targetH: S.targetH,
+        activePanel: S.activePanel,
+        webpEffort: S.webpEffort,
+        webpLossless: S.webpLossless,
+      },
+      keepFile: keep,
+      blob: keep ? srcBlob : null,
+    });
+  }
 
   /* ═══════════════════════════════════════════════
      LOAD FILE
@@ -196,6 +304,11 @@
     $('v-result').classList.remove('on');
     _checkPNG();
     switchPanel('compress', $('v-tb-compress'));
+    if (_pendingRecentPresets) {
+      var pending = _pendingRecentPresets;
+      _pendingRecentPresets = null;
+      _applyRecentPresets(pending);
+    }
   }
 
   /* ─── RAW preview extraction: notices & loading state ─── */
@@ -501,6 +614,7 @@
         gb.disabled = false;
         res.classList.add('on');
         document.dispatchEvent(new CustomEvent('velo:image-processed', { detail: { size: r.blob.size } }));
+        _recordRecentImage();
         var top = res.getBoundingClientRect().top + window.pageYOffset - 70;
         window.scrollTo({ top: top, behavior: 'smooth' });
       }, 280);

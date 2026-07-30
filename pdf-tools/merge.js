@@ -182,6 +182,7 @@ async function doMerge() {
         fmtBytes(mergedBytes.byteLength),
     );
     dl.classList.remove('btn-hidden');
+    recordRecentMerge();
   } catch (e) {
     console.error(e);
     const msg = e.message || '';
@@ -247,6 +248,67 @@ function init() {
     setStatus('', '');
   });
   renderList();
+  initRecentPanel();
+}
+
+let recentPanel = null;
+
+function initRecentPanel() {
+  const VT = window.VTRecent;
+  const mount = $('vt-recent-merge');
+  if (!VT || !mount) return;
+  recentPanel = VT.mountPanel(mount, {
+    toolId: 'merge-pdf',
+    onRestore: function (payload) {
+      const intent = payload.intent || 'presets';
+      if (payload.files && payload.files.length && intent !== 'pick') {
+        return addFiles(payload.files).then(function () {
+          return '';
+        });
+      }
+      const names =
+        (payload.meta && payload.meta.presets && payload.meta.presets.names) || [];
+      const orderHint = names.length
+        ? 'Order hint: ' + names.join(', ')
+        : 'Re-pick the same PDF set when ready';
+      if (intent === 'pick') {
+        const inp = $('merge-file-input');
+        if (inp) inp.click();
+        return orderHint + ' — pick files now. Nothing was uploaded.';
+      }
+      return orderHint + ' — presets kept locally. Use Choose file when ready.';
+    },
+  });
+}
+
+function recordRecentMerge() {
+  const VT = window.VTRecent;
+  if (!VT || files.length < 2) return;
+  const keep = recentPanel && recentPanel.wantsKeepFile
+    ? recentPanel.wantsKeepFile()
+    : VT.wantsKeepFile('merge-pdf');
+  const names = files.map(function (f) {
+    return f.file.name;
+  });
+  const totalSize = files.reduce(function (s, f) {
+    return s + (f.file.size || 0);
+  }, 0);
+  const blobs = keep
+    ? files.map(function (f) {
+        return f.file;
+      })
+    : null;
+  VT.recordAndRefresh(recentPanel, {
+    toolId: 'merge-pdf',
+    name: names.length + ' PDFs · ' + names[0] + (names.length > 1 ? ' +' + (names.length - 1) : ''),
+    displayName:
+      names.length + ' PDFs · ' + names[0] + (names.length > 1 ? ' +' + (names.length - 1) : ''),
+    size: totalSize,
+    type: 'application/pdf',
+    presets: { names: names, count: names.length },
+    keepFile: keep,
+    blob: blobs,
+  });
 }
 
 if (document.readyState === 'loading') {

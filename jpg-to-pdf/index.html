@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JPG to PDF Online Free — Convert Images to PDF in Browser | VeloTools</title>
+<meta name="description" content="Convert JPG, PNG, and WebP images to PDF online for free. Reorder pages, choose A4 or Letter, download in your browser — no upload.">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://velotools.app/jpg-to-pdf/">
+<meta property="og:title" content="JPG to PDF Online Free — No Upload | VeloTools">
+<meta property="og:description" content="Turn photos and scans into one PDF in your browser. Drag to reorder. Files never leave your device.">
+<meta property="og:url" content="https://velotools.app/jpg-to-pdf/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools JPG to PDF","description":"Convert JPG, PNG, WebP images to a single PDF in the browser. No upload.","url":"https://velotools.app/jpg-to-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["JPG PNG WebP to PDF","Drag reorder","A4 Letter or fit-to-image","Margins control","No server upload"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I convert multiple JPGs into one PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. Drop up to 40 images, drag rows to set page order, then download a single PDF."}},{"@type":"Question","name":"Are images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Images are read with the File API and embedded locally with pdf-lib."}},{"@type":"Question","name":"Do PNG and WebP work?","acceptedAnswer":{"@type":"Answer","text":"Yes. Non-JPEG images are converted to JPEG via canvas before embedding so the PDF stays compatible."}},{"@type":"Question","name":"What page sizes are supported?","acceptedAnswer":{"@type":"Answer","text":"A4, US Letter, or fit — each page matches the image dimensions."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/pdf-core/shared.css">
+<style>
+:root{--bg0:#0a0f1c}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg0);color:#c8d8f8;font-family:"DM Sans",system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,#0a0f1c,#0e1528)}
+.vt-gnav{height:60px;background:rgba(20,30,54,.96);border-bottom:1px solid rgba(73,175,235,.25);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(12px)}
+.vt-glinks{display:flex;gap:2px;justify-self:center}
+.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(200,216,248,.85);text-decoration:none}
+.vt-glink.act{background:linear-gradient(135deg,rgba(77,122,201,.4),rgba(144,94,242,.3));color:#fff;font-weight:600;border:1px solid rgba(73,175,235,.4)}
+@media(max-width:680px){.vt-glinks{display:none}}
+.jpgpdf-options{margin:20px 0;display:flex;flex-wrap:wrap;gap:16px}
+.jpgpdf-options label{font-size:14px;color:#c8d8f8;display:flex;flex-direction:column;gap:6px}
+.jpgpdf-options select{padding:10px 12px;border-radius:10px;border:1px solid #5070a8;background:#162038;color:#fff;font-size:14px}
+.file-row.drag-over{border-color:#47ded1;background:rgba(71,222,209,.08)}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
+<script src="/js/analytics.js"></script>
+</head>
+<body>
+<nav class="vt-gnav" aria-label="Site navigation">
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44"></picture>
+    <span class="vt-logo-text">velotools</span>
+  </a>
+  <div class="vt-glinks">
+    <a href="/image-compress/" class="vt-glink">Image</a>
+    <a href="/invoice/" class="vt-glink">Invoice</a>
+    <a href="/qr/" class="vt-glink">QR Code</a>
+    <a href="/pdf-tools/" class="vt-glink act">PDF</a>
+    <a href="/about/" class="vt-glink">About</a>
+  </div>
+  <div></div>
+</nav>
+<div class="pdf-related" aria-label="PDF tools">
+  <a href="/pdf-tools/">All PDF tools</a>
+  <a href="/merge-pdf/">Merge PDF</a>
+  <a href="/split-pdf/">Split PDF</a>
+  <a href="/rotate-pdf/">Rotate PDF</a>
+  <a href="/compress-pdf/">Compress PDF</a>
+  <a href="/pdf-to-jpg/">PDF to JPG</a>
+  <a href="/jpg-to-pdf/" class="act">JPG to PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/protect-pdf/">Protect PDF</a>
+</div>
+<section class="pdf-tool-hero">
+  <div class="trust-bar"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Images stay on your device — never uploaded</div>
+  <h1>Convert <em>JPG to PDF</em> in your browser</h1>
+  <p class="lead">Drop photos or scans, drag to set page order, pick A4, Letter, or fit-to-image, and download one PDF.</p>
+</section>
+<main class="tool-shell">
+  <div class="upload-zone" id="jpgpdf-upload-zone" role="button" tabindex="0" aria-label="Upload images to convert to PDF">
+    <input type="file" id="jpgpdf-file-input" accept="image/jpeg,image/jpg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple>
+    <div class="uz-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8M8 17h5"/></svg></div>
+    <p class="uz-h">Drop JPG, PNG, or WebP images</p>
+    <p class="uz-p">or <strong>click to browse</strong> · Up to 40 images · Drag rows to reorder</p>
+  </div>
+  <div id="jpgpdf-file-list" class="file-list file-list-hidden" aria-live="polite"></div>
+  <div class="jpgpdf-options">
+    <label>Page size
+      <select id="jpgpdf-page-size">
+        <option value="fit" selected>Fit to image</option>
+        <option value="a4">A4</option>
+        <option value="letter">US Letter</option>
+      </select>
+    </label>
+    <label>Margin
+      <select id="jpgpdf-margin">
+        <option value="0">None</option>
+        <option value="18">Small (0.25″)</option>
+        <option value="36" selected>Medium (0.5″)</option>
+        <option value="54">Large (0.75″)</option>
+      </select>
+    </label>
+  </div>
+  <div id="jpgpdf-status" class="status-msg status-hidden" role="status"></div>
+  <div class="action-bar">
+    <button type="button" class="btn-primary" id="btn-convert" disabled>Create PDF</button>
+    <button type="button" class="btn-primary btn-hidden" id="btn-download">↓ Download PDF</button>
+    <button type="button" class="btn-secondary" id="btn-clear">Clear all</button>
+  </div>
+</main>
+<section class="editorial" aria-label="Guide to converting images to PDF">
+  <section class="seo-section seo-security">
+    <h2>Security: images never leave the tab</h2>
+    <p>VeloTools JPG to PDF reads each file with the <strong>File API</strong>, optionally rasterizes PNG/WebP to JPEG on a canvas, then embeds streams with <strong>pdf-lib</strong>. No <code>fetch</code> carries image bytes to a server — the download is a local <code>Blob</code>.</p>
+  </section>
+  <section class="seo-section seo-steps">
+    <h2>How to convert JPG to PDF in 3 steps</h2>
+    <ol>
+      <li>Drop one or more images (JPG, PNG, WebP) into the upload zone.</li>
+      <li>Drag rows to set page order; choose page size and margin.</li>
+      <li>Click Create PDF, then download — ready for print or email.</li>
+    </ol>
+  </section>
+  <section class="seo-section">
+    <h2>Technical specifications</h2>
+    <table class="seo-table">
+      <tbody>
+        <tr><th>Formats</th><td>JPEG, PNG, WebP (PNG/WebP → JPEG embed)</td></tr>
+        <tr><th>Max images</th><td>40 per run (RAM-limited)</td></tr>
+        <tr><th>Page sizes</th><td>Fit to image, A4, US Letter</td></tr>
+        <tr><th>Engine</th><td>Canvas + pdf-lib <code>embedJpg</code></td></tr>
+        <tr><th>Network</th><td>0 bytes of image content leave the browser</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="seo-section seo-deep-dive">
+    <h2>Fit vs fixed page size</h2>
+    <p><strong>Fit</strong> creates one page per image at the image’s pixel dimensions (converted to PDF points). Ideal for scans you want 1:1. <strong>A4 / Letter</strong> centers each image on a standard page with your chosen margin — better for printing mixed phone photos.</p>
+    <p>Need the reverse direction? Use <a href="/pdf-to-jpg/">PDF to JPG</a>. To shrink the result afterward, open <a href="/compress-pdf/">Compress PDF</a>.</p>
+  </section>
+  <section class="seo-section seo-faq">
+    <h2>Frequently asked questions</h2>
+    <details><summary>Can I convert multiple JPGs into one PDF?</summary><div class="faq-a">Yes — up to 40 images. List order equals page order.</div></details>
+    <details><summary>Are images uploaded?</summary><div class="faq-a">No. Processing is 100% client-side.</div></details>
+    <details><summary>Do PNG and WebP work?</summary><div class="faq-a">Yes. They are drawn to canvas and saved as JPEG inside the PDF for broad reader compatibility.</div></details>
+    <details><summary>What page sizes are supported?</summary><div class="faq-a">Fit to image, A4, and US Letter, with optional margins.</div></details>
+  </section>
+</section>
+<footer class="site-footer"><p>&copy; 2026 <a href="/">VeloTools</a> · <a href="/pdf-tools/">All PDF tools</a></p></footer>
+<script type="module" src="/pdf-tools/jpg-to-pdf.js"></script>
+</body>
+</html>
