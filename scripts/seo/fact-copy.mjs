@@ -7,6 +7,7 @@ import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { COMPRESS_PDF_EDITORIALS } from '../seo-data/intents/compress-pdf-editorials.mjs';
+import { IMAGE_RESIZER_EDITORIALS } from '../seo-data/intents/image-resizer-editorials.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dataDir = join(__dirname, '..', 'seo-data');
@@ -231,56 +232,12 @@ export function buildFaqJsonLd(faqItems) {
 }
 
 export function renderEditorial(intent, esc) {
-  const hand = COMPRESS_PDF_EDITORIALS[intent.slug];
+  const hand =
+    COMPRESS_PDF_EDITORIALS[intent.slug] || IMAGE_RESIZER_EDITORIALS[intent.slug];
   if (hand) return renderHandcraftedEditorial(intent, hand, esc);
-
-  const specs = buildTechSpecsRows(intent)
-    .map(([th, td]) => `        <tr><th>${th}</th><td>${td}</td></tr>`)
-    .join('\n');
-  const faq = buildFaq(intent)
-    .map(
-      (item) =>
-        `    <details>\n      <summary>${esc(item.q)}</summary>\n      <div class="faq-a">${esc(item.a)}</div>\n    </details>`,
-    )
-    .join('\n');
-  const steps = buildHowItWorksSteps(intent)
-    .map((s) => `      <li>${esc(s)}</li>`)
-    .join('\n');
-
-  return `<section class="editorial" aria-label="Guide for ${esc(intent.slug)}">
-
-  <section id="security" class="seo-section seo-security">
-    <h2>Security: browser-only processing</h2>
-    ${buildSecurityNote(intent)}
-  </section>
-
-  <section id="how-it-works" class="seo-section seo-steps">
-    <h2>How it works in 3 steps</h2>
-    <ol>
-${steps}
-    </ol>
-  </section>
-
-  <section id="tech-specs" class="seo-section">
-    <h2>Technical specifications</h2>
-    <table class="seo-table">
-      <tbody>
-${specs}
-      </tbody>
-    </table>
-  </section>
-
-  <section id="deep-dive" class="seo-section seo-deep-dive">
-    <h2>Platform limits and processing</h2>
-    ${buildDeepDive(intent)}
-  </section>
-
-  <section id="faq" class="seo-section seo-faq">
-    <h2>Frequently asked questions</h2>
-${faq}
-  </section>
-
-</section>`;
+  throw new Error(
+    `Handcrafted editorial required for ${intent.slug} (template fallback banned)`,
+  );
 }
 
 function renderHandcraftedEditorial(intent, hand, esc) {
@@ -295,13 +252,29 @@ function renderHandcraftedEditorial(intent, hand, esc) {
     )
     .join('\n');
 
+  const problem = hand.problemH2
+    ? `
+  <section id="problem" class="seo-section">
+    <h2>${esc(hand.problemH2)}</h2>
+    ${hand.problemHtml}
+  </section>`
+    : '';
+
+  const preset = hand.presetH2
+    ? `
+  <section id="preset" class="seo-section">
+    <h2>${esc(hand.presetH2)}</h2>
+    ${hand.presetHtml}
+  </section>`
+    : '';
+
   return `<section class="editorial" aria-label="Guide for ${esc(intent.slug)}">
 
   <section id="security" class="seo-section seo-security">
     <h2>${esc(hand.securityH2)}</h2>
     ${hand.securityHtml}
   </section>
-
+${problem}
   <section id="how-it-works" class="seo-section seo-steps">
     <h2>${esc(hand.stepsH2)}</h2>
     <ol>
@@ -317,7 +290,7 @@ ${specs}
       </tbody>
     </table>
   </section>
-
+${preset}
   <section id="deep-dive" class="seo-section seo-deep-dive">
     <h2>${esc(hand.deepH2)}</h2>
     ${hand.deepHtml}
@@ -333,7 +306,8 @@ ${faq}
 
 /** Build FAQPage JSON-LD from handcrafted or formula FAQ */
 export function buildFaqForIntent(intent) {
-  const hand = COMPRESS_PDF_EDITORIALS[intent.slug];
+  const hand =
+    COMPRESS_PDF_EDITORIALS[intent.slug] || IMAGE_RESIZER_EDITORIALS[intent.slug];
   if (hand) return hand.faq;
   return buildFaq(intent);
 }

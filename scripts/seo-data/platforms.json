@@ -68,5 +68,125 @@
     "notes": "WhatsApp allows large document sends (often up to ~100 MB depending on client), but mobile data and chat UX degrade above ~16 MB. This page targets a practical 16 MB delivery size for PDFs shared as documents — not media auto-compression.",
     "recommended_preset": "web",
     "recommended_dpi": 96
+  },
+  "slack": {
+    "id": "slack",
+    "name": "Slack",
+    "category": "messaging",
+    "max_attachment_bytes": 1048576,
+    "max_attachment_label": "1 MB",
+    "notes": "Paid Slack workspaces allow larger uploads, but free plans and mobile channel previews are harsh. Dense PDFs past ~1 MB routinely force “tap to download” and stall phone sidebars — this page targets that practical screen-sharing ceiling, not the marketing max.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "teams": {
+    "id": "teams",
+    "name": "Microsoft Teams",
+    "category": "messaging",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "Many Microsoft 365 tenants behave like a ~25 MB practical attachment budget for Teams chat and channel files (tenant policy can differ). Tuned for meeting-chat PDFs, not meeting recordings.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "discord": {
+    "id": "discord",
+    "name": "Discord",
+    "category": "messaging",
+    "max_attachment_bytes": 10485760,
+    "max_attachment_label": "10 MB",
+    "notes": "Nitro-free Discord uploads are commonly capped near 10 MB (boost/Nitro raises it). Phone scans and slide decks blow past that quickly — Screen preset keeps homework and community PDFs shareable without Nitro.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "telegram": {
+    "id": "telegram",
+    "name": "Telegram",
+    "category": "messaging",
+    "max_attachment_bytes": 20971520,
+    "max_attachment_label": "20 MB",
+    "notes": "Telegram can accept much larger bots/cloud files, but a practical ~20 MB document size keeps chat downloads reliable on mobile data when sharing PDFs as files (not compressed media).",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "google-drive": {
+    "id": "google-drive",
+    "name": "Google Drive",
+    "category": "cloud",
+    "max_attachment_bytes": 104857600,
+    "max_attachment_label": "100 MB",
+    "notes": "Drive storage quotas are separate; this page targets a practical ~100 MB comfort zone for browser upload fields and shared-link recipients on average connections. Milder Web quality (96 DPI) — not print masters.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "dropbox": {
+    "id": "dropbox",
+    "name": "Dropbox",
+    "category": "cloud",
+    "max_attachment_bytes": 52428800,
+    "max_attachment_label": "50 MB",
+    "notes": "Dropbox plan caps vary widely; a practical ~50 MB PDF keeps web uploads and shared-link previews comfortable for collaborators without forcing desktop-sync-only workflows.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "notion": {
+    "id": "notion",
+    "name": "Notion",
+    "category": "productivity",
+    "max_attachment_bytes": 5242880,
+    "max_attachment_label": "5 MB",
+    "notes": "Notion file embeds and uploads feel sluggish past a few megabytes in wiki pages. This page aims at a practical ~5 MB Screen target so attached PDFs open inside Notion without long spinners.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "linkedin": {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "category": "social",
+    "max_attachment_bytes": 104857600,
+    "max_attachment_label": "100 MB",
+    "notes": "LinkedIn document posts and media uploads often allow large files near ~100 MB, but recruiters on phones abandon oversized decks. Mild Web quality keeps brand color while trimming export bloat.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "zoom": {
+    "id": "zoom",
+    "name": "Zoom",
+    "category": "meeting",
+    "max_attachment_bytes": 20971520,
+    "max_attachment_label": "20 MB",
+    "notes": "Zoom in-meeting chat file shares are far tighter than cloud recording sizes. A practical ~20 MB PDF keeps handouts downloadable during the call on typical Wi-Fi.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "wetransfer": {
+    "id": "wetransfer",
+    "name": "WeTransfer",
+    "category": "transfer",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "Free WeTransfer transfers have a modest total-transfer comfort zone; targeting ~25 MB per PDF keeps single-file sends reliable without a paid plan when clients expect a simple download link.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "github": {
+    "id": "github",
+    "name": "GitHub",
+    "category": "developer",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "GitHub warns and blocks oversized blobs around 25 MB for normal repository files (LFS is a separate path). Strip annotations from design-tool PDF dumps before committing specs.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "icloud-mail": {
+    "id": "icloud-mail",
+    "name": "iCloud Mail",
+    "category": "email",
+    "max_attachment_bytes": 20971520,
+    "max_attachment_label": "20 MB",
+    "notes": "iCloud Mail attachment limits commonly land near ~20 MB (similar to Outlook consumer). Compress locally before attaching large scans or deck exports from Apple Mail / iCloud.com.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
   }
 }

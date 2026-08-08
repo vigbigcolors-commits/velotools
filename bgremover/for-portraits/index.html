@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Portraits and hair","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-portraits/","description":"Remove portrait backgrounds with hair-friendly refine tools. Runs fully in-browser. Restore brush for flyaways, no cloud upload.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint png","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Refine destroy curly hair detail?","acceptedAnswer":{"@type":"Answer","text":"One Refine peels roughly two pixels of fringe and feathers the band. Curly stacks usually need Restore afterward, not more Refine. Undo with Ctrl plus Z if a pass feels aggressive."}},{"@type":"Question","name":"What export should I use for compositing?","acceptedAnswer":{"@type":"Answer","text":"PNG preserves partial alpha for hair tips. Avoid JPG until the composite is final. WebP is fine for web delivery after you approve the matte on checkers."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Refine destroy curly hair detail?","acceptedAnswer":{"@type":"Answer","text":"One Refine peels roughly two pixels of fringe and feathers the band. Curly stacks usually need Restore afterward, not more Refine. Undo with Ctrl plus Z if a pass feels aggressive. Work in short Restore strokes following curl direction rather than spraying opacity everywhere."}},{"@type":"Question","name":"What export should I use for compositing?","acceptedAnswer":{"@type":"Answer","text":"PNG preserves partial alpha for hair tips. Avoid JPG until the composite is final. WebP is fine for web delivery after you approve the matte on checkers. Keep the PNG master in your archive even if the client only asked for a flattened proof."}},{"@type":"Question","name":"Can I replace the backdrop with a studio color here?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the cutout, pick a swatch or custom color and export JPG with background. For maximum reuse, still save a transparent PNG first. Blush or soft gray fills are gentler for skin QA than stark white when the deliverable is a corporate plate."}},{"@type":"Question","name":"Why is transparent the default instead of white?","acceptedAnswer":{"@type":"Answer","text":"Checkers reveal dishonest mattes that white can hide. Portrait comps rarely stay on pure white forever, so alpha honesty beats marketplace white QA. Switch to white anytime if a client insists on that proof style."}},{"@type":"Question","name":"Will beards and peach fuzz need manual work?","acceptedAnswer":{"@type":"Answer","text":"Often yes. AI gets the major silhouette; Restore at low opacity recovers fuzz that Refine may have peeled. Dark preview can help, but this preset starts on checkers so you can flip to black manually when hunting halo on light hair."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-portraits","tool":"bg-remover","useCase":"portraits","useCaseLabel":"Portraits and hair","intentBanner":"Portrait preset · transparent grid · Refine first · PNG export","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"png","suggestRefine":true,"tipLabel":"Zoom 200% and Refine once for hair fringe"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Hair-safe cutouts</div>
     <h2>Portrait edges without shipping faces to a server</h2>
-    <p class="seo-lead">Portrait work fails when tools shave flyaways or smear skin into the matte. This preset keeps a transparent checker so you judge alpha honestly, then nudges Refine before you touch brushes.</p>
+    <p class="seo-lead">Portrait work fails when tools shave flyaways or smear skin into the matte. This preset keeps a transparent checker so you judge alpha honestly, then nudges Refine before you touch brushes. Photographers, casting teams, and boutique studios get an inspect loop that never requires uploading a face to a remover SaaS. The baked widget state prefers PNG so partial alpha on hair tips survives into composites. Use this route for people-first frames, not for rigid product silhouettes that hate soft peels.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Transparent preview plus Refine-first guidance matches how photographers inspect hair against busy plates. Cloud removers cannot offer the same inspect loop without uploading the face.</p>
-    <p class="seo-lead">Run AI, hit Refine once, zoom to 200 to 400 percent along the hairline. Restore at about 40 percent opacity for missing strands; Erase softly where halo remains.</p>
+    <h2>Why Portraits and hair gets this locked preview</h2>
+    <p class="seo-lead">Transparent preview plus Refine-first guidance matches how photographers inspect hair against busy plates. Cloud removers cannot offer the same inspect loop without uploading the face. Suggest Refine is on because one controlled peel recovers fringe better than re-running the full model. The tip pushes a 200 percent zoom so operators actually see flyaways before export.</p>
+    <p class="seo-lead">Run AI, hit Refine once, zoom to 200 to 400 percent along the hairline. Restore at about 40 percent opacity for missing strands; Erase softly where halo remains. Keep brush sizes small near ears and glasses. Export PNG for compositing; only flatten to JPG after the final plate is approved. If curly stacks collapse, prefer Restore over a second Refine.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Casting and client portrait days without a face-upload hop</h2>
+    <p class="seo-lead">Use this page when a retoucher needs a clean alpha for a new backdrop but legal already banned cloud removers. Import the select, run AI, accept the checkerboard as the honesty surface, and Refine once before any brush ego. Deliver PNG masters to the art director; keep JPG proofs only for email previews that must stay tiny. For kids or talent still under embargo, local processing means the matte never appears in a SaaS dashboard. If you later need a solid color for social, add the fill in your design tool from the PNG master.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Hairlines, glasses, and collar junctions on portraits</h2>
+    <p class="seo-lead">Portrait edges live or die at the hairline, eyeglass rims, and where collars meet skin. After Refine, Restore thin flyaways with short strokes. Soft Erase any backdrop color clinging to dark jackets. For glasses, Restore the frame if AI punched a hole, then Erase lens reflections that belong to the old room. Do not chase every translucent strand to perfection if the composite plate is busy — match edge softness to the final background, not to a studio white fantasy.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Faces are biometric-adjacent data in many jurisdictions. Keeping inference on-device removes the need to trust a remover SaaS with identity photos for marketing or casting.</p>
+    <h2>On-device cutouts for Portraits and hair</h2>
+    <p class="seo-lead">Faces are biometric-adjacent data in many jurisdictions. Keeping inference on-device removes the need to trust a remover SaaS with identity photos for marketing or casting. Studio contracts that forbid third-party processing can cite local WebAssembly as the technical control. Still obtain subject consent for the shoot itself; privacy here covers the cutout hop, not the entire production chain.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Portraits and hair</h2>
-    <details class="faq-item"><summary>Does Refine destroy curly hair detail?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">One Refine peels roughly two pixels of fringe and feathers the band. Curly stacks usually need Restore afterward, not more Refine. Undo with Ctrl plus Z if a pass feels aggressive.</div></details>
-    <details class="faq-item"><summary>What export should I use for compositing?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">PNG preserves partial alpha for hair tips. Avoid JPG until the composite is final. WebP is fine for web delivery after you approve the matte on checkers.</div></details>
+    <h2>FAQ — Portraits and hair background removal</h2>
+    <details class="faq-item"><summary>Does Refine destroy curly hair detail?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">One Refine peels roughly two pixels of fringe and feathers the band. Curly stacks usually need Restore afterward, not more Refine. Undo with Ctrl plus Z if a pass feels aggressive. Work in short Restore strokes following curl direction rather than spraying opacity everywhere.</div></details>
+    <details class="faq-item"><summary>What export should I use for compositing?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">PNG preserves partial alpha for hair tips. Avoid JPG until the composite is final. WebP is fine for web delivery after you approve the matte on checkers. Keep the PNG master in your archive even if the client only asked for a flattened proof.</div></details>
+    <details class="faq-item"><summary>Can I replace the backdrop with a studio color here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. After the cutout, pick a swatch or custom color and export JPG with background. For maximum reuse, still save a transparent PNG first. Blush or soft gray fills are gentler for skin QA than stark white when the deliverable is a corporate plate.</div></details>
+    <details class="faq-item"><summary>Why is transparent the default instead of white?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Checkers reveal dishonest mattes that white can hide. Portrait comps rarely stay on pure white forever, so alpha honesty beats marketplace white QA. Switch to white anytime if a client insists on that proof style.</div></details>
+    <details class="faq-item"><summary>Will beards and peach fuzz need manual work?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Often yes. AI gets the major silhouette; Restore at low opacity recovers fuzz that Refine may have peeled. Dark preview can help, but this preset starts on checkers so you can flip to black manually when hunting halo on light hair.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

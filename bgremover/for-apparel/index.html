@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Apparel flats","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-apparel/","description":"Prep apparel flats and hangers for lookbooks. Local AI cutout, gradient mock preview, PNG for design tools.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview grad","Export hint png","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this a full ghost-mannequin tool?","acceptedAnswer":{"@type":"Answer","text":"It removes the backdrop and hanger clutter. Neck joining and internal garment fill still happen in your retouching app. This page accelerates the privacy-sensitive cutout stage."}},{"@type":"Question","name":"What about wrinkled fabric edges?","acceptedAnswer":{"@type":"Answer","text":"AI follows the outer silhouette. Use soft Erase for fabric crumbs and Restore if a cuff disappears. Ironing before shoot still beats any brush later."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this a full ghost-mannequin tool?","acceptedAnswer":{"@type":"Answer","text":"It removes the backdrop and hanger clutter. Neck joining and internal garment fill still happen in your retouching app. This page accelerates the privacy-sensitive cutout stage. Pair with your existing mannequin SOP rather than replacing it."}},{"@type":"Question","name":"What about wrinkled fabric edges?","acceptedAnswer":{"@type":"Answer","text":"AI follows the outer silhouette. Use soft Erase for fabric crumbs and Restore if a cuff disappears. Ironing before shoot still beats any brush later. Steam on set is cheaper than an hour of edge cleanup."}},{"@type":"Question","name":"Can I cut garments on a live model?","acceptedAnswer":{"@type":"Answer","text":"You can remove the room behind a model, but hair and fingers overlapping fabric need portrait-style care. For clean pack shots, prefer flats or invisible mannequin photography. Mixed fashion editorials may need manual path work beyond this tool."}},{"@type":"Question","name":"Why gradient instead of white for fashion?","acceptedAnswer":{"@type":"Answer","text":"Gradient reveals leftover table tone and helps art directors judge drama. White is still one click away for marketplace exports. Starting on gradient reduces the chance you approve a muddy edge that only shows on colored plates."}},{"@type":"Question","name":"PNG for Canva and Figma — any limits?","acceptedAnswer":{"@type":"Answer","text":"PNG with alpha imports cleanly into both. Mind file size for large apparel frames; downsample for layout comps and keep a full-res master for print. WebP is optional if your design tool accepts it."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-apparel","tool":"bg-remover","useCase":"apparel","useCaseLabel":"Apparel flats","intentBanner":"Apparel preset · gradient mock · PNG · hangers tip","config":{"defaultBg":"grad","bgSwatchIndex":9,"exportHint":"png","suggestRefine":true,"tipLabel":"Erase hangers with Smart, then Refine hem"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Flat lay apparel</div>
     <h2>Apparel flats ready for lookbook mocks</h2>
-    <p class="seo-lead">Hangers, pins, and table paper ruin ghost-mannequin pipelines. Gradient preview helps you judge silhouette drama while Refine cleans hems before PNG handoff to design tools.</p>
+    <p class="seo-lead">Hangers, pins, and table paper ruin ghost-mannequin pipelines. Gradient preview helps you judge silhouette drama while Refine cleans hems before PNG handoff to design tools. Apparel brands can process seasonal samples without uploading confidential fits to a shared remover. This page accelerates the privacy-sensitive cutout stage; neck joining and interior fills still happen in your retouching app. Use it for flats and hangers, not for on-model full fashion editorials with complex overlaps.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Gradient mock backgrounds expose leftover table tones better than pure white for fashion comps. Refine on hems reduces stairsteps before Figma.</p>
-    <p class="seo-lead">Remove hangers with Smart Erase, Refine along hems and sleeves, Move the garment for crop balance, export PNG into your ghost-mannequin or lookbook file.</p>
+    <h2>Why Apparel flats gets this locked preview</h2>
+    <p class="seo-lead">Gradient mock backgrounds expose leftover table tones better than pure white for fashion comps. Refine on hems reduces stairsteps before Figma. PNG is the handoff format designers expect. The tip sequences Smart Erase for hangers before Refine so you do not peel the wrong object first.</p>
+    <p class="seo-lead">Remove hangers with Smart Erase, Refine along hems and sleeves, Move the garment for crop balance, export PNG into your ghost-mannequin or lookbook file. Iron before you shoot; software cannot invent crisp fabric. For asymmetrical hems, zoom both sides so left and right softness match.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Lookbook flat lays before ghost-mannequin assemble</h2>
+    <p class="seo-lead">Use this preset when a stack of hanger shots must become clean PNGs for the mannequin team. Cut on gradient so leftover table paper shows, erase hardware, Refine hems once, export PNG, and hand off. If e-commerce also needs white, generate a second JPG-white from the same matte rather than re-uploading to another tool. For knitwear, prefer Restore on fuzzy hems instead of a second Refine that collapses the halo you want. Seasonal sample rooms often forbid cloud tools; this route keeps embargoed fits on the same laptop that tethered the camera, which matters when multiple labels share one agency floor.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Hems, sleeve cuffs, and hanger hardware on apparel</h2>
+    <p class="seo-lead">Apparel edges concentrate on hems, cuffs, and stray pins. Smart Erase hangers and clips first. Refine once along long hem curves. Restore any cuff that vanished into alpha. Soft Erase paper crumbs in lace holes without punching through the fabric pattern. Gradient preview helps you see whether the silhouette feels campaign-ready before you drop it on a typed layout. Match left and right sleeve softness so the garment does not look lopsided in a lookbook grid, and check belt loops for leftover table tone before you call the matte done.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Seasonal samples are confidential. Processing on-device keeps sample photography out of shared remover histories used across unrelated brands.</p>
+    <h2>On-device cutouts for Apparel flats</h2>
+    <p class="seo-lead">Seasonal samples are confidential. Processing on-device keeps sample photography out of shared remover histories used across unrelated brands. Agencies juggling multiple labels can keep each cutout on the correct client laptop. Apply your usual watermark policy on external proofs after export.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Apparel flats</h2>
-    <details class="faq-item"><summary>Is this a full ghost-mannequin tool?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It removes the backdrop and hanger clutter. Neck joining and internal garment fill still happen in your retouching app. This page accelerates the privacy-sensitive cutout stage.</div></details>
-    <details class="faq-item"><summary>What about wrinkled fabric edges?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">AI follows the outer silhouette. Use soft Erase for fabric crumbs and Restore if a cuff disappears. Ironing before shoot still beats any brush later.</div></details>
+    <h2>FAQ — Apparel flats background removal</h2>
+    <details class="faq-item"><summary>Is this a full ghost-mannequin tool?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It removes the backdrop and hanger clutter. Neck joining and internal garment fill still happen in your retouching app. This page accelerates the privacy-sensitive cutout stage. Pair with your existing mannequin SOP rather than replacing it.</div></details>
+    <details class="faq-item"><summary>What about wrinkled fabric edges?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">AI follows the outer silhouette. Use soft Erase for fabric crumbs and Restore if a cuff disappears. Ironing before shoot still beats any brush later. Steam on set is cheaper than an hour of edge cleanup.</div></details>
+    <details class="faq-item"><summary>Can I cut garments on a live model?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">You can remove the room behind a model, but hair and fingers overlapping fabric need portrait-style care. For clean pack shots, prefer flats or invisible mannequin photography. Mixed fashion editorials may need manual path work beyond this tool.</div></details>
+    <details class="faq-item"><summary>Why gradient instead of white for fashion?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Gradient reveals leftover table tone and helps art directors judge drama. White is still one click away for marketplace exports. Starting on gradient reduces the chance you approve a muddy edge that only shows on colored plates.</div></details>
+    <details class="faq-item"><summary>PNG for Canva and Figma — any limits?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">PNG with alpha imports cleanly into both. Mind file size for large apparel frames; downsample for layout comps and keep a full-res master for print. WebP is optional if your design tool accepts it.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

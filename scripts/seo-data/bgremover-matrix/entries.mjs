@@ -1,5 +1,5 @@
 /**
- * BG Remover PSEO — 10 use-case entries (widget state only).
+ * BG Remover PSEO — 18 use-case entries (widget state only).
  * Editorial copy lives in editorials.mjs (anti-doorway uniqueness).
  */
 
@@ -193,6 +193,158 @@ export const MATRIX_ENTRIES = [
       exportHint: 'png',
       suggestRefine: false,
       tipLabel: 'Checkerboard = true alpha, export PNG',
+    },
+  },
+  {
+    id: 'bgremover-cars',
+    useCase: 'cars',
+    useCaseLabel: 'Cars and vehicles',
+    title: 'Car Photo Background Remover — Dealership Cutouts On-Device | VeloTools',
+    description:
+      'Isolate vehicles from lot and street clutter in your browser. Navy preview exposes chrome halo; JPG-with-bg export for inventory cards.',
+    h1: 'Background remover for car and vehicle photos',
+    heroSub:
+      'Dealership and enthusiast workflows: navy preview for chrome edges, Refine once on trim, export JPG on a solid fill for listings.',
+    intentBanner: 'Cars preset · navy preview · JPG-bg · chrome Refine tip',
+    config: {
+      defaultBg: '#1C2E3E',
+      bgSwatchIndex: 8,
+      exportHint: 'jpg-bg',
+      suggestRefine: true,
+      tipLabel: 'Navy preview exposes chrome halo',
+    },
+  },
+  {
+    id: 'bgremover-food',
+    useCase: 'food',
+    useCaseLabel: 'Food photography',
+    title: 'Food Photo Background Remover — Menu Shots Stay Local | VeloTools',
+    description:
+      'Cut plated dishes from busy tabletops without uploading recipes or venue photos. Wine preview reveals crumbs; WebP for menu grids.',
+    h1: 'Background remover for food and menu photography',
+    heroSub:
+      'Restaurant and cookbook shoots: wine swatch shows plate-edge crumbs, Refine for garnish tips, WebP keeps menu pages light.',
+    intentBanner: 'Food preset · wine preview · WebP · garnish Refine',
+    config: {
+      defaultBg: '#C04878',
+      bgSwatchIndex: 4,
+      exportHint: 'webp',
+      suggestRefine: true,
+      tipLabel: 'Wine swatch shows plate edge crumbs',
+    },
+  },
+  {
+    id: 'bgremover-real-estate',
+    useCase: 'real-estate',
+    useCaseLabel: 'Real estate listings',
+    title: 'Real Estate Background Remover — Listing Heroes Private | VeloTools',
+    description:
+      'Prep property listing heroes and agent composites without sending house interiors to a cloud remover. Lavender mock, JPG-bg export.',
+    h1: 'Background remover for real estate listing photos',
+    heroSub:
+      'MLS and brochure crops: lavender mock for hero balance, skip auto Refine on architecture, export JPG with background for portals.',
+    intentBanner: 'Real-estate preset · lavender mock · JPG-bg · architecture-safe',
+    config: {
+      defaultBg: '#C4A0D4',
+      bgSwatchIndex: 3,
+      exportHint: 'jpg-bg',
+      suggestRefine: false,
+      tipLabel: 'Lavender mock for MLS hero crops',
+    },
+  },
+  {
+    id: 'bgremover-id-photos',
+    useCase: 'id-photos',
+    useCaseLabel: 'ID and passport photos',
+    title: 'ID Photo Background Remover — Passport White On-Device | VeloTools',
+    description:
+      'Replace busy backdrops with even white for ID-style frames without uploading biometric-looking faces. Soft Refine optional; JPG-white export.',
+    h1: 'Private ID and passport photo background remover',
+    heroSub:
+      'Document-adjacent prep stays in-tab: pure white preview, gentle edge clean, JPG-white when a form expects a solid field.',
+    intentBanner: 'ID-photo preset · pure white · JPG-white · soft Refine',
+    config: {
+      defaultBg: '#ffffff',
+      bgSwatchIndex: 1,
+      exportHint: 'jpg-white',
+      suggestRefine: true,
+      tipLabel: 'Passport tip: even white, soft Refine once',
+    },
+  },
+  {
+    id: 'bgremover-stickers',
+    useCase: 'stickers',
+    useCaseLabel: 'Die-cut stickers',
+    title: 'Sticker Background Remover — Die-Cut Proofs Local | VeloTools',
+    description:
+      'Build die-cut sticker masters from photos without cloud apps. Teal mock for print proofing; PNG for vinyl cutters and Canva sheets.',
+    h1: 'Background remover for die-cut sticker artwork',
+    heroSub:
+      'Print-shop workflow: teal mock shows outline clarity, skip aggressive Refine on hard graphic shapes, export PNG for cut paths.',
+    intentBanner: 'Stickers preset · teal mock · PNG · die-cut proof',
+    config: {
+      defaultBg: '#5EE0B8',
+      bgSwatchIndex: 6,
+      exportHint: 'png',
+      suggestRefine: false,
+      tipLabel: 'Teal mock for die-cut sticker proof',
+    },
+  },
+  {
+    id: 'bgremover-youtube-thumbs',
+    useCase: 'youtube-thumbs',
+    useCaseLabel: 'YouTube thumbnails',
+    title: 'YouTube Thumbnail Background Remover — Local Cutouts | VeloTools',
+    description:
+      'Cut hosts and props for YouTube thumbnails without uploading channel faces. Plum canvas mimics thumb contrast; JPG-bg for final comps.',
+    h1: 'Background remover for YouTube thumbnail cutouts',
+    heroSub:
+      'Creator workflow: plum preview for click contrast, Refine once on hair and mic edges, export JPG with fill for thumbnail layouts.',
+    intentBanner: 'YouTube preset · plum canvas · JPG-bg · thumb contrast',
+    config: {
+      defaultBg: '#7C3480',
+      bgSwatchIndex: 5,
+      exportHint: 'jpg-bg',
+      suggestRefine: true,
+      tipLabel: 'Plum canvas mimics thumb contrast',
+    },
+  },
+  {
+    id: 'bgremover-marketplace-white',
+    useCase: 'marketplace-white',
+    useCaseLabel: 'Marketplace white BG',
+    title: 'Marketplace White Background Remover — Multi-Channel | VeloTools',
+    description:
+      'One white-QA pass for eBay, Walmart, and general marketplace feeds. Preview white, export WebP for lighter catalog syncs — all on-device.',
+    h1: 'Multi-marketplace white background remover',
+    heroSub:
+      'Cross-channel white field QA without a SaaS queue. Confirm silhouette on white, then WebP when portals accept modern formats.',
+    intentBanner: 'Marketplace-white · white QA · WebP · multi-channel',
+    config: {
+      defaultBg: '#ffffff',
+      bgSwatchIndex: 1,
+      exportHint: 'webp',
+      suggestRefine: false,
+      tipLabel: 'White QA then WebP for feed speed',
+    },
+  },
+  {
+    id: 'bgremover-screenshots',
+    useCase: 'screenshots',
+    useCaseLabel: 'UI screenshots',
+    title: 'Screenshot Background Remover — UI Chrome Cutouts Local | VeloTools',
+    description:
+      'Isolate app windows and UI chrome from desktop clutter without uploading product screens. Checkerboard alpha, WebP for docs and changelogs.',
+    h1: 'Background remover for UI screenshots and app windows',
+    heroSub:
+      'Product docs and release notes: transparent checkers for window edges, Erase desktop icons carefully, WebP for lightweight help centers.',
+    intentBanner: 'Screenshots preset · checkerboard · WebP · UI Erase tip',
+    config: {
+      defaultBg: 'transparent',
+      bgSwatchIndex: 0,
+      exportHint: 'webp',
+      suggestRefine: true,
+      tipLabel: 'Erase desktop icons; keep window chrome',
     },
   },
 ];

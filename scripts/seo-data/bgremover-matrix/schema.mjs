@@ -16,6 +16,14 @@ export const UseCaseSlug = z.enum([
   'apparel',
   'social',
   'transparent-png',
+  'cars',
+  'food',
+  'real-estate',
+  'id-photos',
+  'stickers',
+  'youtube-thumbs',
+  'marketplace-white',
+  'screenshots',
 ]);
 
 export const BgPreset = z.enum([
@@ -36,19 +44,19 @@ export const ExportHint = z.enum(['png', 'jpg-white', 'webp', 'jpg-bg']);
 const SafeText = z
   .string()
   .min(1)
-  .max(200)
+  .max(280)
   .regex(/^[^<>{}`]*$/, 'HTML/script characters are not allowed');
 
 const SafeLongText = z
   .string()
   .min(1)
-  .max(320)
+  .max(600)
   .regex(/^[^<>{}`]*$/, 'HTML/script characters are not allowed');
 
 const SafeBody = z
   .string()
   .min(40)
-  .max(900)
+  .max(2000)
   .regex(/^[^<>{}`]*$/, 'HTML/script characters are not allowed');
 
 export const FaqItemSchema = z
@@ -66,7 +74,11 @@ export const EditorialSchema = z
     whyPreset: SafeBody,
     workflowTip: SafeBody,
     privacyNote: SafeBody,
-    faqs: z.array(FaqItemSchema).min(2).max(4),
+    scenarioH2: SafeText.min(1),
+    scenarioBody: SafeBody,
+    edgesH2: SafeText.min(1),
+    edgesBody: SafeBody,
+    faqs: z.array(FaqItemSchema).min(5).max(8),
   })
   .strict();
 
@@ -99,7 +111,7 @@ export const MatrixEntrySchema = z
   })
   .strict();
 
-export const MatrixSchema = z.array(MatrixEntrySchema).length(10);
+export const MatrixSchema = z.array(MatrixEntrySchema).min(10).max(30);
 
 function norm(s) {
   return String(s).toLowerCase().replace(/\s+/g, ' ').trim();
@@ -127,6 +139,8 @@ export function parseMatrix(data) {
   const banners = new Set();
   const leads = new Set();
   const h2s = new Set();
+  const scenarioH2s = new Set();
+  const edgesH2s = new Set();
   const whys = new Set();
   const tips = new Set();
   const privacy = new Set();
@@ -143,6 +157,8 @@ export function parseMatrix(data) {
     assertUnique(banners, e.intentBanner, 'intentBanner', e.id);
     assertUnique(leads, e.editorial.lead, 'editorial.lead', e.id);
     assertUnique(h2s, e.editorial.h2, 'editorial.h2', e.id);
+    assertUnique(scenarioH2s, e.editorial.scenarioH2, 'editorial.scenarioH2', e.id);
+    assertUnique(edgesH2s, e.editorial.edgesH2, 'editorial.edgesH2', e.id);
     assertUnique(whys, e.editorial.whyPreset, 'editorial.whyPreset', e.id);
     assertUnique(tips, e.editorial.workflowTip, 'editorial.workflowTip', e.id);
     assertUnique(privacy, e.editorial.privacyNote, 'editorial.privacyNote', e.id);

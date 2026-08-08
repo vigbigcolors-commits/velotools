@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Amazon main images","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-amazon/","description":"Create Amazon-style white-background main images locally. No server upload. Soft Refine for clean product silhouettes.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #ffffff","Export hint jpg-white","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this an Amazon-certified tool?","acceptedAnswer":{"@type":"Answer","text":"No certification claim. It is a local editor that helps you produce white-background masters. Always re-check the current Seller Central image rules for your category before publishing."}},{"@type":"Question","name":"What if my product is white on white?","acceptedAnswer":{"@type":"Answer","text":"Shoot with a contrasting temporary backdrop, cut out locally, then place on pure white via JPG-white export. Soft Erase along the silhouette prevents the subject from dissolving into the fill."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this an Amazon-certified tool?","acceptedAnswer":{"@type":"Answer","text":"No certification claim. It is a local editor that helps you produce white-background masters. Always re-check the current Seller Central image rules for your category before publishing. Treat exports as candidates until your own compliance checklist passes."}},{"@type":"Question","name":"What if my product is white on white?","acceptedAnswer":{"@type":"Answer","text":"Shoot with a contrasting temporary backdrop, cut out locally, then place on pure white via JPG-white export. Soft Erase along the silhouette prevents the subject from dissolving into the fill. Slight underexposure on the temporary backdrop often helps the model more than raising ISO."}},{"@type":"Question","name":"Can secondary images stay lifestyle?","acceptedAnswer":{"@type":"Answer","text":"Yes. This preset targets the main image workflow. Lifestyle and detail shots can use other routes or no cutout at all. Keep naming clear so the white main never gets swapped with a transparent design export by accident."}},{"@type":"Question","name":"How many Refine passes are safe?","acceptedAnswer":{"@type":"Answer","text":"Usually one. A second pass can chew packaging type and thin plastic edges. Prefer Undo plus localized Erase if a ring remains. Zoom is cheaper than another global peel."}},{"@type":"Question","name":"Does JPG-white strip metadata?","acceptedAnswer":{"@type":"Answer","text":"Export behavior focuses on pixels and the white field. Strip EXIF with your usual publishing pipeline if policy requires it. Local cutout does not replace your broader asset hygiene checklist."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-amazon","tool":"bg-remover","useCase":"amazon","useCaseLabel":"Amazon main images","intentBanner":"Amazon preset · pure white · JPG-white · one Refine pass","config":{"defaultBg":"#ffffff","bgSwatchIndex":1,"exportHint":"jpg-white","suggestRefine":true,"tipLabel":"Marketplace tip: solid white, no shadow fringe"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Marketplace main image</div>
     <h2>Amazon-style white silhouettes without an upload</h2>
-    <p class="seo-lead">Main images fail when fringe or gray mats sneak in. This preset combines pure white preview, JPG-white export hint, and a Refine suggestion so the first pass closer matches marketplace expectations.</p>
+    <p class="seo-lead">Main images fail when fringe or gray mats sneak in. This preset combines pure white preview, JPG-white export hint, and a Refine suggestion so the first pass closer matches marketplace expectations. Brand teams can produce submission candidates without parking packaging proofs on a remover CDN. The route is intentionally stricter than general ecommerce: it assumes the deliverable is a pure white main image, not a transparent design master. Always re-check Seller Central category rules before you treat any local export as final.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Amazon main images typically demand a pure white field. Suggesting Refine after AI reduces soft gray rings that get flagged in automated checks, while still never leaving the device.</p>
-    <p class="seo-lead">Fill the frame with the product, remove AI debris with Smart Erase on leftover table edges, Refine once, then export JPG-white. Keep PNG only for internal design.</p>
+    <h2>Why Amazon main images gets this locked preview</h2>
+    <p class="seo-lead">Amazon main images typically demand a pure white field. Suggesting Refine after AI reduces soft gray rings that get flagged in automated checks, while still never leaving the device. JPG-white as the highlighted export matches how most sellers submit. The tip language calls out shadow fringe explicitly because that is a common rejection reason.</p>
+    <p class="seo-lead">Fill the frame with the product, remove AI debris with Smart Erase on leftover table edges, Refine once, then export JPG-white. Keep PNG only for internal design. Avoid decorative shadows in the main image unless your category explicitly allows them. For white-on-white products, shoot on a contrasting temporary backdrop first so the model has an edge to find.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Main-image submission week for Seller Central</h2>
+    <p class="seo-lead">Use this page when ASIN main images are due and legal already blocked consumer removers. Process each hero on white, Refine once, export JPG-white, and archive PNG only if design needs composites for A-plus modules. Do not reuse lifestyle shadows from secondary images on the main slot. If automated checks still flag fringe, zoom 300 percent and soft-Erase the ring rather than running Refine again. For variations, keep lighting consistent so cutouts feel like one catalog family.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Pure white mains: fringe rings and floating crumbs</h2>
+    <p class="seo-lead">Amazon-style edges should look almost boring: hard enough to read in a search grid, soft enough to avoid jaggies. After Refine, hunt gray rings on white at zoom. Erase table crumbs that AI left as dust islands. Restore any clipped corner of packaging. Avoid painting fake contact shadows into the matte if the channel wants a pure field. Export JPG-white only when the silhouette survives a full-screen white stare test.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Brand assets and packaging proofs are competitive secrets. On-device cutouts avoid parking those files on remover CDNs that retain uploads for weeks.</p>
+    <h2>On-device cutouts for Amazon main images</h2>
+    <p class="seo-lead">Brand assets and packaging proofs are competitive secrets. On-device cutouts avoid parking those files on remover CDNs that retain uploads for weeks. If your brand security policy lists approved vendors, local processing removes the cutout tool from that negotiation entirely. Still secure the laptop and shared drives where masters live after export.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Amazon main images</h2>
-    <details class="faq-item"><summary>Is this an Amazon-certified tool?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No certification claim. It is a local editor that helps you produce white-background masters. Always re-check the current Seller Central image rules for your category before publishing.</div></details>
-    <details class="faq-item"><summary>What if my product is white on white?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Shoot with a contrasting temporary backdrop, cut out locally, then place on pure white via JPG-white export. Soft Erase along the silhouette prevents the subject from dissolving into the fill.</div></details>
+    <h2>FAQ — Amazon main images background removal</h2>
+    <details class="faq-item"><summary>Is this an Amazon-certified tool?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No certification claim. It is a local editor that helps you produce white-background masters. Always re-check the current Seller Central image rules for your category before publishing. Treat exports as candidates until your own compliance checklist passes.</div></details>
+    <details class="faq-item"><summary>What if my product is white on white?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Shoot with a contrasting temporary backdrop, cut out locally, then place on pure white via JPG-white export. Soft Erase along the silhouette prevents the subject from dissolving into the fill. Slight underexposure on the temporary backdrop often helps the model more than raising ISO.</div></details>
+    <details class="faq-item"><summary>Can secondary images stay lifestyle?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. This preset targets the main image workflow. Lifestyle and detail shots can use other routes or no cutout at all. Keep naming clear so the white main never gets swapped with a transparent design export by accident.</div></details>
+    <details class="faq-item"><summary>How many Refine passes are safe?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Usually one. A second pass can chew packaging type and thin plastic edges. Prefer Undo plus localized Erase if a ring remains. Zoom is cheaper than another global peel.</div></details>
+    <details class="faq-item"><summary>Does JPG-white strip metadata?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Export behavior focuses on pixels and the white field. Strip EXIF with your usual publishing pipeline if policy requires it. Local cutout does not replace your broader asset hygiene checklist.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

@@ -89,20 +89,32 @@ function renderUniqueSeo(entry) {
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
+    <h2>Why ${esc(entry.useCaseLabel)} gets this locked preview</h2>
     <p class="seo-lead">${esc(ed.whyPreset)}</p>
     <p class="seo-lead">${esc(ed.workflowTip)}</p>
   </div>
 
   <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>${esc(ed.scenarioH2)}</h2>
+    <p class="seo-lead">${esc(ed.scenarioBody)}</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>${esc(ed.edgesH2)}</h2>
+    <p class="seo-lead">${esc(ed.edgesBody)}</p>
+  </div>
+
+  <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
+    <h2>On-device cutouts for ${esc(entry.useCaseLabel)}</h2>
     <p class="seo-lead">${esc(ed.privacyNote)}</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for ${esc(entry.useCaseLabel)}</h2>
+    <h2>FAQ — ${esc(entry.useCaseLabel)} background removal</h2>
     ${faqs}
   </div>
 
@@ -112,7 +124,12 @@ function renderUniqueSeo(entry) {
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>`;

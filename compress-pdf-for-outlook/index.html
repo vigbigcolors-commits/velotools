@@ -262,14 +262,22 @@
   <section id="security" class="seo-section seo-security">
     <h2>Get past Outlook’s size block on your PC</h2>
     <p>When Outlook refuses to send, people often try a web compressor that stores the file for “an hour.” Skip that. This Outlook page shrinks the PDF in the browser, keeps review comments when you need them, and checks the common <strong>20 MB</strong> attachment ceiling before you hit Send.</p>
+<p>Legal redlines and vendor quotes stay on your machine during compression. VeloTools does not host the file; you attach the download in Outlook yourself.</p>
+<p>That local-only path matters when the PDF contains customer data your company policy forbids placing on unknown SaaS compressors.</p>
   </section>
 
+  <section id="problem" class="seo-section">
+    <h2>Outlook’s attachment ceiling vs what you think you sent</h2>
+    <p>Many Outlook.com and Outlook on the web mailboxes still behave like a <strong>20 MB</strong> attachment cap — five megabytes tighter than everyday Gmail. Desktop Outlook follows whatever Exchange admins configured, which may be the same number or a transport rule that looks like a size error.</p>
+<p>Review threads make the problem worse: comment balloons and markup streams add weight on top of already heavy slide exports. Stripping those comments to save space can break the conversation — so this URL keeps them on purpose.</p>
+<p>If Send fails even under 20 MB, size is not always the villain; DLP policies can still block the message after compression.</p>
+  </section>
   <section id="how-it-works" class="seo-section seo-steps">
     <h2>Fix Outlook attachment size errors</h2>
     <ol>
-      <li>Drop the PDF Outlook would not send — the 20 MB preset is locked here.</li>
-      <li>Compress All; comments/annotations stay unless you strip them elsewhere.</li>
-      <li>Attach the download in Outlook. Still blocked? Split the deck or ask IT if a transport rule (not size) is the real cause.</li>
+      <li>Drop the PDF Outlook would not send — the 20 MB preset is locked here with comments kept.</li>
+      <li>Compress All; comments and annotations stay unless you strip them elsewhere on purpose.</li>
+      <li>Attach the download in Outlook. Still blocked? Split the deck or ask IT if a transport rule is the real cause.</li>
     </ol>
   </section>
 
@@ -287,11 +295,17 @@
     </table>
   </section>
 
+  <section id="preset" class="seo-section">
+    <h2>Why Outlook mode is a bit tougher than Gmail mode</h2>
+    <p>Five fewer megabytes than Gmail means we bias JPEG quality slightly more aggressively while still aiming for readable slides on a phone. Annotations stay so sticky-note review threads survive the shrink.</p>
+<p>If your tenant truly allows 50–100 MB attachments, you can still use this page for faster mobile downloads — or switch to a lighter unlocked preset when fidelity matters more than the 20 MB warning.</p>
+  </section>
   <section id="deep-dive" class="seo-section seo-deep-dive">
     <h2>Outlook vs Gmail size limits (why this page exists)</h2>
-    <p>Many Outlook.com and Outlook on the web mailboxes still behave like a <strong>20 MB</strong> attachment cap — five megabytes tighter than everyday Gmail. That is why this preset is a bit more aggressive than <a href="/compress-pdf-for-gmail/">Compress PDF for Gmail</a>, while still aiming for readable slides on a phone.</p>
+    <p>Five megabytes less room than everyday Gmail is why this Outlook URL exists. Many consumer and OWA mailboxes still behave like a <strong>20 MB</strong> attachment cap, so the preset is a bit more aggressive than <a href="/compress-pdf-for-gmail/">Compress PDF for Gmail</a> while still aiming for readable slides on a phone.</p>
 <p>Desktop Outlook follows whatever your Exchange admin configured. If Send fails even under 20 MB, look for DLP or transport rules. Size compression cannot bypass a policy that blocks certain content types.</p>
 <p>Sharing a huge appendix? <a href="/split-pdf/">Split PDF</a> into parts, or host the full file and send a link. For a second, stronger pass use <a href="/compress-pdf/">Compress PDF</a> unlocked.</p>
+<p>Need chat delivery instead of mail? Compare <a href="/compress-pdf-for-teams/">Teams</a> or browse <a href="/pdf-tools/">PDF tools</a> for merge and split after you clear Outlook’s size gate.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">

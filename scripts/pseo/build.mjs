@@ -100,23 +100,35 @@ export function buildImageResizerPage(intent) {
   html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${canonical}">`);
 
   const h1Inner = intent.h1Em
-    ? `${esc(intent.h1.replace(/\s+for\s+.*$/i, '').trim())}<br><span>${esc(intent.h1Em)}</span>`
+    ? `${esc(intent.h1.replace(new RegExp('\\s+for\\s+.*$', 'i'), '').trim())}<br><span>${esc(intent.h1Em)}</span>`
     : esc(intent.h1);
+  /* Robust hero replace (CRLF / single newline safe) */
+  html = html.replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${h1Inner}</h1>`);
   html = html.replace(
-    /<div class="v-hero">([\s\S]*?)<\/div>\n\n<main class="v-page"/,
-    (_, inner) => {
-      let block = inner
-        .replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${h1Inner}</h1>`)
-        .replace(/<p class="v-hero-sub">[\s\S]*?<\/p>/, `<p class="v-hero-sub">${esc(buildHeroLead(intent))}</p>`)
-        .replace(/<div class="v-chips">[\s\S]*?<\/div>/, '');
-      return `<div class="v-hero">${block}</div>\n\n<main class="v-page"`;
-    },
+    /<p class="v-hero-sub">[\s\S]*?<\/p>/,
+    `<p class="v-hero-sub">${esc(buildHeroLead(intent))}</p>`,
   );
+  html = html.replace(/<div class="v-chips">[\s\S]*?<\/div>/, '');
 
-  html = html.replace(
-    /<!-- ░░ BLOCK 1[\s\S]*?<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->/,
-    renderEditorial(intent, esc) + '\n\n<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->',
-  );
+  const edBlock = renderEditorial(intent, esc);
+  if (html.includes('<!-- ░░ BLOCK 1')) {
+    html = html.replace(
+      /<!-- ░░ BLOCK 1[\s\S]*?<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->/,
+      edBlock + '\n\n<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->',
+    );
+  } else if (html.includes('<section class="editorial"')) {
+    const editorialStart = html.indexOf('<section class="editorial"');
+    const footerMatch = html.match(/<\/section>\s*<footer/);
+    if (editorialStart >= 0 && footerMatch) {
+      html =
+        html.slice(0, editorialStart) +
+        edBlock +
+        '\n\n' +
+        html.slice(footerMatch.index + '</section>'.length);
+    }
+  } else {
+    throw new Error('image-compress editorial injection markers missing for ' + intent.slug);
+  }
 
   const inject =
     `<script type="application/json" id="vt-page-config">${pageConfigJson(intent)}</script>\n` +

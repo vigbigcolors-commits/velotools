@@ -13,7 +13,7 @@
 <title>Image Resizer for Amazon — 2000×2000, 1:1, sRGB, 10 MB | VeloTools</title>
 
 <!-- ═══ DESCRIPTION: 140–155 chars, action-oriented ═══ -->
-<meta name="description" content="Image resizer for Amazon product listings. 2000×2000 px · 1:1 aspect locked, sRGB, output capped at 10 MB. Browser-only — no upload.">
+<meta name="description" content="Resize Amazon main images to a locked 2000×2000 square JPEG at quality 85 with a 10 MB checker — browser-only, no upload to VeloTools.">
 
 <!-- ═══ NO KEYWORDS — Google ignores them; duplicate hurts ═══ -->
 <!-- Keywords meta intentionally omitted (Google 2009+ ignores them) -->
@@ -58,6 +58,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/css/logo.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <meta name="application-name" content="VeloTools Image Compressor">
 
 <!-- ═══ SCHEMA 1: WebApplication — rich snippet with stars ═══ -->
@@ -853,7 +854,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-preview.zoom-on .v-prev-img { cursor: zoom-in; }
 
 /* ── PREVIEW PLACEHOLDER ─────── */
-/* shown when no image is loaded — instead of broken img icon */
+#v-prev-placeholder,
 .v-preview-placeholder {
   position: absolute;
   inset: 0;
@@ -862,16 +863,25 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: #475569;
+  color: #8a95a8;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
-.v-preview-placeholder svg { opacity: .25; }
-.v-preview-placeholder span { font-size: 13px; opacity: .4; font-weight: 500; }
-/* hide placeholder when image is visible */
-.v-preview img[src]:not([src=""]) ~ .v-preview-placeholder { display: none; }
-
-/* ── CROP OVERLAY (div-based, no canvas issues) ── */
+#v-prev-placeholder svg,
+.v-preview-placeholder svg { opacity: .2; width: 52px; height: 52px; }
+#v-prev-placeholder span,
+.v-preview-placeholder span { font-size: 12px; opacity: .35; font-weight: 500; }
+.v-prev-img { position: relative; z-index: 2; background: var(--bg-dark); }
+/* Never paint placeholder over/under a loaded image */
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 #crop-ov   { position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none }
 #crop-sel  { position:absolute;border:2px solid #5b6cf9;pointer-events:none;z-index:22;box-sizing:border-box;box-shadow:0 0 0 9999px rgba(0,0,0,.5) }
 #crop-badge{ position:absolute;background:rgba(91,108,249,.9);color:#fff;font:700 11px/1 Inter,system-ui,sans-serif;padding:4px 9px;border-radius:6px;pointer-events:none;z-index:23;white-space:nowrap }
@@ -893,9 +903,13 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-mode-tab svg{width:17px;height:17px;stroke:currentColor;flex-shrink:0;display:inline-block}
 .v-tb-sep{align-self:stretch}
 .v-toolbar{overflow-x:auto;overflow-y:visible}
-#v-prev-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none}
-#v-prev-placeholder svg{opacity:.2}
-#v-prev-placeholder span{font-size:13px;color:#8a95a8;font-weight:500}
+#v-prev-placeholder,.v-preview-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none;z-index:0;color:#8a95a8}
+#v-prev-placeholder svg,.v-preview-placeholder svg{opacity:.2}
+#v-prev-placeholder span,.v-preview-placeholder span{font-size:13px;font-weight:500;opacity:.35}
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden]{display:none!important;visibility:hidden!important;opacity:0!important}
 
 /* ═══ MODERN REDESIGN ═══ */
 /* Colorful tool icons */
@@ -1308,7 +1322,7 @@ html,body{background:var(--bg-main)}
     <a href="/image-compress/" class="v-nl cur">Image</a>
     <a href="/invoice/"  class="v-nl">Invoice</a>
     <a href="/qr/"       class="v-nl">QR Code</a>
-    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/compress-pdf/" class="v-nl">PDF</a>
+    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/pdf-tools/" class="v-nl">PDF</a>
     <a href="/about/"    class="v-nl v-nl-about">About<span class="v-nl-dot"></span></a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">
@@ -1327,17 +1341,9 @@ html,body{background:var(--bg-main)}
 
 <div class="v-hero">
   <nav class="v-bc" aria-label="Breadcrumb"><a href="/">VeloTools</a><span>›</span><span>Image Compressor &amp; Converter</span></nav>
-  <h1>Free Image Compressor<br><span>No Upload. Instant. Private.</span></h1>
-  <p class="v-hero-sub">Compress JPG, PNG, WebP up to 90% smaller. Convert to WebP or AVIF. Resize, rotate, effects, blur, batch processing. Everything runs in your browser — files never leave your device.</p>
-  <div class="v-chips">
-    <a class="v-chip" href="#compress">JPG to WebP</a>
-    <a class="v-chip" href="#compress">PNG to WebP</a>
-    <a class="v-chip" href="#compress">Compress JPEG</a>
-    <a class="v-chip" href="#compress">Resize image</a>
-    <a class="v-chip" href="#compress">Rotate &amp; flip</a>
-    <a class="v-chip" href="#compress">Blur &amp; censor</a>
-    <a class="v-chip" href="#compress">Batch compress</a>
-  </div>
+  <h1>Image resizer<br><span>Amazon</span></h1>
+  <p class="v-hero-sub">Seller Central rejects soft, non-square, or overweight product photos. This URL locks a 1:1 crop at 2000×2000, JPEG 85, and a 10 MB size warning so you prep the main image on your device before uploading.</p>
+  
 </div>
 
 <main class="v-page" id="compress">
@@ -1454,7 +1460,7 @@ html,body{background:var(--bg-main)}
       <!-- PREVIEW -->
       <div class="v-preview" id="v-preview">
         <img id="v-prev-img" src="" alt="Preview" class="v-prev-img" style="display:none">
-                <div id="v-prev-placeholder" class="v-preview-placeholder">
+        <div id="v-prev-placeholder" class="v-preview-placeholder">
           <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span>Upload an image to start</span>
         </div>
@@ -1770,6 +1776,8 @@ html,body{background:var(--bg-main)}
       </section>
 
     </div><!-- editor -->
+
+    <div id="vt-recent-image" class="vt-recent" hidden></div>
   </div><!-- single mode -->
 
   <!-- ═══ BATCH MODE ═══ -->
@@ -1863,60 +1871,74 @@ html,body{background:var(--bg-main)}
     <section class="editorial" aria-label="Guide for image-resizer-for-amazon">
 
   <section id="security" class="seo-section seo-security">
-    <h2>Security: browser-only processing</h2>
-    <p>Image bytes are processed with the Canvas API in tab memory. This URL only changes default crop dimensions, aspect lock, JPEG quality, and output size warnings — not the privacy model. No image data is uploaded to VeloTools servers.</p>
+    <h2>Keep Amazon listing photos on your device while you resize</h2>
+    <p>Amazon Seller Central already asks for a lot of trust. You should not add a random “online image resizer” that stores your main image for an hour. On this page the JPEG never leaves your laptop or phone: the browser crops to a locked <strong>2000×2000</strong> square, encodes at JPEG quality <strong>85</strong>, and only then lets you download a file you upload yourself.</p>
+<p>Packaging mockups, unfinished SKUs, and competitor comparison shots stay in tab memory. Close the tab and the pixels are gone — VeloTools never receives the file.</p>
   </section>
 
+  <section id="problem" class="seo-section">
+    <h2>Why Amazon rejects product images that look fine on your phone</h2>
+    <p>Phone galleries look sharp at arm’s length and still fail Amazon’s catalog rules. The common traps are a non-square aspect ratio, fewer than about two thousand pixels on the long edge, a file that balloons past <strong>10 MB</strong>, or a busy background that fights the white-backdrop expectation for many main images.</p>
+<p>Sellers also export from Lightroom or Canva at 4000×3000 “just to be safe,” then watch Seller Central choke on weight or silently downscale in a way that softens logos. This URL exists for that moment: force the square, hit the pixel floor Amazon’s zoom UI expects, and keep bytes under the practical <strong>10 MB</strong> checker before you waste another upload attempt.</p>
+<p>If you only need general compression without a marketplace crop, open <a href="/image-compress/">Image Compress</a> instead. PDF packing slips and invoices belong under <a href="/pdf-tools/">PDF tools</a>, not here.</p>
+  </section>
   <section id="how-it-works" class="seo-section seo-steps">
-    <h2>How it works in 3 steps</h2>
+    <h2>Resize a main image to Amazon’s 2000×2000 square</h2>
     <ol>
-      <li>Drop a photo — crop ratio and output dimensions are already set for Amazon Seller Central (product images).</li>
-      <li>Click Compress (or Convert). Processing runs locally in the browser.</li>
-      <li>Download when the file passes the 10 MB size check.</li>
+      <li>Drop the camera or studio file — 1:1 crop and 2000×2000 output are already locked for Amazon.</li>
+      <li>Adjust the crop so the product fills the frame with clean margins, then run Resize / Compress All.</li>
+      <li>Download when the size check stays under 10 MB, then upload in Seller Central; still heavy? nudge quality down once on Image Compress.</li>
     </ol>
   </section>
 
   <section id="tech-specs" class="seo-section">
-    <h2>Technical specifications</h2>
+    <h2>Amazon catalog image locks on this page</h2>
     <table class="seo-table">
       <tbody>
-        <tr><th>Platform</th><td>Amazon Seller Central (product images)</td></tr>
-        <tr><th>Source documentation</th><td>https://sellercentral.amazon.com/gp/help/external/G1881</td></tr>
-        <tr><th>Aspect ratio</th><td>1:1 (locked)</td></tr>
-        <tr><th>Output dimensions</th><td>2000×2000 px</td></tr>
-        <tr><th>Color profile</th><td>sRGB</td></tr>
-        <tr><th>Max file size</th><td>10 MB</td></tr>
-        <tr><th>JPEG quality</th><td>85% (locked)</td></tr>
-        <tr><th>Processing</th><td>Canvas API + JPEG encode (browser-only)</td></tr>
-        <tr><th>Network</th><td>0 bytes of image content transmitted</td></tr>
+        <tr><th>Problem it solves</th><td>Amazon main image wrong size / over 10 MB</td></tr>
+        <tr><th>Output</th><td>2000×2000 px, 1:1 square</td></tr>
+        <tr><th>JPEG quality</th><td>85 (sharp zoom, controlled weight)</td></tr>
+        <tr><th>Size check</th><td>10 MB before download</td></tr>
+        <tr><th>Privacy</th><td>Browser-only — no VeloTools upload</td></tr>
+        <tr><th>Related</th><td>Etsy · Walmart · Image Compress</td></tr>
       </tbody>
     </table>
   </section>
 
+  <section id="preset" class="seo-section">
+    <h2>What the Amazon JPEG 85% preset actually changes</h2>
+    <p>Quality <strong>85</strong> is a deliberate middle: crisp enough for Amazon’s hover zoom, light enough that a white-background product rarely trips the <strong>10 MB</strong> warning. Dimensions stay hard-locked so you cannot accidentally ship a 1080 Instagram square into a listing that expects catalog-grade pixels.</p>
+<p>Compared with <a href="/image-resizer-for-walmart/">Walmart’s tighter 5 MB gate</a>, Amazon gives more byte room, so we keep a higher quality bias here. For handmade listings with flexible crops, switch to <a href="/image-resizer-for-etsy/">Image Resizer for Etsy</a>.</p>
+  </section>
   <section id="deep-dive" class="seo-section seo-deep-dive">
-    <h2>Platform limits and processing</h2>
-    <p><strong>Amazon Seller Central (product images)</strong> (https://sellercentral.amazon.com/gp/help/external/G1881): aspect <code>1:1</code>, minimum 2000×2000 px, maximum file weight 10 MB (10,485,760 bytes), color profile sRGB. Longest side minimum 1000px (1600px+ zoom). 2000px+ recommended. Main image must fill 85%+ of frame on white background.</p>
-<p>Output format: <strong>JPEG</strong> (DCT (Discrete Cosine Transform), 8-bit per channel). This page locks export to 2000×2000 px at 85% JPEG quality.</p>
-<p>Aspect ratio <strong>1:1</strong> is locked in the crop tool so the selection frame cannot drift from marketplace requirements.</p>
+    <h2>Zoom, white backgrounds, and the 10 MB Amazon ceiling</h2>
+    <p>Amazon’s detail page rewards images that survive zoom. That is why sellers aim near <strong>2000×2000</strong> even when smaller files “technically upload.” Undersized assets look soft the moment a shopper pinches in; oversized RAWs waste bandwidth and sometimes fail the <strong>10 MB</strong> practical limit we enforce on this page.</p>
+<p>Main images for many categories still expect a clean backdrop. Cropping to 1:1 before upload prevents the silent letterboxing Amazon applies when you send a tall phone photo. Secondary lifestyle shots can be looser — prepare those on unlocked <a href="/image-compress/">Image Compress</a> after the main SKU is done.</p>
+<p>Selling the same SKU on multiple channels? Prep Amazon here, then clone with marketplace-specific siblings: <a href="/image-resizer-for-ebay/">eBay 1600</a>, <a href="/image-resizer-for-shopify/">Shopify ~2048</a>, or <a href="/image-resizer-for-google-merchant/">Google Merchant 1500</a>. Packing lists and return forms stay in <a href="/pdf-tools/">PDF tools</a>.</p>
+<p>Always keep your original master. This tool outputs a marketplace JPEG, not an archival TIFF.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">
-    <h2>Frequently asked questions</h2>
+    <h2>Amazon product image sizing questions sellers ask</h2>
     <details>
-      <summary>Why are crop and quality controls locked?</summary>
-      <div class="faq-a">This URL targets Amazon Seller Central (product images) specifications. Locked controls ensure the rendered UI matches the page intent — a generic resizer with Amazon-only text would be treated as a doorway page.</div>
+      <summary>What size should an Amazon product main image be?</summary>
+      <div class="faq-a">Aim for a 2000×2000 pixel square JPEG. That resolution supports zoom and matches the locked preset on this page, with a practical 10 MB ceiling.</div>
     </details>
     <details>
-      <summary>What if output still exceeds 10 MB?</summary>
-      <div class="faq-a">Output exceeds Amazon 10 MB limit — lower quality or enable stronger compression. The checker runs after compression in your browser.</div>
+      <summary>Does this upload my Amazon photos to VeloTools?</summary>
+      <div class="faq-a">No. Resizing runs entirely in your browser. You download the result and upload it in Seller Central yourself.</div>
     </details>
     <details>
-      <summary>Are images uploaded to a server?</summary>
-      <div class="faq-a">No. Same pipeline as /image-compress/ — Canvas and JPEG encode run locally.</div>
+      <summary>Why is JPEG quality set to 85 for Amazon?</summary>
+      <div class="faq-a">Quality 85 keeps logos and fabric texture readable in zoom without routinely blowing past the 10 MB checker that catches heavy studio exports.</div>
     </details>
     <details>
-      <summary>Does sRGB conversion happen automatically?</summary>
-      <div class="faq-a">Browser canvas export uses sRGB for JPEG output. For print-wide-gamut sources, review color on a calibrated display before listing.</div>
+      <summary>Can I use a 1080×1080 Instagram crop as my Amazon main image?</summary>
+      <div class="faq-a">It may upload, but zoom looks soft. Upscale-aware workflows still prefer a true 2000×2000 source — start from the highest-resolution master you have.</div>
+    </details>
+    <details>
+      <summary>What if the file is still over 10 MB after resizing?</summary>
+      <div class="faq-a">Flatten layers, avoid PNG when JPEG is allowed, or run a second pass on Image Compress with slightly lower quality while keeping 2000×2000.</div>
     </details>
   </section>
 
@@ -1953,6 +1975,7 @@ html,body{background:var(--bg-main)}
 }
 </script>
 <script type="module" src="/image-compress/js/webp-encoder.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script src="/image-compress/js/core-utils.js"></script>
 <script src="/image-compress/js/state.js"></script>
 <script src="/image-compress/js/effects.js"></script>

@@ -13,7 +13,7 @@
 <title>Image Resizer for Ozon — 900×1200, 3:4, 10 MB | VeloTools</title>
 
 <!-- ═══ DESCRIPTION: 140–155 chars, action-oriented ═══ -->
-<meta name="description" content="Image resizer for Ozon product cards. 900×1200 px · 3:4 aspect locked, sRGB, output capped at 10 MB. Browser-only — no upload.">
+<meta name="description" content="Crop Ozon product cards to a locked 900×1200 (3:4) JPEG at quality 80 with a 10 MB checker — local browser only, no account.">
 
 <!-- ═══ NO KEYWORDS — Google ignores them; duplicate hurts ═══ -->
 <!-- Keywords meta intentionally omitted (Google 2009+ ignores them) -->
@@ -58,6 +58,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/css/logo.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <meta name="application-name" content="VeloTools Image Compressor">
 
 <!-- ═══ SCHEMA 1: WebApplication — rich snippet with stars ═══ -->
@@ -853,7 +854,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-preview.zoom-on .v-prev-img { cursor: zoom-in; }
 
 /* ── PREVIEW PLACEHOLDER ─────── */
-/* shown when no image is loaded — instead of broken img icon */
+#v-prev-placeholder,
 .v-preview-placeholder {
   position: absolute;
   inset: 0;
@@ -862,16 +863,25 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: #475569;
+  color: #8a95a8;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
-.v-preview-placeholder svg { opacity: .25; }
-.v-preview-placeholder span { font-size: 13px; opacity: .4; font-weight: 500; }
-/* hide placeholder when image is visible */
-.v-preview img[src]:not([src=""]) ~ .v-preview-placeholder { display: none; }
-
-/* ── CROP OVERLAY (div-based, no canvas issues) ── */
+#v-prev-placeholder svg,
+.v-preview-placeholder svg { opacity: .2; width: 52px; height: 52px; }
+#v-prev-placeholder span,
+.v-preview-placeholder span { font-size: 12px; opacity: .35; font-weight: 500; }
+.v-prev-img { position: relative; z-index: 2; background: var(--bg-dark); }
+/* Never paint placeholder over/under a loaded image */
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 #crop-ov   { position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none }
 #crop-sel  { position:absolute;border:2px solid #5b6cf9;pointer-events:none;z-index:22;box-sizing:border-box;box-shadow:0 0 0 9999px rgba(0,0,0,.5) }
 #crop-badge{ position:absolute;background:rgba(91,108,249,.9);color:#fff;font:700 11px/1 Inter,system-ui,sans-serif;padding:4px 9px;border-radius:6px;pointer-events:none;z-index:23;white-space:nowrap }
@@ -893,9 +903,13 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-mode-tab svg{width:17px;height:17px;stroke:currentColor;flex-shrink:0;display:inline-block}
 .v-tb-sep{align-self:stretch}
 .v-toolbar{overflow-x:auto;overflow-y:visible}
-#v-prev-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none}
-#v-prev-placeholder svg{opacity:.2}
-#v-prev-placeholder span{font-size:13px;color:#8a95a8;font-weight:500}
+#v-prev-placeholder,.v-preview-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none;z-index:0;color:#8a95a8}
+#v-prev-placeholder svg,.v-preview-placeholder svg{opacity:.2}
+#v-prev-placeholder span,.v-preview-placeholder span{font-size:13px;font-weight:500;opacity:.35}
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden]{display:none!important;visibility:hidden!important;opacity:0!important}
 
 /* ═══ MODERN REDESIGN ═══ */
 /* Colorful tool icons */
@@ -1308,7 +1322,7 @@ html,body{background:var(--bg-main)}
     <a href="/image-compress/" class="v-nl cur">Image</a>
     <a href="/invoice/"  class="v-nl">Invoice</a>
     <a href="/qr/"       class="v-nl">QR Code</a>
-    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/compress-pdf/" class="v-nl">PDF</a>
+    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/pdf-tools/" class="v-nl">PDF</a>
     <a href="/about/"    class="v-nl v-nl-about">About<span class="v-nl-dot"></span></a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">
@@ -1327,17 +1341,9 @@ html,body{background:var(--bg-main)}
 
 <div class="v-hero">
   <nav class="v-bc" aria-label="Breadcrumb"><a href="/">VeloTools</a><span>›</span><span>Image Compressor &amp; Converter</span></nav>
-  <h1>Free Image Compressor<br><span>No Upload. Instant. Private.</span></h1>
-  <p class="v-hero-sub">Compress JPG, PNG, WebP up to 90% smaller. Convert to WebP or AVIF. Resize, rotate, effects, blur, batch processing. Everything runs in your browser — files never leave your device.</p>
-  <div class="v-chips">
-    <a class="v-chip" href="#compress">JPG to WebP</a>
-    <a class="v-chip" href="#compress">PNG to WebP</a>
-    <a class="v-chip" href="#compress">Compress JPEG</a>
-    <a class="v-chip" href="#compress">Resize image</a>
-    <a class="v-chip" href="#compress">Rotate &amp; flip</a>
-    <a class="v-chip" href="#compress">Blur &amp; censor</a>
-    <a class="v-chip" href="#compress">Batch compress</a>
-  </div>
+  <h1>Image resizer<br><span>Ozon</span></h1>
+  <p class="v-hero-sub">Western square exports letterbox on Ozon’s portrait cards. Lock 3:4 at 900×1200 with JPEG 80 here, confirm under 10 MB, then upload the card photo yourself.</p>
+  
 </div>
 
 <main class="v-page" id="compress">
@@ -1454,7 +1460,7 @@ html,body{background:var(--bg-main)}
       <!-- PREVIEW -->
       <div class="v-preview" id="v-preview">
         <img id="v-prev-img" src="" alt="Preview" class="v-prev-img" style="display:none">
-                <div id="v-prev-placeholder" class="v-preview-placeholder">
+        <div id="v-prev-placeholder" class="v-preview-placeholder">
           <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span>Upload an image to start</span>
         </div>
@@ -1770,6 +1776,8 @@ html,body{background:var(--bg-main)}
       </section>
 
     </div><!-- editor -->
+
+    <div id="vt-recent-image" class="vt-recent" hidden></div>
   </div><!-- single mode -->
 
   <!-- ═══ BATCH MODE ═══ -->
@@ -1863,60 +1871,74 @@ html,body{background:var(--bg-main)}
     <section class="editorial" aria-label="Guide for image-resizer-for-ozon">
 
   <section id="security" class="seo-section seo-security">
-    <h2>Security: browser-only processing</h2>
-    <p>Image bytes are processed with the Canvas API in tab memory. This URL only changes default crop dimensions, aspect lock, JPEG quality, and output size warnings — not the privacy model. No image data is uploaded to VeloTools servers.</p>
+    <h2>Resize Ozon card photos without sending them to a cloud editor</h2>
+    <p>Ozon product cards travel through seller cabinets that already host your catalog. Adding another upload hop to shrink photos is optional risk. This page crops to a locked <strong>900×1200</strong> (3:4) frame, writes JPEG at quality <strong>80</strong>, and warns past <strong>10 MB</strong> — all inside your browser tab.</p>
+<p>Seasonal drafts and price-test creatives never touch VeloTools servers.</p>
   </section>
 
+  <section id="problem" class="seo-section">
+    <h2>Landscape phone shots that Ozon’s 3:4 card rejects</h2>
+    <p>Western square exports look cropped or letterboxed on Ozon’s portrait-first cards. A 1:1 Amazon master leaves empty bands or chops packaging text when the cabinet expects <strong>3:4</strong>. Oversized studio TIFFs also trip weight limits even when the composition is correct.</p>
+<p>We lock <strong>900×1200</strong> because that ratio matches how many Ozon category cards render on mobile. Quality <strong>80</strong> keeps Cyrillic labels on boxes readable without pampering a 40 MB dump from a tethered camera.</p>
+<p>Shipping the same SKU to Wildberries? Use the sibling <a href="/image-resizer-for-wildberries/">Wildberries 900×1200</a> page (slightly different quality bias). Square markets stay on <a href="/image-resizer-for-amazon/">Amazon</a> or <a href="/image-resizer-for-aliexpress/">AliExpress</a>.</p>
+  </section>
   <section id="how-it-works" class="seo-section seo-steps">
-    <h2>How it works in 3 steps</h2>
+    <h2>Crop and export a 900×1200 Ozon product card</h2>
     <ol>
-      <li>Drop a photo — crop ratio and output dimensions are already set for Ozon product card.</li>
-      <li>Click Compress (or Convert). Processing runs locally in the browser.</li>
-      <li>Download when the file passes the 10 MB size check.</li>
+      <li>Drop the photo — 3:4 aspect and 900×1200 output are locked for Ozon cards.</li>
+      <li>Slide the crop so the hero product sits high enough for mobile thumbs, then process.</li>
+      <li>Download under the 10 MB check and upload in your Ozon seller tools; reuse masters via Image Compress if needed.</li>
     </ol>
   </section>
 
   <section id="tech-specs" class="seo-section">
-    <h2>Technical specifications</h2>
+    <h2>Ozon product-card dimensions locked on this URL</h2>
     <table class="seo-table">
       <tbody>
-        <tr><th>Platform</th><td>Ozon product card</td></tr>
-        <tr><th>Source documentation</th><td>https://docs.ozon.ru/global/en/products/upload/adding-content/media/</td></tr>
-        <tr><th>Aspect ratio</th><td>3:4 (locked)</td></tr>
-        <tr><th>Output dimensions</th><td>900×1200 px</td></tr>
-        <tr><th>Color profile</th><td>sRGB</td></tr>
-        <tr><th>Max file size</th><td>10 MB</td></tr>
-        <tr><th>JPEG quality</th><td>80% (locked)</td></tr>
-        <tr><th>Processing</th><td>Canvas API + JPEG encode (browser-only)</td></tr>
-        <tr><th>Network</th><td>0 bytes of image content transmitted</td></tr>
+        <tr><th>Problem it solves</th><td>Ozon card wrong ratio / heavy file</td></tr>
+        <tr><th>Output</th><td>900×1200 px, 3:4 portrait</td></tr>
+        <tr><th>JPEG quality</th><td>80</td></tr>
+        <tr><th>Size check</th><td>10 MB</td></tr>
+        <tr><th>Privacy</th><td>No upload during resize</td></tr>
+        <tr><th>Sister page</th><td>Wildberries (same geometry, q79)</td></tr>
       </tbody>
     </table>
   </section>
 
+  <section id="preset" class="seo-section">
+    <h2>How the Ozon 3:4 JPEG 80% pack balances RU catalog weight</h2>
+    <p>Portrait cards dominate Ozon’s mobile grid. Quality <strong>80</strong> is tuned for that grid: enough acuity for ingredient panels and brand marks, enough compression for cellular PDP loads. The <strong>10 MB</strong> checker catches forgotten RAW-to-JPEG mistakes before the cabinet rejects them.</p>
+<p>Prefer a softer encode for denser WB traffic? Open <a href="/image-resizer-for-wildberries/">Image Resizer for Wildberries</a>. Need English-market squares afterward? Jump to <a href="/image-resizer-for-ebay/">eBay</a> or <a href="/image-resizer-for-shopify/">Shopify</a>.</p>
+  </section>
   <section id="deep-dive" class="seo-section seo-deep-dive">
-    <h2>Platform limits and processing</h2>
-    <p><strong>Ozon product card</strong> (https://docs.ozon.ru/global/en/products/upload/adding-content/media/): aspect <code>3:4</code>, minimum 900×1200 px, maximum file weight 10 MB (10,485,760 bytes), color profile sRGB. Minimum 200×200px; 900×1200px or larger recommended for clothing and general catalog cards.</p>
-<p>Output format: <strong>JPEG</strong> (DCT (Discrete Cosine Transform), 8-bit per channel). This page locks export to 900×1200 px at 80% JPEG quality.</p>
-<p>Aspect ratio <strong>3:4</strong> is locked in the crop tool so the selection frame cannot drift from marketplace requirements.</p>
+    <h2>Portrait cards on Ozon versus square Western marketplaces</h2>
+    <p>Copying an Amazon <strong>2000×2000</strong> file into Ozon is the fastest way to waste margin space. The card chrome expects taller art; square masters force awkward auto-crops that hide lids and neck labels. Start from the full-frame studio shot, then crop to <strong>900×1200</strong> here.</p>
+<p>Text on packaging matters. If Cyrillic becomes blocky, re-export once from a sharper master rather than upscaling a small phone crop. The preset will not invent detail that was never captured.</p>
+<p>Multi-marketplace teams should maintain a portrait master and a square master. Portrait siblings: <a href="/image-resizer-for-ozon/">Ozon</a> and <a href="/image-resizer-for-wildberries/">Wildberries</a>. Square siblings: <a href="/image-resizer-for-amazon/">Amazon</a>, <a href="/image-resizer-for-walmart/">Walmart</a>, <a href="/image-resizer-for-tiktok-shop/">TikTok Shop</a>. Compress-only cleanup: <a href="/image-compress/">Image Compress</a>. Spec sheets: <a href="/pdf-tools/">PDF tools</a>.</p>
+<p>Close the tab after download if the shoot includes unreleased SKUs.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">
-    <h2>Frequently asked questions</h2>
+    <h2>Ozon image requirements sellers dig into</h2>
     <details>
-      <summary>Why are crop and quality controls locked?</summary>
-      <div class="faq-a">This URL targets Ozon product card specifications. Locked controls ensure the rendered UI matches the page intent — a generic resizer with Amazon-only text would be treated as a doorway page.</div>
+      <summary>What resolution should Ozon product card images use?</summary>
+      <div class="faq-a">This page locks 900×1200 pixels at a 3:4 ratio with JPEG quality 80 and a 10 MB size check — a practical card-ready export for seller uploads.</div>
     </details>
     <details>
-      <summary>What if output still exceeds 10 MB?</summary>
-      <div class="faq-a">Output exceeds Ozon 10 MB limit. The checker runs after compression in your browser.</div>
+      <summary>Can I upload my Amazon square photo to Ozon as-is?</summary>
+      <div class="faq-a">You can try, but the card layout is portrait-first. Recrop to 3:4 so lids and labels are not clipped by automatic framing.</div>
     </details>
     <details>
-      <summary>Are images uploaded to a server?</summary>
-      <div class="faq-a">No. Same pipeline as /image-compress/ — Canvas and JPEG encode run locally.</div>
+      <summary>Does VeloTools store my Ozon catalog photos?</summary>
+      <div class="faq-a">No. The resize happens locally in the browser; only you upload the finished JPEG to Ozon.</div>
     </details>
     <details>
-      <summary>Does sRGB conversion happen automatically?</summary>
-      <div class="faq-a">Browser canvas export uses sRGB for JPEG output. For print-wide-gamut sources, review color on a calibrated display before listing.</div>
+      <summary>How is this different from the Wildberries resizer?</summary>
+      <div class="faq-a">Geometry matches (900×1200, 3:4), but Wildberries mode uses JPEG quality 79. Pick the page that matches the cabinet you are filling today.</div>
+    </details>
+    <details>
+      <summary>My file is still too heavy after 900×1200 — what next?</summary>
+      <div class="faq-a">Strip EXIF-heavy exports, avoid PNG, or run a second compress pass on Image Compress while keeping the same pixel box.</div>
     </details>
   </section>
 
@@ -1953,6 +1975,7 @@ html,body{background:var(--bg-main)}
 }
 </script>
 <script type="module" src="/image-compress/js/webp-encoder.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script src="/image-compress/js/core-utils.js"></script>
 <script src="/image-compress/js/state.js"></script>
 <script src="/image-compress/js/effects.js"></script>

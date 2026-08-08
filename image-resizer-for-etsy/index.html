@@ -13,7 +13,7 @@
 <title>Image Resizer for Etsy — 2000px Min, 10 MB Limit | VeloTools</title>
 
 <!-- ═══ DESCRIPTION: 140–155 chars, action-oriented ═══ -->
-<meta name="description" content="Image resizer for Etsy listing photos. 2000×2000 px, sRGB, output capped at 10 MB. Browser-only — no upload.">
+<meta name="description" content="Prep Etsy listing photos toward a ~2000×2000 working size at JPEG 82 with a 10 MB guardrail — flexible aspect, private in-browser resize.">
 
 <!-- ═══ NO KEYWORDS — Google ignores them; duplicate hurts ═══ -->
 <!-- Keywords meta intentionally omitted (Google 2009+ ignores them) -->
@@ -58,6 +58,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/css/logo.css">
 <link rel="stylesheet" href="/pdf-core/shared.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
 <meta name="application-name" content="VeloTools Image Compressor">
 
 <!-- ═══ SCHEMA 1: WebApplication — rich snippet with stars ═══ -->
@@ -853,7 +854,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-preview.zoom-on .v-prev-img { cursor: zoom-in; }
 
 /* ── PREVIEW PLACEHOLDER ─────── */
-/* shown when no image is loaded — instead of broken img icon */
+#v-prev-placeholder,
 .v-preview-placeholder {
   position: absolute;
   inset: 0;
@@ -862,16 +863,25 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: #475569;
+  color: #8a95a8;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
-.v-preview-placeholder svg { opacity: .25; }
-.v-preview-placeholder span { font-size: 13px; opacity: .4; font-weight: 500; }
-/* hide placeholder when image is visible */
-.v-preview img[src]:not([src=""]) ~ .v-preview-placeholder { display: none; }
-
-/* ── CROP OVERLAY (div-based, no canvas issues) ── */
+#v-prev-placeholder svg,
+.v-preview-placeholder svg { opacity: .2; width: 52px; height: 52px; }
+#v-prev-placeholder span,
+.v-preview-placeholder span { font-size: 12px; opacity: .35; font-weight: 500; }
+.v-prev-img { position: relative; z-index: 2; background: var(--bg-dark); }
+/* Never paint placeholder over/under a loaded image */
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 #crop-ov   { position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none }
 #crop-sel  { position:absolute;border:2px solid #5b6cf9;pointer-events:none;z-index:22;box-sizing:border-box;box-shadow:0 0 0 9999px rgba(0,0,0,.5) }
 #crop-badge{ position:absolute;background:rgba(91,108,249,.9);color:#fff;font:700 11px/1 Inter,system-ui,sans-serif;padding:4px 9px;border-radius:6px;pointer-events:none;z-index:23;white-space:nowrap }
@@ -893,9 +903,13 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-mode-tab svg{width:17px;height:17px;stroke:currentColor;flex-shrink:0;display:inline-block}
 .v-tb-sep{align-self:stretch}
 .v-toolbar{overflow-x:auto;overflow-y:visible}
-#v-prev-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none}
-#v-prev-placeholder svg{opacity:.2}
-#v-prev-placeholder span{font-size:13px;color:#8a95a8;font-weight:500}
+#v-prev-placeholder,.v-preview-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none;z-index:0;color:#8a95a8}
+#v-prev-placeholder svg,.v-preview-placeholder svg{opacity:.2}
+#v-prev-placeholder span,.v-preview-placeholder span{font-size:13px;font-weight:500;opacity:.35}
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden]{display:none!important;visibility:hidden!important;opacity:0!important}
 
 /* ═══ MODERN REDESIGN ═══ */
 /* Colorful tool icons */
@@ -1308,7 +1322,7 @@ html,body{background:var(--bg-main)}
     <a href="/image-compress/" class="v-nl cur">Image</a>
     <a href="/invoice/"  class="v-nl">Invoice</a>
     <a href="/qr/"       class="v-nl">QR Code</a>
-    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/compress-pdf/" class="v-nl">PDF</a>
+    <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/pdf-tools/" class="v-nl">PDF</a>
     <a href="/about/"    class="v-nl v-nl-about">About<span class="v-nl-dot"></span></a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">
@@ -1327,17 +1341,9 @@ html,body{background:var(--bg-main)}
 
 <div class="v-hero">
   <nav class="v-bc" aria-label="Breadcrumb"><a href="/">VeloTools</a><span>›</span><span>Image Compressor &amp; Converter</span></nav>
-  <h1>Free Image Compressor<br><span>No Upload. Instant. Private.</span></h1>
-  <p class="v-hero-sub">Compress JPG, PNG, WebP up to 90% smaller. Convert to WebP or AVIF. Resize, rotate, effects, blur, batch processing. Everything runs in your browser — files never leave your device.</p>
-  <div class="v-chips">
-    <a class="v-chip" href="#compress">JPG to WebP</a>
-    <a class="v-chip" href="#compress">PNG to WebP</a>
-    <a class="v-chip" href="#compress">Compress JPEG</a>
-    <a class="v-chip" href="#compress">Resize image</a>
-    <a class="v-chip" href="#compress">Rotate &amp; flip</a>
-    <a class="v-chip" href="#compress">Blur &amp; censor</a>
-    <a class="v-chip" href="#compress">Batch compress</a>
-  </div>
+  <h1>Image resizer<br><span>Etsy</span></h1>
+  <p class="v-hero-sub">Soft phone snaps and heavy PNG collages fail Etsy’s zoom expectations. This page aims at a 2000-class canvas with flexible aspect and JPEG 82 so craft photos stay sharp under 10 MB.</p>
+  
 </div>
 
 <main class="v-page" id="compress">
@@ -1454,7 +1460,7 @@ html,body{background:var(--bg-main)}
       <!-- PREVIEW -->
       <div class="v-preview" id="v-preview">
         <img id="v-prev-img" src="" alt="Preview" class="v-prev-img" style="display:none">
-                <div id="v-prev-placeholder" class="v-preview-placeholder">
+        <div id="v-prev-placeholder" class="v-preview-placeholder">
           <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span>Upload an image to start</span>
         </div>
@@ -1770,6 +1776,8 @@ html,body{background:var(--bg-main)}
       </section>
 
     </div><!-- editor -->
+
+    <div id="vt-recent-image" class="vt-recent" hidden></div>
   </div><!-- single mode -->
 
   <!-- ═══ BATCH MODE ═══ -->
@@ -1863,59 +1871,74 @@ html,body{background:var(--bg-main)}
     <section class="editorial" aria-label="Guide for image-resizer-for-etsy">
 
   <section id="security" class="seo-section seo-security">
-    <h2>Security: browser-only processing</h2>
-    <p>Image bytes are processed with the Canvas API in tab memory. This URL only changes default crop dimensions, aspect lock, JPEG quality, and output size warnings — not the privacy model. No image data is uploaded to VeloTools servers.</p>
+    <h2>Craft listing photos stay local while you hit Etsy’s pixel floor</h2>
+    <p>Handmade catalogs often include unreleased designs and customer commissions. Dropping those frames on a public compress site is unnecessary risk. Here the browser scales toward Etsy’s comfortable <strong>~2000 px</strong> listing target, encodes JPEG at quality <strong>82</strong>, and keeps the file under a <strong>10 MB</strong> check — without a server round-trip.</p>
+<p>Nothing syncs to our backend. You download, then attach in Etsy Studio when you are ready.</p>
   </section>
 
+  <section id="problem" class="seo-section">
+    <h2>Soft phone photos that fail Etsy’s minimum width</h2>
+    <p>Etsy buyers zoom. A charming 1200-pixel phone snap that looked fine in Messages can look mushy on a desktop listing. Sellers also ship ultra-tall portrait frames that crop oddly in search cards, or export PNG collages that quietly exceed <strong>10 MB</strong>.</p>
+<p>This page biases toward a <strong>2000×2000</strong> working canvas without forcing a rigid 1:1 lock the way Amazon does — useful when your craft photo is intentionally rectangular. Quality <strong>82</strong> trims studio bloat while keeping watercolor texture and wood grain honest.</p>
+<p>Need a hard square for ads? Pair with <a href="/image-resizer-for-instagram/">Instagram</a> or <a href="/image-resizer-for-pinterest/">Pinterest</a> after the listing hero is done. General compress-only jobs stay on <a href="/image-compress/">Image Compress</a>.</p>
+  </section>
   <section id="how-it-works" class="seo-section seo-steps">
-    <h2>How it works in 3 steps</h2>
+    <h2>Prep an Etsy listing photo for the 2000 px target</h2>
     <ol>
-      <li>Drop a photo — crop ratio and output dimensions are already set for Etsy listing photos.</li>
-      <li>Click Compress (or Convert). Processing runs locally in the browser.</li>
-      <li>Download when the file passes the 10 MB size check.</li>
+      <li>Add the craft photo — dimensions target 2000×2000 with flexible aspect (not a forced Amazon square).</li>
+      <li>Frame the product so search thumbnails still read at a glance, then run the locked Etsy resize.</li>
+      <li>Confirm the download is under 10 MB and upload in Etsy; for pins or Reels, open the matching sibling resizer next.</li>
     </ol>
   </section>
 
   <section id="tech-specs" class="seo-section">
-    <h2>Technical specifications</h2>
+    <h2>Etsy listing image profile locked here</h2>
     <table class="seo-table">
       <tbody>
-        <tr><th>Platform</th><td>Etsy listing photos</td></tr>
-        <tr><th>Source documentation</th><td>https://www.etsy.com/seller-handbook/article/etsy-listing-photos/223987038179</td></tr>
-        <tr><th>Aspect ratio</th><td>flexible</td></tr>
-        <tr><th>Output dimensions</th><td>2000×2000 px</td></tr>
-        <tr><th>Color profile</th><td>sRGB</td></tr>
-        <tr><th>Max file size</th><td>10 MB</td></tr>
-        <tr><th>JPEG quality</th><td>82% (locked)</td></tr>
-        <tr><th>Processing</th><td>Canvas API + JPEG encode (browser-only)</td></tr>
-        <tr><th>Network</th><td>0 bytes of image content transmitted</td></tr>
+        <tr><th>Problem it solves</th><td>Etsy photo too small / over 10 MB</td></tr>
+        <tr><th>Target size</th><td>~2000×2000 px (flexible aspect)</td></tr>
+        <tr><th>JPEG quality</th><td>82</td></tr>
+        <tr><th>Size check</th><td>10 MB</td></tr>
+        <tr><th>Privacy</th><td>Local browser processing only</td></tr>
+        <tr><th>Compare</th><td>Amazon forces 1:1; Etsy stays flexible</td></tr>
       </tbody>
     </table>
   </section>
 
+  <section id="preset" class="seo-section">
+    <h2>Why Etsy mode uses quality 82 without a forced square</h2>
+    <p>Makers shoot on tables, in daylight nooks, and against patterned backdrops. Forcing every frame into a perfect square would chop handles off mugs and crop signatures off prints. Quality <strong>82</strong> plus a <strong>2000</strong>-class target is the compromise: sharp enough for zoom, light enough for mobile shoppers on cellular.</p>
+<p>When the same SKU also needs a marketplace square, use <a href="/image-resizer-for-amazon/">Amazon</a> or <a href="/image-resizer-for-ebay/">eBay</a>. Storefront themes on your own domain may prefer <a href="/image-resizer-for-shopify/">Shopify’s ~2048 preset</a>.</p>
+  </section>
   <section id="deep-dive" class="seo-section seo-deep-dive">
-    <h2>Platform limits and processing</h2>
-    <p><strong>Etsy listing photos</strong> (https://www.etsy.com/seller-handbook/article/etsy-listing-photos/223987038179): aspect <code>flexible</code>, minimum 2000×2000 px, maximum file weight 10 MB (10,485,760 bytes), color profile sRGB. Etsy recommends 2000px on the shortest side. Up to 20 images per listing.</p>
-<p>Output format: <strong>JPEG</strong> (DCT (Discrete Cosine Transform), 8-bit per channel). This page locks export to 2000×2000 px at 82% JPEG quality.</p>
+    <h2>Flexible aspect ratios vs marketplace square crops</h2>
+    <p>Etsy’s discovery UI tolerates more compositional freedom than hard 1:1 catalog giants. That freedom is why this preset refuses Amazon-style aspect lock while still pushing you toward roughly <strong>2000</strong> pixels so Retina screens do not invent soft edges.</p>
+<p>Watch file weight: multi-layer PNGs from design apps casually pass <strong>10 MB</strong>. Convert to JPEG here unless you truly need transparency (Etsy listing photos generally do not).</p>
+<p>Cross-posting a successful listing? Rebuild channel-specific masters instead of stretching one crop everywhere — <a href="/image-resizer-for-pinterest/">1000×1500 pins</a>, <a href="/image-resizer-for-instagram/">1080 squares</a>, and <a href="/image-resizer-for-facebook/">Facebook catalog 1200</a> each have their own page. Invoices and pattern PDFs live in <a href="/pdf-tools/">PDF tools</a>.</p>
+<p>Keep RAW or full-resolution masters offline; this export is a selling asset, not your archive.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">
-    <h2>Frequently asked questions</h2>
+    <h2>Etsy photo size and quality FAQ for makers</h2>
     <details>
-      <summary>Why are crop and quality controls locked?</summary>
-      <div class="faq-a">This URL targets Etsy listing photos specifications. Locked controls ensure the rendered UI matches the page intent — a generic resizer with Amazon-only text would be treated as a doorway page.</div>
+      <summary>What image size works best for Etsy listings?</summary>
+      <div class="faq-a">Target about 2000 pixels on the long edge. This page aims at a 2000×2000 working size with flexible aspect so craft compositions are not forced into a hard square.</div>
     </details>
     <details>
-      <summary>What if output still exceeds 10 MB?</summary>
-      <div class="faq-a">Output exceeds Etsy 10 MB limit — reduce quality. The checker runs after compression in your browser.</div>
+      <summary>Is my unreleased design uploaded when I resize?</summary>
+      <div class="faq-a">No. Processing stays in the browser. Only the file you later add in Etsy Studio leaves your device.</div>
     </details>
     <details>
-      <summary>Are images uploaded to a server?</summary>
-      <div class="faq-a">No. Same pipeline as /image-compress/ — Canvas and JPEG encode run locally.</div>
+      <summary>Why quality 82 instead of maximum JPEG?</summary>
+      <div class="faq-a">Quality 82 usually preserves glaze, fabric, and paper texture while staying under Etsy’s practical 10 MB comfort zone for mobile buyers.</div>
     </details>
     <details>
-      <summary>Does sRGB conversion happen automatically?</summary>
-      <div class="faq-a">Browser canvas export uses sRGB for JPEG output. For print-wide-gamut sources, review color on a calibrated display before listing.</div>
+      <summary>Can I keep a tall portrait photo for pottery?</summary>
+      <div class="faq-a">Yes — unlike Amazon mode, aspect is not hard-locked here. Just make sure the export still lands near the 2000 px target and under 10 MB.</div>
+    </details>
+    <details>
+      <summary>Should I use PNG for transparent product cutouts on Etsy?</summary>
+      <div class="faq-a">Most listing slots expect standard photos. Prefer JPEG unless a specific graphic needs transparency; PNGs are the usual reason uploads hit 10 MB.</div>
     </details>
   </section>
 
@@ -1952,6 +1975,7 @@ html,body{background:var(--bg-main)}
 }
 </script>
 <script type="module" src="/image-compress/js/webp-encoder.js"></script>
+<script src="/js/vt-recent.js"></script>
 <script src="/image-compress/js/core-utils.js"></script>
 <script src="/image-compress/js/state.js"></script>
 <script src="/image-compress/js/effects.js"></script>

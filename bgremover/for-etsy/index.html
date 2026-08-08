@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Etsy listings","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-etsy/","description":"Prep Etsy listing photos with local AI cutouts. White JPG for marketplace rules or transparent PNG for mockups — never uploaded.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #ffffff","Export hint jpg-white","Manual refine optional","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Etsy require pure white JPEG?","acceptedAnswer":{"@type":"Answer","text":"Policies vary by category, but white backgrounds photograph cleaner in search grids. This preset previews white and points export to JPG-white so you can match common listing advice without leaving the browser."}},{"@type":"Question","name":"Can I keep a transparent file for mockups?","acceptedAnswer":{"@type":"Answer","text":"Yes. Switch the swatch to transparent and Download PNG anytime. The preset only sets the default QA background; it does not block other exports."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Etsy require pure white JPEG?","acceptedAnswer":{"@type":"Answer","text":"Policies vary by category, but white backgrounds photograph cleaner in search grids. This preset previews white and points export to JPG-white so you can match common listing advice without leaving the browser. Always re-read the current seller handbook for your niche before assuming a hard rule."}},{"@type":"Question","name":"Can I keep a transparent file for mockups?","acceptedAnswer":{"@type":"Answer","text":"Yes. Switch the swatch to transparent and Download PNG anytime. The preset only sets the default QA background; it does not block other exports. Many makers keep PNG for Canva mockups and JPG-white for the live listing."}},{"@type":"Question","name":"Why is Refine not suggested on this page?","acceptedAnswer":{"@type":"Answer","text":"Handmade textures often look worse after an automatic peel. We leave Refine optional so you choose when a rim truly needs it. Product photography with hard manufactured edges may prefer the Amazon or ecommerce presets instead."}},{"@type":"Question","name":"What about lifestyle photos with props?","acceptedAnswer":{"@type":"Answer","text":"If the listing should show props, do not cut them out. Use this tool when the subject should stand alone on white. For lifestyle frames, crop and color-correct without a full matte, or cut only the hero object for a collage layout."}},{"@type":"Question","name":"Will watermark-free exports stay local?","acceptedAnswer":{"@type":"Answer","text":"Yes. There is no account watermark pipeline because there is no upload. Your browser writes the file from the in-memory canvas. Clear site data only if you also want to drop the cached model weights."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-etsy","tool":"bg-remover","useCase":"etsy","useCaseLabel":"Etsy listings","intentBanner":"Etsy preset · white preview · JPG-white export · privacy first","config":{"defaultBg":"#ffffff","bgSwatchIndex":1,"exportHint":"jpg-white","suggestRefine":false,"tipLabel":"Export JPG on white for listing images"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Handmade listings</div>
     <h2>Etsy-ready cutouts that stay on your craft desk</h2>
-    <p class="seo-lead">Makers photographing jewelry, ceramics, and textiles should not upload unfinished work to random removers. This page defaults to white preview and JPG-white export language common in listing guides.</p>
+    <p class="seo-lead">Makers photographing jewelry, ceramics, and textiles should not upload unfinished work to random removers. This page defaults to white preview and JPG-white export language common in listing guides. The suggest-Refine flag stays off so delicate handmade textures are not over-peeled by default. You still can Refine manually when a ceramic rim needs it. Privacy here protects workshop context — kids, addresses, and unreleased glaze tests in the background — before anything public is published.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Etsy buyers expect clean white or soft studio looks. Locking white preview plus JPG-white guidance reduces listing rejections without forcing a cloud hop for every SKU photo.</p>
-    <p class="seo-lead">Use natural window light, remove the stand with Smart Erase if needed, confirm no colored fringe on white, then Download JPG on white for the main listing image.</p>
+    <h2>Why Etsy listings gets this locked preview</h2>
+    <p class="seo-lead">Etsy buyers expect clean white or soft studio looks. Locking white preview plus JPG-white guidance reduces listing rejections without forcing a cloud hop for every SKU photo. Skipping auto Refine protects soft yarn and uneven pottery edges that benefit from Smart Erase instead. The tip label points straight at the listing export, not at a designer PNG handoff.</p>
+    <p class="seo-lead">Use natural window light, remove the stand with Smart Erase if needed, confirm no colored fringe on white, then Download JPG on white for the main listing image. Keep a PNG on the side for mockups and lifestyle composites. Shoot slightly tighter than your final crop so Move can recenter after cutout. For textiles, flatten wrinkles before you fight edges in software.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Listing week for handmade SKUs without a SaaS queue</h2>
+    <p class="seo-lead">Open this preset when you are clearing ten to forty handmade photos for a shop update. Process one piece at a time on white, export JPG-white for the primary listing image, and only switch to transparent when you need a mockup for social. If a category guide mentions soft shadows, add them later in your editor on the JPG — do not fake shadows inside the matte. For collaborative shops, each maker can run cutouts on their own laptop so raw frames never pool in a shared remover account.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Handmade rims, yarn fuzz, and prop stands on Etsy shots</h2>
+    <p class="seo-lead">Handmade edges are irregular on purpose. Prefer Smart Erase for stands and tape over automatic peels that shave intentional texture. On yarn, Restore soft fuzz rather than refining twice. On ceramics, zoom the rim where glaze meets backdrop and Erase color fringing gently. Confirm on white that no table tone remains in recessed bases. Export JPG-white only after that check.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Workshop photos can reveal private addresses, kids, or unreleased designs in the background. Local removal lets you scrub those risks before anything public is published.</p>
+    <h2>On-device cutouts for Etsy listings</h2>
+    <p class="seo-lead">Workshop photos can reveal private addresses, kids, or unreleased designs in the background. Local removal lets you scrub those risks before anything public is published. That is especially useful for home-based sellers who cannot build a dedicated seamless paper corner. The model weights are public; your craft photos are not sent anywhere during inference.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Etsy listings</h2>
-    <details class="faq-item"><summary>Does Etsy require pure white JPEG?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Policies vary by category, but white backgrounds photograph cleaner in search grids. This preset previews white and points export to JPG-white so you can match common listing advice without leaving the browser.</div></details>
-    <details class="faq-item"><summary>Can I keep a transparent file for mockups?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Switch the swatch to transparent and Download PNG anytime. The preset only sets the default QA background; it does not block other exports.</div></details>
+    <h2>FAQ — Etsy listings background removal</h2>
+    <details class="faq-item"><summary>Does Etsy require pure white JPEG?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Policies vary by category, but white backgrounds photograph cleaner in search grids. This preset previews white and points export to JPG-white so you can match common listing advice without leaving the browser. Always re-read the current seller handbook for your niche before assuming a hard rule.</div></details>
+    <details class="faq-item"><summary>Can I keep a transparent file for mockups?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Switch the swatch to transparent and Download PNG anytime. The preset only sets the default QA background; it does not block other exports. Many makers keep PNG for Canva mockups and JPG-white for the live listing.</div></details>
+    <details class="faq-item"><summary>Why is Refine not suggested on this page?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Handmade textures often look worse after an automatic peel. We leave Refine optional so you choose when a rim truly needs it. Product photography with hard manufactured edges may prefer the Amazon or ecommerce presets instead.</div></details>
+    <details class="faq-item"><summary>What about lifestyle photos with props?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">If the listing should show props, do not cut them out. Use this tool when the subject should stand alone on white. For lifestyle frames, crop and color-correct without a full matte, or cut only the hero object for a collage layout.</div></details>
+    <details class="faq-item"><summary>Will watermark-free exports stay local?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. There is no account watermark pipeline because there is no upload. Your browser writes the file from the in-memory canvas. Clear site data only if you also want to drop the cached model weights.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

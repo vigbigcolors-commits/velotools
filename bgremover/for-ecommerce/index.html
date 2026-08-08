@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Ecommerce catalog","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-ecommerce/","description":"Cut product photos to clean white or transparent PNG in your browser. No upload, no account. Built for Shopify and catalog workflows.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #ffffff","Export hint png","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will white preview match Shopify PDP backgrounds?","acceptedAnswer":{"@type":"Answer","text":"Yes for flat white storefronts. Use the white swatch during QA, then export PNG if you composite later, or JPG-white when the channel rejects transparency. The preset does not upload the file either way."}},{"@type":"Question","name":"Can I batch hundreds of SKUs here?","acceptedAnswer":{"@type":"Answer","text":"This page processes one image at a time for memory safety on laptops. For large catalogs, run sequentially; the model stays cached so later SKUs skip the download tax. No account queue exists because there is no server quota."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will white preview match Shopify PDP backgrounds?","acceptedAnswer":{"@type":"Answer","text":"Yes for flat white storefronts. Use the white swatch during QA, then export PNG if you composite later, or JPG-white when the channel rejects transparency. The preset does not upload the file either way. If your theme uses off-white, pick a custom color after cutout and export JPG with background instead of assuming pure white."}},{"@type":"Question","name":"Can I batch hundreds of SKUs here?","acceptedAnswer":{"@type":"Answer","text":"This page processes one image at a time for memory safety on laptops. For large catalogs, run sequentially; the model stays cached so later SKUs skip the download tax. No account queue exists because there is no server quota. Pair with a simple local folder script if you need renaming discipline — the cutout itself remains private."}},{"@type":"Question","name":"Does Refine change product color accuracy?","acceptedAnswer":{"@type":"Answer","text":"Refine peels fringe alpha; it is not a color grade. Slight decontamination near edges can shift a thin halo toward foreground hues. If a logo stripe looks muddy, Undo and use softer Erase instead of a second Refine. Always judge final color on your calibrated monitor after export."}},{"@type":"Question","name":"PNG or JPG-white for marketplace uploads?","acceptedAnswer":{"@type":"Answer","text":"Prefer JPG-white when the portal forbids transparency and expects a solid field. Prefer PNG when design will composite or when you need partial alpha on soft packs. This preset defaults PNG because many ecommerce teams hand off to design before channel upload."}},{"@type":"Question","name":"What if my product is already on white paper?","acceptedAnswer":{"@type":"Answer","text":"AI may still leave paper texture in corners. Smart Erase the table plane, then confirm on white preview that no soft gray remains. For nearly white subjects, shoot on a contrasting temporary backdrop first so the matte has contrast to learn from."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-ecommerce","tool":"bg-remover","useCase":"ecommerce","useCaseLabel":"Ecommerce catalog","intentBanner":"Ecommerce preset · preview white · export PNG · Refine ready","config":{"defaultBg":"#ffffff","bgSwatchIndex":1,"exportHint":"png","suggestRefine":true,"tipLabel":"Check edges on white before export"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Catalog privacy</div>
     <h2>Product cutouts that never hit a cloud bucket</h2>
-    <p class="seo-lead">Ecommerce teams lose hours uploading hero shots to SaaS removers that store files for model training. This page locks a white preview and PNG-first export so catalog QA matches storefront reality while every pixel stays in the tab.</p>
+    <p class="seo-lead">Ecommerce teams lose hours uploading hero shots to SaaS removers that store files for model training. This page locks a white preview and PNG-first export so catalog QA matches storefront reality while every pixel stays in the tab. Merchandisers working under supplier NDAs can process seasonal drops without parking unfinished packaging on a third-party CDN. The widget state is baked at build time so the client never invents marketplace defaults from a query string. That keeps Zero-Backend privacy intact even when you deep-link a preset from your internal wiki. Use this route when Shopify, BigCommerce, or custom PDP white fields are the acceptance criteria, not when you need a social sticker lip.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">White preview surfaces leftover fringe that looks fine on checkers but fails on PDP white. Suggest Refine once so silhouettes meet marketplace cleanliness without a second tool.</p>
-    <p class="seo-lead">Shoot with subject filling most of the frame. After AI, click Refine, zoom to 200 percent on seams and labels, then export PNG for design or JPG-white for channel uploads.</p>
+    <h2>Why Ecommerce catalog gets this locked preview</h2>
+    <p class="seo-lead">White preview surfaces leftover fringe that looks fine on checkers but fails on PDP white. Suggest Refine once so silhouettes meet marketplace cleanliness without a second tool. PNG as the primary export preserves alpha for design handoff while you still can switch to JPG-white for channels that reject transparency. The tip label reminds operators to judge edges on the same field customers will see. Together these defaults form a catalog fingerprint distinct from Amazon main-image or Etsy handmade routes.</p>
+    <p class="seo-lead">Shoot with subject filling most of the frame. After AI, click Refine, zoom to 200 percent on seams and labels, then export PNG for design or JPG-white for channel uploads. Keep a short checklist: remove stand debris with Smart Erase, confirm barcode stickers are not floating in alpha holes, and Move the crop so the product sits on the optical center your theme expects. Cache the model once per browser profile so SKU queues skip the download tax on later frames.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>When catalog QA should start on pure white</h2>
+    <p class="seo-lead">Open this preset when a merchandiser is clearing a drop for a white PDP template. Drop one hero frame, let AI run, accept the white swatch as the truth surface, and treat Refine as a mandatory single pass before anyone debates shadows. If the channel later wants transparency for a lifestyle composite, switch swatches and re-export PNG from the same matte — you do not re-upload. For multi-SKU mornings, process sequentially; memory safety on laptops beats a fake batch queue that would require a server. When packaging text must stay crisp, avoid extra Refine passes that can chew micro type on labels.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Catalog silhouettes: labels, seams, and stand crumbs</h2>
+    <p class="seo-lead">Ecommerce edges fail in three boring ways: gray rings on white, stand feet still attached, and label corners bitten by an aggressive peel. Zoom along seams first, then along barcode stickers. Soft Erase removes paper crumbs without digging into carton graphics. Restore at low opacity if a soft pack corner vanished. Finish by flipping between white and transparent once so you catch fringe that only appears on one field. Export only after that dual check.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Supplier and unreleased product photos often sit under NDA. Local WebAssembly inference means those frames never transit a third-party API — only the public model weights download once.</p>
+    <h2>On-device cutouts for Ecommerce catalog</h2>
+    <p class="seo-lead">Supplier and unreleased product photos often sit under NDA. Local WebAssembly inference means those frames never transit a third-party API — only the public model weights download once. Catalog ops should still strip EXIF before publishing, but the cutout stage itself no longer creates an upload retention surface. That matters when legal teams ask where sample photography lived during pre-launch week.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Ecommerce catalog</h2>
-    <details class="faq-item"><summary>Will white preview match Shopify PDP backgrounds?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes for flat white storefronts. Use the white swatch during QA, then export PNG if you composite later, or JPG-white when the channel rejects transparency. The preset does not upload the file either way.</div></details>
-    <details class="faq-item"><summary>Can I batch hundreds of SKUs here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">This page processes one image at a time for memory safety on laptops. For large catalogs, run sequentially; the model stays cached so later SKUs skip the download tax. No account queue exists because there is no server quota.</div></details>
+    <h2>FAQ — Ecommerce catalog background removal</h2>
+    <details class="faq-item"><summary>Will white preview match Shopify PDP backgrounds?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes for flat white storefronts. Use the white swatch during QA, then export PNG if you composite later, or JPG-white when the channel rejects transparency. The preset does not upload the file either way. If your theme uses off-white, pick a custom color after cutout and export JPG with background instead of assuming pure white.</div></details>
+    <details class="faq-item"><summary>Can I batch hundreds of SKUs here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">This page processes one image at a time for memory safety on laptops. For large catalogs, run sequentially; the model stays cached so later SKUs skip the download tax. No account queue exists because there is no server quota. Pair with a simple local folder script if you need renaming discipline — the cutout itself remains private.</div></details>
+    <details class="faq-item"><summary>Does Refine change product color accuracy?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Refine peels fringe alpha; it is not a color grade. Slight decontamination near edges can shift a thin halo toward foreground hues. If a logo stripe looks muddy, Undo and use softer Erase instead of a second Refine. Always judge final color on your calibrated monitor after export.</div></details>
+    <details class="faq-item"><summary>PNG or JPG-white for marketplace uploads?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Prefer JPG-white when the portal forbids transparency and expects a solid field. Prefer PNG when design will composite or when you need partial alpha on soft packs. This preset defaults PNG because many ecommerce teams hand off to design before channel upload.</div></details>
+    <details class="faq-item"><summary>What if my product is already on white paper?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">AI may still leave paper texture in corners. Smart Erase the table plane, then confirm on white preview that no soft gray remains. For nearly white subjects, shoot on a contrasting temporary backdrop first so the matte has contrast to learn from.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Designers PNG","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-transparent-png/","description":"Export true transparent PNGs for Figma, Photoshop, and Canva. AI runs in-browser; checkerboard preview shows alpha clearly.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint png","Manual refine optional","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does PNG stay lossless here?","acceptedAnswer":{"@type":"Answer","text":"Yes. The PNG export path writes standard lossless PNG with the computed alpha channel. We do not recompress with a lossy step on that button."}},{"@type":"Question","name":"Can I use this for logo cleanup?","acceptedAnswer":{"@type":"Answer","text":"For photo-based marks, yes. For already-vector logos, prefer editing the source SVG. This tool shines when you only have a raster with a busy plate."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does PNG stay lossless here?","acceptedAnswer":{"@type":"Answer","text":"Yes. The PNG export path writes standard lossless PNG with the computed alpha channel. We do not recompress with a lossy step on that button. Downstream tools might recompress if you re-export again elsewhere — archive the first PNG."}},{"@type":"Question","name":"Can I use this for logo cleanup?","acceptedAnswer":{"@type":"Answer","text":"For photo-based marks, yes. For already-vector logos, prefer editing the source SVG. This tool shines when you only have a raster with a busy plate. Recreating a clean vector later still beats forever shipping a soft photo logo."}},{"@type":"Question","name":"Why is Refine off by default for designers?","acceptedAnswer":{"@type":"Answer","text":"Hard edges and UI chrome often look worse after an automatic peel. Photo cutouts can still use Refine manually. Other presets turn the suggestion on when their audience expects it."}},{"@type":"Question","name":"Will Canva preserve the alpha?","acceptedAnswer":{"@type":"Answer","text":"Modern Canva imports respect PNG transparency. If a project unexpectedly shows a white box, re-download PNG and confirm you did not flatten earlier. Keep originals outside Canva when brand archives matter."}},{"@type":"Question","name":"How do I handle shadows I want to keep?","acceptedAnswer":{"@type":"Answer","text":"Natural contact shadows may be removed with the backdrop. Recreate soft shadows in your design tool under the PNG for consistency across a system. Trying to preserve dirty floor shadows usually fights the matte."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-transparent-png","tool":"bg-remover","useCase":"transparent-png","useCaseLabel":"Designers PNG","intentBanner":"Designer preset · checkerboard · PNG lossless · alpha-safe","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"png","suggestRefine":false,"tipLabel":"Checkerboard = true alpha, export PNG"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Alpha-first design</div>
     <h2>True transparent PNG for design systems</h2>
-    <p class="seo-lead">Designers need honest alpha, not a JPEG pretending to be cut out. Checkerboard preview and PNG-lossless export make this page a local drop-in for Figma, Photoshop, and Canva pipelines.</p>
+    <p class="seo-lead">Designers need honest alpha, not a JPEG pretending to be cut out. Checkerboard preview and PNG-lossless export make this page a local drop-in for Figma, Photoshop, and Canva pipelines. Suggest Refine stays off by default so hard graphic shapes and logos are not over-peeled. Brand teams can matte unreleased UI chrome and marketing stills without training a public remover on system assets. Use other presets when marketplace white or sticker lips are the primary job.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Leaving Refine off by default avoids over-peeling hard graphic shapes. Designers can still Refine manually when photos need it; vectors and logos often should not.</p>
-    <p class="seo-lead">Drop the asset, confirm checkers show clean alpha, skip Refine for hard logos, use Refine only on photo subjects, then Download PNG into your design file.</p>
+    <h2>Why Designers PNG gets this locked preview</h2>
+    <p class="seo-lead">Leaving Refine off by default avoids over-peeling hard graphic shapes. Designers can still Refine manually when photos need it; vectors and logos often should not. Checkerboard plus PNG is the classic alpha-honest pair. The tip equates checkers with true alpha so juniors do not mistake a white JPG for a cutout.</p>
+    <p class="seo-lead">Drop the asset, confirm checkers show clean alpha, skip Refine for hard logos, use Refine only on photo subjects, then Download PNG into your design file. Name files with @2x discipline if they feed a design system. For mixed photo and UI, cut pieces separately rather than forcing one matte to do everything.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Design-system stills that must stay lossless alpha</h2>
+    <p class="seo-lead">Use this preset when a designer needs a true transparent master for Figma components or Photoshop comps. Import, verify checkers, avoid Refine on hard edges, export PNG, and place into the library. If a photo subject needs a peel, Refine manually once and document it in the file name. For marketing sites that prefer WebP delivery, generate WebP later from the PNG master in your build pipeline rather than skipping the lossless archive. Treat the PNG like source code: version it, review it, and never replace it with a flattened JPG that only looked fine in one mock.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Hard logos versus photo subjects on checkers</h2>
+    <p class="seo-lead">Design edges split into two families. Hard logos want crisp alpha and almost never want Refine. Photo subjects may need one peel plus Restore on hair or fabric. On checkers, look for semi-transparent sludge that will muddy typed layouts. Erase sludge; do not paint white into the alpha and call it done. Export PNG only when the checker pattern reads clean at 100 and 200 percent zoom. If the asset will sit on both light and dark app themes, flip proof swatches once so fringe does not only look acceptable on a single plate.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Brand kits and unreleased UI chrome should not train a public remover. On-device mattes keep those system assets inside the laptop.</p>
+    <h2>On-device cutouts for Designers PNG</h2>
+    <p class="seo-lead">Brand kits and unreleased UI chrome should not train a public remover. On-device mattes keep those system assets inside the laptop. Agencies can process client A on a machine that never logs into a shared SaaS used for client B. Version control the PNG masters like any other design source.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Designers PNG</h2>
-    <details class="faq-item"><summary>Does PNG stay lossless here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. The PNG export path writes standard lossless PNG with the computed alpha channel. We do not recompress with a lossy step on that button.</div></details>
-    <details class="faq-item"><summary>Can I use this for logo cleanup?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">For photo-based marks, yes. For already-vector logos, prefer editing the source SVG. This tool shines when you only have a raster with a busy plate.</div></details>
+    <h2>FAQ — Designers PNG background removal</h2>
+    <details class="faq-item"><summary>Does PNG stay lossless here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. The PNG export path writes standard lossless PNG with the computed alpha channel. We do not recompress with a lossy step on that button. Downstream tools might recompress if you re-export again elsewhere — archive the first PNG.</div></details>
+    <details class="faq-item"><summary>Can I use this for logo cleanup?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">For photo-based marks, yes. For already-vector logos, prefer editing the source SVG. This tool shines when you only have a raster with a busy plate. Recreating a clean vector later still beats forever shipping a soft photo logo.</div></details>
+    <details class="faq-item"><summary>Why is Refine off by default for designers?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Hard edges and UI chrome often look worse after an automatic peel. Photo cutouts can still use Refine manually. Other presets turn the suggestion on when their audience expects it.</div></details>
+    <details class="faq-item"><summary>Will Canva preserve the alpha?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Modern Canva imports respect PNG transparency. If a project unexpectedly shows a white box, re-download PNG and confirm you did not flatten earlier. Keep originals outside Canva when brand archives matter.</div></details>
+    <details class="faq-item"><summary>How do I handle shadows I want to keep?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Natural contact shadows may be removed with the backdrop. Recreate soft shadows in your design tool under the PNG for consistency across a system. Trying to preserve dirty floor shadows usually fights the matte.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

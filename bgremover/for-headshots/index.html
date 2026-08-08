@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Pro headshots","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-headshots/","description":"Clean professional headshots without sending faces to a cloud API. Soft blush preview, PNG export, on-device ISNet model.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #F0DCE8","Export hint png","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I make a solid color corporate backdrop here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pick a swatch or custom color after the cutout, then export JPG with background. For maximum flexibility keep a PNG master and composite in design software."}},{"@type":"Question","name":"Does the model change my skin tone?","acceptedAnswer":{"@type":"Answer","text":"The matte path edits alpha, not a beauty filter. Edge decontamination may slightly pull fringe colors toward nearby foreground; Undo if a collar looks muddy and Refine more gently."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I make a solid color corporate backdrop here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pick a swatch or custom color after the cutout, then export JPG with background. For maximum flexibility keep a PNG master and composite in design software. Matching exact brand hex values is often easier in Figma than inside the remover UI."}},{"@type":"Question","name":"Does the model change my skin tone?","acceptedAnswer":{"@type":"Answer","text":"The matte path edits alpha, not a beauty filter. Edge decontamination may slightly pull fringe colors toward nearby foreground; Undo if a collar looks muddy and Refine more gently. Final skin work belongs in your retouching app if the brief requires it."}},{"@type":"Question","name":"Is blush required for LinkedIn uploads?","acceptedAnswer":{"@type":"Answer","text":"No. Blush is a QA preview. Export transparent PNG or a corporate fill as needed. LinkedIn accepts a wide range of backgrounds; your brand guidelines matter more than this swatch."}},{"@type":"Question","name":"How should I handle group photos?","acceptedAnswer":{"@type":"Answer","text":"This page is optimized for single-subject headshots. For groups, cut individuals separately when possible, or use the all-purpose tool and accept more manual Erase between people. Overlapping shoulders are hard for any salient model."}},{"@type":"Question","name":"Can HR store the PNG on a server after export?","acceptedAnswer":{"@type":"Answer","text":"Yes — that is your organization choice after the local cutout. The privacy win is avoiding a remover vendor. Apply your normal access controls to the exported masters."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-headshots","tool":"bg-remover","useCase":"headshots","useCaseLabel":"Pro headshots","intentBanner":"Headshot preset · blush preview · PNG · no face upload","config":{"defaultBg":"#F0DCE8","bgSwatchIndex":7,"exportHint":"png","suggestRefine":true,"tipLabel":"Faces never leave this browser tab"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Identity-safe headshots</div>
     <h2>LinkedIn-ready heads without a face-upload API</h2>
-    <p class="seo-lead">Professional headshots should not be a free ticket for cloud removers to store biometric-looking imagery. Soft blush preview keeps skin tones readable while you tidy hair and collars locally.</p>
+    <p class="seo-lead">Professional headshots should not be a free ticket for cloud removers to store biometric-looking imagery. Soft blush preview keeps skin tones readable while you tidy hair and collars locally. Recruiters, coaches, and corporate comms teams get a PNG master for any studio backdrop without a face-upload API. Suggest Refine stays on so suit edges and flyaways get a controlled peel. This route is for people in professional context, not for passport-form hard white rules — use the ID photo preset when a document field is the goal.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Blush preview is gentler than stark white for skin QA and still shows dark jacket fringing. Refine stays on so suit edges and flyaways get a controlled peel.</p>
-    <p class="seo-lead">Crop tight before upload into the tool, run AI, Refine once around hair, Restore glasses frames if needed, export PNG, then drop onto a studio backdrop in your editor.</p>
+    <h2>Why Pro headshots gets this locked preview</h2>
+    <p class="seo-lead">Blush preview is gentler than stark white for skin QA and still shows dark jacket fringing. Refine stays on so suit edges and flyaways get a controlled peel. PNG export keeps flexibility for designers who will drop the head onto brand plates. The tip states the privacy promise plainly because that is the reason many teams open this URL.</p>
+    <p class="seo-lead">Crop tight before upload into the tool, run AI, Refine once around hair, Restore glasses frames if needed, export PNG, then drop onto a studio backdrop in your editor. Keep a secondary JPG with a corporate color only after stakeholders pick the plate. Avoid beauty-filter expectations; this path edits alpha, not skin retouching.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Executive and coach headshot batches on a locked laptop</h2>
+    <p class="seo-lead">Use this preset when a communications team must cut fifty heads for a site refresh and security forbids uploads. Process each select on blush, Refine once, export PNG into the brand library, and composite onto approved backdrops in design tools. For contractors working offsite, local processing means faces never sit in a shared remover inbox. If someone needs a quick white proof for email, flip swatches temporarily without changing the archived PNG master.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Suit lapels, flyaways, and eyeglass rims on blush</h2>
+    <p class="seo-lead">Headshot edges concentrate on hair, glasses, and dark lapels against the old room. After Refine, Restore flyaways sparingly. Soft Erase backdrop color on navy jackets. Rebuild eyeglass rims if AI carved notches, then Erase room reflections in the lenses that betray the old location. Blush preview helps you see muddy skin-edge decontamination; Undo if a jawline looks stained and prefer localized Erase.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Recruiting and executive portraits are identity assets. Keeping the ISNet pass inside the browser eliminates a third-party retention surface for those faces.</p>
+    <h2>On-device cutouts for Pro headshots</h2>
+    <p class="seo-lead">Recruiting and executive portraits are identity assets. Keeping the ISNet pass inside the browser eliminates a third-party retention surface for those faces. Enterprises can document local inference in their vendor review and skip the data-protection addendum fight for a remover SaaS. Still control who has the laptop and where PNG masters are stored afterward.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Pro headshots</h2>
-    <details class="faq-item"><summary>Can I make a solid color corporate backdrop here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Pick a swatch or custom color after the cutout, then export JPG with background. For maximum flexibility keep a PNG master and composite in design software.</div></details>
-    <details class="faq-item"><summary>Does the model change my skin tone?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">The matte path edits alpha, not a beauty filter. Edge decontamination may slightly pull fringe colors toward nearby foreground; Undo if a collar looks muddy and Refine more gently.</div></details>
+    <h2>FAQ — Pro headshots background removal</h2>
+    <details class="faq-item"><summary>Can I make a solid color corporate backdrop here?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Pick a swatch or custom color after the cutout, then export JPG with background. For maximum flexibility keep a PNG master and composite in design software. Matching exact brand hex values is often easier in Figma than inside the remover UI.</div></details>
+    <details class="faq-item"><summary>Does the model change my skin tone?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">The matte path edits alpha, not a beauty filter. Edge decontamination may slightly pull fringe colors toward nearby foreground; Undo if a collar looks muddy and Refine more gently. Final skin work belongs in your retouching app if the brief requires it.</div></details>
+    <details class="faq-item"><summary>Is blush required for LinkedIn uploads?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No. Blush is a QA preview. Export transparent PNG or a corporate fill as needed. LinkedIn accepts a wide range of backgrounds; your brand guidelines matter more than this swatch.</div></details>
+    <details class="faq-item"><summary>How should I handle group photos?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">This page is optimized for single-subject headshots. For groups, cut individuals separately when possible, or use the all-purpose tool and accept more manual Erase between people. Overlapping shoulders are hard for any salient model.</div></details>
+    <details class="faq-item"><summary>Can HR store the PNG on a server after export?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes — that is your organization choice after the local cutout. The privacy win is avoiding a remover vendor. Apply your normal access controls to the exported masters.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

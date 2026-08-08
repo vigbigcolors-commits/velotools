@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Jewelry close-ups","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-jewelry/","description":"Cut jewelry macros locally. Smart Erase helps with reflective stands; transparent PNG keeps metal highlights intact.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint webp","Manual refine optional","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why suggest WebP for jewelry?","acceptedAnswer":{"@type":"Answer","text":"Product grids load faster with WebP while PNG remains available for lossless edits. Choose PNG when a retoucher will reopen the file."}},{"@type":"Question","name":"Glass and gems look incomplete — now what?","acceptedAnswer":{"@type":"Answer","text":"Semi-transparent stones are hard for any salient model. Restore at low opacity along gem edges, accepting partial alpha. For museum-grade glass, combine with a manual path elsewhere."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why suggest WebP for jewelry?","acceptedAnswer":{"@type":"Answer","text":"Product grids load faster with WebP while PNG remains available for lossless edits. Choose PNG when a retoucher will reopen the file. If a CMS rejects WebP, re-export PNG from the same session without re-running AI."}},{"@type":"Question","name":"Glass and gems look incomplete — now what?","acceptedAnswer":{"@type":"Answer","text":"Semi-transparent stones are hard for any salient model. Restore at low opacity along gem edges, accepting partial alpha. For museum-grade glass, combine with a manual path elsewhere. Shooting against a contrasting seamless still helps more than any brush."}},{"@type":"Question","name":"Should I Refine sparkly dust automatically?","acceptedAnswer":{"@type":"Answer","text":"Usually no on this preset. Dust often looks like part of the sparkle story. Erase only what is clearly backdrop paper. If dust is truly unwanted, soft Erase beats a global Refine that also dulls metal."}},{"@type":"Question","name":"Can I cut jewelry on a model’s hand?","acceptedAnswer":{"@type":"Answer","text":"You can isolate hand plus jewelry as one subject, but separating ring from skin is a different retouching problem. This tool removes the backdrop behind the hand. For floating product-only shots, photograph on a stand instead."}},{"@type":"Question","name":"Does transparent preview hide warm color casts?","acceptedAnswer":{"@type":"Answer","text":"Checkers show alpha, not white balance. Correct color before or after cutout in your raw pipeline. A green stand reflection on yellow gold is an edge contamination issue — Erase the fringe after AI."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-jewelry","tool":"bg-remover","useCase":"jewelry","useCaseLabel":"Jewelry close-ups","intentBanner":"Jewelry preset · transparent · Smart Erase · WebP tip","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"webp","suggestRefine":false,"tipLabel":"Smart Erase reflective stands, keep metal"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Macro metalwork</div>
     <h2>Jewelry macros without uploading sparkle IP</h2>
-    <p class="seo-lead">Reflective stands and glitter backgrounds confuse cloud removers and leak design IP. This preset keeps transparency and points you to Smart Erase for stands, with WebP for light gallery pages.</p>
+    <p class="seo-lead">Reflective stands and glitter backgrounds confuse cloud removers and leak design IP. This preset keeps transparency and points you to Smart Erase for stands, with WebP for light gallery pages. Suggest Refine stays off so micro highlights on metal are not chewed by default. Independent jewelers and brand studios can process unreleased collections without parking macros in a remover bucket. Use PNG when a retoucher will reopen the file; WebP when the site grid only needs speed.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Transparent checkers reveal whether metal edges still carry stand color. Skipping auto Refine avoids chewing micro highlights; Smart Erase is the better first cleanup.</p>
-    <p class="seo-lead">AI first, Smart Erase the stand and labels, zoom to inspect prongs, optional light Erase on glitter dust, export WebP for site grids or PNG for print comps.</p>
+    <h2>Why Jewelry close-ups gets this locked preview</h2>
+    <p class="seo-lead">Transparent checkers reveal whether metal edges still carry stand color. Skipping auto Refine avoids chewing micro highlights; Smart Erase is the better first cleanup. WebP as the highlighted export matches jewelry category pages that load dozens of thumbs. The tip steers operators toward stand removal without a destructive peel.</p>
+    <p class="seo-lead">AI first, Smart Erase the stand and labels, zoom to inspect prongs, optional light Erase on glitter dust, export WebP for site grids or PNG for print comps. For gemstones with partial transparency, Restore at low opacity and accept imperfect glass rather than inventing pixels. Keep a polarized original when possible; it reduces specular chaos before you ever cut.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Pre-launch jewelry grids without a cloud gallery leak</h2>
+    <p class="seo-lead">Open this preset when a lookbook grid needs clean silhouettes but the collection is still embargoed. Cut each macro on checkers, erase stands, export WebP for the staging site, and keep PNG for print partners. If a retailer demands white, flip the swatch only for that export — do not destroy the transparent master. For mixed metal and softbox reflections, prefer careful Erase over Refine so highlight shape survives.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Prongs, chains, and stand color on metal edges</h2>
+    <p class="seo-lead">Jewelry edges fail when stand color stains gold or when chains break into dashed alpha. Zoom prongs and clasp tips first. Smart Erase the stand, then soft-Erase color fringing along metal. Restore broken chain links carefully. Avoid Refine unless a fur-like fringe of glitter dust needs a peel. Confirm on checkers that specular peaks still look like metal, not matte plastic.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Unreleased collections are high-value IP. Local cutouts mean those macros never sit in a remover bucket waiting for a breach narrative.</p>
+    <h2>On-device cutouts for Jewelry close-ups</h2>
+    <p class="seo-lead">Unreleased collections are high-value IP. Local cutouts mean those macros never sit in a remover bucket waiting for a breach narrative. NDA shoots for retailers can finish mattes on the same laptop that tethered the camera. Still watermark public comps if your contract requires it; local processing does not replace contractual controls.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Jewelry close-ups</h2>
-    <details class="faq-item"><summary>Why suggest WebP for jewelry?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Product grids load faster with WebP while PNG remains available for lossless edits. Choose PNG when a retoucher will reopen the file.</div></details>
-    <details class="faq-item"><summary>Glass and gems look incomplete — now what?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Semi-transparent stones are hard for any salient model. Restore at low opacity along gem edges, accepting partial alpha. For museum-grade glass, combine with a manual path elsewhere.</div></details>
+    <h2>FAQ — Jewelry close-ups background removal</h2>
+    <details class="faq-item"><summary>Why suggest WebP for jewelry?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Product grids load faster with WebP while PNG remains available for lossless edits. Choose PNG when a retoucher will reopen the file. If a CMS rejects WebP, re-export PNG from the same session without re-running AI.</div></details>
+    <details class="faq-item"><summary>Glass and gems look incomplete — now what?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Semi-transparent stones are hard for any salient model. Restore at low opacity along gem edges, accepting partial alpha. For museum-grade glass, combine with a manual path elsewhere. Shooting against a contrasting seamless still helps more than any brush.</div></details>
+    <details class="faq-item"><summary>Should I Refine sparkly dust automatically?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Usually no on this preset. Dust often looks like part of the sparkle story. Erase only what is clearly backdrop paper. If dust is truly unwanted, soft Erase beats a global Refine that also dulls metal.</div></details>
+    <details class="faq-item"><summary>Can I cut jewelry on a model’s hand?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">You can isolate hand plus jewelry as one subject, but separating ring from skin is a different retouching problem. This tool removes the backdrop behind the hand. For floating product-only shots, photograph on a stand instead.</div></details>
+    <details class="faq-item"><summary>Does transparent preview hide warm color casts?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Checkers show alpha, not white balance. Correct color before or after cutout in your raw pipeline. A green stand reflection on yellow gold is an edge contamination issue — Erase the fringe after AI.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

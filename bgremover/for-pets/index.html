@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Pets and fur","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-pets/","description":"Remove backgrounds from pet photos without uploading. Fur-friendly refine and restore brushes run entirely in your browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #111111","Export hint png","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why start on black instead of white?","acceptedAnswer":{"@type":"Answer","text":"Light fur fringe hides on white and screams on black. Starting dark forces you to clean the matte before export. You can still switch to white anytime for client proofs."}},{"@type":"Question","name":"Will long fur always need manual work?","acceptedAnswer":{"@type":"Answer","text":"Often yes for show-quality results. AI gets you 80 to 90 percent; Restore and Erase at low opacity finish the last strands. That is expected for any serious fur pipeline."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why start on black instead of white?","acceptedAnswer":{"@type":"Answer","text":"Light fur fringe hides on white and screams on black. Starting dark forces you to clean the matte before export. You can still switch to white anytime for client proofs. Many retouchers flip between both several times before they trust the edge."}},{"@type":"Question","name":"Will long fur always need manual work?","acceptedAnswer":{"@type":"Answer","text":"Often yes for show-quality results. AI gets you 80 to 90 percent; Restore and Erase at low opacity finish the last strands. That is expected for any serious fur pipeline, cloud or local. Budget time accordingly instead of expecting a one-click miracle."}},{"@type":"Question","name":"Can I use this for pet product packs too?","acceptedAnswer":{"@type":"Answer","text":"If the subject is a rigid package, prefer the ecommerce or marketplace-white presets. Use pets when the living animal is the silhouette. Mixed frames with both animal and pack may need two cutouts composited later."}},{"@type":"Question","name":"Does black preview affect the exported colors?","acceptedAnswer":{"@type":"Answer","text":"No. Preview swatches are QA backgrounds. PNG export carries the subject colors and alpha, not the black field, unless you intentionally export JPG with background while black is selected."}},{"@type":"Question","name":"How do I handle leash and collar hardware?","acceptedAnswer":{"@type":"Answer","text":"Decide whether hardware stays in the story. If it should go, Smart Erase the leash and Restore fur behind where possible. If it stays, Refine carefully around metal so you do not leave a backdrop ring on chrome tags."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-pets","tool":"bg-remover","useCase":"pets","useCaseLabel":"Pets and fur","intentBanner":"Pets preset · black preview · Refine · Restore brush tip","config":{"defaultBg":"#111111","bgSwatchIndex":2,"exportHint":"png","suggestRefine":true,"tipLabel":"Use dark preview to spot fur halo"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Fur and whiskers</div>
     <h2>Pet cutouts that keep whiskers without a cloud hop</h2>
-    <p class="seo-lead">Fur fails on hard mattes. A black preview reveals white and colored halo instantly. This page starts dark so you can Refine and Restore with honest contrast before any share.</p>
+    <p class="seo-lead">Fur fails on hard mattes. A black preview reveals white and colored halo instantly. This page starts dark so you can Refine and Restore with honest contrast before any share. Pet businesses, shelters, and owners avoid uploading home interiors that often appear behind the animal. PNG export keeps soft whisker alpha for later composites on bright sites. This is not a product-white marketplace preset; it is a fur-first inspection loop.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Dark preview is the fastest way to see leftover studio paper in fur tips. Refine is suggested because soft peels recover whiskers better than a second full AI run.</p>
-    <p class="seo-lead">After AI, switch mentally to halo hunting on black. Refine once, Restore thin whiskers, Erase paper crumbs in the coat, then flip to transparent for final PNG.</p>
+    <h2>Why Pets and fur gets this locked preview</h2>
+    <p class="seo-lead">Dark preview is the fastest way to see leftover studio paper in fur tips. Refine is suggested because soft peels recover whiskers better than a second full AI run. PNG preserves the partial alpha those whiskers need. The tip tells operators to hunt halo on black before they trust a white client proof.</p>
+    <p class="seo-lead">After AI, switch mentally to halo hunting on black. Refine once, Restore thin whiskers, Erase paper crumbs in the coat, then flip to transparent for final PNG. Keep opacity low on Restore so you do not paint solid blobs. For dark fur on dark floors, temporarily flip to white to spot missing chunks, then return to black for halo.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Adoption and pet-brand shoots with fur-first QA</h2>
+    <p class="seo-lead">Open this preset when whiskers and coat edges matter more than marketplace white. Run AI, stay on black until halo is gone, then export PNG for the designer who will place the pet on a colorful landing section. If a client insists on white proofs, flip swatches only after the matte is clean. For multi-pet days, cache the model and keep a naming scheme that includes animal ID so files do not mix. Avoid over-refining curly coats; Restore is usually the better second move.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Whiskers, ear tufts, and coat halo on dark preview</h2>
+    <p class="seo-lead">Pet edges are soft by nature. On black, white paper halo screams along the outline — erase it gently. Restore whiskers with single-pixel-minded strokes. Ear tufts often need a mix of Restore inside and Erase outside. Do not chase every translucent hair if the final plate is busy foliage; match softness to the destination. Export PNG so those decisions survive into the composite.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Pet photos often include home interiors. Local processing keeps household details off remover logs that could otherwise retain EXIF-adjacent context.</p>
+    <h2>On-device cutouts for Pets and fur</h2>
+    <p class="seo-lead">Pet photos often include home interiors. Local processing keeps household details off remover logs that could otherwise retain EXIF-adjacent context. Shelters handling adoptable animals can process photos on volunteer laptops without creating a shared cloud album of cutouts. Still blur identifiable addresses in the original if the frame will be published widely.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Pets and fur</h2>
-    <details class="faq-item"><summary>Why start on black instead of white?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Light fur fringe hides on white and screams on black. Starting dark forces you to clean the matte before export. You can still switch to white anytime for client proofs.</div></details>
-    <details class="faq-item"><summary>Will long fur always need manual work?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Often yes for show-quality results. AI gets you 80 to 90 percent; Restore and Erase at low opacity finish the last strands. That is expected for any serious fur pipeline.</div></details>
+    <h2>FAQ — Pets and fur background removal</h2>
+    <details class="faq-item"><summary>Why start on black instead of white?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Light fur fringe hides on white and screams on black. Starting dark forces you to clean the matte before export. You can still switch to white anytime for client proofs. Many retouchers flip between both several times before they trust the edge.</div></details>
+    <details class="faq-item"><summary>Will long fur always need manual work?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Often yes for show-quality results. AI gets you 80 to 90 percent; Restore and Erase at low opacity finish the last strands. That is expected for any serious fur pipeline, cloud or local. Budget time accordingly instead of expecting a one-click miracle.</div></details>
+    <details class="faq-item"><summary>Can I use this for pet product packs too?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">If the subject is a rigid package, prefer the ecommerce or marketplace-white presets. Use pets when the living animal is the silhouette. Mixed frames with both animal and pack may need two cutouts composited later.</div></details>
+    <details class="faq-item"><summary>Does black preview affect the exported colors?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">No. Preview swatches are QA backgrounds. PNG export carries the subject colors and alpha, not the black field, unless you intentionally export JPG with background while black is selected.</div></details>
+    <details class="faq-item"><summary>How do I handle leash and collar hardware?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Decide whether hardware stays in the story. If it should go, Smart Erase the leash and Restore fur behind where possible. If it stays, Refine carefully around metal so you do not leave a backdrop ring on chrome tags.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>

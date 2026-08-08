@@ -262,14 +262,21 @@
   <section id="security" class="seo-section seo-security">
     <h2>Shrink for Gmail without uploading your PDF</h2>
     <p>If Gmail says the attachment is too large, you do not need a website that asks you to “upload to compress.” On this page the file never leaves your laptop: the browser reads it, shrinks pages with a locked email preset, and you download a smaller PDF to attach yourself.</p>
-<p>That is the difference between convenience and privacy. Contracts, tax packets, and medical letters stay in tab memory until you close the tab.</p>
+<p>That is the difference between convenience and privacy. Contracts, tax packets, and medical letters stay in tab memory until you close the tab — VeloTools never receives a copy.</p>
+<p>When you are ready, attach the download in Gmail the normal way. Compression finished locally; only Gmail sees what you choose to send.</p>
   </section>
 
+  <section id="problem" class="seo-section">
+    <h2>Why Gmail keeps rejecting that attachment</h2>
+    <p>Everyday Gmail accounts enforce a hard ceiling near <strong>25 MB per message</strong>. The body, inline images, and every attachment share that budget, so a scanned lease or slide deck that looks “only a little big” still fails Send.</p>
+<p>Phone camera exports and exported PowerPoint packs are the usual culprits: full-color pages at high DPI balloon past the limit even when page count is modest. People then paste screenshots into Drive links — workable, but not what a recipient who expects a simple attached PDF wants.</p>
+<p>This URL exists for that exact failure: get under 25 MB while keeping the file readable in Gmail’s preview on phones and desktop.</p>
+  </section>
   <section id="how-it-works" class="seo-section seo-steps">
     <h2>How to fix “attachment too large” in Gmail</h2>
     <ol>
       <li>Drop the PDF that Gmail rejected — the 25 MB email preset is already locked on this page.</li>
-      <li>Tap Compress All and wait for the green size check under 25 MB.</li>
+      <li>Tap Compress All and wait for the green size check under 25 MB before you download.</li>
       <li>Download, open Gmail, attach the new file. Still oversized? Use Split PDF for chapters, then send two messages.</li>
     </ol>
   </section>
@@ -288,12 +295,17 @@
     </table>
   </section>
 
+  <section id="preset" class="seo-section">
+    <h2>The email Web preset behind this Gmail URL</h2>
+    <p>We lock a Web-quality path around 96 DPI with moderate JPEG quality so text stays crisp in Gmail’s viewer without preserving print-shop masters. Metadata that only inflates the file is stripped; you keep a normal PDF you can open anywhere.</p>
+<p>It is gentler than Screen modes used for LMS homework because Gmail’s 25 MB ceiling gives more room than a 5 MB course upload. If you still miss the mark after one pass, split chapters or run a stronger pass on the main compressor — do not crush quality first.</p>
+  </section>
   <section id="deep-dive" class="seo-section seo-deep-dive">
     <h2>Why Gmail stops at 25 MB — and what to do next</h2>
     <p>Gmail’s well-known ceiling is about <strong>25 MB per message</strong> for everyday accounts. Workspace admins can raise it, but most people still hit the classic wall with scanned packets and slide decks.</p>
 <p>This page is tuned for that moment: keep the file readable in Gmail’s preview, strip bulky metadata, and show a warning before you waste time on a failed Send. It is not meant for print-shop masters — keep your original if you still need perfect vector text later.</p>
 <p>Compared with <a href="/compress-pdf-for-outlook/">Outlook’s tighter 20 MB habit</a>, Gmail gives a little more room, so we use a gentler email preset here. If one file is still huge after compressing, <a href="/split-pdf/">split the PDF</a> or run a second pass on <a href="/compress-pdf/">Compress PDF</a> with the Screen preset.</p>
-<p>Also leave a little headroom: embedded images in the email body count toward the same message size.</p>
+<p>Also leave a little headroom: embedded images in the email body count toward the same message size. Browse more utilities on <a href="/pdf-tools/">PDF tools</a> when you need merge or reorder after shrinking.</p>
   </section>
 
   <section id="faq" class="seo-section seo-faq">

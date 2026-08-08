@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compress PDF for Telegram — Practical Document Sends Under 20 MB | VeloTools</title>
+<meta name="description" content="Telegram PDF downloads crawling on mobile? Compress toward a practical ~20 MB document size in your browser, then send as a file — not compressed media.">
+<meta name="keywords" content="compress pdf online free,reduce pdf size,pdf compressor no upload,pdf file size reducer,compress pdf without losing quality,batch pdf compressor,pdf size reducer 2026,free pdf compressor browser">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://velotools.app/compress-pdf-for-telegram/">
+<meta property="og:title" content="Free PDF Compressor — Reduce PDF Size in Browser, No Upload">
+<meta property="og:description" content="Compress PDFs up to 90% smaller. No server upload, completely private. Batch processing, 4 quality presets, grayscale mode.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools PDF Compressor","description":"Free browser-based PDF compressor. Reduce file size without uploading. Supports batch processing, multiple quality levels, grayscale mode.","url":"https://velotools.app/compress-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["PDF compression up to 90%","No server upload","Batch processing","4 quality presets","Grayscale mode","Metadata removal","Free forever"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I lighten a PDF before a Telegram Files send?","acceptedAnswer":{"@type":"Answer","text":"Use this page until you land near or under about 20 MB, save it, then in Telegram choose Files — never the Gallery / media album path."}},{"@type":"Question","name":"Why does my Telegram PDF look smeared for the client?","acceptedAnswer":{"@type":"Answer","text":"It likely traveled through Gallery. Resend the lightened PDF via the Files tray so Telegram stops recompressing sheets as snapshots."}},{"@type":"Question","name":"Telegram advertises huge payloads — why aim near 20 MB?","acceptedAnswer":{"@type":"Answer","text":"Huge payloads can succeed on the wire and still fail for commute LTE readers. Twenty megabytes is a field band aimed at fewer abandoned progress bars."}},{"@type":"Question","name":"Can I lighten first, then attach inside a Secret Chat?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pare mass locally here, then attach in the Secret Chat. We never see the payload; Telegram’s secret path applies only after your client upload."}},{"@type":"Question","name":"Does this page push my PDF into Telegram bots automatically?","acceptedAnswer":{"@type":"Answer","text":"No. There is no bot bridge. You save locally, then pick the destination chat yourself."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/compress-pdf/style.css">
+<link rel="stylesheet" href="/pdf-core/shared.css">
+<link rel="stylesheet" href="/css/logo.css">
+<link rel="stylesheet" href="/css/vt-recent.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
+<script src="/js/analytics.js"></script>
+</head>
+<body>
+
+<style>
+.vt-gnav{height:60px;background:rgba(20,30,54,.96);border-bottom:1px solid rgba(73,175,235,.25);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;position:sticky;top:0;z-index:9999;backdrop-filter:blur(12px) saturate(130%)}
+.vt-glinks{display:flex;gap:2px;justify-self:center}
+.vt-glink{font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;color:rgba(200,216,248,.85);text-decoration:none;font-family:-apple-system,'DM Sans',system-ui,sans-serif;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.vt-glink:hover{background:rgba(73,175,235,.15);color:#fff}
+.vt-glink.act{background:linear-gradient(135deg,rgba(77,122,201,.4),rgba(144,94,242,.3));color:#fff;font-weight:600;border:1px solid rgba(73,175,235,.4)}
+.vt-dot{width:6px;height:6px;background:#47ded1;border-radius:50%;animation:vt-blink 2s ease-in-out infinite;display:inline-block}
+@keyframes vt-blink{0%,100%{opacity:1}50%{opacity:.5}}
+@media(max-width:680px){.vt-glinks{display:none}}
+.hdr{display:none!important}
+</style>
+
+<nav class="vt-gnav" aria-label="Site navigation">
+  <a href="/" class="vt-logo" aria-label="VeloTools home">
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44" decoding="async"></picture>
+    <span class="vt-logo-text">velotools</span>
+  </a>
+  <div class="vt-glinks">
+    <a href="/image-compress/" class="vt-glink">Image</a>
+    <a href="/invoice/"        class="vt-glink">Invoice</a>
+    <a href="/qr/"             class="vt-glink">QR Code</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink">BG Remover</a><a href="/pdf-tools/"   class="vt-glink act">PDF</a>
+    <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
+  </div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
+</nav>
+
+<div class="pdf-related" aria-label="PDF tools">
+  <a href="/pdf-tools/">All PDF tools</a>
+  <a href="/merge-pdf/">Merge PDF</a>
+  <a href="/split-pdf/">Split PDF</a>
+  <a href="/rotate-pdf/">Rotate PDF</a>
+  <a href="/compress-pdf/" class="act">Compress PDF</a>
+  <a href="/pdf-to-jpg/">PDF to JPG</a>
+  <a href="/jpg-to-pdf/">JPG to PDF</a>
+  <a href="/unlock-pdf/">Unlock PDF</a>
+  <a href="/protect-pdf/">Protect PDF</a>
+</div>
+
+<header class="hdr">
+  <a class="logo" href="/">
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="40" height="40" decoding="async"></picture>
+    <span class="logo-nm">velotools</span>
+  </a>
+  <div class="hdr-r">
+    <div class="hdr-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>No upload · 100% private</div>
+    <a class="back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>All tools</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Make <em>Telegram</em> PDF file sends open faster</h1>
+    <p class="hero-sub">Telegram can accept huge cloud files, but chat downloads still stall past a practical ~20 MB. This Web preset keeps tickets and letters as real PDFs while warning before you flood mobile data.</p>
+    <div class="hero-badges">
+      <span class="hbadge hbadge--private">&#128274; 100% Private</span>
+      <span class="hbadge hbadge--speed">&#9889; Instant</span>
+      <span class="hbadge hbadge--batch">&#128196; Batch &times;20</span>
+      <span class="hbadge hbadge--save">&#127775; Up to 90% smaller</span>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="hv-card hv-before">
+      <div class="hv-label">Before</div>
+      <svg class="hv-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <div class="hv-size">12.4 MB</div>
+    </div>
+    <div class="hv-arrow">
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <span>-82%</span>
+    </div>
+    <div class="hv-card hv-after">
+      <div class="hv-label">After</div>
+      <svg class="hv-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <div class="hv-size hv-size-small">2.2 MB</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MAIN TOOL ===== -->
+<main class="main">
+<div class="tool-wrap">
+
+  <!-- Settings panel -->
+  <aside class="settings-panel" id="settings-panel">
+    <div class="sp-head">
+      <span>Compression Settings</span>
+      <span class="sp-head-live" id="settings-summary">96 DPI · 65% JPEG</span>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label">Preset</div>
+      <div class="presets-grid" id="presets-grid">
+        <button class="preset-btn" data-preset="screen" title="Smallest file. Best for screen viewing.">
+          <div class="pb-icon">&#128190;</div>
+          <div class="pb-name">Screen</div>
+          <div class="pb-desc">72 dpi · JPEG 40%</div>
+          <div class="pb-save">~85% smaller</div>
+        </button>
+        <button class="preset-btn act" data-preset="web" title="Good balance of size and quality.">
+          <div class="pb-icon">&#127760;</div>
+          <div class="pb-name">Web</div>
+          <div class="pb-desc">96 dpi · JPEG 65%</div>
+          <div class="pb-save">~70% smaller</div>
+        </button>
+        <button class="preset-btn" data-preset="print" title="Suitable for printing.">
+          <div class="pb-icon">&#128438;</div>
+          <div class="pb-name">Print</div>
+          <div class="pb-desc">150 dpi · JPEG 80%</div>
+          <div class="pb-save">~50% smaller</div>
+        </button>
+        <button class="preset-btn" data-preset="archive" title="Maximum quality, minimal compression.">
+          <div class="pb-icon">&#128736;</div>
+          <div class="pb-name">Archive</div>
+          <div class="pb-desc">200 dpi · JPEG 90%</div>
+          <div class="pb-save">~30% smaller</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label-row">
+        <span class="sp-label">Image quality</span>
+        <span class="sp-val" id="quality-val">65%</span>
+      </div>
+      <input type="range" class="sp-slider" id="sl-quality" min="10" max="95" value="65">
+      <div class="sp-slider-labels"><span>Smallest</span><span>Balanced</span><span>Sharpest</span></div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label-row">
+        <span class="sp-label">Resolution (DPI)</span>
+        <span class="sp-val" id="dpi-val">96</span>
+      </div>
+      <div class="dpi-btns" id="dpi-btns">
+        <button class="dpi-btn" data-dpi="72">72</button>
+        <button class="dpi-btn act" data-dpi="96">96</button>
+        <button class="dpi-btn" data-dpi="150">150</button>
+        <button class="dpi-btn" data-dpi="200">200</button>
+        <button class="dpi-btn" data-dpi="300">300</button>
+      </div>
+    </div>
+
+    <div class="sp-section">
+      <div class="sp-label">Options</div>
+      <label class="opt-toggle">
+        <input type="checkbox" id="opt-grayscale" onchange="settingChanged()">
+        <span class="ot-track"><span class="ot-thumb"></span></span>
+        <div class="ot-text">
+          <span class="ot-name">Grayscale mode</span>
+          <span class="ot-hint">Removes colour data · extra 10–20% saving</span>
+        </div>
+      </label>
+      <label class="opt-toggle">
+        <input type="checkbox" id="opt-metadata" checked onchange="settingChanged()">
+        <span class="ot-track"><span class="ot-thumb"></span></span>
+        <div class="ot-text">
+          <span class="ot-name">Strip metadata</span>
+          <span class="ot-hint">Removes author, title, creation date</span>
+        </div>
+      </label>
+      <label class="opt-toggle">
+        <input type="checkbox" id="opt-annotations" checked onchange="settingChanged()">
+        <span class="ot-track"><span class="ot-thumb"></span></span>
+        <div class="ot-text">
+          <span class="ot-name">Remove annotations</span>
+          <span class="ot-hint">Strips comments and form fields</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="sp-section sp-section-info">
+      <div class="sp-info-icon">&#128161;</div>
+      <p>Best results on image-heavy PDFs (scans, photos, presentations). Text-only PDFs compress less.</p>
+    </div>
+  </aside>
+
+  <!-- Main area -->
+  <div class="main-area">
+
+    <!-- Upload zone -->
+    <div class="upload-zone" id="upload-zone" role="button" tabindex="0" aria-label="Upload PDF files">
+      <input type="file" id="file-input" accept=".pdf,application/pdf" multiple>
+      <div class="uz-content">
+        <div class="uz-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6M9 15l3-3 3 3"/></svg>
+        </div>
+        <div class="uz-text">
+          <p class="uz-h">Drop your PDF files here</p>
+          <p class="uz-p">or <strong>click to browse</strong> &middot; Up to 20 files at once</p>
+        </div>
+        <div class="uz-formats"><span class="fmt">PDF</span><span class="fmt-note">Max ~100MB per file</span></div>
+      </div>
+    </div>
+
+    <!-- File list -->
+    <div id="file-list" class="file-list" style="display:none"></div>
+
+    <!-- Batch actions -->
+    <div id="batch-bar" class="batch-bar" style="display:none">
+      <div class="bb-left">
+        <div class="bb-summary" id="bb-summary"></div>
+        <div class="bb-savings" id="bb-savings" style="display:none"></div>
+      </div>
+      <div class="bb-actions">
+        <button class="bb-compress" id="btn-compress-all" onclick="compressAll()">
+          <svg viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="21" y2="3"/><line x1="3" y1="21" x2="14" y2="10"/></svg>
+          Compress All
+        </button>
+        <button class="bb-download" id="btn-download-all" onclick="downloadAll()" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download All (ZIP)
+        </button>
+        <button class="bb-clear" onclick="clearAll()">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <div id="vt-recent-pdf-compress" class="vt-recent" hidden></div>
+
+  </div><!-- /main-area -->
+</div><!-- /tool-wrap -->
+</main>
+
+<section class="editorial" aria-label="Guide for compress-pdf-for-telegram">
+
+  <section id="security" class="seo-section seo-security">
+    <h2>Lighten messenger files without parking them on a public compressor</h2>
+    <p>Telegram’s Files tray is how freelancers move invoice stacks, stamped contracts, and channel briefing decks without feeding a media-album recompress pipeline. Pare mass in your own tab toward a field-friendly <strong>~20 MB</strong> band — VeloTools never hosts the payload; Telegram only receives what you choose later in the client.</p>
+<p>Secret conversations and noisy workgroups both benefit from skipping shady shrink SaaS that quietly retain copies.</p>
+<p>Processing stays inside the session memory. Close the tab when finished; solely your Telegram client performs the outbound transfer.</p>
+  </section>
+
+  <section id="problem" class="seo-section">
+    <h2>Protocol capacity is not the same as a client who taps Open</h2>
+    <p>Telegram’s pipe can haul oversized payloads, yet a dense scan past roughly <strong>20 MB</strong> still dies on commute LTE: the progress bar freezes, the freelancer “delivered” nothing useful, and the client never taps Open.</p>
+<p>Routing sheets through the media album is worse. Telegram’s image pipeline smears microtext, stamp seals, and wireframe callouts until the brief is useless. The dependable sequence is: lighten locally → save → Files tray → skip Gallery entirely.</p>
+<p>This URL optimizes for “opened in the taxi,” not for freezing a press-ready archive you should retain offline before the messenger transfer.</p>
+  </section>
+  <section id="how-it-works" class="seo-section seo-steps">
+    <h2>Move a PDF through Telegram’s Files tray without a dead progress bar</h2>
+    <ol>
+      <li>Drop the PDF whose transfer dies mid-commute — the ~20 MB field band is locked on this messenger URL.</li>
+      <li>Run Compress All until the size status feels safe for mobile Files delivery on LTE.</li>
+      <li>Save, open Telegram, pick Files (not Gallery). Chapter the deck if mass still balloons.</li>
+    </ol>
+  </section>
+
+  <section id="tech-specs" class="seo-section">
+    <h2>Telegram Files-tray working profile</h2>
+    <table class="seo-table">
+      <tbody>
+        <tr><th>Problem it solves</th><td>Telegram PDF transfer dies / client never opens it</td></tr>
+        <tr><th>Field band</th><td>~20 MB for reliable mobile Files sends</td></tr>
+        <tr><th>Route via</th><td>Files tray — avoid Gallery / media album</td></tr>
+        <tr><th>Fidelity</th><td>Messenger-readable with microtext-friendly bias</td></tr>
+        <tr><th>Privacy</th><td>Session-local lighten before Telegram transfer</td></tr>
+        <tr><th>Compare</th><td>WhatsApp ~16 MB comfort · Discord ~10 MB feel</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="preset" class="seo-section">
+    <h2>Files-tray fidelity for Telegram — not media-album mush</h2>
+    <p>We hold enough fidelity for invoice stamps and dense callouts while steering under the ~20 MB field line. Deadweight metadata disappears; illustrated briefs keep color.</p>
+<p>If you only ship archive masters to desktop readers on cafe Wi-Fi, loosen on the unlocked compressor — this page serves the “opens on a phone between subway stops” case.</p>
+  </section>
+  <section id="deep-dive" class="seo-section seo-deep-dive">
+    <h2>Capacity myths versus the ~20 MB Telegram field band</h2>
+    <p>Telegram’s protocol can ferry larger payloads than most everyday messengers, yet real clients on commute LTE abandon transfers past about <strong>20 MB</strong> of dense PDF. This page aims at that human ceiling so “delivered” equals “actually read.”</p>
+<p>Sibling messenger targets lock different tradeoffs: <a href="/compress-pdf-for-whatsapp/">WhatsApp (~16 MB comfort)</a>, <a href="/compress-pdf-for-discord/">Discord (~10 MB feel)</a>, and <a href="/compress-pdf-for-slack/">Slack (~1 MB screen habit)</a>.</p>
+<p>Chapter long briefing decks with <a href="/split-pdf/">Split PDF</a>, refine on <a href="/compress-pdf/">Compress PDF</a>, or browse <a href="/pdf-tools/">PDF tools</a> when you need merge after reordering sections.</p>
+<p>Always route through the Files tray after saving. Gallery / media-album sends re-bake sheets like snapshots and routinely destroy microtext and stamp seals that looked crisp on a monitor.</p>
+<p>Freelancer habit worth keeping: retain the untouched contract offline, lighten a share copy for the workgroup, and never overwrite the only master with a messenger-optimized export. Channel admins dropping weekly briefs should treat the same two-copy rule — Telegram is a courier, not your records vault.</p>
+<p>When a client still claims the packet “will not open,” ask whether they received a Files item or a media collage. Resend via Files and the microtext usually returns without another brutal quality crush. Behavioral routing beats endless re-encoding loops.</p>
+<p>Secret conversations add encryption after you transfer — they do not excuse parking the original on a public shrink host first. Lighten here, then attach inside the secret thread yourself. No bot bridge exists on this page; you alone decide the destination chat.</p>
+  </section>
+
+  <section id="faq" class="seo-section seo-faq">
+    <h2>Telegram Files-tray PDF questions</h2>
+    <details>
+      <summary>How do I lighten a PDF before a Telegram Files send?</summary>
+      <div class="faq-a">Use this page until you land near or under about 20 MB, save it, then in Telegram choose Files — never the Gallery / media album path.</div>
+    </details>
+    <details>
+      <summary>Why does my Telegram PDF look smeared for the client?</summary>
+      <div class="faq-a">It likely traveled through Gallery. Resend the lightened PDF via the Files tray so Telegram stops recompressing sheets as snapshots.</div>
+    </details>
+    <details>
+      <summary>Telegram advertises huge payloads — why aim near 20 MB?</summary>
+      <div class="faq-a">Huge payloads can succeed on the wire and still fail for commute LTE readers. Twenty megabytes is a field band aimed at fewer abandoned progress bars.</div>
+    </details>
+    <details>
+      <summary>Can I lighten first, then attach inside a Secret Chat?</summary>
+      <div class="faq-a">Yes. Pare mass locally here, then attach in the Secret Chat. We never see the payload; Telegram’s secret path applies only after your client upload.</div>
+    </details>
+    <details>
+      <summary>Does this page push my PDF into Telegram bots automatically?</summary>
+      <div class="faq-a">No. There is no bot bridge. You save locally, then pick the destination chat yourself.</div>
+    </details>
+  </section>
+
+</section>
+
+
+
+<footer class="site-footer">
+  <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="/js/vt-recent.js"></script>
+<script type="application/json" id="vt-page-config">{"slug":"compress-pdf-for-telegram","tool":"compress-pdf","toolMode":"compress","platform":"telegram","widget":{"preset":"web","quality":67,"dpi":96,"grayscale":false,"stripMetadata":true,"stripAnnotations":true,"maxOutputBytes":20971520,"lock":["preset","dpi"],"limitWarning":"Still over 20 MB — lower quality once or split chapters before sending as a Telegram file."},"intentBanner":"Telegram mode: Web preset (96 DPI · 67% JPEG) · 20 MB practical checker"}</script>
+<script src="/pdf-tools/compress.js"></script>
+</body>
+</html>

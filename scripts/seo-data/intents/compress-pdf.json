@@ -19,7 +19,10 @@
       "stripMetadata": true,
       "stripAnnotations": true,
       "maxOutputBytes": 26214400,
-      "lock": ["preset", "dpi"],
+      "lock": [
+        "preset",
+        "dpi"
+      ],
       "limitWarning": "Still over 25 MB — try Screen preset or split the PDF first."
     },
     "intentBanner": "Gmail mode: Web preset (96 DPI · 65% JPEG) · 25 MB limit checker enabled",
@@ -46,7 +49,11 @@
       "stripMetadata": true,
       "stripAnnotations": true,
       "maxOutputBytes": 5242880,
-      "lock": ["preset", "dpi", "grayscale"],
+      "lock": [
+        "preset",
+        "dpi",
+        "grayscale"
+      ],
       "limitWarning": "Still over 5 MB — remove scanned color pages or split into multiple files."
     },
     "intentBanner": "Canvas mode: Screen preset (72 DPI · 40% JPEG) · 5 MB limit checker enabled",
@@ -73,7 +80,10 @@
       "stripMetadata": true,
       "stripAnnotations": false,
       "maxOutputBytes": 20971520,
-      "lock": ["preset", "dpi"],
+      "lock": [
+        "preset",
+        "dpi"
+      ],
       "limitWarning": "Still over Outlook’s 20 MB cap — switch to Screen quality or split chapters."
     },
     "intentBanner": "Outlook mode: Web preset (96 DPI · 62% JPEG) · 20 MB attachment checker",
@@ -100,7 +110,11 @@
       "stripMetadata": true,
       "stripAnnotations": true,
       "maxOutputBytes": 10485760,
-      "lock": ["preset", "dpi", "grayscale"],
+      "lock": [
+        "preset",
+        "dpi",
+        "grayscale"
+      ],
       "limitWarning": "Still over 10 MB — drop DPI further via Screen or split the submission."
     },
     "intentBanner": "Blackboard mode: Screen (72 DPI · 45% JPEG · grayscale) · 10 MB checker",
@@ -127,7 +141,10 @@
       "stripMetadata": true,
       "stripAnnotations": false,
       "maxOutputBytes": 10485760,
-      "lock": ["preset", "dpi"],
+      "lock": [
+        "preset",
+        "dpi"
+      ],
       "limitWarning": "Still over 10 MB — flatten scans with Screen preset or remove unused pages."
     },
     "intentBanner": "USPS / gov forms mode: Web (96 DPI · 58% JPEG · color) · 10 MB checker",
@@ -154,7 +171,10 @@
       "stripMetadata": true,
       "stripAnnotations": true,
       "maxOutputBytes": 10485760,
-      "lock": ["preset", "dpi"],
+      "lock": [
+        "preset",
+        "dpi"
+      ],
       "limitWarning": "Still over 10 MB — enable grayscale manually or ask your Moodle admin for the real maxbytes."
     },
     "intentBanner": "Moodle mode: Screen (72 DPI · 42% JPEG · color kept) · 10 MB checker",
@@ -181,11 +201,375 @@
       "stripMetadata": true,
       "stripAnnotations": true,
       "maxOutputBytes": 16777216,
-      "lock": ["preset", "quality"],
+      "lock": [
+        "preset",
+        "quality"
+      ],
       "limitWarning": "Still over 16 MB — lower to Screen preset or split before sending as a WhatsApp document."
     },
     "intentBanner": "WhatsApp document mode: Web (96 DPI · 68% JPEG) · 16 MB practical checker",
     "publishStatus": "published",
     "publishedAt": "2026-07-30"
+  },
+  {
+    "slug": "compress-pdf-for-slack",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "slack",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Slack — Snappy Channel Shares Under ~1 MB | VeloTools",
+    "description": "Slack preview crawling? Shrink PDFs toward a practical ~1 MB screen target in your browser — grayscale Screen preset, no upload to a random compressor.",
+    "h1": "Shrink a PDF so Slack previews open on phones",
+    "h1Em": "Slack",
+    "heroLead": "Dense decks stall Slack’s mobile sidebar long before formal upload caps. This page locks a harsh Screen + grayscale pass aimed at a practical ~1 MB share so teammates actually open the file.",
+    "widget": {
+      "preset": "screen",
+      "quality": 35,
+      "dpi": 72,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 1048576,
+      "lock": [
+        "preset",
+        "dpi",
+        "grayscale"
+      ],
+      "limitWarning": "Still over 1 MB — split the appendix or share a Drive link instead of the full binder."
+    },
+    "intentBanner": "Slack mode: Screen (72 DPI · 35% JPEG · grayscale) · 1 MB practical checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-teams",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "teams",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Microsoft Teams — Chat Attachments Under 25 MB | VeloTools",
+    "description": "Teams says the file is too large? Compress meeting handouts under a practical 25 MB chat budget in-browser — Web preset, private, no third-party hop.",
+    "h1": "Clear Teams “file too large” on PDF chat uploads",
+    "h1Em": "Teams",
+    "heroLead": "Channel and meeting chat often behave like a ~25 MB attachment budget. Lock a Web email-style preset here, download the smaller PDF, then upload in Teams yourself — VeloTools never sees the bytes.",
+    "widget": {
+      "preset": "web",
+      "quality": 64,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — confirm tenant policy or split the deck before the call."
+    },
+    "intentBanner": "Teams mode: Web preset (96 DPI · 64% JPEG) · 25 MB chat checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-discord",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "discord",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Discord — Nitro-Free Uploads Under 10 MB | VeloTools",
+    "description": "Discord rejects your PDF without Nitro? Shrink scans under the common ~10 MB free upload cap — grayscale Screen preset, 100% in your browser.",
+    "h1": "Fit a PDF under Discord’s free upload limit",
+    "h1Em": "Discord",
+    "heroLead": "Without Nitro, Discord uploads commonly stop near 10 MB. This page locks a grayscale Screen preset so homework and community handouts clear the free tier without boosting.",
+    "widget": {
+      "preset": "screen",
+      "quality": 48,
+      "dpi": 72,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 10485760,
+      "lock": [
+        "preset",
+        "dpi",
+        "grayscale"
+      ],
+      "limitWarning": "Still over 10 MB — remove color scans or split pages before posting."
+    },
+    "intentBanner": "Discord mode: Screen (72 DPI · 48% JPEG · grayscale) · 10 MB free-tier checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-telegram",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "telegram",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Telegram — Practical Document Sends Under 20 MB | VeloTools",
+    "description": "Telegram PDF downloads crawling on mobile? Compress toward a practical ~20 MB document size in your browser, then send as a file — not compressed media.",
+    "h1": "Make Telegram PDF file sends open faster",
+    "h1Em": "Telegram",
+    "heroLead": "Telegram can accept huge cloud files, but chat downloads still stall past a practical ~20 MB. This Web preset keeps tickets and letters as real PDFs while warning before you flood mobile data.",
+    "widget": {
+      "preset": "web",
+      "quality": 67,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 20971520,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 20 MB — lower quality once or split chapters before sending as a Telegram file."
+    },
+    "intentBanner": "Telegram mode: Web preset (96 DPI · 67% JPEG) · 20 MB practical checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-google-drive",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "google-drive",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Google Drive — Comfortable Uploads Under ~100 MB | VeloTools",
+    "description": "Drive upload spinning forever? Shrink oversized PDF exports toward a practical ~100 MB web-upload comfort zone — mild Web quality, quality lock only, private in-browser.",
+    "h1": "Trim a PDF before a painful Google Drive upload",
+    "h1Em": "Drive",
+    "heroLead": "Drive storage is large, but browser upload fields and shared-link recipients still hate 500 MB print dumps. This page locks mild Web quality with a ~100 MB checker so collaborators can actually open the file.",
+    "widget": {
+      "preset": "web",
+      "quality": 72,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 104857600,
+      "lock": [
+        "quality"
+      ],
+      "limitWarning": "Still over 100 MB — strip unused pages or use Split PDF before uploading."
+    },
+    "intentBanner": "Google Drive mode: Web (96 DPI · 72% JPEG) · 100 MB comfort checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-dropbox",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "dropbox",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Dropbox — Shared Links Under ~50 MB | VeloTools",
+    "description": "Dropbox preview or upload stalling? Compress PDFs toward a practical ~50 MB share size in your browser — Web preset, no upload to VeloTools.",
+    "h1": "Shrink PDFs so Dropbox shares open for clients",
+    "h1Em": "Dropbox",
+    "heroLead": "Plan caps vary, but a practical ~50 MB PDF keeps web uploads and shared-link previews workable. Compress locally with a locked Web preset, then drop the result into Dropbox yourself.",
+    "widget": {
+      "preset": "web",
+      "quality": 68,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 52428800,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 50 MB — split the binder or lower to Screen quality once."
+    },
+    "intentBanner": "Dropbox mode: Web preset (96 DPI · 68% JPEG) · 50 MB practical checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-notion",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "notion",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Notion — Embeds Under ~5 MB | VeloTools",
+    "description": "Notion PDF embeds spinning? Shrink attachments toward a practical ~5 MB Screen target — color kept, browser-only, no account required.",
+    "h1": "Get a PDF light enough for Notion pages",
+    "h1Em": "Notion",
+    "heroLead": "Wiki embeds feel broken past a few megabytes. This page locks a Screen preset with color kept and a ~5 MB checker so attached PDFs open inside Notion without long spinners.",
+    "widget": {
+      "preset": "screen",
+      "quality": 42,
+      "dpi": 72,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 5242880,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 5 MB — enable grayscale for scans or link an external Drive file instead."
+    },
+    "intentBanner": "Notion mode: Screen (72 DPI · 42% JPEG · color) · 5 MB embed checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-linkedin",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "linkedin",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for LinkedIn — Document Posts Under ~100 MB | VeloTools",
+    "description": "LinkedIn document upload timing out? Compress brand decks under a practical ~100 MB media budget — color kept, annotations preserved, private in-browser.",
+    "h1": "Prepare a PDF document post recruiters will finish",
+    "h1Em": "LinkedIn",
+    "heroLead": "LinkedIn may accept large files near ~100 MB, but phones abandon oversized InDesign dumps. Mild Web quality here trims export bloat while keeping brand color and comment balloons if you need them.",
+    "widget": {
+      "preset": "web",
+      "quality": 70,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": false,
+      "maxOutputBytes": 104857600,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 100 MB — flatten huge embedded images or split the carousel into parts."
+    },
+    "intentBanner": "LinkedIn mode: Web (96 DPI · 70% JPEG · annotations kept) · 100 MB checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-zoom",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "zoom",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for Zoom Chat — Handouts Under ~20 MB | VeloTools",
+    "description": "Zoom chat won’t take your PDF? Shrink meeting handouts under a practical ~20 MB in-meeting share size — Web preset, browser-only, no upload hop.",
+    "h1": "Shrink meeting handouts for Zoom chat",
+    "h1Em": "Zoom",
+    "heroLead": "In-meeting chat is far tighter than cloud recordings. Lock a ~20 MB Web preset here so attendees can download the PDF during the call instead of waiting for a post-meeting Drive dump.",
+    "widget": {
+      "preset": "web",
+      "quality": 64,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": false,
+      "maxOutputBytes": 20971520,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 20 MB — strip image-heavy appendix pages or share a link after the call."
+    },
+    "intentBanner": "Zoom chat mode: Web preset (96 DPI · 64% JPEG) · 20 MB handout checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-wetransfer",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "wetransfer",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for WeTransfer — Free Sends Under ~25 MB | VeloTools",
+    "description": "Free WeTransfer feeling tight? Compress a single PDF toward a practical ~25 MB transfer comfort zone in your browser before you generate the link.",
+    "h1": "Fit a client PDF into a free WeTransfer send",
+    "h1Em": "WeTransfer",
+    "heroLead": "Free transfers have a modest comfort budget. This page locks a Web preset with a ~25 MB checker so one PDF lands as a simple download without upgrading to a paid plan.",
+    "widget": {
+      "preset": "web",
+      "quality": 66,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — split into two transfers or remove unused print masters."
+    },
+    "intentBanner": "WeTransfer mode: Web preset (96 DPI · 66% JPEG) · 25 MB free-send checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-github",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "github",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for GitHub — Stay Under the ~25 MB Blob Warning | VeloTools",
+    "description": "GitHub blocking a fat PDF commit? Shrink design-tool exports under ~25 MB and strip annotations — Web preset, local browser only, no LFS required for specs.",
+    "h1": "Get a PDF under GitHub’s normal file size warning",
+    "h1Em": "GitHub",
+    "heroLead": "Normal repository blobs warn and block around 25 MB. This page locks Web quality with annotation stripping so Figma/InDesign PDF dumps fit without setting up LFS at midnight.",
+    "widget": {
+      "preset": "web",
+      "quality": 60,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — use Git LFS for true binaries or split the PDF into docs/ chapters."
+    },
+    "intentBanner": "GitHub mode: Web (96 DPI · 60% JPEG · strip annotations) · 25 MB blob checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-icloud-mail",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "platform": "icloud-mail",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "title": "Compress PDF for iCloud Mail — Attachments Under ~20 MB | VeloTools",
+    "description": "iCloud Mail rejecting a large PDF? Compress under the common ~20 MB attachment ceiling in Safari or Chrome — annotations kept, no upload to us.",
+    "h1": "Shrink attachments iCloud Mail will actually send",
+    "h1Em": "iCloud Mail",
+    "heroLead": "iCloud Mail often behaves like a ~20 MB attachment cap — tighter than Gmail. Compress here with a locked Web preset, keep review comments if needed, then attach from Apple Mail or iCloud.com.",
+    "widget": {
+      "preset": "web",
+      "quality": 63,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": false,
+      "maxOutputBytes": 20971520,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 20 MB — use Mail Drop / iCloud Drive link or split the packet."
+    },
+    "intentBanner": "iCloud Mail mode: Web (96 DPI · 63% JPEG · annotations kept) · 20 MB checker",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-08"
   }
 ]

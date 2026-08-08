@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Social cutouts","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-social/","description":"Make sticker-ready cutouts for Stories and Reels without cloud apps. Fast WebP export, black preview for contrast.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #111111","Export hint webp","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will WebP work in every story app?","acceptedAnswer":{"@type":"Answer","text":"Most modern mobile apps accept WebP. If an app rejects it, re-export PNG from the same session — the matte is already done and still local."}},{"@type":"Question","name":"How do I avoid jagged sticker edges?","acceptedAnswer":{"@type":"Answer","text":"One Refine pass plus a soft Erase along high-contrast boundaries usually fixes jaggies. Zoom in; social viewers see edges more than you expect."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will WebP work in every story app?","acceptedAnswer":{"@type":"Answer","text":"Most modern mobile apps accept WebP. If an app rejects it, re-export PNG from the same session — the matte is already done and still local. Test one sample in your target app before batching twenty exports."}},{"@type":"Question","name":"How do I avoid jagged sticker edges?","acceptedAnswer":{"@type":"Answer","text":"One Refine pass plus a soft Erase along high-contrast boundaries usually fixes jaggies. Zoom in; social viewers see edges more than you expect. Match edge softness to the final video background brightness."}},{"@type":"Question","name":"Can I animate the cutout after export?","acceptedAnswer":{"@type":"Answer","text":"Yes. Export PNG or WebP and animate in your motion tool. This page only builds the matte. Keep a higher-resolution PNG if you will scale the sticker up in 4K timelines."}},{"@type":"Question","name":"Is black preview mandatory for colorful subjects?","acceptedAnswer":{"@type":"Answer","text":"It is the default for halo hunting. Flip to white or transparent if black swallows a dark hoodie edge. The export does not embed the black field unless you choose JPG with that background active."}},{"@type":"Question","name":"What about meme formats with text already in frame?","acceptedAnswer":{"@type":"Answer","text":"If text is part of the subject photo, it will stay inside the silhouette. For clean stickers, shoot or crop text separately and add typography in the story tool after cutout."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-social","tool":"bg-remover","useCase":"social","useCaseLabel":"Social cutouts","intentBanner":"Social preset · black preview · WebP · sticker-ready","config":{"defaultBg":"#111111","bgSwatchIndex":2,"exportHint":"webp","suggestRefine":true,"tipLabel":"WebP keeps Stories uploads light"}}</script>
 </head>
 <body>
@@ -54,7 +54,7 @@
     <a href="/image-compress/" class="vt-glink">Image</a>
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
-    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/compress-pdf/"   class="vt-glink">PDF</a>
+    <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
 <div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
@@ -278,27 +278,42 @@
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Sticker velocity</div>
     <h2>Story stickers without another cloud app</h2>
-    <p class="seo-lead">Creators churn cutouts for Stories and Reels. Black preview plus WebP keeps contrast high and files light, while Refine prevents crunchy sticker edges on busy video frames.</p>
+    <p class="seo-lead">Creators churn cutouts for Stories and Reels. Black preview plus WebP keeps contrast high and files light, while Refine prevents crunchy sticker edges on busy video frames. Influencers and social teams avoid stacking another face-adjacent SaaS that might train on selfies. This route optimizes for sticker lips and upload budgets, not for marketplace pure white. Keep PNG only when a designer will reuse the asset in a larger campaign system.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Why this preset</div>
-    <h2>Widget state matches the job</h2>
-    <p class="seo-lead">Black preview mimics dark story canvases so halo shows early. WebP export hint matches social upload budgets better than giant PNG stickers.</p>
-    <p class="seo-lead">Cut out, Refine once for a clean sticker lip, Move to center if needed, export WebP, import into your story tool. Keep PNG only when a designer will reuse the asset.</p>
+    <h2>Why Social cutouts gets this locked preview</h2>
+    <p class="seo-lead">Black preview mimics dark story canvases so halo shows early. WebP export hint matches social upload budgets better than giant PNG stickers. Refine is suggested because sticker edges are judged harshly on motion backgrounds. The tip reminds creators that file weight matters when posting from mobile later.</p>
+    <p class="seo-lead">Cut out, Refine once for a clean sticker lip, Move to center if needed, export WebP, import into your story tool. Keep PNG only when a designer will reuse the asset. Crop tighter before AI if the subject is small in frame — social stickers should read at phone scale. Avoid ten Refine passes; one plus soft Erase is enough.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Scenario</div>
+    <h2>Same-day Reel sticker packs from phone selects</h2>
+    <p class="seo-lead">Open this preset when you need five to twenty stickers before a premiere. Airdrop or cable selects to the laptop, cut on black, Refine once, export WebP, and drop into the story editor. If an app rejects WebP, re-export PNG without redoing the matte. For branded emoji-style stickers, prefer hard edges and less Restore than you would use on a portrait composite. Keep a simple naming pattern with episode or drop codes so collaborators do not paste yesterday’s face pack into tonight’s premiere story by mistake.</p>
+  </div>
+
+  <div class="seo-block">
+    <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Edge craft</div>
+    <h2>Sticker lips against dark story canvases</h2>
+    <p class="seo-lead">Social edges should read as a deliberate sticker lip. After Refine, zoom high-contrast boundaries like hats and phone cases. Soft Erase jaggy stair steps. On black, leftover studio gray glows — remove it. Do not over-Restore translucent hair if the sticker will sit on chaotic video; slightly cleaner edges often survive motion better. Export WebP when the lip looks good at 50 percent zoom, the size viewers actually see. If the sticker will bounce or spin in a Reel, slightly thicker edges usually hold up better than ultra-soft portrait mattes.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Privacy by architecture</div>
-    <h2>Security first — pixels stay local</h2>
-    <p class="seo-lead">Selfie-based stickers are personal. Local AI avoids stacking another social-adjacent SaaS that mirrors your face into training sets.</p>
+    <h2>On-device cutouts for Social cutouts</h2>
+    <p class="seo-lead">Selfie-based stickers are personal. Local AI avoids stacking another social-adjacent SaaS that mirrors your face into training sets. Creator collectives can process on personal devices without a shared brand remover login. Still think twice before publishing faces of minors or private events even after a clean cutout.</p>
   </div>
 
   <div class="seo-block">
     <div class="seo-eyebrow"><span class="seo-eyebrow-dot"></span>Preset FAQ</div>
-    <h2>Questions for Social cutouts</h2>
-    <details class="faq-item"><summary>Will WebP work in every story app?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Most modern mobile apps accept WebP. If an app rejects it, re-export PNG from the same session — the matte is already done and still local.</div></details>
-    <details class="faq-item"><summary>How do I avoid jagged sticker edges?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">One Refine pass plus a soft Erase along high-contrast boundaries usually fixes jaggies. Zoom in; social viewers see edges more than you expect.</div></details>
+    <h2>FAQ — Social cutouts background removal</h2>
+    <details class="faq-item"><summary>Will WebP work in every story app?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Most modern mobile apps accept WebP. If an app rejects it, re-export PNG from the same session — the matte is already done and still local. Test one sample in your target app before batching twenty exports.</div></details>
+    <details class="faq-item"><summary>How do I avoid jagged sticker edges?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">One Refine pass plus a soft Erase along high-contrast boundaries usually fixes jaggies. Zoom in; social viewers see edges more than you expect. Match edge softness to the final video background brightness.</div></details>
+    <details class="faq-item"><summary>Can I animate the cutout after export?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">Yes. Export PNG or WebP and animate in your motion tool. This page only builds the matte. Keep a higher-resolution PNG if you will scale the sticker up in 4K timelines.</div></details>
+    <details class="faq-item"><summary>Is black preview mandatory for colorful subjects?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">It is the default for halo hunting. Flip to white or transparent if black swallows a dark hoodie edge. The export does not embed the black field unless you choose JPG with that background active.</div></details>
+    <details class="faq-item"><summary>What about meme formats with text already in frame?<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="fa">If text is part of the subject photo, it will stay inside the silhouette. For clean stickers, shoot or crop text separately and add typography in the story tool after cutout.</div></details>
   </div>
 
   <div class="seo-block">
@@ -307,7 +322,12 @@
       <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
       <a href="/bgremover/for-portraits/">Portraits</a> ·
       <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a>
+      <a href="/bgremover/for-amazon/">Amazon</a> ·
+      <a href="/bgremover/for-cars/">Cars</a> ·
+      <a href="/bgremover/for-food/">Food</a> ·
+      <a href="/bgremover/for-real-estate/">Real estate</a> ·
+      <a href="/bgremover/for-stickers/">Stickers</a> ·
+      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
     </p>
   </div>
 </section>
