@@ -853,7 +853,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-preview.zoom-on .v-prev-img { cursor: zoom-in; }
 
 /* ── PREVIEW PLACEHOLDER ─────── */
-/* shown when no image is loaded — instead of broken img icon */
+#v-prev-placeholder,
 .v-preview-placeholder {
   position: absolute;
   inset: 0;
@@ -862,16 +862,25 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: #475569;
+  color: #8a95a8;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
-.v-preview-placeholder svg { opacity: .25; }
-.v-preview-placeholder span { font-size: 13px; opacity: .4; font-weight: 500; }
-/* hide placeholder when image is visible */
-.v-preview img[src]:not([src=""]) ~ .v-preview-placeholder { display: none; }
-
-/* ── CROP OVERLAY (div-based, no canvas issues) ── */
+#v-prev-placeholder svg,
+.v-preview-placeholder svg { opacity: .2; width: 52px; height: 52px; }
+#v-prev-placeholder span,
+.v-preview-placeholder span { font-size: 12px; opacity: .35; font-weight: 500; }
+.v-prev-img { position: relative; z-index: 2; background: var(--bg-dark); }
+/* Never paint placeholder over/under a loaded image */
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 #crop-ov   { position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none }
 #crop-sel  { position:absolute;border:2px solid #5b6cf9;pointer-events:none;z-index:22;box-sizing:border-box;box-shadow:0 0 0 9999px rgba(0,0,0,.5) }
 #crop-badge{ position:absolute;background:rgba(91,108,249,.9);color:#fff;font:700 11px/1 Inter,system-ui,sans-serif;padding:4px 9px;border-radius:6px;pointer-events:none;z-index:23;white-space:nowrap }
@@ -893,9 +902,13 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--tx);-webkit-f
 .v-mode-tab svg{width:17px;height:17px;stroke:currentColor;flex-shrink:0;display:inline-block}
 .v-tb-sep{align-self:stretch}
 .v-toolbar{overflow-x:auto;overflow-y:visible}
-#v-prev-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none}
-#v-prev-placeholder svg{opacity:.2}
-#v-prev-placeholder span{font-size:13px;color:#8a95a8;font-weight:500}
+#v-prev-placeholder,.v-preview-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;pointer-events:none;z-index:0;color:#8a95a8}
+#v-prev-placeholder svg,.v-preview-placeholder svg{opacity:.2}
+#v-prev-placeholder span,.v-preview-placeholder span{font-size:13px;font-weight:500;opacity:.35}
+.v-preview.has-img #v-prev-placeholder,
+.v-preview.has-img .v-preview-placeholder,
+#v-prev-placeholder.is-hidden,
+#v-prev-placeholder[hidden]{display:none!important;visibility:hidden!important;opacity:0!important}
 
 /* ═══ MODERN REDESIGN ═══ */
 /* Colorful tool icons */
@@ -1454,9 +1467,9 @@ html,body{background:var(--bg-main)}
       <!-- PREVIEW -->
       <div class="v-preview" id="v-preview">
         <img id="v-prev-img" src="" alt="Preview" class="v-prev-img" style="display:none">
-        <div id="v-prev-placeholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#475569;pointer-events:none">
-          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:.18"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span style="font-size:12px;opacity:.35;font-weight:500">Upload an image to start</span>
+        <div id="v-prev-placeholder" class="v-preview-placeholder">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Upload an image to start</span>
         </div>
         <div class="v-prev-badge">LIVE PREVIEW</div>
       </div>
@@ -2061,7 +2074,7 @@ html,body{background:var(--bg-main)}
 <script src="js/raw-decoder.js"></script>
 <script src="js/image-processor.js?v=restore"></script>
 <script src="js/batch.js"></script>
-<script src="js/ui.js?v=7.5-rotate-fix"></script>
+<script src="js/ui.js?v=7.7-ph-remove"></script>
 
 
 

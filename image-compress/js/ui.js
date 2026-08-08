@@ -348,6 +348,7 @@
 
     var pi = $('v-prev-img');
     if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
+    _setPreviewEmpty(false);
 
     _setFInfo('v-fi-orig', fileName, fileSize, img.width, img.height, fileType, null, null);
     $('v-result').classList.remove('on');
@@ -357,6 +358,47 @@
       var pending = _pendingRecentPresets;
       _pendingRecentPresets = null;
       _applyRecentPresets(pending);
+    }
+  }
+
+  function _setPreviewEmpty(empty) {
+    var preview = $('v-preview');
+    var ph = $('v-prev-placeholder');
+    if (preview) preview.classList.toggle('has-img', !empty);
+
+    if (empty) {
+      if (!ph && preview) {
+        ph = document.createElement('div');
+        ph.id = 'v-prev-placeholder';
+        ph.className = 'v-preview-placeholder';
+        ph.innerHTML =
+          '<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">' +
+          '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/>' +
+          '<polyline points="21 15 16 10 5 21"/></svg>' +
+          '<span>Upload an image to start</span>';
+        var img = $('v-prev-img');
+        if (img && img.parentNode === preview) preview.insertBefore(ph, img.nextSibling);
+        else preview.appendChild(ph);
+      }
+      if (ph) {
+        ph.hidden = false;
+        ph.removeAttribute('hidden');
+        ph.classList.remove('is-hidden');
+        ph.style.cssText = '';
+      }
+      return;
+    }
+
+    /* Image loaded — destroy placeholder so it cannot paint through object-fit gaps */
+    if (ph) {
+      ph.hidden = true;
+      ph.setAttribute('hidden', '');
+      ph.classList.add('is-hidden');
+      ph.style.setProperty('display', 'none', 'important');
+      ph.style.setProperty('visibility', 'hidden', 'important');
+      ph.style.setProperty('opacity', '0', 'important');
+      ph.style.setProperty('pointer-events', 'none', 'important');
+      if (ph.parentNode) ph.parentNode.removeChild(ph);
     }
   }
 
@@ -1396,6 +1438,7 @@
       _updPctInfo();
       var pi = $('v-prev-img');
       if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
+      _setPreviewEmpty(false);
       _setFInfo('v-fi-orig', S.file.name, S.file.size, img.width, img.height, S.file.type, null, null);
       $('v-result').classList.remove('on');
       S.resultBlob = null; S.resultUrl = null;
@@ -1429,6 +1472,7 @@
 
     var pi = $('v-prev-img');
     if (pi) { pi.src = ''; pi.style.display = 'none'; }
+    _setPreviewEmpty(true);
 
     var res = $('v-result');
     if (res) res.classList.remove('on');
