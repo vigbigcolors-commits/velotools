@@ -1,7 +1,6 @@
 /**
- * VeloTools — ui.js v7.2
- * Crop Fix: Added position: relative to container to prevent overlay bleed.
- * Added Floating "Apply Crop" button directly attached to the selection.
+ * VeloTools — ui.js v7.4
+ * Crop: sticky selection + object-fit:contain pixel mapping on Apply.
  */
 (function () {
   'use strict';
@@ -24,6 +23,56 @@
     w: 0,  h: 0,
     imgX: 0, imgY: 0, imgW: 0, imgH: 0
   };
+
+  /**
+   * Visible bitmap box inside <img> with object-fit:contain.
+   * Element getBoundingClientRect() includes letterbox — using it for crop
+   * maps the wrong pixels (thin / offset cuts on Apply).
+   */
+  function _imageContentRect(imgEl, natW, natH) {
+    var br = imgEl.getBoundingClientRect();
+    var nw = natW || imgEl.naturalWidth || 0;
+    var nh = natH || imgEl.naturalHeight || 0;
+    var elW = br.width, elH = br.height;
+    if (elW < 1 || elH < 1 || nw < 1 || nh < 1) {
+      return { left: br.left, top: br.top, width: elW, height: elH };
+    }
+    var fit = Math.min(elW / nw, elH / nh);
+    var cw = nw * fit;
+    var ch = nh * fit;
+    return {
+      left: br.left + (elW - cw) / 2,
+      top:  br.top  + (elH - ch) / 2,
+      width: cw,
+      height: ch
+    };
+  }
+
+  function _mapDispToNatural(dx, dy, dw, dh, content, natW, natH) {
+    if (!(content.width > 0 && content.height > 0 && natW > 0 && natH > 0)) {
+      return { x: 0, y: 0, w: 0, h: 0 };
+    }
+    var sx = natW / content.width;
+    var sy = natH / content.height;
+    var x = Math.round(dx * sx);
+    var y = Math.round(dy * sy);
+    var w = Math.round(dw * sx);
+    var h = Math.round(dh * sy);
+    x = Math.max(0, Math.min(x, natW - 1));
+    y = Math.max(0, Math.min(y, natH - 1));
+    w = Math.max(1, Math.min(w, natW - x));
+    h = Math.max(1, Math.min(h, natH - y));
+    return { x: x, y: y, w: w, h: h };
+  }
+
+  function _syncCropNaturalFromDisplay(imgEl) {
+    if (!imgEl || CROP.w < 2 || CROP.h < 2 || !S.origW || !S.origH) return false;
+    var content = _imageContentRect(imgEl, S.origW, S.origH);
+    if (!(content.width > 0 && content.height > 0)) return false;
+    var m = _mapDispToNatural(CROP.x, CROP.y, CROP.w, CROP.h, content, S.origW, S.origH);
+    CROP.imgX = m.x; CROP.imgY = m.y; CROP.imgW = m.w; CROP.imgH = m.h;
+    return CROP.imgW >= 2 && CROP.imgH >= 2;
+  }
 
   /* ─── ZOOM STATE ──────────────────────────────── */
   var ZOOM = { on: false };
@@ -408,7 +457,13 @@
       P.cancelLive();
       var pi = $('v-prev-img');
       if (pi && S.origUrl) pi.src = S.origUrl;
-      _cropEnter();
+      /* Wait for layout after restoring original — wrong box → wrong Apply cut */
+      var enter = function() { _cropEnter(); };
+      if (pi && pi.decode) {
+        pi.decode().then(enter).catch(enter);
+      } else {
+        requestAnimationFrame(enter);
+      }
     } else {
       _cropExit();
     }
@@ -463,10 +518,20 @@
   };
 
   window.setRot = function(r, btn) {
-    S.rotation = (S.rotation === r) ? null : r;
-    _resetRot();
-    if (S.rotation) btn.classList.add('on');
-    if (S.origImg) _livePreview();
+    /* Toggle same button off; otherwise select this transform.
+       Must NOT call _resetRot() — it nulls S.rotation and killed all rotate/flip. */
+    var next = (S.rotation === r) ? null : r;
+    $$('.v-rbtn').forEach(function(b){ b.classList.remove('on'); });
+    S.rotation = next;
+    if (next && btn) btn.classList.add('on');
+    if (!S.origImg) return;
+    if (!next) {
+      P.cancelLive();
+      var pi = $('v-prev-img');
+      if (pi && S.origUrl) pi.src = S.origUrl;
+      return;
+    }
+    _livePreview();
   };
 
   window.setBlur = function(t, btn) {
@@ -571,9 +636,16 @@
     if (!S.origImg) return;
 
     if (S.activePanel === 'crop' && CROP.on) {
-      if (CROP.imgW < 2 || CROP.imgH < 2) return;
+      if (CROP.w < 2 || CROP.h < 2) return;
       window.applyCrop();
       return; 
+    }
+
+    /* Rotate/flip panel: bake into source (lossless canvas remap), like Crop Apply */
+    if (S.activePanel === 'rotate') {
+      if (!S.rotation) return;
+      _applyOrientation();
+      return;
     }
 
     _cropExit();
@@ -584,8 +656,10 @@
 
     var pb = $('v-pb'), prog = 0;
     var iv = setInterval(function(){ prog = Math.min(prog+20, 88); pb.style.width = prog+'%'; }, 90);
+    var snap = _snap();
+    var bakeRot = snap.rotation;
 
-    P.process(S.origImg, _snap()).then(function(r) {
+    P.process(S.origImg, snap).then(function(r) {
       clearInterval(iv); pb.style.width = '100%';
       S.resultBlob = r.blob;
       if (S.resultUrl) URL.revokeObjectURL(S.resultUrl);
@@ -603,21 +677,33 @@
 
       _setFInfo('v-fi-res', base+'_velo.'+S.resultExt, r.blob.size, r.canvas.width, r.canvas.height, r.mime, S.file.size, r.blob.size);
       _showCompare(S.file.size, r.blob.size, r.mime);
-      _buildBA(S.origUrl, S.resultUrl);
 
-      var pi = $('v-prev-img');
-      if (pi) pi.src = S.origUrl;
+      var finishUi = function(previewUrl) {
+        _buildBA(previewUrl || S.origUrl, S.resultUrl);
+        var pi = $('v-prev-img');
+        if (pi) pi.src = previewUrl || S.origUrl;
 
-      setTimeout(function(){
-        proc.classList.remove('on');
-        pb.style.width = '0%';
-        gb.disabled = false;
-        res.classList.add('on');
-        document.dispatchEvent(new CustomEvent('velo:image-processed', { detail: { size: r.blob.size } }));
-        _recordRecentImage();
-        var top = res.getBoundingClientRect().top + window.pageYOffset - 70;
-        window.scrollTo({ top: top, behavior: 'smooth' });
-      }, 280);
+        setTimeout(function(){
+          proc.classList.remove('on');
+          pb.style.width = '0%';
+          gb.disabled = false;
+          res.classList.add('on');
+          document.dispatchEvent(new CustomEvent('velo:image-processed', { detail: { size: r.blob.size } }));
+          _recordRecentImage();
+          var top = res.getBoundingClientRect().top + window.pageYOffset - 70;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }, 280);
+      };
+
+      /* If a rotate/flip was part of this process, bake it into the working original */
+      if (bakeRot) {
+        _commitCanvasAsOriginal(r.canvas, function() {
+          _resetRot();
+          finishUi(S.origUrl);
+        });
+      } else {
+        finishUi(S.origUrl);
+      }
 
     }).catch(function(err){
       clearInterval(iv);
@@ -630,6 +716,75 @@
     });
   };
 
+  /** Pixel-perfect rotate/flip into working original (no lossy recompress). */
+  function _applyOrientation() {
+    if (!S.origImg || !S.rotation) return;
+    var rot = S.rotation;
+    var tw = S.origW, th = S.origH;
+    var rotated = (rot === 'r90' || rot === 'r270');
+    var canvas = document.createElement('canvas');
+    canvas.width  = rotated ? th : tw;
+    canvas.height = rotated ? tw : th;
+    var ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    if (rot === 'r90')  ctx.rotate(Math.PI / 2);
+    if (rot === 'r180') ctx.rotate(Math.PI);
+    if (rot === 'r270') ctx.rotate(-Math.PI / 2);
+    if (rot === 'fh')   ctx.scale(-1, 1);
+    if (rot === 'fv')   ctx.scale(1, -1);
+    ctx.drawImage(S.origImg, -tw / 2, -th / 2, tw, th);
+    ctx.restore();
+
+    var gb = $('v-gobtn');
+    if (gb) gb.disabled = true;
+    _commitCanvasAsOriginal(canvas, function() {
+      _resetRot();
+      var pi = $('v-prev-img');
+      if (pi) { pi.src = S.origUrl; pi.style.display = ''; }
+      var rw = $('v-rw'), rh = $('v-rh');
+      if (rw) rw.value = S.origW;
+      if (rh) rh.value = S.origH;
+      _syncPct();
+      _setFInfo('v-fi-orig', S.file ? S.file.name : 'rotated', S.file ? S.file.size : 0, S.origW, S.origH, S.fileMime, null, null);
+      if (gb) {
+        gb.disabled = false;
+        gb.textContent = '✓ Orientation applied';
+        setTimeout(function(){ gb.textContent = '⚡ Apply Rotation'; }, 1200);
+      }
+      switchPanel('compress', $('v-tb-compress'));
+    });
+  }
+
+  function _commitCanvasAsOriginal(canvas, done) {
+    var mime = S.fileMime || 'image/png';
+    /* Keep PNG/WebP/GIF lossless-ish; JPEG at max quality to avoid extra mush */
+    var q = (mime === 'image/jpeg' || mime === 'image/webp') ? 0.97 : 1;
+    var outMime = mime;
+    if (mime !== 'image/jpeg' && mime !== 'image/png' && mime !== 'image/webp') {
+      outMime = 'image/png';
+      q = 1;
+    }
+    var newUrl = canvas.toDataURL(outMime, q);
+    var newImg = new Image();
+    newImg.onload = function() {
+      S.origImg = newImg;
+      S.origW = canvas.width;
+      S.origH = canvas.height;
+      S.ar = S.origW / Math.max(1, S.origH);
+      S.targetW = S.origW;
+      S.targetH = S.origH;
+      S.origUrl = newUrl;
+      S.fileMime = outMime;
+      if (typeof done === 'function') done();
+    };
+    newImg.onerror = function() {
+      if (typeof done === 'function') done();
+    };
+    newImg.src = newUrl;
+  }
+
   /* ═══════════════════════════════════════════════
      ✂️ CROP
   ═══════════════════════════════════════════════ */
@@ -640,9 +795,14 @@
     var stale = $('crop-ov');
     if (stale) {
       if (stale._onMove)    { document.removeEventListener('mousemove',  stale._onMove); document.removeEventListener('touchmove', stale._onMove); }
-      if (stale._onEnd)     { document.removeEventListener('mouseup',    stale._onEnd);  document.removeEventListener('touchend',  stale._onEnd); }
-      if (stale._onKeyDown) document.removeEventListener('keydown', stale._onKeyDown);
-      if (stale._onKeyUp)   document.removeEventListener('keyup',   stale._onKeyUp);
+      if (stale._onEnd)     {
+        document.removeEventListener('mouseup',     stale._onEnd);
+        document.removeEventListener('touchend',    stale._onEnd);
+        document.removeEventListener('touchcancel', stale._onEnd);
+      }
+      if (stale._onKeyDown) document.removeEventListener('keydown', stale._onKeyDown, true);
+      if (stale._onKeyUp)   document.removeEventListener('keyup',   stale._onKeyUp, true);
+      if (stale._onBlur)    window.removeEventListener('blur', stale._onBlur);
       stale.parentNode && stale.parentNode.removeChild(stale);
     }
 
@@ -658,13 +818,18 @@
 
     var ov = document.createElement('div');
     ov.id = 'crop-ov';
-    ov.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none;-webkit-user-select:none';
+    ov.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;user-select:none;-webkit-user-select:none;touch-action:none';
 
-    /* Selection box — pointer-events:none so clicks pass through to ov,
-       but resize handle children override with pointer-events:auto */
+    /* Selection box — interior hit layer + handles receive events; box itself does not */
     var sel = document.createElement('div');
     sel.id = 'crop-sel';
     sel.style.cssText = 'position:absolute;display:none;border:2px solid #5b6cf9;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);pointer-events:none;z-index:2;box-sizing:border-box';
+
+    /* Full-rect drag surface (move without Space) */
+    var moveHit = document.createElement('div');
+    moveHit.id = 'crop-move-hit';
+    moveHit.style.cssText = 'position:absolute;inset:0;pointer-events:auto;cursor:move;z-index:1';
+    sel.appendChild(moveHit);
 
     /* ── 8 resize handles ────────────────────────────────────────── */
     var HANDLE_DEFS = [
@@ -696,8 +861,8 @@
     floatBtn.tabIndex = -1; // prevent Space from activating it via keyboard
     floatBtn.innerHTML = '✔ Apply Crop';
     floatBtn.style.cssText = 'position:absolute;display:none;background:#0ea66e;color:#fff;border:none;padding:8px 16px;border-radius:6px;font:700 13px Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.4);z-index:30;pointer-events:auto';
-    floatBtn.addEventListener('mousedown', function(e){ e.stopPropagation(); window.applyCrop(); });
-    floatBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); window.applyCrop(); }, {passive:false});
+    floatBtn.addEventListener('mousedown', function(e){ e.stopPropagation(); e.preventDefault(); window.applyCrop(); });
+    floatBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); e.preventDefault(); window.applyCrop(); }, {passive:false});
 
     ov.appendChild(sel);
     ov.appendChild(badge);
@@ -716,36 +881,74 @@
     var rsStartX    = 0, rsStartY = 0, rsCX = 0, rsCY = 0, rsCW = 0, rsCH = 0;
     var moving      = false;
     var mvStartX    = 0, mvStartY = 0, mvCX = 0, mvCY = 0;
+    var snapshot    = null; /* prior rect restored if a new draw is abandoned */
+    var activePtr   = null; /* suppress ghost mouse after touch */
 
     /* ── Helpers ─────────────────────────────────────────────────── */
-    function imgRect()  { return img.getBoundingClientRect(); }
+    /* Content box of the painted bitmap (object-fit:contain), not the <img> element */
+    function imgRect()  { return _imageContentRect(img, S.origW, S.origH); }
     function offsets()  { var ir = imgRect(), or = ov.getBoundingClientRect(); return { x: ir.left - or.left, y: ir.top - or.top }; }
-    function clientXY(e){ return e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY }; }
+    function clientXY(e){
+      if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      if (e.changedTouches && e.changedTouches.length) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+    function isTouch(e){ return e.type.indexOf('touch') === 0; }
+    function ptrOk(e){
+      if (isTouch(e)) { activePtr = 'touch'; return true; }
+      if (activePtr === 'touch') return false; /* ignore compatibility mouse after touch */
+      activePtr = 'mouse';
+      return true;
+    }
+    function saveSnapshot() {
+      if (CROP.w >= 5 && CROP.h >= 5) {
+        snapshot = { x: CROP.x, y: CROP.y, w: CROP.w, h: CROP.h };
+      }
+    }
+    function restoreSnapshot() {
+      if (!snapshot) return false;
+      CROP.x = snapshot.x; CROP.y = snapshot.y; CROP.w = snapshot.w; CROP.h = snapshot.h;
+      refreshSel();
+      return true;
+    }
+    function pointInSel(rx, ry) {
+      return CROP.w > 4 && CROP.h > 4 &&
+        rx >= CROP.x && ry >= CROP.y &&
+        rx <= CROP.x + CROP.w && ry <= CROP.y + CROP.h;
+    }
+    function idleCursor() {
+      if (moving) return;
+      if (spaceDown && CROP.w > 4) setCursor('grab');
+      else setCursor('crosshair');
+      moveHit.style.cursor = spaceDown ? 'grab' : 'move';
+    }
 
     function clampRect(cx, cy, cw, ch, ir) {
       cw = Math.max(10, cw);
       ch = Math.max(10, ch);
       cx = Math.max(0, cx);
       cy = Math.max(0, cy);
-      cw = Math.min(cw, ir.width  - cx);
-      ch = Math.min(ch, ir.height - cy);
-      return { x: cx, y: cy, w: cw, h: ch };
+      if (ir.width  > 0) cw = Math.min(cw, ir.width  - cx);
+      if (ir.height > 0) ch = Math.min(ch, ir.height - cy);
+      return { x: cx, y: cy, w: Math.max(10, cw), h: Math.max(10, ch) };
     }
 
     function refreshSel() {
       if (CROP.w < 2 || CROP.h < 2) return;
       var ir = imgRect(), off = offsets();
+      if (!(ir.width > 0 && ir.height > 0)) return;
+
+      /* Keep selection inside the painted bitmap */
+      var clamped = clampRect(CROP.x, CROP.y, CROP.w, CROP.h, ir);
+      CROP.x = clamped.x; CROP.y = clamped.y; CROP.w = clamped.w; CROP.h = clamped.h;
+
       sel.style.left    = px(CROP.x + off.x);
       sel.style.top     = px(CROP.y + off.y);
       sel.style.width   = px(CROP.w);
       sel.style.height  = px(CROP.h);
       sel.style.display = 'block';
 
-      var scaleX = S.origW / ir.width, scaleY = S.origH / ir.height;
-      CROP.imgX = Math.round(CROP.x * scaleX);
-      CROP.imgY = Math.round(CROP.y * scaleY);
-      CROP.imgW = Math.round(CROP.w * scaleX);
-      CROP.imgH = Math.round(CROP.h * scaleY);
+      if (!_syncCropNaturalFromDisplay(img)) return;
 
       badge.textContent   = CROP.imgW + ' × ' + CROP.imgH + ' px';
       badge.style.left    = px(CROP.x + off.x);
@@ -753,13 +956,13 @@
       badge.style.display = 'block';
 
       var btnY = CROP.y + off.y + CROP.h + 30;
-      if (btnY + 40 > ir.height) btnY = CROP.y + off.y + CROP.h - 45;
+      if (btnY + 40 > ir.height + off.y) btnY = CROP.y + off.y + CROP.h - 45;
       floatBtn.style.left    = px(CROP.x + off.x);
       floatBtn.style.top     = px(btnY);
       floatBtn.style.display = 'block';
 
       var info = $('v-crop-info');
-      if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — drag handles to resize · Space+drag to move';
+      if (info) info.textContent = CROP.imgW + ' × ' + CROP.imgH + ' px — drag inside to move · handles to resize · Apply to confirm';
     }
 
     function setCursor(c) { ov.style.cursor = c; }
@@ -777,9 +980,21 @@
       return r;
     }
 
+    function beginMove(e) {
+      if (CROP.w < 5 || CROP.h < 5) return false;
+      var c = clientXY(e);
+      moving = true;
+      mvStartX = c.x; mvStartY = c.y;
+      mvCX = CROP.x; mvCY = CROP.y;
+      setCursor('grabbing');
+      moveHit.style.cursor = 'grabbing';
+      return true;
+    }
+
     /* ── Resize handles mousedown ────────────────────────────────── */
     Object.keys(handleEls).forEach(function(hid) {
       function startResize(e) {
+        if (!ptrOk(e)) return;
         e.stopPropagation();
         e.preventDefault();
         resizing = true; rsHandle = hid;
@@ -792,22 +1007,34 @@
       handleEls[hid].addEventListener('touchstart', startResize, { passive: false });
     });
 
-    /* ── Overlay mousedown: new draw OR space-move ───────────────── */
+    /* Drag from inside the crop rect */
+    function onMoveHitStart(e) {
+      if (!ptrOk(e)) return;
+      e.stopPropagation();
+      e.preventDefault();
+      beginMove(e);
+    }
+    moveHit.addEventListener('mousedown',  onMoveHitStart);
+    moveHit.addEventListener('touchstart', onMoveHitStart, { passive: false });
+
+    /* ── Overlay mousedown: first draw, or move; never wipe active crop ─ */
     function onStart(e) {
+      if (!ptrOk(e)) return;
       e.preventDefault();
       var ir = imgRect(), c = clientXY(e);
+      if (!(ir.width > 0 && ir.height > 0)) return;
       var rx = Math.max(0, Math.min(c.x - ir.left, ir.width));
       var ry = Math.max(0, Math.min(c.y - ir.top,  ir.height));
 
-      if (spaceDown && CROP.w > 4) {
-        /* Space held → move selection */
-        moving  = true;
-        mvStartX = c.x; mvStartY = c.y;
-        mvCX = CROP.x; mvCY = CROP.y;
-        setCursor('grabbing');
+      /* Active crop stays until Apply / Reset — click on dimmed sides does nothing */
+      if (CROP.w > 4 && CROP.h > 4) {
+        if (spaceDown || pointInSel(rx, ry)) beginMove(e);
+        else refreshSel(); /* keep frame visible after side-click */
         return;
       }
-      /* Normal: start new draw */
+
+      /* No selection yet → draw first rect */
+      saveSnapshot();
       CROP.dragging = true;
       CROP.sx = rx; CROP.sy = ry;
       CROP.x  = rx; CROP.y  = ry;
@@ -817,8 +1044,11 @@
 
     /* ── Unified move handler ────────────────────────────────────── */
     function onMove(e) {
+      if (!resizing && !moving && !CROP.dragging) return;
+      if (activePtr === 'touch' && !isTouch(e)) return;
       e.preventDefault();
       var ir = imgRect(), c = clientXY(e);
+      if (!(ir.width > 0 && ir.height > 0)) return;
 
       if (resizing) {
         var dx = c.x - rsStartX, dy = c.y - rsStartY;
@@ -840,8 +1070,10 @@
 
       if (moving) {
         var mdx = c.x - mvStartX, mdy = c.y - mvStartY;
-        CROP.x = Math.max(0, Math.min(mvCX + mdx, ir.width  - CROP.w));
-        CROP.y = Math.max(0, Math.min(mvCY + mdy, ir.height - CROP.h));
+        var maxX = Math.max(0, ir.width  - CROP.w);
+        var maxY = Math.max(0, ir.height - CROP.h);
+        CROP.x = Math.max(0, Math.min(mvCX + mdx, maxX));
+        CROP.y = Math.max(0, Math.min(mvCY + mdy, maxY));
         refreshSel();
         return;
       }
@@ -857,31 +1089,69 @@
       refreshSel();
     }
 
-    /* ── Mouse up ────────────────────────────────────────────────── */
-    function onEnd(_e) {
-      if (resizing) { resizing = false; rsHandle = null; setCursor(spaceDown && CROP.w > 4 ? 'grab' : 'crosshair'); return; }
-      if (moving)   { moving   = false;                  setCursor(spaceDown && CROP.w > 4 ? 'grab' : 'crosshair'); return; }
+    /* ── Mouse / touch up ────────────────────────────────────────── */
+    function onEnd(e) {
+      if (activePtr === 'touch' && e && e.type === 'mouseup') {
+        activePtr = null;
+        return;
+      }
+      if (resizing) {
+        resizing = false; rsHandle = null;
+        if (CROP.w >= 5 && CROP.h >= 5) { saveSnapshot(); refreshSel(); }
+        else if (!restoreSnapshot()) hideSelPrompt();
+        idleCursor();
+        if (e && e.type === 'touchend') activePtr = null;
+        return;
+      }
+      if (moving) {
+        moving = false;
+        if (CROP.w >= 5 && CROP.h >= 5) { saveSnapshot(); refreshSel(); }
+        else if (!restoreSnapshot()) hideSelPrompt();
+        idleCursor();
+        if (e && e.type === 'touchend') activePtr = null;
+        return;
+      }
+      if (!CROP.dragging) {
+        if (e && e.type === 'touchend') activePtr = null;
+        return;
+      }
       CROP.dragging = false;
       if (CROP.w < 5 || CROP.h < 5) {
-        sel.style.display = badge.style.display = floatBtn.style.display = 'none';
-        var info = $('v-crop-info');
-        if (info) info.textContent = 'Draw a selection on the image above';
+        if (!restoreSnapshot()) hideSelPrompt();
+      } else {
+        saveSnapshot();
+        refreshSel();
       }
+      idleCursor();
+      if (e && e.type === 'touchend') activePtr = null;
+    }
+
+    function hideSelPrompt() {
+      sel.style.display = badge.style.display = floatBtn.style.display = 'none';
+      var info = $('v-crop-info');
+      if (info) info.textContent = 'Draw a selection on the image above';
     }
 
     /* ── Space key: toggle grab/move mode ───────────────────────── */
+    function isSpaceKey(e){ return e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar'; }
     function onKeyDown(e) {
-      if (e.code === 'Space' && CROP.on && !e.repeat) {
+      if (isSpaceKey(e) && CROP.on) {
         e.preventDefault();
+        if (e.repeat) return;
         spaceDown = true;
-        if (!resizing && !CROP.dragging) setCursor(CROP.w > 4 ? 'grab' : 'crosshair');
+        if (!resizing && !moving && !CROP.dragging) idleCursor();
       }
     }
     function onKeyUp(e) {
-      if (e.code === 'Space') {
+      if (isSpaceKey(e)) {
+        e.preventDefault();
         spaceDown = false;
-        if (!resizing) setCursor('crosshair');
+        if (!resizing && !moving) idleCursor();
       }
+    }
+    function onBlur() {
+      spaceDown = false;
+      if (!resizing && !moving) idleCursor();
     }
 
     ov.addEventListener('mousedown',  onStart);
@@ -890,14 +1160,17 @@
     document.addEventListener('touchmove',  onMove, { passive: false });
     document.addEventListener('mouseup',    onEnd);
     document.addEventListener('touchend',   onEnd);
+    document.addEventListener('touchcancel', onEnd);
     /* capture:true — intercepts Space BEFORE browser activates focused button */
     document.addEventListener('keydown',    onKeyDown, true);
     document.addEventListener('keyup',      onKeyUp,   true);
+    window.addEventListener('blur', onBlur);
 
     ov._onMove    = onMove;
     ov._onEnd     = onEnd;
     ov._onKeyDown = onKeyDown;
     ov._onKeyUp   = onKeyUp;
+    ov._onBlur    = onBlur;
     ov._refresh   = refreshSel; // exposed for setCropAspect()
   }
 
@@ -909,8 +1182,10 @@
       document.removeEventListener('touchmove',  ov._onMove);
       document.removeEventListener('mouseup',    ov._onEnd);
       document.removeEventListener('touchend',   ov._onEnd);
+      document.removeEventListener('touchcancel', ov._onEnd);
       if (ov._onKeyDown) document.removeEventListener('keydown', ov._onKeyDown, true);
       if (ov._onKeyUp)   document.removeEventListener('keyup',   ov._onKeyUp,   true);
+      if (ov._onBlur)    window.removeEventListener('blur', ov._onBlur);
       ov.parentNode && ov.parentNode.removeChild(ov);
     }
     var preview = $('v-preview');
@@ -928,7 +1203,11 @@
 
   window.applyCrop = function() {
     if (!S.origImg) return;
-    if (CROP.imgW < 2 || CROP.imgH < 2) return;
+    if (CROP.w < 2 || CROP.h < 2) return;
+
+    /* Remap from live layout so Apply matches the visible frame exactly */
+    var piLive = $('v-prev-img');
+    if (!_syncCropNaturalFromDisplay(piLive)) return;
 
     var c = document.createElement('canvas');
     c.width  = CROP.imgW;
@@ -970,8 +1249,8 @@
     var ov = $('crop-ov');
     if (!ov || !ov._refresh || CROP.w < 10 || !ratio) return;
 
-    /* Resize existing selection to match new aspect ratio */
-    var ir = $('v-prev-img').getBoundingClientRect();
+    /* Resize existing selection to match new aspect ratio (content box) */
+    var ir = _imageContentRect($('v-prev-img'), S.origW, S.origH);
     var newH = CROP.w / ratio;
     if (CROP.y + newH > ir.height) { newH = ir.height - CROP.y; CROP.w = Math.round(newH * ratio); }
     CROP.h = Math.round(newH);
@@ -1039,7 +1318,7 @@
     function onZoomMove(e) {
       if (!ZOOM.on || !S.origImg) return;
       var imgEl   = $('v-prev-img');
-      var imgRect = imgEl.getBoundingClientRect();
+      var imgRect = _imageContentRect(imgEl, S.origW, S.origH);
       var cx = (e.touches ? e.touches[0].clientX : e.clientX);
       var cy = (e.touches ? e.touches[0].clientY : e.clientY);
 
