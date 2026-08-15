@@ -29,6 +29,18 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Pro headshots","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-headshots/","description":"Clean professional headshots without sending faces to a cloud API. Soft blush preview, PNG export, on-device ISNet model.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #F0DCE8","Export hint png","Refine suggested","No watermarks"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I make a solid color corporate backdrop here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pick a swatch or custom color after the cutout, then export JPG with background. For maximum flexibility keep a PNG master and composite in design software. Matching exact brand hex values is often easier in Figma than inside the remover UI."}},{"@type":"Question","name":"Does the model change my skin tone?","acceptedAnswer":{"@type":"Answer","text":"The matte path edits alpha, not a beauty filter. Edge decontamination may slightly pull fringe colors toward nearby foreground; Undo if a collar looks muddy and Refine more gently. Final skin work belongs in your retouching app if the brief requires it."}},{"@type":"Question","name":"Is blush required for LinkedIn uploads?","acceptedAnswer":{"@type":"Answer","text":"No. Blush is a QA preview. Export transparent PNG or a corporate fill as needed. LinkedIn accepts a wide range of backgrounds; your brand guidelines matter more than this swatch."}},{"@type":"Question","name":"How should I handle group photos?","acceptedAnswer":{"@type":"Answer","text":"This page is optimized for single-subject headshots. For groups, cut individuals separately when possible, or use the all-purpose tool and accept more manual Erase between people. Overlapping shoulders are hard for any salient model."}},{"@type":"Question","name":"Can HR store the PNG on a server after export?","acceptedAnswer":{"@type":"Answer","text":"Yes — that is your organization choice after the local cutout. The privacy win is avoiding a remover vendor. Apply your normal access controls to the exported masters."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-headshots","tool":"bg-remover","useCase":"headshots","useCaseLabel":"Pro headshots","intentBanner":"Headshot preset · blush preview · PNG · no face upload","config":{"defaultBg":"#F0DCE8","bgSwatchIndex":7,"exportHint":"png","suggestRefine":true,"tipLabel":"Faces never leave this browser tab"}}</script>
+<style id="vt-eeat-css">
+.vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
+.vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
+.vt-exp h2{font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;letter-spacing:-.3px}
+.vt-exp p{font-size:15px;line-height:1.75;color:rgba(176,202,216,.95);margin:0 0 14px}
+.vt-exp-links{display:flex;flex-wrap:wrap;gap:10px}
+.vt-exp-links a{font-size:13px;font-weight:700;color:#00e6d0;text-decoration:none;border:1px solid rgba(0,230,208,.35);padding:8px 12px;border-radius:9px}
+.vt-exp-links a:hover{background:rgba(0,230,208,.1)}
+.vt-eeat-rail{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;padding:14px 16px;margin:0 auto 8px;max-width:1100px;font-size:13px}
+.vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
+.vt-eeat-rail a:hover{color:#00e6d0}
+</style>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Headshot preset · blush preview · PNG · no face upload · Faces never leave this browser tab</div>
@@ -55,9 +67,10 @@
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
     <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
+    <a href="/lab/" class="vt-glink">Lab</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
-<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/methodology/" class="vt-glink" style="font-size:12px;opacity:.55">Method</a><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <header class="hdr">
@@ -348,6 +361,24 @@
   </div>
 </section>
 
+
+<nav class="vt-eeat-rail" aria-label="Trust and product links">
+  <a href="/bgremover/">Parent tool</a>
+  <a href="/bgremover/">Tool hub</a>
+  <a href="/lab/">Lab Notes</a>
+  <a href="/methodology/">Methodology</a>
+  <a href="/about/">About</a>
+  <a href="/">All tools</a>
+</nav>
+
+
+
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-headshots" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Headshots</h2>
+  <p>I keep this page because background removal for Headshots kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

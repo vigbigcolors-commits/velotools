@@ -38,7 +38,7 @@
 <meta name="twitter:image" content="https://velotools.app/og/about.png">
 <meta name="twitter:image:alt" content="About VeloTools">
 
-<meta name="author" content="VeloTools">
+<meta name="author" content="Vigen G.">
 <meta name="copyright" content="© 2024–2026 VeloTools. All Rights Reserved.">
 <meta name="dcterms.rights" content="Copyright © 2024–2026 VeloTools. All Rights Reserved.">
 <meta name="theme-color" content="#141f1c">
@@ -61,8 +61,38 @@
   "logo": "https://velotools.app/images/logo.png",
   "description": "VeloTools builds free, privacy-first, browser-based tools for image editing, document generation, and productivity. All processing happens locally in the user's browser — no files are ever uploaded to a server.",
   "foundingDate": "2024",
+  "founder": {
+    "@type": "Person",
+    "name": "Vigen G.",
+    "jobTitle": "Founder",
+    "url": "https://velotools.app/about/vigen/",
+    "worksFor": { "@type": "Organization", "name": "VeloTools", "url": "https://velotools.app" }
+  },
   "sameAs": [
     "https://twitter.com/velotools"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Vigen G.",
+  "jobTitle": "Founder",
+  "description": "Founder and builder of VeloTools — privacy-first browser tools that never upload user files.",
+  "url": "https://velotools.app/about/vigen/",
+  "email": "hello@velotools.app",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "VeloTools",
+    "url": "https://velotools.app"
+  },
+  "knowsAbout": [
+    "browser-based file tools",
+    "WebAssembly image processing",
+    "zero-upload privacy architecture",
+    "client-side PDF compression"
   ]
 }
 </script>
@@ -227,7 +257,7 @@
       "name": "Who builds and maintains VeloTools?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "VeloTools is an independent suite of browser-based utilities, built and maintained by a small team focused on a single principle: useful tools that respect privacy by never requiring an upload."
+        "text": "VeloTools is built by Vigen G., the founder. His page, Lab Notes, and the Methodology page document how the zero-upload tools are designed, what we refuse to claim, and how pages are published."
       }
     }
   ]
@@ -1219,6 +1249,11 @@ html,body{background:var(--bg-main)}
 .ab-h1{font-size:clamp(34px,5.2vw,58px);font-weight:800;letter-spacing:-1.4px;line-height:1.08;margin-bottom:18px}
 .ab-h1 em{font-style:normal;background:linear-gradient(120deg,var(--ac) 0%,#7ee8b8 60%,#9ad5ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .ab-lede{font-size:18px;line-height:1.7;color:var(--tx-2);max-width:1320px;margin:0 auto 30px}
+.ab-founder{display:flex;gap:18px;align-items:flex-start;text-align:left;max-width:720px;margin:28px auto 0;padding:22px;border:1px solid var(--br);border-radius:16px;background:var(--bg-panel)}
+.ab-founder-av{width:56px;height:56px;border-radius:50%;background:var(--ac-grad);color:#0d1710;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ab-founder h2{font-size:18px;font-weight:800;margin:0 0 6px;letter-spacing:-.2px}
+.ab-founder p{font-size:14px;line-height:1.7;color:var(--tx-2);margin:0 0 10px}
+.ab-founder a{color:var(--ac);font-weight:700;text-decoration:none;margin-right:14px;font-size:13px}
 .ab-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1320px;margin:0 auto}
 .ab-stat{background:var(--bg-panel);border:1px solid var(--br);border-radius:var(--radius-lg);padding:18px 12px;text-align:center}
 .ab-stat b{display:block;font-size:26px;font-weight:800;color:var(--ac);letter-spacing:-.5px}
@@ -1286,9 +1321,11 @@ html,body{background:var(--bg-main)}
     <a href="/invoice/"  class="v-nl">Invoice</a>
     <a href="/qr/"       class="v-nl">QR Code</a>
     <a href="/focus/"    class="v-nl">Focus</a><a href="/bgremover/" class="v-nl">BG Remover</a><a href="/pdf-tools/" class="v-nl">PDF</a>
+    <a href="/lab/"      class="v-nl">Lab</a>
     <a href="/about/"    class="v-nl cur">About</a>
   </div>
   <div style="justify-self:end;display:flex;gap:4px">
+    <a href="/methodology/" class="v-nl" style="font-size:12px;opacity:.7">Method</a>
     <a href="/privacy/" class="v-nl" style="font-size:12px;opacity:.5">Privacy</a>
     <a href="/terms/"   class="v-nl" style="font-size:12px;opacity:.5">Terms</a>
   </div>
@@ -1301,12 +1338,24 @@ html,body{background:var(--bg-main)}
   <section class="ab-hero">
     <span class="ab-eyebrow">⚡ About VeloTools</span>
     <h1 class="ab-h1">Free tools that <em>never see your files.</em></h1>
-    <p class="ab-lede">VeloTools is a small suite of browser-based utilities — an image compressor with RAW &amp; SVG conversion, an AI background remover, an invoice generator, a QR code generator, a PDF compressor, and a focus timer. Every one of them runs entirely on your device. No upload, no account, no subscription, no watermark — free forever.</p>
+    <p class="ab-lede">VeloTools is a suite of browser-based utilities built by <a href="/about/vigen/" style="color:var(--ac);font-weight:700;text-decoration:none">Vigen G.</a> — image compression with RAW &amp; SVG conversion, on-device background removal, invoicing, QR codes, PDF compression, and a focus timer. Every tool runs on your device. No upload, no account, no subscription, no watermark.</p>
     <div class="ab-stats">
       <div class="ab-stat"><b>6</b><span>Free tools</span></div>
       <div class="ab-stat"><b>0</b><span>Files uploaded</span></div>
       <div class="ab-stat"><b>0</b><span>Accounts required</span></div>
       <div class="ab-stat"><b>100%</b><span>Runs in-browser</span></div>
+    </div>
+    <div class="ab-founder">
+      <div class="ab-founder-av" aria-hidden="true">VG</div>
+      <div>
+        <h2>Vigen G. — founder</h2>
+        <p>I ship the instruments I use on real work: compress, cut out, invoice, focus. No black-box upload. Trust is a named person, a written method, and code that cannot receive your files.</p>
+        <a href="/about/vigen/">Page about me</a>
+        <a href="/lab/">Lab Notes</a>
+        <a href="/methodology/">Methodology</a>
+        <a href="/lab/why-zero-upload/">Why zero upload</a>
+        <a href="mailto:hello@velotools.app">hello@velotools.app</a>
+      </div>
     </div>
   </section>
 
@@ -1425,7 +1474,7 @@ html,body{background:var(--bg-main)}
       <div class="v-fi"><button class="v-fq" onclick="vTf(this)">What happens to my files when I use VeloTools?<div class="v-fqico">+</div></button><div class="v-fa">Nothing leaves your device. Every tool — the image compressor, background remover, PDF compressor, invoice generator, and QR generator — processes your files using in-browser JavaScript and WebAssembly APIs (Canvas, File, WebAssembly). No file, image, or document is ever transmitted to a VeloTools server.</div></div>
       <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Which browsers and devices does VeloTools support?<div class="v-fqico">+</div></button><div class="v-fa">Any modern browser with JavaScript enabled — Chrome, Firefox, Safari, and Edge on desktop, Android, and iOS. No installation, plugin, or app download is required.</div></div>
       <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Can I use VeloTools for commercial or client work?<div class="v-fqico">+</div></button><div class="v-fa">Yes. Output files (compressed images, generated invoices, QR codes, transparent PNGs, compressed PDFs) carry no watermark and no licensing restriction. Use them for e-commerce listings, client deliverables, marketing, or anything else.</div></div>
-      <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Who builds and maintains VeloTools?<div class="v-fqico">+</div></button><div class="v-fa">VeloTools is an independent suite of browser-based utilities, built and maintained by a small team focused on a single principle: useful tools that respect privacy by never requiring an upload.</div></div>
+      <div class="v-fi"><button class="v-fq" onclick="vTf(this)">Who builds and maintains VeloTools?<div class="v-fqico">+</div></button><div class="v-fa">VeloTools is built by Vigen G. Read <a href="/about/vigen/">his page</a>, Lab Notes, and Methodology for how the tools are designed and what we refuse to claim.</div></div>
     </div>
   </section>
 
@@ -1434,8 +1483,8 @@ html,body{background:var(--bg-main)}
 <footer class="v-foot">
   <div class="v-foot-in">
     <a href="/" class="vt-logo" aria-label="VeloTools home"><picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44" decoding="async"></picture><span class="vt-logo-text">velotools</span></a>
-    <nav class="v-flinks"><a href="/">All tools</a><a href="/image-compress/">Image Compressor</a><a href="/bgremover/">Background Remover</a><a href="/invoice/">Invoice</a><a href="/qr/">QR Code</a><a href="/compress-pdf/">PDF Compressor</a><a href="/focus/">Focus Room</a><a href="/privacy/">Privacy Policy</a></nav>
-    <small style="font-size:12px;color:var(--tx-3)">© 2026 VeloTools · Free forever · No sign-up</small>
+    <nav class="v-flinks"><a href="/">All tools</a><a href="/about/vigen/">Vigen G.</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/image-compress/">Image Compressor</a><a href="/bgremover/">Background Remover</a><a href="/invoice/">Invoice</a><a href="/qr/">QR Code</a><a href="/compress-pdf/">PDF Compressor</a><a href="/focus/">Focus Room</a><a href="/privacy/">Privacy Policy</a></nav>
+    <small style="font-size:12px;color:var(--tx-3)">© 2026 VeloTools · Built by Vigen G. · Free forever</small>
   </div>
 </footer>
 

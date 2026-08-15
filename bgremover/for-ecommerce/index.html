@@ -29,6 +29,18 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Ecommerce catalog","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-ecommerce/","description":"Cut product photos to clean white or transparent PNG in your browser. No upload, no account. Built for Shopify and catalog workflows.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #ffffff","Export hint png","Refine suggested","No watermarks"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will white preview match Shopify PDP backgrounds?","acceptedAnswer":{"@type":"Answer","text":"Yes for flat white storefronts. Use the white swatch during QA, then export PNG if you composite later, or JPG-white when the channel rejects transparency. The preset does not upload the file either way. If your theme uses off-white, pick a custom color after cutout and export JPG with background instead of assuming pure white."}},{"@type":"Question","name":"Can I batch hundreds of SKUs here?","acceptedAnswer":{"@type":"Answer","text":"This page processes one image at a time for memory safety on laptops. For large catalogs, run sequentially; the model stays cached so later SKUs skip the download tax. No account queue exists because there is no server quota. Pair with a simple local folder script if you need renaming discipline — the cutout itself remains private."}},{"@type":"Question","name":"Does Refine change product color accuracy?","acceptedAnswer":{"@type":"Answer","text":"Refine peels fringe alpha; it is not a color grade. Slight decontamination near edges can shift a thin halo toward foreground hues. If a logo stripe looks muddy, Undo and use softer Erase instead of a second Refine. Always judge final color on your calibrated monitor after export."}},{"@type":"Question","name":"PNG or JPG-white for marketplace uploads?","acceptedAnswer":{"@type":"Answer","text":"Prefer JPG-white when the portal forbids transparency and expects a solid field. Prefer PNG when design will composite or when you need partial alpha on soft packs. This preset defaults PNG because many ecommerce teams hand off to design before channel upload."}},{"@type":"Question","name":"What if my product is already on white paper?","acceptedAnswer":{"@type":"Answer","text":"AI may still leave paper texture in corners. Smart Erase the table plane, then confirm on white preview that no soft gray remains. For nearly white subjects, shoot on a contrasting temporary backdrop first so the matte has contrast to learn from."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-ecommerce","tool":"bg-remover","useCase":"ecommerce","useCaseLabel":"Ecommerce catalog","intentBanner":"Ecommerce preset · preview white · export PNG · Refine ready","config":{"defaultBg":"#ffffff","bgSwatchIndex":1,"exportHint":"png","suggestRefine":true,"tipLabel":"Check edges on white before export"}}</script>
+<style id="vt-eeat-css">
+.vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
+.vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
+.vt-exp h2{font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;letter-spacing:-.3px}
+.vt-exp p{font-size:15px;line-height:1.75;color:rgba(176,202,216,.95);margin:0 0 14px}
+.vt-exp-links{display:flex;flex-wrap:wrap;gap:10px}
+.vt-exp-links a{font-size:13px;font-weight:700;color:#00e6d0;text-decoration:none;border:1px solid rgba(0,230,208,.35);padding:8px 12px;border-radius:9px}
+.vt-exp-links a:hover{background:rgba(0,230,208,.1)}
+.vt-eeat-rail{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;padding:14px 16px;margin:0 auto 8px;max-width:1100px;font-size:13px}
+.vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
+.vt-eeat-rail a:hover{color:#00e6d0}
+</style>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Ecommerce preset · preview white · export PNG · Refine ready · Check edges on white before export</div>
@@ -55,9 +67,10 @@
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
     <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
+    <a href="/lab/" class="vt-glink">Lab</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
-<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/methodology/" class="vt-glink" style="font-size:12px;opacity:.55">Method</a><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <header class="hdr">
@@ -348,6 +361,24 @@
   </div>
 </section>
 
+
+<nav class="vt-eeat-rail" aria-label="Trust and product links">
+  <a href="/bgremover/">Parent tool</a>
+  <a href="/bgremover/">Tool hub</a>
+  <a href="/lab/">Lab Notes</a>
+  <a href="/methodology/">Methodology</a>
+  <a href="/about/">About</a>
+  <a href="/">All tools</a>
+</nav>
+
+
+
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-ecommerce" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Ecommerce</h2>
+  <p>I keep this page because background removal for Ecommerce kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { MATRIX, entryPath } from '../seo-data/matrix/index.mjs';
+import { notifyGoogle } from './notify-google.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '../..');
@@ -25,7 +26,7 @@ function saveState(state) {
   writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
 }
 
-export function publishMatrixBatch(limit) {
+export function publishMatrixBatch(limit, opts = {}) {
   const state = loadState();
   const day = today();
   if (state.lastPublishDate !== day) {
@@ -59,8 +60,13 @@ export function publishMatrixBatch(limit) {
     saveState(state);
   }
 
+  const indexing = published.length
+    ? notifyGoogle(published, { dryRun: Boolean(opts.dryRunIndex), skip: Boolean(opts.skipIndex) })
+    : { ok: true, skipped: true, reason: 'no-urls' };
+
   return {
     published,
+    indexing,
     message: published.length
       ? `Published ${published.length} matrix URL(s). Today: ${state.publishedToday}/${state.dailyLimit}.`
       : 'All matrix URLs already in sitemap.',
@@ -70,7 +76,8 @@ export function publishMatrixBatch(limit) {
 if (process.argv[1] && /matrix-publish\.mjs$/.test(process.argv[1].replace(/\\/g, '/'))) {
   const limitArg = process.argv.find((a) => a.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : undefined;
-  const r = publishMatrixBatch(limit);
+  const skipIndex = process.argv.includes('--skip-index');
+  const r = publishMatrixBatch(limit, { skipIndex });
   console.log(r.message);
   for (const p of r.published) console.log(' +', p);
 }

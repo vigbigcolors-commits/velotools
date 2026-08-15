@@ -29,6 +29,18 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Portraits and hair","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-portraits/","description":"Remove portrait backgrounds with hair-friendly refine tools. Runs fully in-browser. Restore brush for flyaways, no cloud upload.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint png","Refine suggested","No watermarks"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Refine destroy curly hair detail?","acceptedAnswer":{"@type":"Answer","text":"One Refine peels roughly two pixels of fringe and feathers the band. Curly stacks usually need Restore afterward, not more Refine. Undo with Ctrl plus Z if a pass feels aggressive. Work in short Restore strokes following curl direction rather than spraying opacity everywhere."}},{"@type":"Question","name":"What export should I use for compositing?","acceptedAnswer":{"@type":"Answer","text":"PNG preserves partial alpha for hair tips. Avoid JPG until the composite is final. WebP is fine for web delivery after you approve the matte on checkers. Keep the PNG master in your archive even if the client only asked for a flattened proof."}},{"@type":"Question","name":"Can I replace the backdrop with a studio color here?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the cutout, pick a swatch or custom color and export JPG with background. For maximum reuse, still save a transparent PNG first. Blush or soft gray fills are gentler for skin QA than stark white when the deliverable is a corporate plate."}},{"@type":"Question","name":"Why is transparent the default instead of white?","acceptedAnswer":{"@type":"Answer","text":"Checkers reveal dishonest mattes that white can hide. Portrait comps rarely stay on pure white forever, so alpha honesty beats marketplace white QA. Switch to white anytime if a client insists on that proof style."}},{"@type":"Question","name":"Will beards and peach fuzz need manual work?","acceptedAnswer":{"@type":"Answer","text":"Often yes. AI gets the major silhouette; Restore at low opacity recovers fuzz that Refine may have peeled. Dark preview can help, but this preset starts on checkers so you can flip to black manually when hunting halo on light hair."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-portraits","tool":"bg-remover","useCase":"portraits","useCaseLabel":"Portraits and hair","intentBanner":"Portrait preset · transparent grid · Refine first · PNG export","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"png","suggestRefine":true,"tipLabel":"Zoom 200% and Refine once for hair fringe"}}</script>
+<style id="vt-eeat-css">
+.vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
+.vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
+.vt-exp h2{font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;letter-spacing:-.3px}
+.vt-exp p{font-size:15px;line-height:1.75;color:rgba(176,202,216,.95);margin:0 0 14px}
+.vt-exp-links{display:flex;flex-wrap:wrap;gap:10px}
+.vt-exp-links a{font-size:13px;font-weight:700;color:#00e6d0;text-decoration:none;border:1px solid rgba(0,230,208,.35);padding:8px 12px;border-radius:9px}
+.vt-exp-links a:hover{background:rgba(0,230,208,.1)}
+.vt-eeat-rail{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;padding:14px 16px;margin:0 auto 8px;max-width:1100px;font-size:13px}
+.vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
+.vt-eeat-rail a:hover{color:#00e6d0}
+</style>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Portrait preset · transparent grid · Refine first · PNG export · Zoom 200% and Refine once for hair fringe</div>
@@ -55,9 +67,10 @@
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
     <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
+    <a href="/lab/" class="vt-glink">Lab</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
-<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/methodology/" class="vt-glink" style="font-size:12px;opacity:.55">Method</a><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <header class="hdr">
@@ -348,6 +361,24 @@
   </div>
 </section>
 
+
+<nav class="vt-eeat-rail" aria-label="Trust and product links">
+  <a href="/bgremover/">Parent tool</a>
+  <a href="/bgremover/">Tool hub</a>
+  <a href="/lab/">Lab Notes</a>
+  <a href="/methodology/">Methodology</a>
+  <a href="/about/">About</a>
+  <a href="/">All tools</a>
+</nav>
+
+
+
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-portraits" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Portraits</h2>
+  <p>I keep this page because background removal for Portraits kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

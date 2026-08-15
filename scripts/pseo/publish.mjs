@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { loadAllIntents, updateIntentStatus } from './intents.mjs';
+import { notifyGoogle } from './notify-google.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '../..');
@@ -24,7 +25,7 @@ function saveState(state) {
   writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
 }
 
-export function publishBatch(limit) {
+export function publishBatch(limit, opts = {}) {
   const state = loadState();
   const day = today();
   if (state.lastPublishDate !== day) {
@@ -46,6 +47,7 @@ export function publishBatch(limit) {
 
   let sitemap = readFileSync(sitemapPath, 'utf8');
   const published = [];
+  const newlyAdded = [];
 
   for (const intent of toPublish) {
     const loc = `    <loc>${baseUrl}/${intent.slug}/</loc>`;
@@ -58,14 +60,20 @@ export function publishBatch(limit) {
     sitemap = sitemap.replace('</urlset>', block + '</urlset>');
     updateIntentStatus(intent.slug, 'published', { publishedAt: day });
     published.push(intent.slug);
+    newlyAdded.push(intent.slug);
   }
 
   writeFileSync(sitemapPath, sitemap);
   state.publishedToday += published.length;
   saveState(state);
 
+  const indexing = newlyAdded.length
+    ? notifyGoogle(newlyAdded, { dryRun: Boolean(opts.dryRunIndex), skip: Boolean(opts.skipIndex) })
+    : { ok: true, skipped: true, reason: 'no-urls' };
+
   return {
     published,
+    indexing,
     message: `Published ${published.length} URL(s) to sitemap. Today: ${state.publishedToday}/${state.dailyLimit}.`,
   };
 }

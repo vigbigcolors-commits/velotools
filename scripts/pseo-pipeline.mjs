@@ -7,14 +7,14 @@
  *   2. Add intent → scripts/seo-data/intents/*.json (publishStatus: "draft")
  *   3. npm run pseo:validate
  *   4. npm run pseo:build        → draft → built (HTML on disk)
- *   5. npm run pseo:publish      → built → sitemap (max 15/day)
+ *   5. npm run pseo:publish      → built → sitemap + Indexing API (max 15/day)
  *
  * Commands:
  *   node scripts/pseo-pipeline.mjs status
  *   node scripts/pseo-pipeline.mjs validate
  *   node scripts/pseo-pipeline.mjs build [--slug=x] [--dry-run]
- *   node scripts/pseo-pipeline.mjs publish [--limit=15]
- *   node scripts/pseo-pipeline.mjs daily   → validate + build + publish
+ *   node scripts/pseo-pipeline.mjs publish [--limit=15] [--skip-index]
+ *   node scripts/pseo-pipeline.mjs daily   → validate + build + publish + Indexing API
  */
 import { loadAllIntents, updateIntentStatus } from './pseo/intents.mjs';
 import { validateAll } from './pseo/validate.mjs';
@@ -28,6 +28,7 @@ const targetSlug = slugArg ? slugArg.split('=')[1] : null;
 const dryRun = args.includes('--dry-run');
 const limitArg = args.find((a) => a.startsWith('--limit='));
 const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : undefined;
+const skipIndex = args.includes('--skip-index');
 
 function status() {
   const intents = loadAllIntents();
@@ -77,7 +78,7 @@ function validate() {
 }
 
 function publish() {
-  const r = publishBatch(limit);
+  const r = publishBatch(limit, { skipIndex });
   console.log(r.message);
   if (r.published.length) r.published.forEach((s) => console.log('  +', s));
 }

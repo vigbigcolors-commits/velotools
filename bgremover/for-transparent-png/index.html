@@ -29,6 +29,18 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Designers PNG","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-transparent-png/","description":"Export true transparent PNGs for Figma, Photoshop, and Canva. AI runs in-browser; checkerboard preview shows alpha clearly.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint png","Manual refine optional","No watermarks"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does PNG stay lossless here?","acceptedAnswer":{"@type":"Answer","text":"Yes. The PNG export path writes standard lossless PNG with the computed alpha channel. We do not recompress with a lossy step on that button. Downstream tools might recompress if you re-export again elsewhere — archive the first PNG."}},{"@type":"Question","name":"Can I use this for logo cleanup?","acceptedAnswer":{"@type":"Answer","text":"For photo-based marks, yes. For already-vector logos, prefer editing the source SVG. This tool shines when you only have a raster with a busy plate. Recreating a clean vector later still beats forever shipping a soft photo logo."}},{"@type":"Question","name":"Why is Refine off by default for designers?","acceptedAnswer":{"@type":"Answer","text":"Hard edges and UI chrome often look worse after an automatic peel. Photo cutouts can still use Refine manually. Other presets turn the suggestion on when their audience expects it."}},{"@type":"Question","name":"Will Canva preserve the alpha?","acceptedAnswer":{"@type":"Answer","text":"Modern Canva imports respect PNG transparency. If a project unexpectedly shows a white box, re-download PNG and confirm you did not flatten earlier. Keep originals outside Canva when brand archives matter."}},{"@type":"Question","name":"How do I handle shadows I want to keep?","acceptedAnswer":{"@type":"Answer","text":"Natural contact shadows may be removed with the backdrop. Recreate soft shadows in your design tool under the PNG for consistency across a system. Trying to preserve dirty floor shadows usually fights the matte."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-transparent-png","tool":"bg-remover","useCase":"transparent-png","useCaseLabel":"Designers PNG","intentBanner":"Designer preset · checkerboard · PNG lossless · alpha-safe","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"png","suggestRefine":false,"tipLabel":"Checkerboard = true alpha, export PNG"}}</script>
+<style id="vt-eeat-css">
+.vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
+.vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
+.vt-exp h2{font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;letter-spacing:-.3px}
+.vt-exp p{font-size:15px;line-height:1.75;color:rgba(176,202,216,.95);margin:0 0 14px}
+.vt-exp-links{display:flex;flex-wrap:wrap;gap:10px}
+.vt-exp-links a{font-size:13px;font-weight:700;color:#00e6d0;text-decoration:none;border:1px solid rgba(0,230,208,.35);padding:8px 12px;border-radius:9px}
+.vt-exp-links a:hover{background:rgba(0,230,208,.1)}
+.vt-eeat-rail{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;padding:14px 16px;margin:0 auto 8px;max-width:1100px;font-size:13px}
+.vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
+.vt-eeat-rail a:hover{color:#00e6d0}
+</style>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Designer preset · checkerboard · PNG lossless · alpha-safe · Checkerboard = true alpha, export PNG</div>
@@ -55,9 +67,10 @@
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
     <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
+    <a href="/lab/" class="vt-glink">Lab</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
-<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/methodology/" class="vt-glink" style="font-size:12px;opacity:.55">Method</a><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <header class="hdr">
@@ -348,6 +361,24 @@
   </div>
 </section>
 
+
+<nav class="vt-eeat-rail" aria-label="Trust and product links">
+  <a href="/bgremover/">Parent tool</a>
+  <a href="/bgremover/">Tool hub</a>
+  <a href="/lab/">Lab Notes</a>
+  <a href="/methodology/">Methodology</a>
+  <a href="/about/">About</a>
+  <a href="/">All tools</a>
+</nav>
+
+
+
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-transparent-png" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Transparent Png</h2>
+  <p>I keep this page because background removal for Transparent Png kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

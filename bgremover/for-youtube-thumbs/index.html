@@ -29,6 +29,18 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for YouTube thumbnails","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-youtube-thumbs/","description":"Cut hosts and props for YouTube thumbnails without uploading channel faces. Plum canvas mimics thumb contrast; JPG-bg for final comps.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #7C3480","Export hint jpg-bg","Refine suggested","No watermarks"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should thumbnail backgrounds stay transparent?","acceptedAnswer":{"@type":"Answer","text":"Usually no for the final YouTube upload. Flatten onto a high-contrast designed plate. Keep PNG masters if you will rebuild thumbs later with new type. This preset highlights JPG-bg because most finals are filled rectangles."}},{"@type":"Question","name":"Can I cut multiple people for one thumb?","acceptedAnswer":{"@type":"Answer","text":"Yes, but overlapping figures need more Erase between shoulders. Cutting separately and compositing often looks cleaner for big reaction thumbs. Watch scale so one face does not dwarf the other unintentionally."}},{"@type":"Question","name":"Why plum instead of red or blue?","acceptedAnswer":{"@type":"Answer","text":"Plum is a strong mid-contrast QA field in the allowlisted swatches and differs from other presets. You can switch to any swatch for personal taste after the matte is clean. Final thumb colors come from your template anyway."}},{"@type":"Question","name":"Does Refine help with gaming headset edges?","acceptedAnswer":{"@type":"Answer","text":"One pass can help, but headsets have thin rods and transparent mics that need Restore and Erase. Zoom the boom arm carefully. Accept that tiny headset details may need manual finishing for premium channels."}},{"@type":"Question","name":"Will YouTube compress away my edge work?","acceptedAnswer":{"@type":"Answer","text":"YouTube recompresses thumbs, so prefer slightly stronger edges over ultra-soft film mattes. Check the uploaded preview on a phone. If edges vanish, increase subject scale more than you increase Refine count."}}]}</script>
 <script type="application/json" id="vt-page-config">{"id":"bgremover-youtube-thumbs","tool":"bg-remover","useCase":"youtube-thumbs","useCaseLabel":"YouTube thumbnails","intentBanner":"YouTube preset · plum canvas · JPG-bg · thumb contrast","config":{"defaultBg":"#7C3480","bgSwatchIndex":5,"exportHint":"jpg-bg","suggestRefine":true,"tipLabel":"Plum canvas mimics thumb contrast"}}</script>
+<style id="vt-eeat-css">
+.vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
+.vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
+.vt-exp h2{font-size:20px;font-weight:800;color:#fff;margin:0 0 12px;letter-spacing:-.3px}
+.vt-exp p{font-size:15px;line-height:1.75;color:rgba(176,202,216,.95);margin:0 0 14px}
+.vt-exp-links{display:flex;flex-wrap:wrap;gap:10px}
+.vt-exp-links a{font-size:13px;font-weight:700;color:#00e6d0;text-decoration:none;border:1px solid rgba(0,230,208,.35);padding:8px 12px;border-radius:9px}
+.vt-exp-links a:hover{background:rgba(0,230,208,.1)}
+.vt-eeat-rail{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;padding:14px 16px;margin:0 auto 8px;max-width:1100px;font-size:13px}
+.vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
+.vt-eeat-rail a:hover{color:#00e6d0}
+</style>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">YouTube preset · plum canvas · JPG-bg · thumb contrast · Plum canvas mimics thumb contrast</div>
@@ -55,9 +67,10 @@
     <a href="/invoice/"        class="vt-glink">Invoice</a>
     <a href="/qr/"             class="vt-glink">QR Code</a>
     <a href="/focus/"          class="vt-glink">Focus</a><a href="/bgremover/"      class="vt-glink act">BG Remover</a><a href="/pdf-tools/"   class="vt-glink">PDF</a>
+    <a href="/lab/" class="vt-glink">Lab</a>
     <a href="/about/"          class="vt-glink">About <span class="vt-dot"></span></a>
   </div>
-<div style="justify-self:end;display:flex;gap:4px"><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
+<div style="justify-self:end;display:flex;gap:4px"><a href="/methodology/" class="vt-glink" style="font-size:12px;opacity:.55">Method</a><a href="/privacy/" class="vt-glink" style="font-size:12px;opacity:.55">Privacy</a><a href="/terms/" class="vt-glink" style="font-size:12px;opacity:.55">Terms</a></div>
 </nav>
 
 <header class="hdr">
@@ -348,6 +361,24 @@
   </div>
 </section>
 
+
+<nav class="vt-eeat-rail" aria-label="Trust and product links">
+  <a href="/bgremover/">Parent tool</a>
+  <a href="/bgremover/">Tool hub</a>
+  <a href="/lab/">Lab Notes</a>
+  <a href="/methodology/">Methodology</a>
+  <a href="/about/">About</a>
+  <a href="/">All tools</a>
+</nav>
+
+
+
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-youtube-thumbs" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Youtube Thumbs</h2>
+  <p>I keep this page because background removal for Youtube Thumbs kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

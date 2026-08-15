@@ -8,8 +8,11 @@
  * - Logs to local SQLite (not console spam of secrets)
  *
  * Usage:
- *   GOOGLE_SERVICE_ACCOUNT_JSON='{...}' node index.mjs
- *   GOOGLE_SERVICE_ACCOUNT_JSON='{...}' node index.mjs --sitemap=../../sitemap.xml
+ *   node index.mjs
+ *   node index.mjs --sitemap=../../sitemap.xml
+ *   node index.mjs --url=https://velotools.app/foo/ --url=https://velotools.app/bar/
+ *   node index.mjs --urls-file=pending.txt
+ *   node index.mjs --force   (re-submit URLs already ok today)
  */
 import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
@@ -23,12 +26,53 @@ const DEFAULT_SITEMAP = join(__dirname, '../../sitemap.xml');
 const DB_PATH = join(__dirname, 'indexing-log.sqlite');
 
 function parseArgs(argv) {
-  const out = { sitemap: DEFAULT_SITEMAP, dryRun: false };
+  const out = { sitemap: DEFAULT_SITEMAP, dryRun: false, force: false, urls: [], urlsFile: null };
   for (const a of argv) {
     if (a.startsWith('--sitemap=')) out.sitemap = a.slice('--sitemap='.length);
+    if (a.startsWith('--url=')) out.urls.push(a.slice('--url='.length).trim());
+    if (a.startsWith('--urls-file=')) out.urlsFile = a.slice('--urls-file='.length).trim();
     if (a === '--dry-run') out.dryRun = true;
+    if (a === '--force') out.force = true;
   }
   return out;
+}
+
+function isVeloUrl(u) {
+  return typeof u === 'string' && u.startsWith('https://velotools.app/');
+}
+
+function readUrlList(filePath) {
+  if (!filePath) return [];
+  if (!existsSync(filePath)) {
+    throw new Error(`urls-file not found: ${filePath}`);
+  }
+  return readFileSync(filePath, 'utf8')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('#') && isVeloUrl(line));
+}
+
+function collectUrls(args) {
+  const explicit = [...args.urls.filter(isVeloUrl), ...readUrlList(args.urlsFile)];
+  if (explicit.length) return [...new Set(explicit)];
+
+  if (!existsSync(args.sitemap)) {
+    throw new Error(`Sitemap not found: ${args.sitemap}`);
+  }
+  const urls = parseSitemapUrls(readFileSync(args.sitemap, 'utf8'));
+  if (!urls.length) throw new Error('No velotools.app URLs found in sitemap');
+  return urls;
+}
+
+function wasOkToday(db, url) {
+  const row = db
+    .prepare(
+      `SELECT id FROM submissions
+       WHERE url = ? AND status = 'ok' AND created_at >= datetime('now', 'start of day')
+       LIMIT 1`,
+    )
+    .get(url);
+  return Boolean(row);
 }
 
 function loadDotEnv() {
@@ -189,13 +233,7 @@ async function main() {
   loadDotEnv();
   const args = parseArgs(process.argv.slice(2));
   const creds = loadServiceAccount();
-
-  if (!existsSync(args.sitemap)) {
-    throw new Error(`Sitemap not found: ${args.sitemap}`);
-  }
-
-  const urls = parseSitemapUrls(readFileSync(args.sitemap, 'utf8'));
-  if (!urls.length) throw new Error('No velotools.app URLs found in sitemap');
+  const urls = collectUrls(args);
 
   const db = openDb();
   const used = getDailyCount(db);
@@ -208,15 +246,38 @@ async function main() {
     return;
   }
 
-  const batch = urls.slice(0, remaining);
+  const pending = args.force ? urls : urls.filter((u) => !wasOkToday(db, u));
+  const skipped = urls.length - pending.length;
+  const batch = pending.slice(0, remaining);
+
+  let ok = 0;
+  let fail = 0;
+
+  if (!batch.length) {
+    logSubmission(
+      db,
+      '-',
+      'run_complete',
+      null,
+      JSON.stringify({
+        ok: 0,
+        fail: 0,
+        skipped,
+        attempted: 0,
+        dailyUsedAfter: used,
+        limit: DAILY_LIMIT,
+        dryRun: args.dryRun,
+      }),
+    );
+    db.close();
+    return;
+  }
+
   const auth = new google.auth.GoogleAuth({
     credentials: creds,
     scopes: ['https://www.googleapis.com/auth/indexing'],
   });
   const indexing = google.indexing({ version: 'v3', auth });
-
-  let ok = 0;
-  let fail = 0;
 
   for (const url of batch) {
     if (args.dryRun) {
@@ -249,6 +310,7 @@ async function main() {
     JSON.stringify({
       ok,
       fail,
+      skipped,
       attempted: batch.length,
       dailyUsedAfter: getDailyCount(db),
       limit: DAILY_LIMIT,

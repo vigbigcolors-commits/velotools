@@ -27,7 +27,8 @@
     "bgmatrix:build": "node scripts/pseo/bgremover-matrix-build.mjs",
     "indexing:install": "npm install --prefix scripts/indexing-worker",
     "indexing:run": "npm start --prefix scripts/indexing-worker",
-    "build:tool-cards": "vite build --config vite.tool-cards.config.mjs && node scripts/copy-tool-cards.mjs"
+    "build:tool-cards": "vite build --config vite.tool-cards.config.mjs && node scripts/copy-tool-cards.mjs",
+    "eeat:inject": "node scripts/pseo/inject-eeat-rails.mjs"
   },
   "repository": {
     "type": "git",
