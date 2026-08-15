@@ -11,7 +11,12 @@
     "max_output_label": "10 MB",
     "color_profile": "sRGB",
     "background": "RGB 255,255,255 (main image)",
-    "accepted_formats": ["JPEG", "PNG", "GIF", "TIFF"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "GIF",
+      "TIFF"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 85,
     "notes": "Longest side minimum 1000px (1600px+ zoom). 2000px+ recommended. Main image must fill 85%+ of frame on white background."
@@ -28,7 +33,11 @@
     "max_output_label": "10 MB",
     "color_profile": "sRGB",
     "background": "any (lifestyle shots allowed)",
-    "accepted_formats": ["JPEG", "PNG", "GIF"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "GIF"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 82,
     "notes": "Etsy recommends 2000px on the shortest side. Up to 20 images per listing."
@@ -45,7 +54,11 @@
     "max_output_label": "10 MB",
     "color_profile": "sRGB",
     "background": "white or neutral for main photo",
-    "accepted_formats": ["JPEG", "PNG", "WebP"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "WebP"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 80,
     "notes": "Minimum 200×200px; 900×1200px or larger recommended for clothing and general catalog cards."
@@ -62,7 +75,12 @@
     "max_output_label": "20 MB",
     "color_profile": "sRGB",
     "background": "any (theme-dependent; clean product preferred)",
-    "accepted_formats": ["JPEG", "PNG", "WebP", "GIF"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "WebP",
+      "GIF"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 84,
     "notes": "Many Shopify themes treat ~2048×2048 as a strong retina product master. CDN serves responsive sizes after upload; keep a sharp square-biased JPEG under ~20 MB."
@@ -79,7 +97,11 @@
     "max_output_label": "12 MB",
     "color_profile": "sRGB",
     "background": "any (gallery zoom friendly)",
-    "accepted_formats": ["JPEG", "PNG", "GIF"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "GIF"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 83,
     "notes": "1600×1600 is a widely cited working floor for sharp eBay gallery zoom. Practical ~12 MB guardrail keeps multi-angle lots manageable in Seller Hub."
@@ -96,7 +118,10 @@
     "max_output_label": "8 MB",
     "color_profile": "sRGB",
     "background": "any",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 80,
     "notes": "Classic feed squares land at 1080×1080. Prep under ~8 MB so the app’s recompression starts from a clean master instead of a 4K dump."
@@ -113,7 +138,10 @@
     "max_output_label": "8 MB",
     "color_profile": "sRGB",
     "background": "product-forward; avoid heavy text overlays",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 81,
     "notes": "Catalog and dynamic-ad squares commonly aim near 1200×1200. Keep under ~8 MB for Commerce Manager uploads and ad creative swaps."
@@ -130,7 +158,10 @@
     "max_output_label": "5 MB",
     "color_profile": "sRGB",
     "background": "white preferred for primary image",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 78,
     "notes": "Walmart expects catalog-grade pixels near 2000×2000 but weight limits feel tighter than Amazon — practical ~5 MB JPEG at quality ~78."
@@ -147,7 +178,10 @@
     "max_output_label": "10 MB",
     "color_profile": "sRGB",
     "background": "white or light for main card",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 79,
     "notes": "Portrait 3:4 cards around 900×1200 match Wildberries cabinet layouts better than Western 1:1 marketplace masters."
@@ -164,7 +198,10 @@
     "max_output_label": "5 MB",
     "color_profile": "sRGB",
     "background": "white or clean product backdrop",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 75,
     "notes": "AliExpress listing rails often start near 800×800 with a hard practical weight cap around 5 MB — downscale studio RAWs before seller upload."
@@ -181,7 +218,13 @@
     "max_output_label": "16 MB",
     "color_profile": "sRGB",
     "background": "product on white or lifestyle per feed rules",
-    "accepted_formats": ["JPEG", "PNG", "GIF", "BMP", "WebP"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "GIF",
+      "BMP",
+      "WebP"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 85,
     "notes": "Preferred Shopping images land near 1500×1500 (minimums are lower). Quality 85 keeps feed thumbnails sharp under a practical ~16 MB ceiling."
@@ -198,7 +241,10 @@
     "max_output_label": "10 MB",
     "color_profile": "sRGB",
     "background": "any (vertical lifestyle preferred)",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 82,
     "notes": "Standard product pins thrive at 1000×1500 (2:3). Wide website heroes waste vertical real estate in the grid."
@@ -215,9 +261,213 @@
     "max_output_label": "5 MB",
     "color_profile": "sRGB",
     "background": "clean product square for Shop rails",
-    "accepted_formats": ["JPEG", "PNG"],
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
     "recommended_format": "JPEG",
     "recommended_quality": 77,
     "notes": "TikTok Shop stills commonly use an 800×800 square with a practical ~5 MB weight. Keep vertical video frames separate from this square product rail."
+  },
+  "target-product-image": {
+    "id": "target-product-image",
+    "name": "Target Plus (product images)",
+    "category": "marketplace",
+    "source_url": "#",
+    "aspect_ratio": "1:1",
+    "min_width_px": 2000,
+    "min_height_px": 2000,
+    "max_output_bytes": 10485760,
+    "max_output_label": "10 MB",
+    "color_profile": "sRGB",
+    "background": "clean white for primary product image",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 80,
+    "notes": "Target Plus partners typically prep catalog-grade squares near 2000×2000 on white for the primary shot. Practical ~10 MB working ceiling; quality 80 keeps zoom crisp without bloating the item feed."
+  },
+  "temu-product-image": {
+    "id": "temu-product-image",
+    "name": "Temu seller product image",
+    "category": "marketplace",
+    "source_url": "#",
+    "aspect_ratio": "1:1",
+    "min_width_px": 850,
+    "min_height_px": 850,
+    "max_output_bytes": 5242880,
+    "max_output_label": "5 MB",
+    "color_profile": "sRGB",
+    "background": "white or clean product backdrop for main image",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 74,
+    "notes": "Temu listing rails commonly start near an 850×850 square with a tight practical ~5 MB weight. Quality 74 distinguishes from AliExpress’s 800/q75 twin while still downscaling studio exports for first-pass seller upload."
+  },
+  "shein-product-image": {
+    "id": "shein-product-image",
+    "name": "SHEIN product card",
+    "category": "marketplace",
+    "source_url": "#",
+    "aspect_ratio": "3:4",
+    "min_width_px": 900,
+    "min_height_px": 1200,
+    "max_output_bytes": 5242880,
+    "max_output_label": "5 MB",
+    "color_profile": "sRGB",
+    "background": "clean or on-model for fashion cards",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 78,
+    "notes": "SHEIN fashion cards favor a portrait 3:4 frame around 900×1200 rather than a Western 1:1 square. Practical ~5 MB weight; quality 78 keeps fabric texture honest for on-model shots."
+  },
+  "wayfair-product-image": {
+    "id": "wayfair-product-image",
+    "name": "Wayfair supplier product image",
+    "category": "marketplace",
+    "source_url": "#",
+    "aspect_ratio": "1:1",
+    "min_width_px": 1600,
+    "min_height_px": 1600,
+    "max_output_bytes": 10485760,
+    "max_output_label": "10 MB",
+    "color_profile": "sRGB",
+    "background": "pure white for primary silo image",
+    "accepted_formats": [
+      "JPEG",
+      "PNG",
+      "TIFF"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 84,
+    "notes": "Wayfair supplier silo images sit comfortably at 1600×1600 on white for furniture and decor detail. Quality 84 preserves wood grain and upholstery weave under a practical ~10 MB ceiling."
+  },
+  "mercari-listing-image": {
+    "id": "mercari-listing-image",
+    "name": "Mercari listing photo",
+    "category": "marketplace",
+    "source_url": "#",
+    "aspect_ratio": "1:1",
+    "min_width_px": 1200,
+    "min_height_px": 1200,
+    "max_output_bytes": 8388608,
+    "max_output_label": "8 MB",
+    "color_profile": "sRGB",
+    "background": "any (well-lit resale photo)",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 79,
+    "notes": "Mercari resale listings read best as a 1:1 square around 1200×1200 in the app grid. Practical ~8 MB weight; quality 79 keeps thrifted-item detail sharp without slow mobile uploads."
+  },
+  "depop-listing-image": {
+    "id": "depop-listing-image",
+    "name": "Depop listing photo",
+    "category": "marketplace",
+    "source_url": "#",
+    "aspect_ratio": "1:1",
+    "min_width_px": 1080,
+    "min_height_px": 1080,
+    "max_output_bytes": 5242880,
+    "max_output_label": "5 MB",
+    "color_profile": "sRGB",
+    "background": "any (styled thrift / vintage look)",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 76,
+    "notes": "Depop’s square-first feed matches a 1080×1080 crop like Instagram. Practical ~5 MB weight; quality 76 keeps styled vintage flat-lays crisp while staying light for the mobile app."
+  },
+  "linkedin-post-image": {
+    "id": "linkedin-post-image",
+    "name": "LinkedIn shared link / post image",
+    "category": "social",
+    "source_url": "#",
+    "aspect_ratio": "1.91:1",
+    "min_width_px": 1200,
+    "min_height_px": 627,
+    "max_output_bytes": 5242880,
+    "max_output_label": "5 MB",
+    "color_profile": "sRGB",
+    "background": "any (branded landscape card)",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 82,
+    "notes": "LinkedIn shared-link and post cards render cleanly at a 1.91:1 landscape near 1200×627. Quality 82 keeps logos and headline text readable in the feed under a practical ~5 MB weight."
+  },
+  "twitter-post-image": {
+    "id": "twitter-post-image",
+    "name": "X (Twitter) in-stream post image",
+    "category": "social",
+    "source_url": "#",
+    "aspect_ratio": "16:9",
+    "min_width_px": 1200,
+    "min_height_px": 675,
+    "max_output_bytes": 5242880,
+    "max_output_label": "5 MB",
+    "color_profile": "sRGB",
+    "background": "any (landscape in-stream card)",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 81,
+    "notes": "X in-stream images crop toward a 16:9 landscape around 1200×675 in the timeline. Quality 81 holds text overlays without heavy recompression under a practical ~5 MB weight."
+  },
+  "youtube-thumbnail": {
+    "id": "youtube-thumbnail",
+    "name": "YouTube video thumbnail",
+    "category": "social",
+    "source_url": "#",
+    "aspect_ratio": "16:9",
+    "min_width_px": 1280,
+    "min_height_px": 720,
+    "max_output_bytes": 2097152,
+    "max_output_label": "2 MB",
+    "color_profile": "sRGB",
+    "background": "any (high-contrast thumbnail art)",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 83,
+    "notes": "Custom YouTube thumbnails use a 16:9 frame at 1280×720 with a hard 2 MB upload ceiling. Quality 83 keeps bold face crops and text punchy while staying safely under the 2 MB limit."
+  },
+  "threads-post-image": {
+    "id": "threads-post-image",
+    "name": "Threads post image",
+    "category": "social",
+    "source_url": "#",
+    "aspect_ratio": "4:5",
+    "min_width_px": 1080,
+    "min_height_px": 1350,
+    "max_output_bytes": 5242880,
+    "max_output_label": "5 MB",
+    "color_profile": "sRGB",
+    "background": "any (portrait feed post)",
+    "accepted_formats": [
+      "JPEG",
+      "PNG"
+    ],
+    "recommended_format": "JPEG",
+    "recommended_quality": 77,
+    "notes": "Threads favors a tall 4:5 portrait around 1080×1350 that fills more of the mobile feed than a square. Quality 77 keeps the post light under a practical ~5 MB weight before the app recompresses."
   }
 }

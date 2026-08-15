@@ -817,4 +817,276 @@ export const EDITORIALS = {
       },
     ],
   },
+  'bgremover-logos': {
+    "eyebrow": "Hard-edge marks",
+    "h2": "Raster logos cut clean without softening a single corner",
+    "lead": "Brand and marketing teams constantly inherit a logo trapped inside a JPEG screenshot, a photographed sign, or a slide export, and they need it back as a transparent PNG without redrawing the vector. This preset is tuned for that exact rescue job. It opens on a transparent checkerboard so you can judge real alpha, and it deliberately leaves automatic Refine off, because a hard wordmark or geometric emblem almost always looks worse after an edge peel that rounds crisp corners and eats thin serifs. You keep full manual control: Smart Erase for the plate, Restore for any counter that the model punched through, and a lossless PNG at the end. This is the route to reach for when the goal is a clean drop-in mark for a deck, an email header, or a partner badge, not when you are cutting a photographed product or a person.",
+    "whyPreset": "Keeping Refine off by default protects the geometry that makes a logo readable. Corners, thin strokes, and letter counters survive when the tool does not feather them. The transparent grid is the honest surface for alpha work, because a white preview can hide semi-transparent sludge that later muddies a colored slide. PNG lossless is the correct export because a mark reused across sizes must not carry JPEG blocking around its edges. Together these defaults form a fingerprint clearly separate from photo-first presets that turn Refine on and celebrate soft mattes.",
+    "workflowTip": "Import the frame at the largest resolution you can find, since upscaling a tiny logo later will never recover crisp edges. Let the model run, then Smart Erase the surrounding plate rather than trusting a global peel. Zoom to 200 or 300 percent and check every corner and every enclosed shape such as the hole in an letter O or A. Restore any counter the model filled by mistake. Only if the mark is a photographed object with soft edges should you apply one manual Refine. Export PNG and archive that master, then downscale copies as needed for each placement.",
+    "privacyNote": "Unreleased brand marks, partnership lockups, and rebrand concepts are confidential competitive assets long before launch day. Because inference runs in local WebAssembly, those files never transit a third-party remover API and never sit in an upload retention window. Only the public model weights download once per browser profile. That lets a brand team clean a leaked-looking screenshot or a pre-announcement lockup without adding a vendor to the legal review, which is often the slowest part of any launch checklist.",
+    "scenarioH2": "Rescuing a mark from a slide or a photographed sign",
+    "scenarioBody": "Reach for this preset when someone hands you a logo that only exists inside a screenshot, a conference photo, or a flattened PDF export. Drop the frame in, accept the checkerboard as the truth surface, and Smart Erase the background plate instead of running an automatic peel that would soften the type. If the mark sits on a photo of a building or a booth, straighten it mentally before you cut and Restore any interior shape the model removed. Export a PNG master and keep it, because you will inevitably need the same mark at a different size next week. When the original vector eventually surfaces, prefer it, but this raster rescue keeps the project moving in the meantime without a cloud upload.",
+    "edgesH2": "Corners, counters, and thin strokes on a transparent grid",
+    "edgesBody": "Logo edges fail in ways that are easy to miss until the mark lands on a colored background. Watch three things on the checkerboard: sharp corners that must stay sharp, enclosed counters that must stay open, and hairline strokes that must not dissolve into partial alpha. Erase plate color without feathering the outline. If the model rounded a corner, Undo and use a tighter Smart Erase instead of a peel. Restore counters that were filled. Finally flip a proof swatch to a saturated color once, because semi-transparent sludge around a mark is invisible on white but obvious on brand blue. Export PNG only after that colored-plate check passes.",
+    "faqs": [
+      {
+        "question": "Why is automatic Refine off for logos?",
+        "answer": "Hard-edged marks look worse after an edge peel that rounds corners and feathers thin strokes. This preset keeps Refine off so geometry stays crisp, and lets you apply one manual pass only when the logo is actually a photographed object with soft edges."
+      },
+      {
+        "question": "Can this replace recreating the vector file?",
+        "answer": "For a true production logo, recreating a clean vector still wins because it scales infinitely. This tool is the fast rescue when you only have a raster copy trapped in a screenshot or photo and need a usable transparent PNG right now."
+      },
+      {
+        "question": "How do I keep the holes inside letters transparent?",
+        "answer": "Enclosed counters such as the gap in an O or A sometimes get filled by the model. Zoom in on the checkerboard, use Restore or Smart Erase to reopen those shapes, and confirm they read as transparent on a colored proof swatch before export."
+      },
+      {
+        "question": "Which export format should I choose for a mark?",
+        "answer": "Choose PNG. It is lossless and preserves clean alpha at any size, while JPEG would add block artifacts around the crisp edges. Keep the first PNG as your master and generate downscaled copies from it for individual placements."
+      },
+      {
+        "question": "My logo screenshot is tiny — will the cutout look sharp?",
+        "answer": "Cutting cannot add detail that was never captured. Start from the highest-resolution source you can find, because upscaling a small logo before or after removal only magnifies soft edges. When possible, hunt down a larger original frame first."
+      }
+    ]
+  },
+  'bgremover-packaging': {
+    "eyebrow": "Retail packaging",
+    "h2": "Rigid cartons and soft pouches cut on one honest white field",
+    "lead": "Packaging photography crams two opposite edge problems into a single frame: dead-straight carton corners and the loose, folding walls of a stand-up pouch. A remover that peels both with the same aggression leaves either stair-stepped box seams or crushed pouch creases. This profile stages the shot on plain white, the surface a physical product hero almost always lands on, and enables one Refine suggestion so the opening pass already sits near a shelf-ready outline. A brand owner can clear a run of folding boxes, bottles, and blister packs without lodging unreleased artwork on a remover CDN, because the whole job stays inside the tab. Reach for this route when the deliverable is a white-field packaging hero, not a transparent design master or a propped lifestyle scene.",
+    "whyPreset": "Plain white is the truthful proofing surface for packaging because that is the exact backdrop a product hero usually sits on, and a gray rim that disappears on a checkerboard betrays itself instantly on white. A single Refine snugs rigid corners and eases folding creases in one measured pass rather than leaving operators to guess. JPG-white is the promoted export because retail fields routinely refuse transparency and expect a solid rectangle. The tip points squarely at box seams, the failure a packaging cut trips over most, so inspection begins where it should.",
+    "workflowTip": "Frame the pack tight and shoot fairly square-on so carton corners stay true rather than keystoned. Once the model finishes, Refine a single time, then magnify to 200 percent along every seam and every crease. Smart Erase a prop riser, tape tab, or bench crumb instead of stacking a second global peel that can nibble ingredient text. On flexible film, Restore any soft corner the pass clipped. Toggle white against transparent once to expose a rim that shows on only one backdrop, then save JPG on white for the shelf shot and hold a PNG if a designer will composite later.",
+    "privacyNote": "Packaging artwork frequently sits under a converter or supplier confidentiality clause and is photographed weeks ahead of a public reveal. Local inference means those frames never reach an outside API or linger in a retention window; only the shared model weights fetch once. That reassures legal about where pre-reveal prototype photography lived, and it lets a contract photographer finish outlines on the very laptop that tethered the camera without stapling another vendor onto a security review.",
+    "scenarioH2": "Clearing a shelf-hero run of boxes, bottles, and pouches",
+    "scenarioBody": "Open this profile when a brand owner has to clear a batch of folding cartons, bottles, and stand-up pouches for a white product hero before a reveal window. Handle one pack at a time on white, treat the lone Refine as compulsory, and check seams before anyone argues about shadows. Should a channel later ask for a transparent variant for a propped composite, swap swatches and re-save a PNG from the same outline rather than re-processing. Keep panel text sharp by resisting extra Refine passes that can gnaw micro type on an ingredient list. For a family of related packs, hold lighting and framing steady so the row reads as one coordinated set instead of a patchwork of angles.",
+    "edgesH2": "Rigid seams, film creases, and shrink-wrap glare on white",
+    "edgesBody": "Packaging outlines break in three predictable spots: stair-stepped carton corners, gnawed pouch creases, and shrink-film glare the model misreads as backdrop. Magnify the straight seams first and confirm they stay clean lines rather than dotted alpha. On flexible packs, Restore the soft folds the peel may have ironed flat. Where glossy film catches a hot highlight, decide whether that sheen belongs to the product and Restore it if the pass punched a hole. Smart Erase bench crumbs and riser feet without cutting into printed graphics. Only save JPG-white once a full-screen white stare and a quick transparent toggle both confirm the outline holds.",
+    "faqs": [
+      {
+        "question": "Will the white proof match my retail product page backdrop?",
+        "answer": "It lines up closely with flat white fields. Proof on the white swatch, then save JPG on white for channels that refuse transparency, or save a PNG when a designer will composite later. For an off-white field, pick a custom fill after the cut instead of assuming pure white."
+      },
+      {
+        "question": "How do I stop rigid carton corners from stair-stepping?",
+        "answer": "Shoot the box fairly square-on, then magnify each seam to 200 percent after the single Refine. If a corner steps, Undo and run a tighter Smart Erase along that line rather than a second global peel that can also bite ingredient type."
+      },
+      {
+        "question": "What about limp stand-up pouches and film bags?",
+        "answer": "Flexible film wants gentle handling. Let the one Refine feather the creases, then Restore any soft corner the pass clipped. Avoid stacking peels, which flatten the natural slouch of the material into a plasticky outline."
+      },
+      {
+        "question": "Should a shelf hero carry a contact shadow?",
+        "answer": "The cut usually removes the floor shadow. If your template wants one, drop a synthetic soft shadow beneath the outline in your design tool, which keeps it uniform across a whole pack family instead of inheriting mismatched studio shadows."
+      },
+      {
+        "question": "Can one cut feed several retail channels at once?",
+        "answer": "Yes. Save JPG-white for strict fields and generate a WebP or PNG from the same outline for channels that accept other formats. Nothing re-processes, so a single clean cut serves many destinations in whatever format each prefers."
+      }
+    ]
+  },
+  'bgremover-furniture': {
+    "eyebrow": "Home and decor",
+    "h2": "Big furniture pieces grounded with honest soft shadows",
+    "lead": "Furniture is the toughest product category to matte cleanly because the pieces are bulky, they throw wide diffused shadows, and their legs, arms, and cushions melt into a showroom floor. This profile opens on a gradient mock precisely so the shadow that pools beneath a sofa base or a chair leg becomes visible, letting you commit to a contact shadow on purpose instead of discovering later that the piece appears to hover. One Refine tidies upholstery hems and woven trim, and PNG export protects the soft alpha a designed room composite depends on. A furniture or homeware brand can build a showroom lookbook without shipping interior layouts and unreleased ranges to a cloud remover. Use this route for a standalone piece bound for a laid-out plate, not a full styled room where spatial context carries the sell.",
+    "whyPreset": "A gradient mock exposes the diffused shadow that both white and a checkerboard tend to swallow, which is exactly the cue a furniture retoucher needs before committing. Turning Refine on by default assists fabric hems, rattan weave, and turned wooden legs that reward one measured peel. PNG is the natural handoff because a room composite needs real alpha, not a flattened rectangle. The tip names shadow pooling beneath legs so operators study the base of the piece first, where a furniture cut most often reads wrong.",
+    "workflowTip": "Shoot the piece filling the frame at a steady height across the range so the lookbook feels of one voice. Once the model finishes, read the gradient for shadow pooling under legs and cushions, then Refine a single time along hems and seam lines. Smart Erase the floor and any staging rug when the plate should read empty. Restore a slim chair spindle or lamp stem the peel may have whittled. Decide early whether you want a synthetic contact shadow, then save PNG and lay that shadow in your design tool so it stays uniform across every piece in the collection.",
+    "privacyNote": "Showroom and studio frames can expose store layouts, unreleased ranges, and staging that telegraphs a brand direction before its reveal. Local inference keeps those frames off remover CDNs and out of any retention window, with only the shared model weights fetching once. That helps a manufacturer shooting prototype pieces and an agency rotating several homeware accounts on separate machines, since no cross-client history collects in one shared login.",
+    "scenarioH2": "Assembling a furniture lookbook from a single studio day",
+    "scenarioBody": "Use this profile when a photographer has captured a range of sofas, chairs, and lamps and the catalogue team needs clean PNGs for a laid-out lookbook. Cut each piece on the gradient so shadow pooling is obvious, Refine hems once, and Smart Erase the staging rug where the plate should sit empty. Keep leg height and camera distance steady so the row aligns in a grid. If an online shop also needs a white version, generate a JPG-white from the same outline rather than re-processing. For an upholstered piece with fringe or piping, favour Restore over a second Refine so the soft trim you want is not collapsed into a hard plastic-looking rim.",
+    "edgesH2": "Slim legs, fabric hems, and shadow pooling on a gradient",
+    "edgesBody": "Furniture outlines concentrate at slim legs, soft fabric hems, and the broad shadow zone beneath the piece. On the gradient, look first where legs meet the floor, because leftover shadow reads as gray sludge while missing shadow reads as hovering. Restore slim spindles and lamp stems the peel whittled to nothing. Feather upholstery hems with the single Refine, then Restore fringe or piping that vanished. Rattan and cane weave want patience; Smart Erase the floor between the gaps rather than one heavy peel. Save PNG once the base of the piece looks planted and the slim members survive a full-screen zoom.",
+    "faqs": [
+      {
+        "question": "Why proof furniture on a gradient rather than white?",
+        "answer": "A gradient exposes the diffused shadow pooling under legs and along the base that white flattens away. Seeing that pool lets you commit to a contact shadow on purpose, so the finished piece reads planted on a laid-out plate instead of hovering."
+      },
+      {
+        "question": "How do I keep slim chair legs from vanishing?",
+        "answer": "Slim members like spindles and lamp stems often get whittled by the peel. Magnify and Restore along each one in short strokes. Skip a second global Refine, which tends to erode delicate structures further rather than rescue them."
+      },
+      {
+        "question": "Should I preserve the original floor shadow?",
+        "answer": "Usually not, since a real floor shadow rarely matches a laid-out plate. Remove it with the backdrop, then lay a synthetic soft shadow in your design tool so every piece in the range shares one shadow style and direction."
+      },
+      {
+        "question": "Can I cut a fully styled room scene here?",
+        "answer": "This profile targets a standalone piece bound for a composite. A full room usually should stay whole because buyers need spatial context; colour-correct those instead of matting them. Cut only a single hero object when a laid-out layout demands it."
+      },
+      {
+        "question": "Which export suits a furniture lookbook best?",
+        "answer": "Use PNG so soft hems and fringe keep real alpha for compositing. Generate a JPG-white or WebP from the same outline if a shop needs it, but keep the full-resolution PNG as your archival master for print and layout."
+      }
+    ]
+  },
+  'bgremover-footwear': {
+    "eyebrow": "Sneakers and shoes",
+    "h2": "Outsole and lace edges vetted on a black stage before export",
+    "lead": "Footwear photography buries its worst edge trouble on white. A rubber midsole grabs a faint pale rim, translucent laces and mesh panels dissolve into the backdrop, and the slim gap under an arched outsole gets stuffed by an eager matte. This profile opens on a black stage so all of that pale rim jumps out at a glance, and it turns Refine on to snug the welt line where the upper meets the sole. PNG export keeps the crisp, hype-grade silhouette a sneaker grid and a resale listing expect. A brand or a reseller can prep drop imagery without lodging an unreleased colourway on a cloud remover. Use this route when you want a sharp shoe floating on a designed plate, not when a channel demands a plain white rectangle.",
+    "whyPreset": "A black stage is the quickest way to spot the pale rim clinging to a rubber midsole and the fray hiding in mesh and laces, both of which evaporate against white. Refine is on because the welt seam between upper and sole rewards one measured peel that clears fray without eating stitching. PNG leads because sneaker-culture grids and resale listings drop the shoe onto branded plates and need real alpha. The tip names outsole and laces so operators vet the two zones that most often expose a rushed footwear cut.",
+    "workflowTip": "Shoot a lateral or three-quarter angle with the shoe filling the frame and the arch gap clearly open. Once the model finishes, stay on black and chase the pale rim along the midsole, the panel or swoosh seams, and the laces. Refine once along the welt, then Smart Erase any leftover floor under the arch so the negative space reads as true void. Restore mesh or translucent lace runs the peel thinned. Glance at white briefly to confirm no dark fray hides there, then save PNG and archive it for the many placements a single hero angle usually feeds.",
+    "privacyNote": "An unreleased colourway and a collaboration sample rank among the most leaked assets in retail, and a cloud remover is one more doorway they can slip through. Local inference keeps those frames in the tab, with only the shared model weights fetching once, so a brand can prep drop imagery without opening a retention surface. A reseller shooting authenticated pairs likewise keeps buyer-adjacent detail off a shared history while building clean listing shots.",
+    "scenarioH2": "Prepping drop and resale shots from one hero angle",
+    "scenarioBody": "Open this profile when a colourway drop or a resale listing needs a crisp, floating shoe for a designed grid. Cut the hero angle on black, Refine the welt once, and clear the arch gap so the shoe never looks glued to a surface. Keep the light direction steady across pairs so a wall of sneakers reads as one shoot. If a channel also wants plain white, generate a JPG-white from the same outline rather than re-processing. For a knit or textile upper, favour Restore on fuzzy panels over a second Refine, which can iron the material into a hard rim that looks fake against a loud hype backdrop.",
+    "edgesH2": "Welt seams, arch voids, and translucent laces on black",
+    "edgesBody": "Footwear outlines fail at the welt, the arch void, and the laces. On black, a pale rim along the midsole is impossible to miss, so Erase it without eating the stitching that gives the welt its shape. The void beneath an arched outsole must read as true transparency; if the model stuffed it, Smart Erase that patch carefully. Translucent laces and mesh often thin under a peel, so Restore them at low opacity. A knit upper wants a soft rim over a hard one. Glance at white once to catch dark fray, then save PNG when the whole silhouette, arch void included, survives a full-screen check.",
+    "faqs": [
+      {
+        "question": "Why stage footwear on a black backdrop first?",
+        "answer": "A pale rim on a rubber midsole and fray in mesh and laces hide against white and glow against black. Staging dark forces you to clear those zones before export, and you can still glance at white to catch any dark fray hiding there."
+      },
+      {
+        "question": "How do I keep the void under the arch transparent?",
+        "answer": "The negative space beneath an arched outsole is often stuffed by the model. Magnify and Smart Erase that patch so it reads as true void, then confirm on both black and white that the gap is clean before export."
+      },
+      {
+        "question": "Will translucent laces and mesh survive the cut here?",
+        "answer": "They can thin under an automatic peel. Restore at low opacity along laces and mesh runs after Refine, and favour a soft rim on a knit upper so the material still reads as fabric rather than a hard plastic outline."
+      },
+      {
+        "question": "Which export suits a sneaker grid best?",
+        "answer": "Use PNG so the crisp silhouette keeps real alpha for compositing onto branded plates. Generate a JPG-white or WebP from the same outline when a channel needs it, but keep the PNG master for hype grids and print."
+      },
+      {
+        "question": "How do I make a row of shoes look consistent?",
+        "answer": "Hold camera angle, distance, and light direction steady across every pair, and cut each shoe with the same welt Refine. Consistent input plus a consistent pass makes a wall of sneakers read as one cohesive shoot rather than mismatched cutouts."
+      }
+    ]
+  },
+  'bgremover-cosmetics': {
+    "eyebrow": "Beauty and skincare",
+    "h2": "Glossy serum bottles matted on a forgiving blush field",
+    "lead": "Beauty packaging is quietly one of the hardest subjects to matte, because serum droppers, frosted acrylic jars, and lacquered lipstick tubes bounce their surroundings and carry semi-see-through caps. A heavy automatic peel flattens that sheen and turns a premium vessel into dull plastic. This profile opens on a soft blush backdrop, warm enough to keep pastel formulas readable while still exposing rim bounce and edge tint, and it keeps Refine switched off so Smart Erase leads as the gentle, reversible cleanup. WebP export keeps a beauty category grid quick where the format is welcome. An indie skincare label or studio can process an unlaunched shade range without dropping it in a remover bucket. Choose this route for reflective bottles and jars, not for a model applying makeup or a busy propped flat lay you want left whole.",
+    "whyPreset": "A blush backdrop is kinder than stark white for beauty colour proofing yet still surfaces the rim bounce and cool tint a vessel grabs off a shoot bench. Holding Refine off shields the fine sheen and frosted lips a peel would chew, letting Smart Erase be the wiser opening move. WebP leads because a beauty landing page and its category grid load a wall of small product tiles that reward lighter files. The tip names bottle sheen so operators inspect caps, shoulders, and droppers, where a cosmetics cut most often unravels.",
+    "workflowTip": "Light with a polariser or controlled softboxes when you can, since taming mirror glare on the bench saves far more minutes than any brush later. After the model finishes, leave Refine off and Smart Erase the bench and any prop riser first. Magnify the cap, dropper, and bottle shoulder to read the sheen and any edge tint. Restore a translucent cap or clear shoulder at low opacity, accepting honest partial transparency rather than inventing pixels. Wipe any cool green or blue tint the bench threw onto the vessel. Save WebP for the grid and keep a PNG for print or a retoucher handoff.",
+    "privacyNote": "A shade extension, a reformulation, and a whole unlaunched range stay guarded until a reveal, and a consumer remover is a needless place for them to slip. Local inference keeps those product frames inside the browser, with only the shared model weights fetching once. A retailer NDA shoot can wrap outlines on the tethering laptop, and a studio juggling several beauty accounts avoids pooling product tiles in a shared history that might surface the wrong label at the wrong moment.",
+    "scenarioH2": "Prepping a skincare tile grid ahead of a shade launch",
+    "scenarioBody": "Open this profile when a beauty label needs tidy bottle and jar cutouts for a category grid while the range is still under wraps. Cut each vessel on blush, lean on Smart Erase rather than an automatic peel, and read every cap and dropper for sheen and edge tint. Restore frosted or clear sections gently and accept realistic partial transparency. Save WebP for the staging grid and keep a PNG for print partners. If a retailer insists on white, flip the swatch for that one export and leave the master intact. For a set wearing reflective shrink bands, favour careful Erase over Refine so the glossy cue that reads as premium survives.",
+    "edgesH2": "Bottle sheen, droppers, and frosted caps on blush",
+    "edgesBody": "Beauty outlines fail at mirror-like rims, semi-see-through droppers, and frosted caps. On blush, a cool tint the bench threw onto a clear vessel is visible, so Erase it without dulling the genuine sheen. Droppers and clear shoulders are partly translucent by nature; Restore them at low opacity and accept that a serum vial should read like glass, not a solid chip. A frosted cap wants a soft edge over a hard one. Steer clear of any global Refine that would iron out the glossy cue that signals a premium formula. Save WebP once the sheen looks natural on both blush and a neutral proof.",
+    "faqs": [
+      {
+        "question": "Why does the cosmetics route keep Refine off by default?",
+        "answer": "Glossy bottles and frosted acrylic look worse after an automatic peel that dulls sheen and flattens edges. Holding Refine off makes Smart Erase the lead, reversible tool, so a premium vessel keeps the surface cue that signals quality."
+      },
+      {
+        "question": "How do I treat a semi-see-through serum vial?",
+        "answer": "Accept realistic partial transparency instead of forcing a solid chip. Restore clear shoulders and droppers at low opacity along their rims, and fix white balance in your raw pipeline so the formula colour reads true once the backdrop is gone."
+      },
+      {
+        "question": "What leaves a cool tint on my clear bottle edge?",
+        "answer": "The shoot bench bounces onto the vessel, dropping a green or blue cast along the rim. Magnify and soft Erase that tint after the model runs. Lighting on a neutral bench with controlled light shrinks the problem before you ever cut."
+      },
+      {
+        "question": "Why favour WebP for a beauty product grid?",
+        "answer": "A landing page and category grid load a wall of product tiles, and WebP keeps them light with no visible loss on phones. Keep a PNG for print or a retoucher, and re-save from the same outline if a CMS rejects WebP."
+      },
+      {
+        "question": "Can I cut a full makeup flat lay in one go?",
+        "answer": "Overlapping tubes and props confuse a single subject. For clean tiles, shoot and cut each bottle or jar on its own. Leave a styled flat lay whole as a lifestyle frame rather than matting the entire scene at once."
+      }
+    ]
+  },
+  'bgremover-documents': {
+    "eyebrow": "Paper and records",
+    "h2": "Clean white document scans with crisp paper edges",
+    "lead": "Turning a phone photo of a page, receipt, certificate, or invoice into a tidy digital record usually means lifting the paper off a desk and dropping it onto even white. This preset is built for that clerical job, not for creative composites. It opens on pure white to match archive and print templates, and it deliberately leaves Refine off, because a document edge should be a straight, crisp paper line, not a feathered photographic peel that makes the page look torn. Sensitive paperwork, contracts, medical forms, and financial statements never leave the browser, which is the whole point when the content is confidential. Use this route to standardize scans and receipts into clean white-field images. It complements rather than replaces a dedicated document scanner app for perspective correction.",
+    "whyPreset": "Pure white is the visual language of document archives, print packets, and expense systems, so previewing there tells you exactly how the scan will land. Leaving Refine off is essential: feathering a paper edge produces a fuzzy, torn-looking border, whereas documents need a straight, high-contrast boundary. JPG-white is highlighted because most record systems and forms want a flat rectangle rather than transparency. The tip names crisp paper edges so operators resist the urge to soften an edge that should stay sharp, keeping the fingerprint distinct from photographic presets.",
+    "workflowTip": "Photograph the page as square-on as possible under even light, because the cutout keeps the shape you give it and cannot fix heavy keystoning on its own. After the model runs, leave Refine off and rely on Smart Erase to clear any desk texture the model missed near the corners. Zoom each corner to confirm the paper boundary is a clean line, and Restore any corner the peel clipped. Straighten the page in your editor if needed, then export JPG on white for the archive. Keep a PNG only if you might recomposite the page onto a form template later.",
+    "privacyNote": "Documents are among the most sensitive things anyone photographs: contracts, IDs, medical letters, bank statements, and signed forms. Local WebAssembly inference means those pages never transit a remover API or sit in an upload window, with only public model weights downloading once. That lets an HR team, a clinic, or a finance desk standardize scans inside a managed browser without adding a data-processing agreement for a background tool. You still must protect the exported files under your normal records-retention and access policies, because local cutout is one control, not the whole program.",
+    "scenarioH2": "Standardizing receipts and certificates into clean archives",
+    "scenarioBody": "Use this preset when a stack of phone photos of receipts, certificates, or single pages must become tidy white-field images for an archive or expense system. Shoot each page square-on, cut on white with Refine off, and Smart Erase any desk grain near the edges. Straighten the page, confirm the four corners read as crisp paper, and export JPG-white for the record. Process sensitive paperwork on the same managed machine where it will be stored so it never touches a cloud tool. For multi-page documents, keep a consistent crop and naming scheme so pages stay in order, and pair this with a scanner app when heavy perspective correction is required.",
+    "edgesH2": "Straight paper borders and clipped corners on white",
+    "edgesBody": "Document edges have one job: read as a clean, straight paper border on white. The most common failures are a feathered edge that looks torn, a clipped corner where the peel ate the page, and leftover desk texture hiding just outside the boundary. Keep Refine off so the edge stays sharp, and use Smart Erase to remove desk grain near the corners without biting into the paper. Restore any corner the model clipped so the rectangle stays complete. Zoom each corner at high magnification, because a one-pixel notch is obvious on white archive pages. Export JPG-white only after all four corners and edges read as crisp paper.",
+    "faqs": [
+      {
+        "question": "Why is Refine off for document scans?",
+        "answer": "A document edge should be a straight, crisp paper line. Feathering it with a peel makes the page look torn or fuzzy. Leaving Refine off keeps the border sharp, and Smart Erase handles any desk texture that lingers near the corners."
+      },
+      {
+        "question": "Can this fix a skewed or angled page photo?",
+        "answer": "It removes the background but keeps the shape you captured. For heavy keystoning, shoot square-on or use a dedicated scanner app for perspective correction first, then run this tool to place the corrected page on a clean white field."
+      },
+      {
+        "question": "Is this safe for confidential paperwork?",
+        "answer": "Inference runs locally, so the page never uploads to a remover service and only public model weights download once. That removes the upload hop, but you still must store and share the exported file under your own records-retention and access controls."
+      },
+      {
+        "question": "Why export JPG on white instead of transparent PNG?",
+        "answer": "Most archives, forms, and expense systems expect a flat rectangle on white rather than transparency. JPG-white matches that expectation directly. Keep a PNG only if you plan to recomposite the page onto a form template later."
+      },
+      {
+        "question": "How do I keep the four corners looking clean?",
+        "answer": "Zoom each corner to high magnification and check for clipped notches or leftover desk grain. Use Restore to rebuild any clipped corner and Smart Erase to clear texture just outside the paper, so the finished rectangle looks complete and crisp on white."
+      }
+    ]
+  },
+  'bgremover-group-photos': {
+    "eyebrow": "Teams and families",
+    "h2": "Multi-person cutouts with every hairline kept honest",
+    "lead": "A group photo multiplies every hard part of a portrait cutout. Instead of one hairline you have five, instead of one collar you have overlapping shoulders, and the gaps between people become tiny background pockets that a lazy matte leaves as gray islands. This preset opens on a transparent checkerboard so alpha stays honest across all of those junctions, and it turns Refine on because a group frame benefits from a controlled peel along many edges at once. PNG export preserves the partial alpha that hair needs when the team lands on a branded backdrop. Companies, schools, sports clubs, and families can cut a whole group without uploading everyone faces to a remover service. Use this route for a shared backdrop replacement, not for isolating a single person from a crowd.",
+    "whyPreset": "A transparent grid is the honest surface for a group because it exposes the background pockets between people that white would hide, and those pockets are the signature failure of group cutouts. Refine is on because a group has many edges that a single controlled peel improves at once, saving time versus brushing each person separately. PNG preserves the partial alpha that multiple hairlines need for a clean composite. The tip names hairlines between people so operators inspect the gaps and junctions first, which is where a team photo most often looks cut out.",
+    "workflowTip": "Ask the group to leave small gaps between shoulders when possible, because touching silhouettes are far harder to separate cleanly. After the model runs, Refine once, then zoom to each hairline and each gap between people in turn. Erase the little background pockets that survive between arms and shoulders, and Restore flyaways along the outer edges of the group. Keep brush sizes small around glasses and collars. Flip to a dark proof once to catch light halo on hair, then export PNG so every hairline keeps its alpha for the final branded backdrop.",
+    "privacyNote": "A group photo is a pile of biometric-adjacent data: many identifiable faces, sometimes including minors in a school or club setting. Keeping inference local means none of those faces reach a remover API or sit in an upload window, with only public model weights downloading once. Organizations that must limit third-party processing of member or employee images can cite local WebAssembly as the technical control. Still obtain the consent your context requires for the shoot itself, since local processing covers the cutout hop, not the entire chain.",
+    "scenarioH2": "Replacing the backdrop for a team or class photo",
+    "scenarioBody": "Use this preset when a company, school, or sports club needs to drop a whole group onto a branded backdrop without sending everyone faces to a cloud tool. Import the group, Refine once, and then work methodically along each hairline and each gap between people, erasing the small background pockets that survive between shoulders. Restore outer flyaways so the group edge looks natural. Export a PNG master and composite it onto the approved backdrop in your design tool, where you can add a subtle shadow if the layout wants one. For recurring events, keep camera distance and grouping consistent so successive class or team photos share a look.",
+    "edgesH2": "Overlapping shoulders, gaps, and many hairlines",
+    "edgesBody": "Group edges fail in the spaces people forget to check: the pockets of background between arms and shoulders, the overlapping junctions where one person crosses in front of another, and the sheer number of hairlines. On the checkerboard, hunt every enclosed gap and Erase leftover background so it does not read as a gray island in the final composite. At overlaps, decide which edge is foreground and clean it deliberately. Refine feathers the many hairlines at once; Restore outer flyaways sparingly. Flip to dark to catch light halo, then export PNG only when every gap is clean and each hairline holds at full-screen zoom.",
+    "faqs": [
+      {
+        "question": "How do I clean the background between people?",
+        "answer": "The gaps between shoulders and arms become small background pockets. On the transparent grid, zoom into each enclosed gap and Erase the leftover background so it does not appear as a gray island once the group is composited onto a new backdrop."
+      },
+      {
+        "question": "What if shoulders are touching or overlapping?",
+        "answer": "Touching silhouettes are the hardest part of a group cut. Decide which edge is foreground at each overlap and clean it deliberately. When you can influence the shoot, ask the group to leave small gaps so the model separates people more cleanly."
+      },
+      {
+        "question": "Why is Refine on for group photos?",
+        "answer": "A group has many hairlines and edges, and a single controlled Refine pass improves all of them at once, which is far faster than brushing each person individually. You then Restore outer flyaways and clean the between-people gaps by hand."
+      },
+      {
+        "question": "Is it safe to cut a photo full of faces here?",
+        "answer": "Inference runs locally, so none of the faces upload to a remover service and only public model weights download once. That is especially relevant for schools and clubs, though you still need the consent your context requires for the original shoot."
+      },
+      {
+        "question": "Which export keeps multiple hairlines clean?",
+        "answer": "Use PNG so the partial alpha across every hairline survives into the composite. Add the new backdrop and any shadow in your design tool afterward, and keep the PNG master so you can recomposite the same group onto different plates later."
+      }
+    ]
+  },
+  'bgremover-twitch-thumbs': {
+    "eyebrow": "Streaming overlays",
+    "h2": "Streamer cutouts staged for facecams, alerts, and BRB screens",
+    "lead": "Twitch art competes for eyeballs against a wall of vivid overlay graphics, so a streamer cutout must punch at small scale with a clean, slightly bold rim. This profile stages the subject on a plum canvas that echoes the loud glow of a stream scene, exposing any spill ring before you drop the cutout into an alert box, a sub-badge strip, or a starting-soon screen. Refine is on to tidy the flyaway strands and the fuzzy lip of a headset that a webcam rig always brings, and WebP export keeps a facecam frame, schedule card, or panel light for quick channel loads. A streamer or editor sidesteps sending a recognisable channel face and an embargoed collab reveal to yet another cloud editor. Use this route when the deliverable is a punchy overlay element for OBS or Streamlabs, not a shelf product on plain white.",
+    "whyPreset": "A plum canvas approximates the loud glow of a stream scene, so a spill ring and soft sludge that would vanish on white are obvious before the subject meets an alert box or an emote strip. Refine is on because a webcam rig brings strands, hands, and headset lips that reward one measured peel. WebP leads because a facecam frame, a panel, and a schedule card should stay light for quick channel loads. The tip names overlay glow so the baked state speaks a streamer's language and inspection starts against a realistic busy scene rather than a clean studio white.",
+    "workflowTip": "Grab or shoot a frame with a large face or a signature piece of gear, since a tiny subject dissolves once a facecam shrinks into an OBS scene. Once the model finishes, inspect on plum, Refine once, and Erase leftover room and desk clutter behind the rig. Restore flyaway strands and the translucent parts of a mic arm and pop filter the peel thinned. Glance at a light proof so a dark hood or headset band does not stay hidden only on plum. Save WebP for a flat overlay element, or keep a PNG to layer the subject into a scene, an alert, or a panel with glow and borders, then check it at the size viewers meet in the browse directory.",
+    "privacyNote": "A channel face, an embargoed collab reveal, and a sponsor asset are business-critical for a streamer, and a consumer remover is one more place they can leak before a premiere. Local inference keeps those frames in the tab, with only the shared model weights fetching once, so an editing crew can batch overlay art without a shared login stuffed with face crops. Secure the drive where your layered scene files live after export, because the win covers the cutout hop rather than your whole storage.",
+    "scenarioH2": "Building a week of overlays, panels, and alert graphics",
+    "scenarioBody": "Open this profile when you are cutting a week of facecam frames, schedule cards, panel art, and alert graphics for a channel refresh. Cut each streamer or piece of gear on plum, Refine once, and Erase the room and desk clutter behind the rig. Keep the face large enough to read once a facecam shrinks into a scene, and hold a steady light direction so the channel look stays cohesive across every asset. Save WebP for a flat element or a PNG to layer into an OBS or Streamlabs scene with glow, emote frames, and borders. If a stream is an embargoed collab, local processing means the reveal never lands in a shared remover login before you go live. Reuse cutouts carefully when episodes share the same rig and wardrobe.",
+    "edgesH2": "Flyaway strands, headset lips, and mic-arm edges on plum",
+    "edgesBody": "Overlay art has to read at small facecam sizes, so a rim should be slightly bold rather than film-soft. On plum, a spill ring around flyaway strands and the fuzzy lip of a headset glows, so Erase those rings without eating the shape. A mic arm and its pop filter carry thin, partly transparent parts; Restore them and accept a little manual finishing. A piece of gear should keep a crisp outline so it survives against a loud emote strip. Glance at a light proof so a dark hood or headset band does not stay hidden where it only looks clean on plum. Save WebP once the subject still punches at the small size viewers meet in the browse directory.",
+    "faqs": [
+      {
+        "question": "Why stage Twitch overlay art on a plum canvas?",
+        "answer": "Plum echoes the loud glow of a stream scene, so a spill ring and soft sludge that hide on white jump out against it. Cleaning the rim on plum means the subject still punches once it lands in an alert box, a sub-badge strip, or a facecam frame."
+      },
+      {
+        "question": "How do I handle headset and mic-arm edges?",
+        "answer": "A headset lip and a mic arm carry thin, partly transparent parts an automatic peel tends to thin out. Refine once, then Restore those runs and Erase any spill ring without eating the shape. Expect a little manual finishing for a premium channel look."
+      },
+      {
+        "question": "Should the finished overlay element stay transparent?",
+        "answer": "It depends on the slot. A facecam frame or alert usually layers as a PNG so the scene can composite it, while a flat schedule card can ship as WebP. Keep a PNG master whenever you will relayer the subject with new borders or glow."
+      },
+      {
+        "question": "Why lead with WebP for a Twitch overlay?",
+        "answer": "A facecam frame, a panel, and a schedule card should load fast and stay light, and WebP delivers that with no visible loss at overlay sizes. Keep a PNG when you need layered compositing in OBS or lossless archival, and re-save from the same outline if a tool rejects WebP."
+      },
+      {
+        "question": "My streamer looks tiny in the scene — what do I fix?",
+        "answer": "Scale matters more than rim softness on an overlay. Start from a frame with a large face or a signature piece of gear, and if the subject reads small, size it up in the scene rather than adding Refine passes. Always check at the size viewers meet in the browse directory."
+      }
+    ]
+  },
 };

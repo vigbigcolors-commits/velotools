@@ -1,0 +1,150 @@
+{
+  "compress-pdf-for-yahoo-mail": {
+    "securityH2": "Compress for Yahoo Mail without a third-party upload",
+    "sec1": "Yahoo Mail’s “message too large” banner is annoying enough without also trusting a random compressor with tax PDFs or lease scans. On this URL the browser reads the file, applies a locked email Web preset, and you download a smaller PDF to attach yourself.",
+    "sec2": "VeloTools never receives the bytes. Tab memory holds the working copy until you close the tab — the same Zero-Backend model as our other PDF tools.",
+    "sec3": "When the checker clears, attach from Yahoo Mail the normal way. Compression finished locally; only Yahoo sees what you choose to send.",
+    "problemH2": "Why Yahoo Mail keeps bouncing oversized PDFs",
+    "prob1": "Consumer Yahoo Mail commonly behaves like a ~25 MB total message budget. Inline images in the reply chain eat the same pie as your attachment, so a “22 MB PDF” can still fail Send.",
+    "prob2": "Phone camera exports and PowerPoint-to-PDF decks are the usual offenders: full-color pages at high DPI cross the line even when page count looks modest.",
+    "prob3": "This page exists for that exact failure mode — get under a practical 25 MB ceiling while keeping the file readable in Yahoo’s mobile preview.",
+    "stepsH2": "Steps when Yahoo refuses the attachment",
+    "steps": [
+      "Drop the PDF Yahoo Mail rejected — the 25 MB email Web preset is already locked on this page.",
+      "Run Compress All and wait until the size check shows under 25 MB before you download.",
+      "Download, open Yahoo Mail, attach the new file. Still blocked? Split chapters or strip unused photo pages first."
+    ],
+    "specsH2": "Yahoo Mail defaults locked on this URL",
+    "specs": [
+      [
+        "Problem",
+        "Yahoo Mail attachment / message too large"
+      ],
+      [
+        "Size check",
+        "25 MB"
+      ],
+      [
+        "Preset",
+        "Web · 96 DPI · 61% JPEG"
+      ],
+      [
+        "Color",
+        "Kept for contracts and slides"
+      ],
+      [
+        "Privacy",
+        "No upload to VeloTools"
+      ],
+      [
+        "Related",
+        "Gmail sibling · Split PDF"
+      ]
+    ],
+    "presetH2": "Why Yahoo mode uses a gentler Web email preset",
+    "pre1": "Yahoo’s practical ceiling sits near Gmail’s class of limit, so we avoid the aggressive grayscale Screen crush used for 5 MB LMS portals. Web quality around 96 DPI keeps body text crisp in Yahoo’s reader.",
+    "pre2": "Metadata that only inflates exports is stripped. If you still miss the mark, split before you destroy readability — do not jump straight to the harshest Screen pass.",
+    "deepH2": "Yahoo vs Gmail vs iCloud — pick the right email compressor",
+    "deep1": "Yahoo Mail’s everyday failure looks like Gmail’s 25 MB wall, but reply threads with quoted HTML can steal headroom you thought you had. Leave a little margin under the checker.",
+    "deep2": "Compared with <a href=\"/compress-pdf-for-gmail/\">Gmail’s 25 MB page</a>, this URL uses a slightly firmer JPEG quality (61) because Yahoo previews on older Android mail apps forgive less ringing on scanned text.",
+    "deep3": "If you live in Apple’s stack, <a href=\"/compress-pdf-for-icloud-mail/\">iCloud Mail’s ~20 MB path</a> is tighter — switch there instead of reusing this preset. For chapter splits, open <a href=\"/split-pdf/\">Split PDF</a>.",
+    "deep4": "Browse the rest of the suite under <a href=\"/pdf-tools/\">PDF tools</a> when you need merge or unlock after shrinking for Yahoo.",
+    "faqH2": "Yahoo Mail PDF size questions",
+    "faq": [
+      {
+        "q": "Why does Yahoo Mail say my PDF is too large?",
+        "a": "Consumer accounts commonly fail near a ~25 MB total message size. Body HTML plus attachments share that budget, so a PDF that looks “almost fine” still blocks Send."
+      },
+      {
+        "q": "Can I compress for Yahoo without uploading to a website?",
+        "a": "Yes. This page processes in your browser only. Download the result, then attach inside Yahoo Mail yourself."
+      },
+      {
+        "q": "Will the recipient still open it?",
+        "a": "You get a standard PDF. Heavy scans become page images, so search may weaken, but Yahoo preview and desktop readers open it."
+      },
+      {
+        "q": "What if it stays over 25 MB?",
+        "a": "Split the packet, remove unused photo pages, or run a stronger Screen pass on the main Compress PDF tool."
+      },
+      {
+        "q": "Is a Drive link better?",
+        "a": "Links dodge attachment caps, but only when the other person can access the folder. Compressing wins when they expect a simple attached file."
+      }
+    ]
+  },
+  "compress-pdf-for-proton-mail": {
+    "securityH2": "Local shrink before Proton Mail encryption takes over",
+    "sec1": "Proton Mail encrypts messages on their infrastructure after you attach. That does not help if you first uploaded the same PDF to a public “free compressor.” Here the shrink step stays on-device.",
+    "sec2": "Sensitive legal and medical PDFs never transit VeloTools. We re-encode pages in tab memory; you download, then attach inside Proton.",
+    "sec3": "Annotations stay on by default so counsel markup survives. Close the tab when finished — nothing was stored with us.",
+    "problemH2": "Proton users still hit attachment size walls",
+    "prob1": "Encrypted mail does not magically raise attachment physics. Free and many Plus workflows still feel a practical ~25 MB comfort zone for everyday attaches.",
+    "prob2": "People then bounce to sketchy compress sites that defeat the whole point of choosing Proton. The safer path is a local Web preset with a live size check.",
+    "prob3": "This URL targets that contradiction: privacy-preserving compression before a privacy-preserving mailbox.",
+    "stepsH2": "How to attach a smaller PDF in Proton Mail",
+    "steps": [
+      "Add the oversized PDF — Web preset with annotations kept is already locked for review workflows.",
+      "Compress All until the 25 MB checker clears, then download to your device.",
+      "Attach the download in Proton Mail. Still large? Use Proton Drive sharing for archives instead of forcing one attach."
+    ],
+    "specsH2": "Proton Mail–oriented locks",
+    "specs": [
+      [
+        "Problem",
+        "Proton Mail attachment too large / privacy-safe compress"
+      ],
+      [
+        "Size check",
+        "25 MB"
+      ],
+      [
+        "Preset",
+        "Web · 96 DPI · 59% JPEG"
+      ],
+      [
+        "Annotations",
+        "Kept"
+      ],
+      [
+        "Privacy",
+        "Local only before Proton attach"
+      ],
+      [
+        "Related",
+        "Yahoo Mail · Box"
+      ]
+    ],
+    "presetH2": "Why Proton mode keeps annotations",
+    "pre1": "Legal and security teams mark PDFs before sending. Stripping comments by default would break that workflow, so this page keeps annotations while still trimming image bloat.",
+    "pre2": "JPEG quality 59 is slightly firmer than Yahoo’s 61 because Proton users often ship dense scanned exhibits — we need a bit more crush without going full grayscale homework mode.",
+    "deepH2": "Encryption after attach is not compression before attach",
+    "deep1": "Proton’s threat model starts when the message leaves your client. Uploading to a compressor first creates a second processor who never should have seen the file.",
+    "deep2": "Use <a href=\"/compress-pdf-for-yahoo-mail/\">Yahoo Mail</a> only when the destination mailbox is Yahoo — different preview quirks. For enterprise shares after mail fails, try <a href=\"/compress-pdf-for-box/\">Box</a>.",
+    "deep3": "If the packet is truly archival, keep the original offline and send a Drive-style Proton link instead of destroying vector text with endless Screen passes.",
+    "deep4": "More utilities: <a href=\"/pdf-tools/\">PDF tools</a> and the unlocked <a href=\"/compress-pdf/\">Compress PDF</a> hub when you need a one-off quality tweak.",
+    "faqH2": "Proton Mail compression FAQ",
+    "faq": [
+      {
+        "q": "Does this upload my PDF before Proton encrypts it?",
+        "a": "No. Compression runs in your browser. Only you upload the finished file into Proton Mail."
+      },
+      {
+        "q": "Why keep annotations?",
+        "a": "Review markup is often the point of the send. This preset trims image weight without wiping comments."
+      },
+      {
+        "q": "What limit should I aim for?",
+        "a": "Treat ~25 MB as a practical attachment comfort zone unless your Proton plan docs state a different hard cap."
+      },
+      {
+        "q": "Can I use grayscale?",
+        "a": "Switch to the main Compress PDF tool if exhibits are monochrome scans and you need more savings."
+      },
+      {
+        "q": "Is Proton Drive better for huge files?",
+        "a": "Yes for multi-hundred-megabyte archives. Compress here when the other person expects a normal attachment."
+      }
+    ]
+  }
+}

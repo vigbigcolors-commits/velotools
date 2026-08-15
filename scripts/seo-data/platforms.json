@@ -188,5 +188,125 @@
     "notes": "iCloud Mail attachment limits commonly land near ~20 MB (similar to Outlook consumer). Compress locally before attaching large scans or deck exports from Apple Mail / iCloud.com.",
     "recommended_preset": "web",
     "recommended_dpi": 96
+  },
+  "yahoo-mail": {
+    "id": "yahoo-mail",
+    "name": "Yahoo Mail",
+    "category": "email",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "Yahoo Mail consumer attachments commonly fail near a ~25 MB total message budget (similar to Gmail). Scanned packets and deck exports trip Send even when page count looks small.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "proton-mail": {
+    "id": "proton-mail",
+    "name": "Proton Mail",
+    "category": "email",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "Proton Mail encrypts at rest on their side after you attach; this page still compresses locally first so sensitive PDFs never hit a third-party compress site. Practical ~25 MB attachment comfort for free/plus tiers unless your plan documents otherwise.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "google-classroom": {
+    "id": "google-classroom",
+    "name": "Google Classroom",
+    "category": "education",
+    "max_attachment_bytes": 104857600,
+    "max_attachment_label": "100 MB",
+    "notes": "Classroom inherits Drive-like ceilings, but teachers and students on phones abandon oversized homework PDFs. Practical Screen target keeps submissions openable in the Classroom app without long spinners.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "brightspace": {
+    "id": "brightspace",
+    "name": "Brightspace (D2L)",
+    "category": "education",
+    "max_attachment_bytes": 10485760,
+    "max_attachment_label": "10 MB",
+    "notes": "Many Brightspace / D2L courses enforce assignment upload caps near 10 MB (org-configurable). Phone worksheet photos routinely blow past that without a Screen pass.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "schoology": {
+    "id": "schoology",
+    "name": "Schoology",
+    "category": "education",
+    "max_attachment_bytes": 5242880,
+    "max_attachment_label": "5 MB",
+    "notes": "K-12 Schoology assignments often inherit tight school-district upload ceilings near 5 MB. Grayscale Screen mode is intentional for worksheet photos.",
+    "recommended_preset": "screen",
+    "recommended_dpi": 72
+  },
+  "gradescope": {
+    "id": "gradescope",
+    "name": "Gradescope",
+    "category": "education",
+    "max_attachment_bytes": 20971520,
+    "max_attachment_label": "20 MB",
+    "notes": "Gradescope accepts multi-page exam scans; a practical ~20 MB target keeps bubble sheets and handwritten pages uploadable without crushing OCR-critical contrast entirely.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "jira": {
+    "id": "jira",
+    "name": "Jira",
+    "category": "productivity",
+    "max_attachment_bytes": 10485760,
+    "max_attachment_label": "10 MB",
+    "notes": "Atlassian Cloud Jira attachments are commonly limited near 10 MB per file (site admins can change it). Design PDFs and log dumps need a Screen/Web tradeoff before ticket upload.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "confluence": {
+    "id": "confluence",
+    "name": "Confluence",
+    "category": "productivity",
+    "max_attachment_bytes": 10485760,
+    "max_attachment_label": "10 MB",
+    "notes": "Confluence page attachments and macros feel sluggish past ~10 MB in many Cloud sites. Mild Web quality keeps architecture PDFs embeddable without timing out the editor.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "asana": {
+    "id": "asana",
+    "name": "Asana",
+    "category": "productivity",
+    "max_attachment_bytes": 104857600,
+    "max_attachment_label": "100 MB",
+    "notes": "Asana allows large task attachments on paid plans, but mobile task views stall on bloated PDFs. Practical Web comfort near 100 MB with annotation strip for design exports.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "box": {
+    "id": "box",
+    "name": "Box",
+    "category": "cloud",
+    "max_attachment_bytes": 52428800,
+    "max_attachment_label": "50 MB",
+    "notes": "Box enterprise quotas vary; a practical ~50 MB PDF keeps browser uploads and shared-link previews comfortable for external reviewers without forcing desktop sync only.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "onedrive": {
+    "id": "onedrive",
+    "name": "OneDrive",
+    "category": "cloud",
+    "max_attachment_bytes": 104857600,
+    "max_attachment_label": "100 MB",
+    "notes": "OneDrive/SharePoint can store huge files, but emailing a OneDrive link still fails when someone insists on a direct PDF attach under mail caps. Mild Web quality trims export bloat before share.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
+  },
+  "messenger": {
+    "id": "messenger",
+    "name": "Facebook Messenger",
+    "category": "messaging",
+    "max_attachment_bytes": 26214400,
+    "max_attachment_label": "25 MB",
+    "notes": "Messenger document sends on mobile are unreliable once PDFs climb past a practical ~25 MB comfort zone (client/version dependent). Screen/Web hybrid keeps receipts and forms shareable in chat.",
+    "recommended_preset": "web",
+    "recommended_dpi": 96
   }
 }

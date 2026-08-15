@@ -571,5 +571,366 @@
     "intentBanner": "iCloud Mail mode: Web (96 DPI · 63% JPEG · annotations kept) · 20 MB checker",
     "publishStatus": "published",
     "publishedAt": "2026-08-08"
+  },
+  {
+    "slug": "compress-pdf-for-yahoo-mail",
+    "platform": "yahoo-mail",
+    "title": "Compress PDF for Yahoo Mail — Fix Oversized Attachments (~25 MB) | VeloTools",
+    "description": "Yahoo Mail rejecting a PDF? Shrink under a practical ~25 MB message budget in your browser — Web preset, no upload to VeloTools.",
+    "h1": "Make Yahoo Mail accept that oversized PDF",
+    "h1Em": "Yahoo Mail",
+    "heroLead": "Yahoo Mail often fails Send near a ~25 MB total budget. This page locks an email Web preset with a live size check so you compress on-device, then attach from Yahoo yourself.",
+    "widget": {
+      "preset": "web",
+      "quality": 61,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — split the packet or remove unused image pages."
+    },
+    "intentBanner": "Yahoo Mail mode: Web (96 DPI · 61% JPEG) · 25 MB checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-proton-mail",
+    "platform": "proton-mail",
+    "title": "Compress PDF for Proton Mail — Private Local Shrink Before Encrypt | VeloTools",
+    "description": "Compress sensitive PDFs under ~25 MB locally before attaching in Proton Mail — browser-only, no third-party compress upload.",
+    "h1": "Shrink PDFs for Proton Mail without a compress site",
+    "h1Em": "Proton Mail",
+    "heroLead": "Proton protects mail after attach — this page protects the compress step. Locked Web preset, ~25 MB checker, pixels stay in your tab until you attach in Proton.",
+    "widget": {
+      "preset": "web",
+      "quality": 59,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": false,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — strip scans or use Proton Drive link for huge packets."
+    },
+    "intentBanner": "Proton Mail mode: Web (96 DPI · 59% JPEG · keep annotations) · 25 MB checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-google-classroom",
+    "platform": "google-classroom",
+    "title": "Compress PDF for Google Classroom — Homework That Opens on Phones | VeloTools",
+    "description": "Classroom PDF too heavy for the app? Screen-compress homework locally with a practical size path — no upload to VeloTools, then submit in Classroom.",
+    "h1": "Shrink Classroom homework PDFs students can actually open",
+    "h1Em": "Google Classroom",
+    "heroLead": "Classroom may allow large Drive files, but phone apps stall on bloated scans. This URL locks a Screen preset so tonight’s PDF opens after you submit.",
+    "widget": {
+      "preset": "screen",
+      "quality": 44,
+      "dpi": 72,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 15728640,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still huge for phones — remove blank pages or split the lab appendix."
+    },
+    "intentBanner": "Classroom mode: Screen + grayscale (72 DPI · 44%) · mobile-friendly target",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-brightspace",
+    "platform": "brightspace",
+    "title": "Compress PDF for Brightspace D2L — Beat ~10 MB Assignment Caps | VeloTools",
+    "description": "Brightspace saying file too large? Compress under a common ~10 MB course cap in-browser with Screen preset — private, no account.",
+    "h1": "Fix Brightspace “file too large” PDF uploads",
+    "h1Em": "Brightspace",
+    "heroLead": "D2L Brightspace courses often cap assignments near 10 MB. Lock Screen quality here, clear the checker, then upload the PDF into Brightspace yourself.",
+    "widget": {
+      "preset": "screen",
+      "quality": 46,
+      "dpi": 72,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 10485760,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 10 MB — drop color figures or split modules."
+    },
+    "intentBanner": "Brightspace mode: Screen + grayscale (72 DPI · 46%) · 10 MB checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-schoology",
+    "platform": "schoology",
+    "title": "Compress PDF for Schoology — K-12 Uploads Under ~5 MB | VeloTools",
+    "description": "Schoology assignment blocked? Shrink worksheet photos under a common ~5 MB district cap — grayscale Screen preset, browser-only.",
+    "h1": "Get Schoology to accept that worksheet PDF",
+    "h1Em": "Schoology",
+    "heroLead": "Many K-12 Schoology courses inherit ~5 MB upload ceilings. This page forces Screen + grayscale so camera worksheets fit before the deadline banner.",
+    "widget": {
+      "preset": "screen",
+      "quality": 38,
+      "dpi": 72,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 5242880,
+      "lock": [
+        "preset",
+        "dpi",
+        "grayscale"
+      ],
+      "limitWarning": "Still over 5 MB — photograph one page at a time or split the packet."
+    },
+    "intentBanner": "Schoology mode: Screen + grayscale (72 DPI · 38%) · 5 MB checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-gradescope",
+    "platform": "gradescope",
+    "title": "Compress PDF for Gradescope — Exam Scans Under ~20 MB | VeloTools",
+    "description": "Gradescope upload failing on a fat scan? Compress multi-page exams toward ~20 MB locally — keep contrast for bubbles, no cloud compress site.",
+    "h1": "Fit exam scans into Gradescope without wrecking bubbles",
+    "h1Em": "Gradescope",
+    "heroLead": "Multi-page exam photos explode past practical upload comfort. This URL locks a Web preset aimed at ~20 MB so bubble sheets stay readable after you upload to Gradescope.",
+    "widget": {
+      "preset": "web",
+      "quality": 71,
+      "dpi": 96,
+      "grayscale": true,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 20971520,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 20 MB — rescan at lower phone resolution or split by question groups."
+    },
+    "intentBanner": "Gradescope mode: Web grayscale (96 DPI · 71%) · 20 MB scan checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-jira",
+    "platform": "jira",
+    "title": "Compress PDF for Jira — Ticket Attachments Under ~10 MB | VeloTools",
+    "description": "Jira rejecting a design PDF? Shrink under a common ~10 MB attachment limit in your browser — strip metadata, keep ticket notes private.",
+    "h1": "Attach PDFs to Jira without the 10 MB bounce",
+    "h1Em": "Jira",
+    "heroLead": "Atlassian Cloud often caps ticket files near 10 MB. Compress design dumps here with a locked Web preset, then attach on the issue — nothing uploaded to us.",
+    "widget": {
+      "preset": "web",
+      "quality": 57,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 10485760,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 10 MB — export fewer pages from Figma or use Screen on the main tool."
+    },
+    "intentBanner": "Jira mode: Web (96 DPI · 57% JPEG · strip annotations) · 10 MB checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-confluence",
+    "platform": "confluence",
+    "title": "Compress PDF for Confluence — Page Attachments Under ~10 MB | VeloTools",
+    "description": "Confluence editor timing out on a PDF? Compress toward ~10 MB locally so architecture docs embed without stalling the page.",
+    "h1": "Keep Confluence pages responsive with smaller PDF attaches",
+    "h1Em": "Confluence",
+    "heroLead": "Wiki embeds crawl when PDFs climb past ~10 MB. Lock Web quality here, clear the checker, then attach inside Confluence on your own session.",
+    "widget": {
+      "preset": "web",
+      "quality": 55,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 10485760,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 10 MB — split chapters into separate Confluence attachments."
+    },
+    "intentBanner": "Confluence mode: Web (96 DPI · 55% JPEG) · 10 MB embed checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-asana",
+    "platform": "asana",
+    "title": "Compress PDF for Asana — Task Files That Open on Mobile | VeloTools",
+    "description": "Asana task PDF too heavy for phones? Trim design exports with a Web preset and annotation strip — browser-only, then attach on the task.",
+    "h1": "Shrink Asana task PDFs collaborators can open on phones",
+    "h1Em": "Asana",
+    "heroLead": "Asana may allow large uploads, but mobile task views stall on bloated decks. This page locks Web quality with annotation stripping before you attach.",
+    "widget": {
+      "preset": "web",
+      "quality": 69,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 52428800,
+      "lock": [
+        "preset",
+        "quality"
+      ],
+      "limitWarning": "Still huge — remove unused artboards or split the brief."
+    },
+    "intentBanner": "Asana mode: Web (96 DPI · 69% JPEG · strip annotations) · mobile comfort",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-box",
+    "platform": "box",
+    "title": "Compress PDF for Box — Shared Links Under ~50 MB Comfort | VeloTools",
+    "description": "Box upload or preview crawling? Compress a PDF toward a practical ~50 MB share comfort zone in-browser before you generate the link.",
+    "h1": "Prep client PDFs for Box shares without desktop-only sync",
+    "h1Em": "Box",
+    "heroLead": "Enterprise quotas vary, but browser previews hate 200 MB art PDFs. Lock a Web preset with a ~50 MB checker, download, then upload to Box yourself.",
+    "widget": {
+      "preset": "web",
+      "quality": 73,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": false,
+      "maxOutputBytes": 52428800,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 50 MB — keep annotations off or split print masters."
+    },
+    "intentBanner": "Box mode: Web (96 DPI · 73% JPEG · annotations kept) · 50 MB checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-onedrive",
+    "platform": "onedrive",
+    "title": "Compress PDF for OneDrive — Shareable Files Without Mail Cap Pain | VeloTools",
+    "description": "OneDrive file fine but email attach fails? Compress export bloat locally with a mild Web preset before you share or attach elsewhere.",
+    "h1": "Trim OneDrive PDFs before mail caps reject them",
+    "h1Em": "OneDrive",
+    "heroLead": "Storage is not the problem — attachment and preview are. This page locks mild Web quality so SharePoint/OneDrive PDFs stay under common mail ceilings when someone demands a direct file.",
+    "widget": {
+      "preset": "web",
+      "quality": 74,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": false,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB for mail — use a OneDrive link or split the deck."
+    },
+    "intentBanner": "OneDrive mode: Web (96 DPI · 74% JPEG) · 25 MB mail-path checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
+  },
+  {
+    "slug": "compress-pdf-for-messenger",
+    "platform": "messenger",
+    "title": "Compress PDF for Messenger — Chat Documents Under ~25 MB | VeloTools",
+    "description": "Facebook Messenger failing on a PDF send? Compress toward a practical ~25 MB chat comfort zone in your browser — then share the file in Messenger.",
+    "h1": "Send PDFs in Messenger without the endless spinner",
+    "h1Em": "Messenger",
+    "heroLead": "Mobile Messenger document sends stall once PDFs climb past a practical ~25 MB zone. Lock Web quality here, download, then attach in the chat yourself.",
+    "widget": {
+      "preset": "web",
+      "quality": 56,
+      "dpi": 96,
+      "grayscale": false,
+      "stripMetadata": true,
+      "stripAnnotations": true,
+      "maxOutputBytes": 26214400,
+      "lock": [
+        "preset",
+        "dpi"
+      ],
+      "limitWarning": "Still over 25 MB — switch to Screen on Compress PDF or send via Drive link."
+    },
+    "intentBanner": "Messenger mode: Web (96 DPI · 56% JPEG) · 25 MB chat checker",
+    "tool": "compress-pdf",
+    "toolMode": "compress",
+    "formatIn": "pdf",
+    "formatOut": "pdf",
+    "publishStatus": "published",
+    "publishedAt": "2026-08-15"
   }
 ]

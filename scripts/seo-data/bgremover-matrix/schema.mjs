@@ -24,6 +24,14 @@ export const UseCaseSlug = z.enum([
   'youtube-thumbs',
   'marketplace-white',
   'screenshots',
+  'logos',
+  'packaging',
+  'furniture',
+  'footwear',
+  'cosmetics',
+  'documents',
+  'group-photos',
+  'twitch-thumbs',
 ]);
 
 export const BgPreset = z.enum([

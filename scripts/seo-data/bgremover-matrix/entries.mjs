@@ -347,4 +347,140 @@ export const MATRIX_ENTRIES = [
       tipLabel: 'Erase desktop icons; keep window chrome',
     },
   },
+  {
+    "id": "bgremover-logos",
+    "useCase": "logos",
+    "useCaseLabel": "Raster logo cutouts",
+    "title": "Logo Background Remover — Sharp Transparent PNG, No Upload | VeloTools",
+    "description": "Turn a raster logo on a busy plate into a crisp transparent PNG in your browser. Hard edges stay sharp because auto Refine is off by default. No account, no upload, weights download once.",
+    "h1": "Background remover for raster logos and wordmarks",
+    "heroSub": "Built for hard-edged marks: checkerboard alpha preview, no automatic peel that could soften corners, lossless PNG export. Your brand asset never leaves this tab.",
+    "intentBanner": "Logo preset - transparent grid - no auto Refine - PNG lossless",
+    "config": {
+      "defaultBg": "transparent",
+      "bgSwatchIndex": 0,
+      "exportHint": "png",
+      "suggestRefine": false,
+      "tipLabel": "Keep logo corners crisp, skip auto Refine"
+    }
+  },
+  {
+    "id": "bgremover-packaging",
+    "useCase": "packaging",
+    "useCaseLabel": "Product packaging shots",
+    "title": "Packaging Background Remover — Clean Box Edges on White | VeloTools",
+    "description": "Cut cartons, pouches, and bottles from studio clutter and preview them on pure white before export. One Refine pass keeps box seams tight. Everything runs locally, so unreleased packaging stays private.",
+    "h1": "Background remover for product packaging photos",
+    "heroSub": "Straight carton corners and soft pouch folds both need care. White preview matches retail PDP fields; Refine once, then export JPG on white with no upload.",
+    "intentBanner": "Packaging preset - white preview - JPG-white - box-seam Refine",
+    "config": {
+      "defaultBg": "#ffffff",
+      "bgSwatchIndex": 1,
+      "exportHint": "jpg-white",
+      "suggestRefine": true,
+      "tipLabel": "Check box seams on white before export"
+    }
+  },
+  {
+    "id": "bgremover-furniture",
+    "useCase": "furniture",
+    "useCaseLabel": "Furniture and decor",
+    "title": "Furniture Background Remover — Soft Shadow Prep on Gradient | VeloTools",
+    "description": "Isolate sofas, chairs, and lamps from a showroom floor and judge them on a gradient mock that reveals soft shadow spill. Refine cleans upholstery hems. Local AI keeps showroom layouts off any server.",
+    "h1": "Background remover for furniture and home decor",
+    "heroSub": "Large objects cast large shadows. A gradient preview shows spill under legs and arms so you can decide contact shadows deliberately, then export PNG for lookbook composites.",
+    "intentBanner": "Furniture preset - gradient mock - PNG - soft-shadow Refine",
+    "config": {
+      "defaultBg": "grad",
+      "bgSwatchIndex": 9,
+      "exportHint": "png",
+      "suggestRefine": true,
+      "tipLabel": "Gradient shows soft shadow spill on legs"
+    }
+  },
+  {
+    "id": "bgremover-footwear",
+    "useCase": "footwear",
+    "useCaseLabel": "Sneakers and shoes",
+    "title": "Footwear Background Remover — Sole Edges on Dark Preview | VeloTools",
+    "description": "Cut sneakers and boots from cluttered surfaces and check sole and lace halo against a dark field before export. Refine tightens welt lines. Runs fully in-browser, so sample drops stay confidential.",
+    "h1": "Background remover for sneakers, boots, and shoes",
+    "heroSub": "Rubber soles and translucent laces hide halo on white. A black preview exposes it instantly; Refine once along the welt, then export lossless PNG for hype grids.",
+    "intentBanner": "Footwear preset - black preview - PNG - welt and lace Refine",
+    "config": {
+      "defaultBg": "#111111",
+      "bgSwatchIndex": 2,
+      "exportHint": "png",
+      "suggestRefine": true,
+      "tipLabel": "Dark preview exposes sole and lace halo"
+    }
+  },
+  {
+    "id": "bgremover-cosmetics",
+    "useCase": "cosmetics",
+    "useCaseLabel": "Cosmetics and skincare",
+    "title": "Cosmetics Background Remover — Reflective Bottles Stay Local | VeloTools",
+    "description": "Cut glossy serum bottles, jars, and tubes from a shoot surface and inspect reflections on a soft blush field. Smart Erase beats auto peels on glass. On-device inference keeps unlaunched SKUs private.",
+    "h1": "Background remover for cosmetics and skincare bottles",
+    "heroSub": "Reflective glass and frosted plastic confuse hard mattes. A blush preview reveals rim reflections; skip the automatic peel, use Smart Erase, then export lightweight WebP for beauty grids.",
+    "intentBanner": "Cosmetics preset - blush preview - WebP - reflective Smart Erase",
+    "config": {
+      "defaultBg": "#F0DCE8",
+      "bgSwatchIndex": 7,
+      "exportHint": "webp",
+      "suggestRefine": false,
+      "tipLabel": "Blush field reveals glass reflections"
+    }
+  },
+  {
+    "id": "bgremover-documents",
+    "useCase": "documents",
+    "useCaseLabel": "Document and paper scans",
+    "title": "Document Background Remover — Clean White Paper Scans | VeloTools",
+    "description": "Lift a page, receipt, or certificate off a desk and drop it onto even white for tidy digital archives. Auto Refine stays off so text edges stay crisp. Sensitive paperwork never leaves your browser.",
+    "h1": "Background remover for document and paper scans",
+    "heroSub": "Scans need square corners and clean paper edges, not feathered peels. A pure white field matches archive templates; skip Refine, straighten, and export JPG on white privately.",
+    "intentBanner": "Document preset - pure white - JPG-white - crisp paper edges",
+    "config": {
+      "defaultBg": "#ffffff",
+      "bgSwatchIndex": 1,
+      "exportHint": "jpg-white",
+      "suggestRefine": false,
+      "tipLabel": "Even white for scans, avoid edge peel"
+    }
+  },
+  {
+    "id": "bgremover-group-photos",
+    "useCase": "group-photos",
+    "useCaseLabel": "Group and team photos",
+    "title": "Group Photo Background Remover — Multi-Person Hair Detail | VeloTools",
+    "description": "Cut whole teams and families from a busy room and keep every hairline honest on a transparent grid. Refine helps the many edges between people. Local AI means group faces never touch a server.",
+    "h1": "Background remover for group and team photos",
+    "heroSub": "Several heads mean several hairlines and overlapping shoulders. Transparent checkers keep alpha honest; Refine each junction, then export PNG for any brand backdrop.",
+    "intentBanner": "Group preset - transparent grid - PNG - per-person hair Refine",
+    "config": {
+      "defaultBg": "transparent",
+      "bgSwatchIndex": 0,
+      "exportHint": "png",
+      "suggestRefine": true,
+      "tipLabel": "Refine every hairline between people"
+    }
+  },
+  {
+    "id": "bgremover-twitch-thumbs",
+    "useCase": "twitch-thumbs",
+    "useCaseLabel": "Twitch thumbnails",
+    "title": "Twitch Thumbnail Background Remover — Bold Gaming Cutouts | VeloTools",
+    "description": "Cut streamers and props for punchy Twitch thumbnails and stream cards, judged on a plum canvas that mimics overlay contrast. Refine cleans headset edges. Channel faces stay on your machine.",
+    "h1": "Background remover for Twitch thumbnails and stream cards",
+    "heroSub": "Gaming thumbs need loud contrast and readable faces at small scale. A plum canvas mimics overlay glow; Refine once on hair and headset foam, then export WebP for fast uploads.",
+    "intentBanner": "Twitch preset - plum canvas - WebP - headset edge Refine",
+    "config": {
+      "defaultBg": "#7C3480",
+      "bgSwatchIndex": 5,
+      "exportHint": "webp",
+      "suggestRefine": true,
+      "tipLabel": "Plum canvas mimics stream overlay contrast"
+    }
+  }
 ];
