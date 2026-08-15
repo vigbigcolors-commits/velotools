@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# Tracking / fake-search query variants — clean path is canonical
+Disallow: /*?ref=
+Disallow: /*?q=
+Disallow: /*?utm_
+Disallow: /*?fbclid=
+Disallow: /*?gclid=
+
 Sitemap: https://velotools.app/sitemap.xml
