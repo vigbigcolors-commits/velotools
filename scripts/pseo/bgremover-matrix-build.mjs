@@ -64,6 +64,17 @@ function faqJsonLd(entry) {
   };
 }
 
+function relatedPresetLinks(current) {
+  const parts = [`<a href="/bgremover/">All-purpose BG Remover</a>`];
+  for (const e of MATRIX) {
+    if (e.id === current.id) continue;
+    const href = entryPath(e);
+    const label = e.useCaseLabel.replace(/\s+flats$/i, '').trim();
+    parts.push(`<a href="${href}">${esc(label)}</a>`);
+  }
+  return parts.join(' ·\n      ');
+}
+
 function renderUniqueSeo(entry) {
   const ed = entry.editorial;
   const faqs = ed.faqs
@@ -120,16 +131,7 @@ function renderUniqueSeo(entry) {
 
   <div class="seo-block">
     <p class="seo-lead">More cutout presets:
-      <a href="/bgremover/">All-purpose BG Remover</a> ·
-      <a href="/bgremover/for-ecommerce/">Ecommerce</a> ·
-      <a href="/bgremover/for-portraits/">Portraits</a> ·
-      <a href="/bgremover/for-etsy/">Etsy</a> ·
-      <a href="/bgremover/for-amazon/">Amazon</a> ·
-      <a href="/bgremover/for-cars/">Cars</a> ·
-      <a href="/bgremover/for-food/">Food</a> ·
-      <a href="/bgremover/for-real-estate/">Real estate</a> ·
-      <a href="/bgremover/for-stickers/">Stickers</a> ·
-      <a href="/bgremover/for-youtube-thumbs/">YouTube thumbs</a>
+      ${relatedPresetLinks(entry)}
     </p>
   </div>
 </section>`;

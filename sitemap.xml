@@ -30,16 +30,26 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <url><loc>https://velotools.app/bgremover/for-ecommerce/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-portraits/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-etsy/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-amazon/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-pets/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-headshots/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-jewelry/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-apparel/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-social/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://velotools.app/bgremover/for-transparent-png/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-ecommerce/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-portraits/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-etsy/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-amazon/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-pets/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-headshots/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-jewelry/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-apparel/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-social/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://velotools.app/bgremover/for-transparent-png/</loc>
+    <lastmod>2026-08-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url>
     <loc>https://velotools.app/pdf-tools/</loc>
     <changefreq>weekly</changefreq>
@@ -87,6 +97,7 @@
   </url>
   <url>
     <loc>https://velotools.app/compress-jpg-online/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -112,26 +123,31 @@
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-gmail/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-canvas/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/image-resizer-for-amazon/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/image-resizer-for-etsy/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/image-resizer-for-ozon/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -287,101 +303,121 @@
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-outlook/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-blackboard/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-usps/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-moodle/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-whatsapp/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-slack/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-teams/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-discord/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-telegram/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-google-drive/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-dropbox/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-notion/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-linkedin/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-zoom/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-wetransfer/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-github/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/compress-pdf-for-icloud-mail/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/image-resizer-for-shopify/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/image-resizer-for-ebay/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://velotools.app/image-resizer-for-instagram/</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>

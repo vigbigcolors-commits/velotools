@@ -40,16 +40,36 @@ export function buildCompressPdfPage(intent) {
   let html = readFileSync(join(root, 'compress-pdf', 'index.html'), 'utf8');
   const canonical = `${baseUrl}/${intent.slug}/`;
   const faqLd = JSON.stringify(buildFaqJsonLd(buildFaqForIntent(intent)));
+  const metaDesc = buildMetaDescription(intent);
 
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(intent.title)}</title>`);
   html = html.replace(
     /<meta name="description" content="[^"]*">/,
-    `<meta name="description" content="${esc(buildMetaDescription(intent))}">`,
+    `<meta name="description" content="${esc(metaDesc)}">`,
   );
   html = html.replace(
     /<link rel="canonical" href="[^"]*">/,
     `<link rel="canonical" href="${canonical}">`,
   );
+  html = html.replace(
+    /<meta property="og:title" content="[^"]*">/,
+    `<meta property="og:title" content="${esc(intent.title)}">`,
+  );
+  html = html.replace(
+    /<meta property="og:description" content="[^"]*">/,
+    `<meta property="og:description" content="${esc(metaDesc)}">`,
+  );
+  if (html.includes('property="og:url"')) {
+    html = html.replace(
+      /<meta property="og:url" content="[^"]*">/,
+      `<meta property="og:url" content="${canonical}">`,
+    );
+  } else {
+    html = html.replace(
+      '<meta property="og:type" content="website">',
+      `<meta property="og:type" content="website">\n<meta property="og:url" content="${canonical}">`,
+    );
+  }
   const h1Html = intent.h1Em
     ? intent.h1.replace(intent.h1Em, `<em>${esc(intent.h1Em)}</em>`)
     : esc(intent.h1);
@@ -63,7 +83,16 @@ export function buildCompressPdfPage(intent) {
   const footerMatch = html.match(/<\/section>\s*<footer class="site-footer">/);
   const editorialEnd = footerMatch ? footerMatch.index : -1;
   if (editorialStart < 0 || editorialEnd < 0) throw new Error('compress-pdf editorial markers missing');
-  html = html.slice(0, editorialStart) + renderEditorial(intent, esc) + '\n\n' + html.slice(editorialEnd + '</section>'.length);
+  html =
+    html.slice(0, editorialStart) +
+    renderEditorial(intent, esc) +
+    '\n\n' +
+    html.slice(editorialEnd + '</section>'.length);
+
+  html = html.replace(
+    /(<script type="application\/ld\+json">\{"@context":"https:\/\/schema\.org","@type":"WebApplication"[\s\S]*?"url":")[^"]+(")/,
+    `$1${canonical}$2`,
+  );
 
   html = html.replace(
     /<script type="application\/ld\+json">\{"@context":"https:\/\/schema.org","@type":"FAQPage"[\s\S]*?<\/script>/,
@@ -98,6 +127,23 @@ export function buildImageResizerPage(intent) {
     `<link rel="canonical" href="${canonical}">`,
   );
   html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${canonical}">`);
+  html = html.replace(
+    /<meta property="og:title" content="[^"]*">/,
+    `<meta property="og:title" content="${esc(intent.title)}">`,
+  );
+  html = html.replace(
+    /<meta property="og:description" content="[^"]*">/,
+    `<meta property="og:description" content="${esc(buildMetaDescription(intent))}">`,
+  );
+  /* Pretty-printed WebApplication JSON-LD from image-compress template */
+  html = html.replace(
+    /("@type"\s*:\s*"WebApplication"[\s\S]*?"url"\s*:\s*")[^"]+(")/,
+    `$1${canonical}$2`,
+  );
+  html = html.replace(
+    /("@type"\s*:\s*"WebApplication"[\s\S]*?"name"\s*:\s*")[^"]+(")/,
+    `$1${esc(intent.title).slice(0, 110)}$2`,
+  );
 
   const h1Inner = intent.h1Em
     ? `${esc(intent.h1.replace(new RegExp('\\s+for\\s+.*$', 'i'), '').trim())}<br><span>${esc(intent.h1Em)}</span>`
