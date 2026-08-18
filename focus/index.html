@@ -211,6 +211,36 @@ body::before {
   display:flex; flex-direction:column;
   align-items:center; gap:20px;
 }
+.f-hub-heading {
+  text-align:center;
+  margin:0 0 2px;
+  max-width:28rem;
+}
+.f-hub-kicker {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ac);
+  margin:0 0 8px;
+}
+.f-hub-heading h1 {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(26px, 3.2vw, 36px);
+  font-weight:800;
+  letter-spacing:-.6px;
+  line-height:1.1;
+  color:var(--tx);
+  margin:0;
+}
+.f-hub-lead {
+  font-size:13px;
+  font-weight:500;
+  color:var(--tx2);
+  line-height:1.45;
+  margin:8px 0 0;
+}
 
 /* mode tabs */
 .f-modes {
@@ -667,6 +697,7 @@ body.zen-mode .f-sounds,
 body.zen-mode .f-notes,
 body.zen-mode .f-modes,
 body.zen-mode .f-timer-bottom,
+body.zen-mode .f-hub-heading,
 body.zen-mode .f-seo-section,
 body.zen-mode #fa-wrap {
   display: none !important;
@@ -837,7 +868,7 @@ body.zen-mode .f-timer-wrap {
 <!-- NAV -->
 <nav class="f-nav">
   <a href="/" class="vt-logo" aria-label="VeloTools home">
-    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="" class="vt-logo-img" width="44" height="44" decoding="async"></picture>
+    <picture><source srcset="/images/logo-nav.webp" type="image/webp"><img src="/images/logo-nav.png" alt="VeloTools" class="vt-logo-img" width="44" height="44" decoding="async"></picture>
     <span class="vt-logo-text">velotools</span>
   </a>
   <div class="f-nav-links">
@@ -914,6 +945,11 @@ body.zen-mode .f-timer-wrap {
 
   <!-- CENTER: TIMER -->
   <div class="f-timer-wrap">
+    <header class="f-hub-heading" id="vt-focus-hub-h1">
+      <p class="f-hub-kicker">Timer · this tab only</p>
+      <h1>Focus Room</h1>
+      <p class="f-hub-lead">25 / 5 / 15. Tasks, sounds, and notes stay in the browser.</p>
+    </header>
     <!-- Mode tabs -->
     <div class="f-modes">
       <button class="f-mode-btn active" data-mode="focus" id="mode-btn-focus" onclick="setMode('focus',this)">Focus · 25m</button>

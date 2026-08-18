@@ -217,6 +217,8 @@ export function buildMatrixPage(entry, dryRun = false) {
   const cfg = JSON.stringify(pageConfig(entry));
 
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(entry.title)}</title>`);
+  // Hub H1 lives on /focus/ only — profession pages keep their unique editorial H1.
+  html = html.replace(/<header class="f-hub-heading"[\s\S]*?<\/header>\s*/i, '');
   html = html.replace(
     /<meta name="description" content="[^"]*">/,
     `<meta name="description" content="${esc(entry.description)}">`,

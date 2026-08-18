@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
+# Cloudflare reserved — not a site page (email obfuscation stub 404s)
+Disallow: /cdn-cgi/
+
 # Tracking / fake-search query variants — clean path is canonical
 Disallow: /*?ref=
 Disallow: /*?q=
