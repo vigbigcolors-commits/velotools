@@ -328,6 +328,9 @@ body{font-family:var(--font);background:var(--bg-2);color:var(--tx);-webkit-font
 .v-seo-in h2{font-size:27px;font-weight:800;color:var(--tx);letter-spacing:-.6px;margin-bottom:12px}
 .v-seo-in h3{font-size:18px;font-weight:700;color:var(--tx);margin:26px 0 9px}
 .v-seo-in p{font-size:15px;color:var(--tx-2);line-height:1.85;margin-bottom:12px}
+.seo-preset-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.seo-preset-grid a{display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;line-height:1.25;color:var(--mint);text-decoration:none;background:rgba(0,230,208,.08);border:1px solid rgba(0,230,208,.28);transition:background .15s,border-color .15s,color .15s}
+.seo-preset-grid a:hover{color:#041816;background:rgba(0,230,208,.22);border-color:rgba(0,230,208,.5)}
 .v-steps{display:flex;flex-direction:column;gap:12px;margin:14px 0}
 .v-step{display:flex;gap:12px;align-items:flex-start}
 .v-sn{width:26px;height:26px;min-width:26px;background:var(--ac);border-radius:50%;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
