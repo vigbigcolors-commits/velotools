@@ -186,11 +186,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://velotools.app/tools/ux-designer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://velotools.app/tools/content-writer/focus-room/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -201,27 +196,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://velotools.app/tools/data-analyst/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://velotools.app/tools/freelancer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/seo-specialist/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/mobile-developer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/sysadmin/focus-room/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

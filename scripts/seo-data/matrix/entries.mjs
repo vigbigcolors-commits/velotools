@@ -73,6 +73,7 @@ export const MATRIX_ENTRIES = [
       'Pomodoro for UX designers: 30/5 sessions, amber theme, forest ambient. Ideal for research synthesis and wireframing.',
     h1: 'Focus Room for UX designers',
     intentBanner: 'UX preset · 30/5 · amber · forest',
+    indexable: false,
     config: {
       timers: { focusMinutes: 30, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'forest',
@@ -165,6 +166,7 @@ export const MATRIX_ENTRIES = [
       'Analysis sprint timer: 50/10 deep blocks, jade theme, rain ambient. Private local sessions for spreadsheet and SQL work.',
     h1: 'Focus Room for data analysts',
     intentBanner: 'Analyst preset · 50/10 · jade · rain',
+    indexable: false,
     config: {
       timers: { focusMinutes: 50, shortBreakMinutes: 10, longBreakMinutes: 25 },
       soundPreset: 'rain',
@@ -239,6 +241,7 @@ export const MATRIX_ENTRIES = [
       'SEO audit sprint timer: 30/5 blocks, jade theme, rain ambient. Long-tail research without cloud sync of notes.',
     h1: 'Focus Room for SEO specialists',
     intentBanner: 'SEO preset · 30/5 · jade · rain',
+    indexable: false,
     config: {
       timers: { focusMinutes: 30, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'rain',
@@ -257,6 +260,7 @@ export const MATRIX_ENTRIES = [
       'Mobile build sprint timer: 40/8 blocks, teal theme, lofi ambient. Client-side focus for Xcode and Android Studio sessions.',
     h1: 'Focus Room for mobile developers',
     intentBanner: 'Mobile preset · 40/8 · teal · lofi',
+    indexable: false,
     config: {
       timers: { focusMinutes: 40, shortBreakMinutes: 8, longBreakMinutes: 20 },
       soundPreset: 'lofi',
@@ -275,6 +279,7 @@ export const MATRIX_ENTRIES = [
       'Maintenance-window timer: 50/10 blocks, midnight theme, fire ambient. Calm focus for late-night ops — fully private.',
     h1: 'Focus Room for sysadmins',
     intentBanner: 'Sysadmin preset · 50/10 · midnight · fire',
+    indexable: false,
     config: {
       timers: { focusMinutes: 50, shortBreakMinutes: 10, longBreakMinutes: 25 },
       soundPreset: 'fire',
