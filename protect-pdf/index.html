@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Protect PDF Online Free — Add Password in Browser | VeloTools</title>
-<meta name="description" content="Password-protect a PDF online for free. Set an open password with AES encryption in your browser — no upload, files stay private.">
+<meta name="description" content="Password-protect a PDF online for free. Set an open password and PDF permissions in your browser — no upload, files stay on your device.">
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="canonical" href="https://velotools.app/protect-pdf/">
-<meta property="og:title" content="Protect PDF Online Free — Local Encryption | VeloTools">
-<meta property="og:description" content="Add a PDF open password without uploading. AES encryption runs in your browser.">
+<meta property="og:title" content="Protect PDF Online Free — Local Password Lock | VeloTools">
+<meta property="og:description" content="Add a PDF open password and permission flags without uploading. Encryption runs only in your browser.">
 <meta property="og:url" content="https://velotools.app/protect-pdf/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Protect PDF","description":"Add PDF open password with local AES encryption. No upload.","url":"https://velotools.app/protect-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["User open password","AES encryption","Permission flags","No server upload"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools Protect PDF","description":"Add a PDF open password and configurable permission flags locally in the browser. No upload.","url":"https://velotools.app/protect-pdf/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["User open password","Configurable PDF permissions","Standard Security Handler encryption","No server upload"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Protect PDF encryption real?","acceptedAnswer":{"@type":"Answer","text":"Yes. The downloaded file includes a Standard Security Handler dictionary. PDF readers require the password you set."}},{"@type":"Question","name":"Does my password leave the device?","acceptedAnswer":{"@type":"Answer","text":"No. The password is used only in tab memory to encrypt the PDF before download."}},{"@type":"Question","name":"Can I protect an already locked PDF?","acceptedAnswer":{"@type":"Answer","text":"Unlock it first, then protect again with a new password."}},{"@type":"Question","name":"How do I remove the password later?","acceptedAnswer":{"@type":"Answer","text":"Use Unlock PDF with the same password to download an unprotected copy."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -32,6 +32,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .pw-field input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid #5070a8;background:#162038;color:#fff;font-size:15px}
 .pw-field input::placeholder{color:#5a74a0}
 .pw-hint{font-size:12px;color:#8aa4cc;margin-top:8px;text-align:center}
+.perm-panel{margin:20px auto 0;max-width:420px;padding:16px 18px;border:1px solid rgba(80,112,168,.55);border-radius:12px;background:rgba(22,32,56,.65)}
+.perm-panel h2{font-size:14px;font-weight:700;color:#fff;margin:0 0 6px}
+.perm-panel .perm-lead{font-size:12px;color:#8aa4cc;margin:0 0 12px;line-height:1.5}
+.perm-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:0;padding:0}
+.perm-list label{display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:500;color:#c8d8f8;cursor:pointer;line-height:1.4}
+.perm-list input{margin-top:2px;width:16px;height:16px;accent-color:#4d7ac9;flex-shrink:0}
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
@@ -76,8 +82,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 </div>
 <section class="pdf-tool-hero">
   <div class="trust-bar"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Password and file never leave this device</div>
-  <h1>Password-<em>protect</em> a PDF locally</h1>
-  <p class="lead">Set an open password, encrypt with AES in your browser, and download a locked PDF. Readers will ask for the password before showing pages.</p>
+  <h1>Password Protect PDF Online — Free &amp; Private</h1>
+  <p class="lead">Set an open password and optional PDF permissions in your browser, then download a locked file. Nothing is uploaded — encryption runs only on this device.</p>
 </section>
 <main class="tool-shell">
   <div class="upload-zone" id="protect-upload-zone" role="button" tabindex="0" aria-label="Upload PDF to protect">
@@ -96,6 +102,16 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <input type="password" id="protect-password2" placeholder="Re-enter password" autocomplete="new-password">
     <p class="pw-hint">Remember this password — VeloTools cannot recover it. Encryption runs only in this tab.</p>
   </div>
+  <section class="perm-panel" aria-labelledby="perm-heading">
+    <h2 id="perm-heading">PDF permissions</h2>
+    <p class="perm-lead">Defaults restrict copy and edit. Printing and form fill stay on unless you change them. Readers that respect PDF security will enforce these after the open password.</p>
+    <ul class="perm-list">
+      <li><label><input type="checkbox" id="perm-printing" checked> Allow printing</label></li>
+      <li><label><input type="checkbox" id="perm-copying"> Allow copying text and images</label></li>
+      <li><label><input type="checkbox" id="perm-modifying"> Allow editing</label></li>
+      <li><label><input type="checkbox" id="perm-forms" checked> Allow filling forms</label></li>
+    </ul>
+  </section>
   <div id="protect-status" class="status-msg status-hidden" role="status"></div>
   <div class="action-bar">
     <button type="button" class="btn-primary" id="btn-protect" disabled>Protect PDF</button>
@@ -112,7 +128,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <h2>How to protect a PDF in 3 steps</h2>
     <ol>
       <li>Drop an unprotected PDF into the upload zone.</li>
-      <li>Enter and confirm an open password (at least 4 characters).</li>
+      <li>Enter and confirm an open password (at least 4 characters). Adjust PDF permissions if needed.</li>
       <li>Click Protect PDF and download — open it in any reader to verify the password prompt.</li>
     </ol>
   </section>
@@ -120,9 +136,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <h2>Technical specifications</h2>
     <table class="seo-table">
       <tbody>
-        <tr><th>Operation</th><td>Write <code>/Encrypt</code> with user + owner password</td></tr>
+        <tr><th>Operation</th><td>Write <code>/Encrypt</code> with user open password + separate owner password</td></tr>
         <tr><th>Library</th><td>@cantoo/pdf-lib (encrypt-capable fork)</td></tr>
-        <tr><th>Permissions</th><td>Printing allowed; modify/copy restricted by default</td></tr>
+        <tr><th>Cipher</th><td>Standard Security Handler — strength follows the source PDF version (often AES for modern files)</td></tr>
+        <tr><th>Permissions</th><td>User-configurable: print, copy, edit, fill forms</td></tr>
         <tr><th>Already encrypted</th><td>Unlock first, then protect</td></tr>
         <tr><th>Network</th><td>0 bytes of PDF content leave the browser</td></tr>
       </tbody>
@@ -130,8 +147,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
   </section>
   <section class="seo-section seo-deep-dive">
     <h2>Open password vs owner password</h2>
-    <p>Protect sets a <strong>user (open) password</strong> so viewers must unlock the file before reading. The same string is also used as the owner password unless you later expand the UI — enough for “share only with people who know the secret.” Permission flags disable easy modify/copy while still allowing print and accessibility extraction.</p>
-    <p>To remove protection later, use <a href="/unlock-pdf/">Unlock PDF</a> with the same password.</p>
+    <p>Protect sets a <strong>user (open) password</strong> so viewers must unlock the file before reading. A separate owner password is generated in the browser for permission enforcement and is never shown or stored — you only need the open password to view the file. Use the permission checkboxes to allow or deny print, copy, edit, and form fill.</p>
+    <p>To remove protection later, use <a href="/unlock-pdf/">Unlock PDF</a> with the same open password.</p>
   </section>
   <section class="seo-section seo-faq">
     <h2>Frequently asked questions</h2>
@@ -144,11 +161,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 
 
 
+
 <section class="vt-exp" id="builder-experience" data-tool="protect-pdf" aria-label="Builder experience">
   <div class="vt-exp-kicker">Human experience · Vigen G.</div>
   <h2>From the builder: seal before you send</h2>
   <p>Client drafts leave the machine with a password I set here — Standard Security Handler in the file, not a “secure link” on a stranger’s server. Remember the password; we cannot recover it because we never saw the file.</p>
-  <div class="vt-exp-links"><a href="/unlock-pdf/">Unlock PDF</a><a href="/pdf-tools/">PDF hub</a><a href="/lab/">Lab Notes</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+  <div class="vt-exp-links"><a href="/unlock-pdf/">Unlock PDF</a><a href="/pdf-tools/">PDF hub</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
 </section>
 <footer class="site-footer"><p>&copy; 2026 <a href="/">VeloTools</a> · <a href="/pdf-tools/">All PDF tools</a></p></footer>
 <script type="module" src="/pdf-tools/protect.js"></script>

@@ -1,5 +1,5 @@
 /**
- * VeloTools — Protect PDF (local AES encryption via @cantoo/pdf-lib)
+ * VeloTools — Protect PDF (local encryption via @cantoo/pdf-lib)
  */
 import { protectDocument } from '/pdf-core/engine.js';
 import { fmtBytes, escHtml, truncate, triggerDownload, readFileBytes } from '/pdf-core/utils.js';
@@ -22,6 +22,22 @@ function setStatus(type, msg) {
 
 function syncButton() {
   $('btn-protect').disabled = !sourceFile;
+}
+
+function readPermissionFlags() {
+  return {
+    printing: $('perm-printing') ? $('perm-printing').checked : true,
+    copying: $('perm-copying') ? $('perm-copying').checked : false,
+    modifying: $('perm-modifying') ? $('perm-modifying').checked : false,
+    fillingForms: $('perm-forms') ? $('perm-forms').checked : true,
+  };
+}
+
+function resetPermissionDefaults() {
+  if ($('perm-printing')) $('perm-printing').checked = true;
+  if ($('perm-copying')) $('perm-copying').checked = false;
+  if ($('perm-modifying')) $('perm-modifying').checked = false;
+  if ($('perm-forms')) $('perm-forms').checked = true;
 }
 
 async function onFileSelected(file) {
@@ -63,7 +79,8 @@ async function doProtect() {
 
   try {
     const bytes = await readFileBytes(sourceFile);
-    outBytes = await protectDocument(bytes, pw);
+    const permissions = readPermissionFlags();
+    outBytes = await protectDocument(bytes, pw, { permissions: permissions });
     setStatus('ok', 'PDF encrypted — download requires the password you set.');
     $('btn-download').classList.remove('btn-hidden');
   } catch (e) {
@@ -128,6 +145,7 @@ function init() {
     outBytes = null;
     $('protect-password').value = '';
     $('protect-password2').value = '';
+    resetPermissionDefaults();
     $('protect-file-info').classList.add('file-info-hidden');
     $('btn-download').classList.add('btn-hidden');
     setStatus('', '');

@@ -93,15 +93,27 @@ function parentHub(rel) {
 function experienceHtml(key) {
   const exp = TOOL_EXPERIENCE[key];
   if (!exp) return '';
-  const links = exp.links
-    .map((l) => `<a href="${l.href}">${l.label}</a>`)
-    .join('');
+  const seen = new Set();
+  const parts = [];
+  function pushLink(href, label) {
+    if (!href || seen.has(href)) return;
+    seen.add(href);
+    parts.push(`<a href="${href}">${label}</a>`);
+  }
+  for (const l of exp.links || []) {
+    pushLink(l.href, l.label);
+  }
+  // Trust defaults — skip if already present in tool links (avoids duplicate Lab Notes).
+  pushLink('/lab/', 'Lab Notes');
+  pushLink('/methodology/', 'Methodology');
+  pushLink('/about/vigen/', 'Vigen G.');
+  pushLink('/about/', 'About');
   return `
 <section class="vt-exp" id="builder-experience" data-tool="${key}" aria-label="Builder experience">
   <div class="vt-exp-kicker">Human experience · Vigen G.</div>
   <h2>${exp.title}</h2>
   <p>${exp.body}</p>
-  <div class="vt-exp-links">${links}<a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
+  <div class="vt-exp-links">${parts.join('')}</div>
 </section>
 `;
 }

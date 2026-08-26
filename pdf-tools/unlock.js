@@ -1,7 +1,7 @@
 /**
  * VeloTools — Unlock PDF tool UI (remove password when user knows it)
  */
-import { loadPdfLib, unlockDocument } from '/pdf-core/engine.js';
+import { unlockDocument } from '/pdf-core/engine.js';
 import { fmtBytes, escHtml, truncate, triggerDownload, readFileBytes } from '/pdf-core/utils.js';
 
 let sourceFile = null;
@@ -49,7 +49,6 @@ async function doUnlock() {
   setStatus('work', 'Decrypting PDF in your browser…');
 
   try {
-    await loadPdfLib();
     const bytes = await readFileBytes(sourceFile);
     unlockedBytes = await unlockDocument(bytes, password);
     setStatus('ok', 'Password removed — download your unprotected PDF.');

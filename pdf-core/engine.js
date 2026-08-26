@@ -134,14 +134,19 @@ export async function splitDocument(bytes, mode, rangeSpec) {
 }
 
 /**
- * Remove password protection when user supplies the correct password.
+ * Remove password protection when user supplies the correct open (or owner) password.
+ * Uses @cantoo/pdf-lib so VeloTools-protected AES files and legacy pdf-lib-encrypted
+ * fixtures both decrypt; stock pdf-lib@1.17.1 cannot open Cantoo AESV2 output.
  * @param {Uint8Array} bytes
  * @param {string} password
  */
 export async function unlockDocument(bytes, password) {
-  const doc = await openDocument(bytes, { password: password });
-  const saved = await doc.save({ useObjectStreams: true });
-  return saved;
+  if (!password || !String(password).length) {
+    throw new Error('Enter the PDF password to remove protection');
+  }
+  const lib = await loadCantooPdfLib();
+  const doc = await lib.PDFDocument.load(bytes, { password: String(password) });
+  return doc.save({ useObjectStreams: true });
 }
 
 /**
@@ -270,8 +275,17 @@ let cantooLibPromise = null;
 
 /** Load @cantoo/pdf-lib (encrypt-capable fork) without overwriting stock PDFLib. */
 export function loadCantooPdfLib() {
-  if (window.__CantooPDFLib) return Promise.resolve(window.__CantooPDFLib);
+  if (typeof window !== 'undefined' && window.__CantooPDFLib) {
+    return Promise.resolve(window.__CantooPDFLib);
+  }
   if (cantooLibPromise) return cantooLibPromise;
+  // Node / Vitest: same package as the browser CDN pin (no architecture change).
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    cantooLibPromise = import('@cantoo/pdf-lib').then(function (mod) {
+      return mod && mod.PDFDocument ? mod : Promise.reject(new Error('Cantoo pdf-lib failed to load'));
+    });
+    return cantooLibPromise;
+  }
   cantooLibPromise = new Promise(function (resolve, reject) {
     const prev = window.PDFLib;
     const s = document.createElement('script');
@@ -298,31 +312,72 @@ export function loadCantooPdfLib() {
 }
 
 /**
- * Encrypt PDF with a user open password (AES via @cantoo/pdf-lib).
+ * Cryptographically strong owner password (never shown/stored/logged).
+ * Distinct from the user open password so permission flags are enforceable.
+ * @param {number} [byteLength=32]
+ * @returns {string}
+ */
+export function generateOwnerPassword(byteLength) {
+  const n = byteLength && byteLength > 0 ? byteLength : 32;
+  const bytes = new Uint8Array(n);
+  const c = typeof globalThis !== 'undefined' && globalThis.crypto;
+  if (!c || typeof c.getRandomValues !== 'function') {
+    throw new Error('Secure random generator unavailable');
+  }
+  c.getRandomValues(bytes);
+  let s = '';
+  for (let i = 0; i < bytes.length; i++) {
+    s += bytes[i].toString(16).padStart(2, '0');
+  }
+  return s;
+}
+
+/**
+ * Map UI permission flags to Cantoo SecurityOptions.permissions.
+ * Defaults match prior hard-coded privacy-oriented behavior.
+ * @param {{ printing?: boolean, copying?: boolean, modifying?: boolean, fillingForms?: boolean } | null | undefined} flags
+ */
+export function buildProtectPermissions(flags) {
+  const f = flags || {};
+  const printing = f.printing !== false;
+  return {
+    printing: printing ? 'highResolution' : false,
+    modifying: f.modifying === true,
+    copying: f.copying === true,
+    annotating: false,
+    fillingForms: f.fillingForms !== false,
+    contentAccessibility: true,
+    documentAssembly: false,
+  };
+}
+
+/**
+ * Encrypt PDF with a user open password (@cantoo/pdf-lib Standard Security Handler).
+ * Algorithm strength follows the source PDF version (library default) — not forced here.
  * @param {Uint8Array} bytes
  * @param {string} userPassword
- * @param {string} [ownerPassword]
+ * @param {{ ownerPassword?: string, permissions?: { printing?: boolean, copying?: boolean, modifying?: boolean, fillingForms?: boolean } }} [options]
  */
-export async function protectDocument(bytes, userPassword, ownerPassword) {
+export async function protectDocument(bytes, userPassword, options) {
   if (!userPassword || !String(userPassword).length) {
     throw new Error('Enter a password to protect this PDF');
   }
+  const optsIn = options && typeof options === 'object' ? options : {};
+  const userPw = String(userPassword);
+  let ownerPw =
+    optsIn.ownerPassword && String(optsIn.ownerPassword).length
+      ? String(optsIn.ownerPassword)
+      : generateOwnerPassword();
+  // Never collapse owner to user — permission flags would become a no-op in many readers.
+  if (ownerPw === userPw) {
+    ownerPw = generateOwnerPassword();
+  }
   const lib = await loadCantooPdfLib();
   const doc = await lib.PDFDocument.load(bytes, { ignoreEncryption: false });
-  const opts = { userPassword: String(userPassword) };
-  if (ownerPassword && String(ownerPassword).length) {
-    opts.ownerPassword = String(ownerPassword);
-  } else {
-    opts.ownerPassword = String(userPassword);
-  }
-  opts.permissions = {
-    printing: 'highResolution',
-    modifying: false,
-    copying: false,
-    annotating: false,
-    fillingForms: true,
-    contentAccessibility: true,
-    documentAssembly: false,
+  const opts = {
+    userPassword: userPw,
+    ownerPassword: ownerPw,
+    permissions: buildProtectPermissions(optsIn.permissions),
   };
   doc.encrypt(opts);
   return doc.save();

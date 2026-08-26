@@ -126,7 +126,6 @@ export const TOOL_EXPERIENCE = {
     links: [
       { href: '/unlock-pdf/', label: 'Unlock PDF' },
       { href: '/pdf-tools/', label: 'PDF hub' },
-      { href: '/lab/', label: 'Lab Notes' },
     ],
   },
   'compress-jpg-online': {
