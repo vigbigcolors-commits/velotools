@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { MATRIX, entryPath } from '../seo-data/matrix/index.mjs';
+import { isMatrixIndexable } from '../seo-data/matrix/schema.mjs';
 import { notifyGoogle } from './notify-google.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -26,6 +27,21 @@ function saveState(state) {
   writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
 }
 
+/** Drop noindex matrix URLs so republish cannot restore them. */
+function stripNonIndexableFromSitemap(sitemap) {
+  let out = sitemap;
+  for (const entry of MATRIX) {
+    if (isMatrixIndexable(entry)) continue;
+    const loc = `${baseUrl}${entryPath(entry)}`;
+    const re = new RegExp(
+      `\\s*<url>\\s*<loc>${loc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}<\\/loc>[\\s\\S]*?<\\/url>`,
+      'g',
+    );
+    out = out.replace(re, '');
+  }
+  return out;
+}
+
 export function publishMatrixBatch(limit, opts = {}) {
   const state = loadState();
   const day = today();
@@ -40,11 +56,13 @@ export function publishMatrixBatch(limit, opts = {}) {
     return { published: [], message: `Daily cap reached (${state.dailyLimit}/day).` };
   }
 
-  let sitemap = readFileSync(sitemapPath, 'utf8');
+  let original = readFileSync(sitemapPath, 'utf8');
+  let sitemap = stripNonIndexableFromSitemap(original);
   const published = [];
 
   for (const entry of MATRIX) {
     if (published.length >= take) break;
+    if (!isMatrixIndexable(entry)) continue;
     const path = entryPath(entry);
     const loc = `    <loc>${baseUrl}${path}</loc>`;
     if (sitemap.includes(loc)) continue;
@@ -54,10 +72,12 @@ export function publishMatrixBatch(limit, opts = {}) {
     published.push(path);
   }
 
-  if (published.length) {
+  if (published.length || sitemap !== original) {
     writeFileSync(sitemapPath, sitemap);
-    state.publishedToday += published.length;
-    saveState(state);
+    if (published.length) {
+      state.publishedToday += published.length;
+      saveState(state);
+    }
   }
 
   const indexing = published.length
@@ -69,7 +89,7 @@ export function publishMatrixBatch(limit, opts = {}) {
     indexing,
     message: published.length
       ? `Published ${published.length} matrix URL(s). Today: ${state.publishedToday}/${state.dailyLimit}.`
-      : 'All matrix URLs already in sitemap.',
+      : 'All indexable matrix URLs already in sitemap (non-indexable excluded).',
   };
 }
 

@@ -129,8 +129,15 @@ export const MatrixEntrySchema = z
     intentBanner: SafeText,
     config: DefaultConfigSchema,
     editorial: EditorialSchema,
+    /** false → noindex + excluded from sitemap publish (hub-duplicate presets). Default true. */
+    indexable: z.boolean().optional().default(true),
   })
   .strict();
+
+/** Sitemap / robots: only false is excluded; omitted/true stay indexable. */
+export function isMatrixIndexable(entry) {
+  return entry.indexable !== false;
+}
 
 export const MatrixSchema = z.array(MatrixEntrySchema).min(1).max(10000);
 

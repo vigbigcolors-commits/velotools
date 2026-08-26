@@ -181,27 +181,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://velotools.app/tools/frontend-developer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://velotools.app/tools/devops-engineer/focus-room/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://velotools.app/tools/ux-designer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/ui-designer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/copywriter/focus-room/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -217,16 +202,6 @@
   </url>
   <url>
     <loc>https://velotools.app/tools/data-analyst/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/qa-engineer/focus-room/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/student/focus-room/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -292,11 +267,6 @@
   </url>
   <url>
     <loc>https://velotools.app/tools/qa-engineer/focus-room/regression/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://velotools.app/tools/content-writer/focus-room/blog/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

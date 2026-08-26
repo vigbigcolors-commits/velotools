@@ -36,6 +36,7 @@ export const MATRIX_ENTRIES = [
       'Focus timer for frontend developers: classic 25/5 Pomodoro, teal theme, cafe ambient for creative UI work. Private, client-side only.',
     h1: 'Focus Room for frontend developers',
     intentBanner: 'Frontend preset · 25/5 · teal · cafe',
+    indexable: false,
     config: {
       timers: { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'cafe',
@@ -90,6 +91,7 @@ export const MATRIX_ENTRIES = [
       'Focus timer for UI designers: 25/5 Pomodoro, midnight theme, lofi beats. Browser-only privacy for design sprints.',
     h1: 'Focus Room for UI designers',
     intentBanner: 'UI preset · 25/5 · midnight · lofi',
+    indexable: false,
     config: {
       timers: { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'lofi',
@@ -108,6 +110,7 @@ export const MATRIX_ENTRIES = [
       'Writing timer for copywriters: 25/5 sprints, teal theme, cafe ambient (coffee-shop effect). Nothing leaves your device.',
     h1: 'Focus Room for copywriters',
     intentBanner: 'Copywriter preset · 25/5 · teal · cafe',
+    indexable: false,
     config: {
       timers: { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'cafe',
@@ -180,6 +183,7 @@ export const MATRIX_ENTRIES = [
       'Test-pass focus timer: 25/5 Pomodoro, teal theme, forest ambient. Stay sharp through regression runs — data stays local.',
     h1: 'Focus Room for QA engineers',
     intentBanner: 'QA preset · 25/5 · teal · forest',
+    indexable: false,
     config: {
       timers: { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'forest',
@@ -198,6 +202,7 @@ export const MATRIX_ENTRIES = [
       'Study Pomodoro for students: classic 25/5, amber theme, lofi ambient. Free, offline-friendly, no signup.',
     h1: 'Focus Room for students',
     intentBanner: 'Student preset · 25/5 · amber · lofi',
+    indexable: false,
     config: {
       timers: { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'lofi',
@@ -461,6 +466,7 @@ export const MATRIX_ENTRIES = [
       'Blog drafting preset: 25/5, jade theme, cafe ambient. Draft faster with coffee-shop noise — zero cloud drafts.',
     h1: 'Blog drafting Pomodoro for content writers',
     intentBanner: 'Content blog · 25/5 · jade · cafe',
+    indexable: false,
     config: {
       timers: { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15 },
       soundPreset: 'cafe',

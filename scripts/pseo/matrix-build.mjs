@@ -228,6 +228,23 @@ export function buildMatrixPage(entry, dryRun = false) {
     `<link rel="canonical" href="${canonical}">`,
   );
 
+  // Hub-duplicate 25/5 presets: noindex; do not invent robots on other pages.
+  if (entry.indexable === false) {
+    if (/name="robots"/i.test(html)) {
+      html = html.replace(
+        /<meta name="robots" content="[^"]*">/i,
+        '<meta name="robots" content="noindex,follow">',
+      );
+    } else {
+      html = html.replace(
+        /(<meta name="description" content="[^"]*">)/,
+        '$1\n<meta name="robots" content="noindex,follow">',
+      );
+    }
+  } else {
+    html = html.replace(/\n?<meta name="robots" content="noindex,\s*follow">\n?/i, '\n');
+  }
+
   html = applyPresetToShell(html, entry);
 
   // Absolute asset paths (page lives under /tools/...)

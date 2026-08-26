@@ -3,7 +3,7 @@
  */
 import { MATRIX_ENTRIES } from './entries.mjs';
 import { EDITORIALS } from './editorials.mjs';
-import { parseMatrix, resolveEntry, entryPath } from './schema.mjs';
+import { parseMatrix, resolveEntry, entryPath, isMatrixIndexable } from './schema.mjs';
 
 const merged = MATRIX_ENTRIES.map((entry) => {
   const editorial = EDITORIALS[entry.id];
@@ -15,7 +15,7 @@ const merged = MATRIX_ENTRIES.map((entry) => {
 
 export const MATRIX = parseMatrix(merged);
 
-export { resolveEntry, entryPath, parseMatrix };
+export { resolveEntry, entryPath, parseMatrix, isMatrixIndexable };
 export {
   ProfessionSlug,
   ToolSlug,

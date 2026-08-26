@@ -1,5 +1,5 @@
 import { readFileSync, existsSync } from 'fs';
-import { MATRIX, entryPath } from '../seo-data/matrix/index.mjs';
+import { MATRIX, entryPath, isMatrixIndexable } from '../seo-data/matrix/index.mjs';
 import { DefaultConfigSchema } from '../seo-data/matrix/schema.mjs';
 
 function esc(s) {
@@ -33,6 +33,9 @@ for (const e of MATRIX) {
     ['h1', html.includes(`>${esc(e.h1)}<`)],
     ['assistant-abs', !html.includes('src="js/focus-assistant.js"')],
   ];
+  if (e.indexable === false) {
+    need.push(['noindex', /name="robots"\s+content="noindex,\s*follow"/i.test(html)]);
+  }
   const bad = need.filter(([, v]) => !v).map(([k]) => k);
   const m = html.match(/id="vt-page-config">([^<]+)</);
   if (!m) {
@@ -72,22 +75,35 @@ for (const e of MATRIX) {
 }
 
 const sitemap = readFileSync('sitemap.xml', 'utf8');
-const inSitemap = MATRIX.filter((e) =>
+const indexable = MATRIX.filter(isMatrixIndexable);
+const nonIndexable = MATRIX.filter((e) => !isMatrixIndexable(e));
+const inSitemap = indexable.filter((e) =>
   sitemap.includes(`https://velotools.app${entryPath(e)}`),
 ).length;
+const nonIndexableInSitemap = nonIndexable.filter((e) =>
+  sitemap.includes(`<loc>https://velotools.app${entryPath(e)}</loc>`),
+);
+
+if (nonIndexableInSitemap.length) {
+  fails.push(
+    `non-indexable still in sitemap: ${nonIndexableInSitemap.map((e) => entryPath(e)).join(', ')}`,
+  );
+}
 
 console.log(
   JSON.stringify(
     {
       rule: 'EVERY page unique at any scale (30 / 2000 / 10000)',
       matrixEntries: MATRIX.length,
+      indexableEntries: indexable.length,
+      nonIndexableEntries: nonIndexable.length,
       uniqueTitles: titles.size,
       uniqueH1s: h1s.size,
       uniqueLeads: leads.size,
       htmlPagesOk: ok,
       htmlFails: fails,
       inSitemap,
-      notInSitemapYet: MATRIX.length - inSitemap,
+      notInSitemapYet: indexable.length - inSitemap,
       hydrateExists: existsSync('focus/js/pseo-hydrate.js'),
       cursorignore: existsSync('.cursorignore'),
       worker: existsSync('scripts/indexing-worker/index.mjs'),
@@ -97,3 +113,5 @@ console.log(
     2,
   ),
 );
+
+if (fails.length) process.exitCode = 1;
