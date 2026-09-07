@@ -96,7 +96,7 @@
         if (S.origImg) _livePreview();
       }
       U.bindRangeInput(qsl, onQualityChange);
-      _sliderUI(qsl, $('v-qnum'), '80%');
+      _sliderUI(qsl, $('v-qnum'), S.quality + '%');
     }
 
     var cqsl = $('v-conv-qsl');
@@ -107,7 +107,7 @@
         if (S.origImg) _livePreview();
       }
       U.bindRangeInput(cqsl, onConvQualityChange);
-      _sliderUI(cqsl, $('v-conv-qnum'), '80%');
+      _sliderUI(cqsl, $('v-conv-qnum'), S.quality + '%');
     }
 
     var efsl = $('v-effort-sl');

@@ -60,12 +60,14 @@
 
     if (w.quality != null) {
       S.quality = w.quality;
-      var sq = $('sl-quality');
-      var sq2 = $('sl-quality-2');
+      var sq = $('v-qsl');
+      var sq2 = $('v-conv-qsl');
       if (sq) sq.value = w.quality;
       if (sq2) sq2.value = w.quality;
-      var qv = $('quality-val');
+      var qv = $('v-qnum');
+      var qv2 = $('v-conv-qnum');
       if (qv) qv.textContent = w.quality + '%';
+      if (qv2) qv2.textContent = w.quality + '%';
     }
 
     if (w.format === 'jpeg') {
@@ -103,8 +105,8 @@
     if (w.lock) {
       w.lock.forEach(function (key) {
         if (key === 'quality') {
-          lockEl($('sl-quality'));
-          lockEl($('sl-quality-2'));
+          lockEl($('v-qsl'));
+          lockEl($('v-conv-qsl'));
         }
         if (key === 'dimensions') {
           lockEl($('v-rw'));
