@@ -71,11 +71,12 @@
     "formatIn": "jpg",
     "formatOut": "jpg",
     "publishStatus": "published",
-    "title": "Image Resizer for Ozon — 900×1200, 3:4, 10 MB | VeloTools",
-    "description": "Crop Ozon product cards to a locked 900×1200 (3:4) JPEG at quality 80 with a 10 MB checker — local browser only, no account.",
-    "h1": "Image resizer for Ozon product cards",
+    "seoTrustTransforms": true,
+    "title": "Ozon Image Resizer — Prepare Product Photos Locally | VeloTools",
+    "description": "Prepare an Ozon product photo with VeloTools’ 3:4 portrait working preset. Crop and export locally, then verify current seller requirements before upload.",
+    "h1": "Image resizer for Ozon",
     "h1Em": "Ozon",
-    "heroLead": "Western square exports letterbox on Ozon’s portrait cards. Lock 3:4 at 900×1200 with JPEG 80 here, confirm under 10 MB, then upload the card photo yourself.",
+    "heroLead": "Start from VeloTools’ 3:4 portrait working preset, adjust the crop, export locally, and check the current Ozon seller requirements before upload.",
     "widget": {
       "aspectRatio": 0.75,
       "outputWidth": 900,
@@ -90,10 +91,12 @@
         "dimensions",
         "quality"
       ],
-      "limitWarning": "Output exceeds Ozon 10 MB limit.",
+      "limitWarning": "Output exceeds this page’s 10 MB working target — check current Ozon seller requirements before upload.",
       "activePanel": "compress"
     },
-    "intentBanner": "Ozon mode: 3:4 · 900×1200 px · JPEG 80% · 10 MB checker",
+    "intentBanner": "VeloTools Ozon working preset: 3:4 · 900×1200 px · JPEG 80% · verify current requirements",
+    "experienceTitle": "From the builder: checking a portrait Ozon export",
+    "experienceLead": "I use this preset to normalize mixed product shots into one portrait review batch. I keep the source master, inspect Cyrillic packaging text and top-to-bottom clearance in the downloaded JPEG, then check the current Ozon seller screen before uploading.",
     "publishedAt": "2026-07-06"
   },
   {
@@ -302,11 +305,12 @@
     "formatIn": "jpg",
     "formatOut": "jpg",
     "publishStatus": "published",
-    "title": "Image Resizer for AliExpress — 800×800 Square, 5 MB | VeloTools",
-    "description": "Downscale AliExpress listing stills to 800×800 at JPEG 75 with a hard 5 MB checker — local browser resize before seller upload.",
-    "h1": "Image resizer for AliExpress product stills",
+    "seoTrustTransforms": true,
+    "title": "AliExpress Image Resizer — Prepare Listing Photos Locally | VeloTools",
+    "description": "Prepare an AliExpress listing photo with VeloTools’ square working preset. Resize locally, then verify current seller requirements before upload.",
+    "h1": "Image resizer for AliExpress",
     "h1Em": "AliExpress",
-    "heroLead": "Studio RAW exports blow past AliExpress weight caps. Lock an 800×800 square at quality 75 with a 5 MB warning so listing rails accept the file on the first try.",
+    "heroLead": "Start from VeloTools’ 800×800 square working preset, adjust the crop, export locally, and check the current AliExpress seller requirements before upload.",
     "widget": {
       "aspectRatio": 1,
       "outputWidth": 800,
@@ -321,10 +325,12 @@
         "dimensions",
         "quality"
       ],
-      "limitWarning": "Output exceeds AliExpress 5 MB limit — lower quality.",
+      "limitWarning": "Output exceeds this page’s 5 MB working target — check current AliExpress seller requirements before upload.",
       "activePanel": "compress"
     },
-    "intentBanner": "AliExpress mode: 1:1 · 800×800 px · JPEG 75% · 5 MB checker",
+    "intentBanner": "VeloTools AliExpress working preset: 1:1 · 800×800 px · JPEG 75% · verify current requirements",
+    "experienceTitle": "From the builder: a square AliExpress handoff",
+    "experienceLead": "Supplier folders arrive with uneven crops and repeatedly compressed previews. I use this page to make a clearly named square review copy, inspect stitching, logos, and variant framing, and only then compare it with the current AliExpress seller requirements.",
     "publishedAt": "2026-08-08"
   },
   {

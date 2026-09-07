@@ -635,11 +635,11 @@
   {
     "slug": "compress-pdf-for-google-classroom",
     "platform": "google-classroom",
-    "title": "Compress PDF for Google Classroom — Homework That Opens on Phones | VeloTools",
-    "description": "Classroom PDF too heavy for the app? Screen-compress homework locally with a practical size path — no upload to VeloTools, then submit in Classroom.",
-    "h1": "Shrink Classroom homework PDFs students can actually open",
+    "title": "Compress PDF for Google Classroom — Private, No Upload | VeloTools",
+    "description": "Compress a PDF before submitting it to Google Classroom. Use a local Screen and grayscale preset, inspect the result, then upload it yourself.",
+    "h1": "Compress PDF for Google Classroom",
     "h1Em": "Google Classroom",
-    "heroLead": "Classroom may allow large Drive files, but phone apps stall on bloated scans. This URL locks a Screen preset so tonight’s PDF opens after you submit.",
+    "heroLead": "Reduce a homework or worksheet PDF locally with a Screen and grayscale preset, inspect the downloaded copy, then submit it to Classroom yourself.",
     "widget": {
       "preset": "screen",
       "quality": 44,
@@ -652,9 +652,9 @@
         "preset",
         "dpi"
       ],
-      "limitWarning": "Still huge for phones — remove blank pages or split the lab appendix."
+      "limitWarning": "Above this page’s 15 MB working target — check the current assignment requirements, remove blank pages, or split the PDF."
     },
-    "intentBanner": "Classroom mode: Screen + grayscale (72 DPI · 44%) · mobile-friendly target",
+    "intentBanner": "Classroom working preset: Screen + grayscale · 72 DPI · 44% JPEG · verify before submitting",
     "tool": "compress-pdf",
     "toolMode": "compress",
     "formatIn": "pdf",

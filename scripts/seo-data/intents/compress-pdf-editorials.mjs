@@ -1218,70 +1218,44 @@ export const COMPRESS_PDF_EDITORIALS = {
   },
 
   'compress-pdf-for-google-classroom': {
-    "securityH2": "Submit to Classroom without a detour through a compress host",
-    "securityHtml": "<p>A Google Classroom deadline is stressful enough without also trusting a graded worksheet to a random online shrinker. This page keeps the assignment on the student’s device: the browser rewrites the pages with a Screen grayscale preset, and the file goes straight from the download folder into Classroom.</p>\n<p>Handwritten homework, quiz photos, and lab notes never pass through our servers. They live in tab memory until the tab closes, which matters when a phone holds a child’s name on every page.</p>\n<p>Because Classroom rides on Drive-sized ceilings, the goal here is not a hard byte cap but openability: a copy light enough that the teacher’s phone actually renders it in the Classroom app instead of spinning.</p>",
-    "problemH2": "Why Classroom homework opens slowly even when it uploads",
-    "problemHtml": "<p>Classroom will happily accept a large Drive-backed file, so students rarely see a blunt “too large” error. The failure surfaces later, when a teacher grading on a phone taps a full-colour, high-DPI scan and watches it crawl toward a <strong>~15 MB</strong> practical wall before rendering.</p>\n<p>The camera is the villain again. A worksheet shot at twelve megapixels and left in colour is enormous relative to its information, and a stack of those pages turns one homework set into a sluggish download for everyone in the class.</p>\n<p>This URL assumes that quiet failure on purpose: grayscale plus a lower resolution so tonight’s submission opens quickly in the app, not so it survives as a print portfolio.</p>",
-    "stepsH2": "Making a Classroom submission open on a teacher’s phone",
-    "steps": [
-      "Drop in the homework scan; Screen mode with grayscale is already locked because worksheet photos rarely need colour.",
-      "Run Compress All and watch the gauge settle toward the practical ~15 MB openability target before you download.",
-      "Submit the download in Classroom, and if it still drags, delete blank pages or split a long lab appendix into parts."
+    securityH2: 'Compress a Classroom PDF without uploading it to VeloTools',
+    securityHtml: `<p>Homework and worksheets can contain names, grades, or handwritten notes. This page processes the PDF inside the browser, so VeloTools does not receive the document bytes.</p>
+<p>After compression, inspect the downloaded copy and upload it to Google Classroom yourself.</p>`,
+    problemH2: 'A Classroom-ready copy with less file weight',
+    problemHtml: `<p>Camera scans and image-heavy worksheets can produce larger PDFs than the document needs. This page starts with a Screen, grayscale preset intended for readable homework copies.</p>
+<p>It does not claim an official Google Classroom size limit. Assignment settings can vary, so check the current instructions shown by your class before submitting.</p>`,
+    stepsH2: 'Compress a PDF before submitting it to Classroom',
+    steps: [
+      'Drop the PDF into the tool; the Classroom page starts with Screen, grayscale, 72 DPI, and 44% JPEG quality.',
+      'Run Compress All, compare the before-and-after size, and open the downloaded PDF to check text, handwriting, and diagrams.',
+      'Upload the checked copy to Classroom. If the assignment allows parts and the file is still unwieldy, remove blank pages or split it first.',
     ],
-    "specsH2": "Classroom-oriented defaults on this URL",
-    "specs": [
-      [
-        "Problem it solves",
-        "Classroom PDF slow to open on phones"
-      ],
-      [
-        "Practical target",
-        "~15 MB for app openability"
-      ],
-      [
-        "Preset",
-        "Screen + grayscale · 72 DPI"
-      ],
-      [
-        "Colour",
-        "Dropped to cut worksheet-photo bulk"
-      ],
-      [
-        "Privacy",
-        "Local only — you submit to Classroom"
-      ],
-      [
-        "Sibling pages",
-        "Brightspace · Schoology · Canvas"
-      ]
+    specsH2: 'Defaults used by this Classroom working preset',
+    specs: [
+      ['Job', 'Prepare a smaller Classroom submission copy'],
+      ['Preset', 'Screen + grayscale · 72 DPI'],
+      ['JPEG quality', '44%'],
+      ['Size indicator', '15 MB working target, not an official platform limit'],
+      ['Privacy', 'Local browser processing'],
+      ['Final check', 'Review the PDF and current assignment requirements'],
     ],
-    "presetH2": "Why Classroom mode forces Screen plus grayscale",
-    "presetHtml": "<p>Pencil homework reads perfectly well in gray, so forcing monochrome and a Screen DPI target removes the camera’s colour bloat while keeping strokes legible when a teacher zooms in to grade. The result is a file that renders almost instantly in the Classroom mobile app.</p>\n<p>If an instructor explicitly asked for colour figures and confirmed the class can handle larger files, this is the wrong page — reach for a milder colour preset elsewhere rather than fighting a phone-openability goal with rainbow scans.</p>",
-    "deepH2": "Classroom sits on Drive ceilings but grades on phones",
-    "deepHtml": "<p>The tension on this page is that Classroom inherits generous <strong>Drive</strong> storage limits while the actual reader is a teacher thumbing through submissions on a handset. Optimising for the app, not the marketing ceiling, is what keeps a grade queue moving.</p>\n<p>Other learning platforms enforce blunt caps instead, so match the URL to the system: <a href=\"/compress-pdf-for-brightspace/\">Brightspace’s ~10 MB page</a>, <a href=\"/compress-pdf-for-schoology/\">Schoology’s harsh ~5 MB page</a>, or the classic <a href=\"/compress-pdf-for-canvas/\">Canvas</a> route. Exam-style bubble scans belong on <a href=\"/compress-pdf-for-gradescope/\">the Gradescope page</a> where contrast is preserved.</p>\n<p>When a single lab report is enormous, break it up with <a href=\"/split-pdf/\">Split PDF</a> before submitting, or run one more pass on <a href=\"/compress-pdf/\">Compress PDF</a>.</p>\n<p>The rest of the classroom toolkit — reorder, merge, unlock — lives under <a href=\"/pdf-tools/\">PDF tools</a>.</p>",
-    "faqH2": "Google Classroom PDF submission questions",
-    "faq": [
-      {
-        "q": "Classroom accepted my PDF but the teacher says it will not open — why?",
-        "a": "Classroom rides on Drive ceilings, so upload succeeds while a heavy colour scan still crawls on a grading phone. Compressing to the practical openability target fixes the render, not the upload."
-      },
-      {
-        "q": "Will my teacher mind that the homework turned grayscale?",
-        "a": "For handwritten worksheets, almost never. If the assignment needs colour diagrams, ask first and use a colour preset on a platform with room to spare."
-      },
-      {
-        "q": "Does submitting here send my homework to VeloTools?",
-        "a": "No. The shrink is entirely in your browser. Only you submit the finished file into Google Classroom afterward."
-      },
-      {
-        "q": "Can I hand in several smaller PDFs instead of one big file?",
-        "a": "If the assignment allows multiple attachments, split first and submit the parts. Otherwise keep one file light enough to open quickly."
-      },
-      {
-        "q": "The scan looks faint after compressing — what now?",
-        "a": "Zoom a sample page after download. If pencil is too light, recompress once at slightly higher quality on Compress PDF while watching the openability target."
-      }
-    ]
+    presetH2: 'Why this page starts with Screen and grayscale',
+    presetHtml: `<p>Screen resolution and grayscale reduce image data in photographed worksheets. That trade-off can make colour diagrams or faint pencil marks less clear, so review the result before submitting.</p>
+<p>If colour is part of the assignment, use the main <a href="/compress-pdf/">Compress PDF</a> page and choose a colour-preserving setting.</p>`,
+    deepH2: 'When the first pass is not enough',
+    deepHtml: `<p>Remove blank pages before compressing, and split a long appendix only when the assignment accepts multiple files. Do not keep recompressing after handwriting or diagrams become hard to read.</p>
+<p>Review a representative page at normal size and zoomed in. Pencil strokes, subscripts, chart legends, coloured annotations, and signatures are the first details to suffer under a strong grayscale pass. If any of those carry meaning, return to the original and choose a milder colour setting instead of recompressing the already reduced copy.</p>
+<p>Keep the original submission beside the compressed version until grading is complete. Give the smaller copy a clear filename, confirm that every expected page is present, and open it in a second PDF viewer when the deadline allows. Compression changes page images; it should not become the only copy of coursework you cannot recreate.</p>
+<p>The 15 MB indicator is simply a visible workflow checkpoint selected by VeloTools. A file above it may still be accepted, and a file below it may still violate an assignment rule. The current Classroom interface and the instructor’s directions decide what can be submitted.</p>
+<p>Use <a href="/split-pdf/">Split PDF</a> for accepted multi-file submissions, <a href="/merge-pdf/">Merge PDF</a> to restore the requested order, or return to <a href="/pdf-tools/">PDF tools</a> for another document job.</p>`,
+    faqH2: 'Google Classroom PDF submission questions',
+    faq: [
+      { q: 'Does this page know my Classroom assignment limit?', a: 'No. This page uses a VeloTools working target, not an official or assignment-specific limit. Check the current requirements in Classroom before submitting.' },
+      { q: 'Will grayscale be suitable for every assignment?', a: 'No. Keep colour when it carries meaning, then use a less aggressive setting on the main Compress PDF page.' },
+      { q: 'Does compression send my homework to VeloTools?', a: 'No. Processing runs in the browser; you upload the downloaded copy to Classroom yourself.' },
+      { q: 'What should I check after compression?', a: 'Open the downloaded PDF and inspect small text, handwriting, diagrams, page order, and the actual file size before submitting.' },
+      { q: 'What if one PDF is still too large?', a: 'Remove blank pages or split the document only if the assignment accepts multiple attachments. Otherwise preserve legibility and follow the assignment instructions.' },
+    ],
   },
 
   'compress-pdf-for-brightspace': {

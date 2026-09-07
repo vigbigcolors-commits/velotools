@@ -116,58 +116,46 @@ export const IMAGE_RESIZER_EDITORIALS = {
   },
 
   'image-resizer-for-ozon': {
-    securityH2: 'Resize Ozon card photos without sending them to a cloud editor',
-    securityHtml: `<p>Ozon product cards travel through seller cabinets that already host your catalog. Adding another upload hop to shrink photos is optional risk. This page crops to a locked <strong>900×1200</strong> (3:4) frame, writes JPEG at quality <strong>80</strong>, and warns past <strong>10 MB</strong> — all inside your browser tab.</p>
-<p>Seasonal drafts and price-test creatives never touch VeloTools servers.</p>`,
-    problemH2: 'Landscape phone shots that Ozon’s 3:4 card rejects',
-    problemHtml: `<p>Western square exports look cropped or letterboxed on Ozon’s portrait-first cards. A 1:1 Amazon master leaves empty bands or chops packaging text when the cabinet expects <strong>3:4</strong>. Oversized studio TIFFs also trip weight limits even when the composition is correct.</p>
-<p>We lock <strong>900×1200</strong> because that ratio matches how many Ozon category cards render on mobile. Quality <strong>80</strong> keeps Cyrillic labels on boxes readable without pampering a 40 MB dump from a tethered camera.</p>
-<p>Shipping the same SKU to Wildberries? Use the sibling <a href="/image-resizer-for-wildberries/">Wildberries 900×1200</a> page (slightly different quality bias). Square markets stay on <a href="/image-resizer-for-amazon/">Amazon</a> or <a href="/image-resizer-for-aliexpress/">AliExpress</a>.</p>`,
-    stepsH2: 'Crop and export a 900×1200 Ozon product card',
+    securityH2: 'Prepare an Ozon product image without another cloud upload',
+    securityHtml: `<p>This page crops and exports the working copy inside your browser. VeloTools does not receive the product photo.</p>
+<p>The preset is a VeloTools starting point, not a statement of Ozon’s current official requirements.</p>`,
+    problemH2: 'Turn a mixed source photo into a consistent portrait export',
+    problemHtml: `<p>Catalog teams often receive square, landscape, and oversized source images. This page starts with a 3:4 portrait crop at 900×1200 and JPEG quality 80 so a batch can share one repeatable working format.</p>
+<p>Adjust the crop to keep the product and packaging text inside the frame, then verify the current Ozon seller rules before upload.</p>`,
+    stepsH2: 'Create an Ozon working export',
     steps: [
-      'Drop the photo — 3:4 aspect and 900×1200 output are locked for Ozon cards.',
-      'Slide the crop so the hero product sits high enough for mobile thumbs, then process.',
-      'Download under the 10 MB check and upload in your Ozon seller tools; reuse masters via Image Compress if needed.',
+      'Drop the original photo and position the subject inside the 3:4 crop.',
+      'Process the 900×1200 JPEG 80 working preset and inspect small labels and edges.',
+      'Download the image, confirm the current Ozon seller requirements, and upload it yourself.',
     ],
-    specsH2: 'Ozon product-card dimensions locked on this URL',
+    specsH2: 'VeloTools Ozon working preset',
     specs: [
-      ['Problem it solves', 'Ozon card wrong ratio / heavy file'],
+      ['Job', 'Prepare a consistent portrait product image'],
       ['Output', '900×1200 px, 3:4 portrait'],
       ['JPEG quality', '80'],
-      ['Size check', '10 MB'],
-      ['Privacy', 'No upload during resize'],
-      ['Sister page', 'Wildberries (same geometry, q79)'],
+      ['Size indicator', '10 MB working target, not an official platform limit'],
+      ['Privacy', 'Local browser processing'],
+      ['Final check', 'Verify current seller requirements'],
     ],
-    presetH2: 'How the Ozon 3:4 JPEG 80% pack balances RU catalog weight',
-    presetHtml: `<p>Portrait cards dominate Ozon’s mobile grid. Quality <strong>80</strong> is tuned for that grid: enough acuity for ingredient panels and brand marks, enough compression for cellular PDP loads. The <strong>10 MB</strong> checker catches forgotten RAW-to-JPEG mistakes before the cabinet rejects them.</p>
-<p>Prefer a softer encode for denser WB traffic? Open <a href="/image-resizer-for-wildberries/">Image Resizer for Wildberries</a>. Need English-market squares afterward? Jump to <a href="/image-resizer-for-ebay/">eBay</a> or <a href="/image-resizer-for-shopify/">Shopify</a>.</p>`,
-    deepH2: 'Portrait cards on Ozon versus square Western marketplaces',
-    deepHtml: `<p>Copying an Amazon <strong>2000×2000</strong> file into Ozon is the fastest way to waste margin space. The card chrome expects taller art; square masters force awkward auto-crops that hide lids and neck labels. Start from the full-frame studio shot, then crop to <strong>900×1200</strong> here.</p>
-<p>Text on packaging matters. If Cyrillic becomes blocky, re-export once from a sharper master rather than upscaling a small phone crop. The preset will not invent detail that was never captured.</p>
-<p>Multi-marketplace teams should maintain a portrait master and a square master. Portrait siblings: <a href="/image-resizer-for-ozon/">Ozon</a> and <a href="/image-resizer-for-wildberries/">Wildberries</a>. Square siblings: <a href="/image-resizer-for-amazon/">Amazon</a>, <a href="/image-resizer-for-walmart/">Walmart</a>, <a href="/image-resizer-for-tiktok-shop/">TikTok Shop</a>. Compress-only cleanup: <a href="/image-compress/">Image Compress</a>. Spec sheets: <a href="/pdf-tools/">PDF tools</a>.</p>
-<p>Close the tab after download if the shoot includes unreleased SKUs.</p>`,
-    faqH2: 'Ozon image requirements sellers dig into',
+    presetH2: 'What the portrait preset changes',
+    presetHtml: `<p>The crop converts a mixed source library into a consistent 3:4 frame, then encodes the result as JPEG. This is lossy, so keep the original master and inspect packaging text after export.</p>
+<p>Use <a href="/image-compress/">Image Compress</a> when you only need to reduce bytes without adopting this crop.</p>`,
+    deepH2: 'Keep one master and create channel-specific copies',
+    deepHtml: `<p>Do not repeatedly resize a previously exported marketplace image. Keep the highest-quality original, then derive each delivery copy from that master.</p>
+<p>For a portrait crop, check clearance above tall packaging, below shoes or furniture legs, and around any label that must remain readable. A crop that looks balanced in the large editor can feel cramped as a small catalog tile. Use the preview to compare the full frame with the chosen crop before processing.</p>
+<p>Inspect the downloaded JPEG rather than relying only on the editor preview. Look for stair-stepped diagonal edges, halos around white products, softened Cyrillic text, colour shifts, and clipped shadows. If the result is visibly damaged, return to the original master and make one new export with a less aggressive quality setting.</p>
+<p>Use a filename that preserves the SKU and view, such as front, side, or detail, before the file reaches the seller workflow. Consistent names prevent the correct portrait crop from being attached to the wrong variation. The tool changes pixels but does not validate catalog IDs, product claims, backgrounds, or marketplace policy.</p>
+<p>The 10 MB indicator is a VeloTools workflow target. It is useful for spotting an unexpectedly heavy export, but it is not proof that Ozon will accept the image. Check format, dimensions, subject rules, and any category-specific instructions in the current seller interface.</p>
+<p>Portrait composition varies by product shape. Bottles and tall cartons need headroom around caps; shoes need space below the sole; apparel needs enough frame to preserve the silhouette; furniture may need a wider source crop before it can survive a 3:4 cut. Review those edges per SKU instead of copying one crop position across the batch.</p>
+<p>When the product is pale against a light background, inspect the downloaded file on both white and neutral gray. That quick check reveals clipped highlights and disappearing edges that are easy to miss in a dark editor. If the outline vanishes, correct the source lighting or background separation before another export.</p>
+<p>For another portrait working preset, see <a href="/image-resizer-for-wildberries/">Wildberries</a>. For a square working copy, use <a href="/image-resizer-for-aliexpress/">AliExpress</a>. Current platform rules remain the final authority.</p>`,
+    faqH2: 'Ozon image-resizer questions',
     faq: [
-      {
-        q: 'What resolution should Ozon product card images use?',
-        a: 'This page locks 900×1200 pixels at a 3:4 ratio with JPEG quality 80 and a 10 MB size check — a practical card-ready export for seller uploads.',
-      },
-      {
-        q: 'Can I upload my Amazon square photo to Ozon as-is?',
-        a: 'You can try, but the card layout is portrait-first. Recrop to 3:4 so lids and labels are not clipped by automatic framing.',
-      },
-      {
-        q: 'Does VeloTools store my Ozon catalog photos?',
-        a: 'No. The resize happens locally in the browser; only you upload the finished JPEG to Ozon.',
-      },
-      {
-        q: 'How is this different from the Wildberries resizer?',
-        a: 'Geometry matches (900×1200, 3:4), but Wildberries mode uses JPEG quality 79. Pick the page that matches the cabinet you are filling today.',
-      },
-      {
-        q: 'My file is still too heavy after 900×1200 — what next?',
-        a: 'Strip EXIF-heavy exports, avoid PNG, or run a second compress pass on Image Compress while keeping the same pixel box.',
-      },
+      { q: 'Are 900×1200 and 10 MB official Ozon requirements?', a: 'No. They are VeloTools working defaults on this page. Verify the current requirements in Ozon seller tools before upload.' },
+      { q: 'Does VeloTools store my product photo?', a: 'No. The resize runs locally in the browser; you upload the downloaded image yourself.' },
+      { q: 'Should I keep the original image?', a: 'Yes. The crop and JPEG encode are lossy, so retain the original master for future exports.' },
+      { q: 'How should I review the portrait export?', a: 'Open the downloaded JPEG and inspect top and bottom clearance, small Cyrillic packaging text, shadows, colour, file size, and the current seller requirements.' },
+      { q: 'What if I only need a smaller file?', a: 'Use Image Compress to keep the existing geometry while adjusting the encode.' },
     ],
   },
 
@@ -508,58 +496,46 @@ export const IMAGE_RESIZER_EDITORIALS = {
   },
 
   'image-resizer-for-aliexpress': {
-    securityH2: 'Cross-border listing shots resize in-tab before AliExpress upload',
-    securityHtml: `<p>Supplier negotiations and pre-launch SKUs should not linger on public compress websites. Scale to a locked <strong>800×800</strong> square at JPEG quality <strong>75</strong>, under a firm <strong>5 MB</strong> check, using only your browser — then upload into AliExpress when ready.</p>
-<p>Close the tab; the working copy is gone from our perspective because it never arrived, even during late-night bulk listing sessions.</p>`,
-    problemH2: 'Overweight studio RAW exports that AliExpress caps hard',
-    problemHtml: `<p>Cross-border sellers inherit glamorous 4000 px factory photos that casually exceed <strong>5 MB</strong> after careless PNG conversion. AliExpress main images, meanwhile, often behave well at a modest <strong>800×800</strong> square — smaller than Amazon — so shipping giant files only slows the cabinet and burns mobile data for overseas buyers.</p>
-<p>Quality <strong>75</strong> is the most aggressive square preset in this set on purpose: bandwidth to global buyers matters, and the pixel box is smaller, so you can afford a stronger encode without looking softer than a 2000 px competitor shot on a phone screen.</p>
-<p>Higher-tier Western markets still want bigger masters — <a href="/image-resizer-for-amazon/">Amazon 2000</a>, <a href="/image-resizer-for-walmart/">Walmart 2000</a>, <a href="/image-resizer-for-ebay/">eBay 1600</a>. Social: <a href="/image-resizer-for-instagram/">Instagram</a>.</p>`,
-    stepsH2: 'Shrink to AliExpress 800×800 without a cloud hop',
+    securityH2: 'Prepare an AliExpress listing image without another cloud upload',
+    securityHtml: `<p>This page crops and exports the working copy inside your browser. VeloTools does not receive supplier or pre-launch product photos.</p>
+<p>The square preset is a VeloTools starting point, not a statement of AliExpress’s current official requirements.</p>`,
+    problemH2: 'Create a consistent square copy from uneven source images',
+    problemHtml: `<p>Supplier images often arrive with different dimensions, framing, and file weights. This page starts with an 800×800 square crop at JPEG quality 75 so listing copies share one repeatable working format.</p>
+<p>Center the product with enough space around the edges, inspect small details after encoding, and verify the current AliExpress seller rules before upload.</p>`,
+    stepsH2: 'Create an AliExpress working export',
     steps: [
-      'Drop the supplier or studio file — 800×800 and 1:1 are locked with quality 75 for AliExpress mains.',
-      'Center the product on a clean ground so small thumbs remain recognizable, then process.',
-      'Download only under 5 MB and upload; keep a larger master elsewhere for Amazon-class channels.',
+      'Drop the original photo and position the subject inside the square crop.',
+      'Process the 800×800 JPEG 75 working preset and inspect logos, stitching, and small text.',
+      'Download the image, confirm the current AliExpress seller requirements, and upload it yourself.',
     ],
-    specsH2: 'AliExpress main image locks',
+    specsH2: 'VeloTools AliExpress working preset',
     specs: [
-      ['Problem it solves', 'AliExpress image too heavy / wrong square'],
-      ['Output', '800×800 px, 1:1'],
+      ['Job', 'Prepare a consistent square listing image'],
+      ['Output', '800×800 px, 1:1 square'],
       ['JPEG quality', '75'],
-      ['Size check', '5 MB'],
-      ['Privacy', 'Browser-only resize'],
-      ['Compare', 'TikTok Shop also 800 / q77'],
+      ['Size indicator', '5 MB working target, not an official platform limit'],
+      ['Privacy', 'Local browser processing'],
+      ['Final check', 'Verify current seller requirements'],
     ],
-    presetH2: 'JPEG 75 and 5 MB — the AliExpress bandwidth tradeoff',
-    presetHtml: `<p>At <strong>800</strong> pixels, quality <strong>75</strong> still reads clearly on phones while respecting a strict <strong>5 MB</strong> envelope that catches mistaken full-bleed PNGs. It is not the preset for print catalogs; it is the preset for fast cross-border cards.</p>
-<p>TikTok Shop uses the same pixel box with a slightly softer <a href="/image-resizer-for-tiktok-shop/">quality 77</a>. Google’s preferred square is larger — see <a href="/image-resizer-for-google-merchant/">1500×1500 Merchant</a>.</p>`,
-    deepH2: '800 px floors, white grounds, and multi-market reuse',
-    deepHtml: `<p>AliExpress thumbs are tiny in search. Contrast beats subtle styling: place the SKU large in the <strong>800×800</strong> frame with simple grounds so the silhouette survives next to denser competitor cards. Fine jewelry may need a tighter crop than apparel so clasps remain obvious.</p>
-<p>Never upscale a 400 px supplier thumbnail and expect miracles. Source a real optical master, then downscale here. Re-encoding an already crunchy marketplace download compounds blockiness around logos and stitching.</p>
-<p>Pipeline idea: archive a 2000-class master, then derive <a href="/image-resizer-for-aliexpress/">AliExpress 800</a>, <a href="/image-resizer-for-tiktok-shop/">TikTok Shop 800</a>, <a href="/image-resizer-for-facebook/">Facebook 1200</a>, and <a href="/image-resizer-for-amazon/">Amazon 2000</a> as separate exports. Compress-only: <a href="/image-compress/">Image Compress</a>. Compliance PDFs: <a href="/pdf-tools/">PDF tools</a>.</p>
-<p>Watch color profiles from factories; convert to sRGB before final JPEG when skins or brand reds drift under mixed lighting from overseas studios. Then derive the 800 square here instead of stretching a phone screenshot from chat.</p>`,
-    faqH2: 'AliExpress image requirements — frequent seller questions',
+    presetH2: 'What the square preset changes',
+    presetHtml: `<p>The crop converts mixed source geometry into a square and encodes the result as JPEG. This is lossy, so keep the original master and check fine details after export.</p>
+<p>If the source is already correctly framed and only needs a lighter encode, use <a href="/image-compress/">Image Compress</a>.</p>`,
+    deepH2: 'Keep the master separate from marketplace copies',
+    deepHtml: `<p>Do not upscale a small downloaded thumbnail or repeatedly recompress an earlier export. Start from the best available source and derive a fresh channel copy.</p>
+<p>Square framing needs deliberate side clearance. Centering by canvas coordinates is not always the same as centering the visible product: a handle, cable, long sleeve, or cast shadow can shift the visual weight. Compare the crop at thumbnail size and leave breathing room for any destination-side trim.</p>
+<p>Inspect the downloaded JPEG for block artifacts around logos, stitching, jewellery edges, and thin typography. Factory images passed through messaging apps may already be compressed; encoding them again can expose damage that was hard to notice in the source. When that happens, request the original asset rather than sharpening a degraded copy.</p>
+<p>Keep colour-critical products tied to a reviewed master. Browser canvas export is intended for practical listing copies, not colour-managed print work. If a brand red, skin tone, or material finish shifts, fix the source colour workflow first and then derive a fresh square output.</p>
+<p>The 5 MB indicator is a VeloTools workflow target, not an acceptance guarantee. Confirm the current format, image count, prohibited overlays, category rules, and any seller-account-specific instructions in AliExpress before publishing the listing.</p>
+<p>For variant-heavy listings, export a repeatable sequence rather than a loose folder of squares. Keep the same crop scale for colour variants, name each copy with the seller SKU and view, and compare the grid side by side. A technically valid file can still create a poor catalog handoff when the blue item is framed tighter than the red one.</p>
+<p>Small products need a different review from apparel or appliances. Jewellery clasps, printed model numbers, and texture changes can disappear at the working output size even though the centered silhouette looks clean. Inspect one full-size download and one thumbnail before processing the rest of the supplier set.</p>
+<p>For another square working preset, compare <a href="/image-resizer-for-amazon/">Amazon</a> or <a href="/image-resizer-for-tiktok-shop/">TikTok Shop</a>. Current platform rules remain the final authority.</p>`,
+    faqH2: 'AliExpress image-resizer questions',
     faq: [
-      {
-        q: 'What main image size should I use on AliExpress?',
-        a: 'An 800×800 pixel square JPEG is the locked target here, at quality 75 with a 5 MB maximum check.',
-      },
-      {
-        q: 'Is resizing private for unreleased cross-border SKUs?',
-        a: 'Yes. Nothing is sent to VeloTools. You upload the download to AliExpress yourself.',
-      },
-      {
-        q: 'Why is quality only 75?',
-        a: 'The pixel box is smaller than Amazon-class markets, and the 5 MB gate is strict. Quality 75 keeps cards light for global buyers.',
-      },
-      {
-        q: 'Can I upload my 2000×2000 Amazon file instead?',
-        a: 'It may work, but you will often waste bytes. Downscale with this preset for snappier seller uploads and storefront loads.',
-      },
-      {
-        q: 'How does this differ from TikTok Shop’s 800×800 page?',
-        a: 'Same dimensions; TikTok Shop uses quality 77. Use the page that matches the destination cabinet.',
-      },
+      { q: 'Are 800×800 and 5 MB official AliExpress requirements?', a: 'No. They are VeloTools working defaults on this page. Verify the current requirements in AliExpress seller tools before upload.' },
+      { q: 'Does VeloTools store my AliExpress listing photo?', a: 'No. The AliExpress working copy is created inside your browser, and you decide when to upload the downloaded file to the seller portal.' },
+      { q: 'Why should I keep the original image?', a: 'The crop and JPEG encode are lossy. The original master is the safer source for future channel exports.' },
+      { q: 'How should I review the square export?', a: 'Open the downloaded JPEG and inspect side clearance, logos, stitching, small text, colour, file size, and the current AliExpress seller requirements.' },
+      { q: 'What if the source is already square?', a: 'Use this page for a consistent working copy, or use Image Compress when you only need to adjust file weight.' },
     ],
   },
 

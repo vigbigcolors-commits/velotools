@@ -108,6 +108,8 @@ export function buildCompressPdfPage(intent) {
 export function buildImageResizerPage(intent) {
   let html = readFileSync(join(root, 'image-compress', 'index.html'), 'utf8');
   const canonical = `${baseUrl}/${intent.slug}/`;
+  const metaDesc = buildMetaDescription(intent);
+  const applySeoTrustTransforms = intent.seoTrustTransforms === true;
 
   html = html.replace(/src="js\//g, 'src="/image-compress/js/');
   if (!html.includes('/pdf-core/shared.css')) {
@@ -120,7 +122,7 @@ export function buildImageResizerPage(intent) {
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(intent.title)}</title>`);
   html = html.replace(
     /<meta name="description" content="[^"]*">/,
-    `<meta name="description" content="${esc(buildMetaDescription(intent))}">`,
+    `<meta name="description" content="${esc(metaDesc)}">`,
   );
   html = html.replace(
     /<link rel="canonical" href="[^"]*">/,
@@ -133,8 +135,42 @@ export function buildImageResizerPage(intent) {
   );
   html = html.replace(
     /<meta property="og:description" content="[^"]*">/,
-    `<meta property="og:description" content="${esc(buildMetaDescription(intent))}">`,
+    `<meta property="og:description" content="${esc(metaDesc)}">`,
   );
+  if (applySeoTrustTransforms) {
+    const faqLd = JSON.stringify(buildFaqJsonLd(buildFaqForIntent(intent)));
+    const appLd = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: intent.title,
+      url: canonical,
+      description: metaDesc,
+      applicationCategory: 'MultimediaApplication',
+      operatingSystem: 'Any modern browser',
+      browserRequirements: 'Requires JavaScript enabled',
+      isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      featureList: [
+        'Local browser image processing',
+        'Crop and resize controls',
+        'JPEG export with quality control',
+        'Before and after size comparison',
+      ],
+    });
+
+    html = html.replace(
+      /<!-- ═══ SCHEMA 1:[\s\S]*?<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+      `<!-- SCHEMA: page-specific WebApplication -->\n<script type="application/ld+json">${appLd}</script>`,
+    );
+    html = html.replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${esc(intent.title)}">`);
+    html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(metaDesc)}">`);
+    html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="VeloTools image resize tool">');
+    html = html.replace(/<meta name="twitter:image:alt" content="[^"]*">/, '<meta name="twitter:image:alt" content="VeloTools image resize tool">');
+    html = html.replace(
+      /<!-- ═══ SCHEMA 3:[\s\S]*?<!-- ═══ PRELOAD \+ FONTS ═══ -->/,
+      `<!-- SCHEMA: page-specific FAQ -->\n<script type="application/ld+json">${faqLd}</script>\n\n<!-- ═══ PRELOAD + FONTS ═══ -->`,
+    );
+  }
   /* Pretty-printed WebApplication JSON-LD from image-compress template */
   html = html.replace(
     /("@type"\s*:\s*"WebApplication"[\s\S]*?"url"\s*:\s*")[^"]+(")/,
@@ -158,9 +194,12 @@ export function buildImageResizerPage(intent) {
 
   const edBlock = renderEditorial(intent, esc);
   if (html.includes('<!-- ░░ BLOCK 1')) {
+    const editorialReplacement = applySeoTrustTransforms
+      ? edBlock + '\n\n  </div>\n</section>\n\n<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->'
+      : edBlock + '\n\n<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->';
     html = html.replace(
       /<!-- ░░ BLOCK 1[\s\S]*?<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->/,
-      edBlock + '\n\n<!-- ░░ BLOCK 5 — FINAL CTA ░░ -->',
+      editorialReplacement,
     );
   } else if (html.includes('<section class="editorial"')) {
     const editorialStart = html.indexOf('<section class="editorial"');
@@ -174,6 +213,36 @@ export function buildImageResizerPage(intent) {
     }
   } else {
     throw new Error('image-compress editorial injection markers missing for ' + intent.slug);
+  }
+
+  if (applySeoTrustTransforms) {
+    html = html.replace('<li>Compress up to 90% smaller</li>', '<li>Compare actual before and after size</li>');
+    html = html.replace('<li>Convert to WebP (25–40% smaller)</li>', '<li>Convert to WebP</li>');
+    html = html.replace('<li>Convert to AVIF (50% smaller than JPG)</li>', '<li>Convert to AVIF</li>');
+    html = html.replace(
+      /<div class="v-hint v-hint-ac">💡[\s\S]*?<\/div>/,
+      '<div class="v-hint v-hint-ac">💡 <strong>WebP</strong> and <strong>AVIF</strong> are alternative output formats. Compare the actual preview and byte count because the result depends on the source image and selected settings.</div>',
+    );
+    html = html.replace(
+      /<div class="v-hint v-hint-ac">💡 <strong>WebP<\/strong> is[\s\S]*?<\/div>/,
+      '<div class="v-hint v-hint-ac">💡 Format changes are optional. Compare the preview and byte count, and keep the source master because re-encoding can remove image detail.</div>',
+    );
+    html = html.replace(
+      /<h2 class="vp-h2">Start compressing now<\/h2>[\s\S]*?<button class="vp-cta vp-cta-lg"/,
+      `<h2 class="vp-h2">Prepare the next image locally</h2>\n    <p class="vp-sub" style="margin-bottom:24px">Drop an image, review the crop and output settings, then verify the destination requirements before upload.</p>\n    <button class="vp-cta vp-cta-lg"`,
+    );
+  }
+  if (applySeoTrustTransforms && intent.experienceTitle && intent.experienceLead) {
+    html = html.replace(
+      /(<section class="vt-exp"[\s\S]*?<div class="vt-exp-kicker">)[\s\S]*?(<div class="vt-exp-links">)/,
+      `$1Human experience · Vigen G.</div>\n  <h2>${esc(intent.experienceTitle)}</h2>\n  <p>${esc(intent.experienceLead)}</p>\n  $2`,
+    );
+  }
+  if (applySeoTrustTransforms) {
+    html = html.replace(
+      '<a href="/methodology/">Methodology</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a>',
+      '<a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a>',
+    );
   }
 
   const inject =
