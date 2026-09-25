@@ -75,6 +75,15 @@ function workflow(routePath, label) {
   };
 }
 
+function fieldNoteHeading(routePath, label) {
+  const route = routePath.replace(/\/index\.html$/, '');
+  if (route.startsWith('compress-pdf-for-')) return `PDF field note: ${label}`;
+  if (route.startsWith('image-resizer-for-')) return `Image sizing field note: ${label}`;
+  if (route.startsWith('bgremover/for-')) return `Background removal field note: ${label}`;
+  if (/^tools\/.+\/focus-room/.test(route)) return `Focus workflow field note: ${label}`;
+  return `Field note: ${label}`;
+}
+
 export function renderPseoTrust(routePath) {
   const label = labelFromPath(routePath);
   const hub = parentHub(routePath);
@@ -84,7 +93,7 @@ export function renderPseoTrust(routePath) {
     experience: `
 <section class="vt-exp" id="builder-experience" data-pseo="${slug}" aria-label="Builder experience">
   <div class="vt-exp-kicker">Human experience · Vigen G.</div>
-  <h2>Field note: ${label}</h2>
+  <h2>${fieldNoteHeading(routePath, label)}</h2>
   <p>I keep this page because ${flow.job} kept failing with upload tools or generic presets. Here you ${flow.action}. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
   <div class="vt-exp-links"><a href="${hub}">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
 </section>`,
