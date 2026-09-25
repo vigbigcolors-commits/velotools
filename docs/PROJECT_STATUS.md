@@ -38,3 +38,5 @@
 Detailed evidence: [Revival audit](audits/VELOTOOLS_REVIVAL_AUDIT_2026-09-24.md)
 
 Permanent rules: [Engineering & SEO rules](specs/VELOTOOLS_ENGINEERING_SEO_RULES_V1.md)
+
+- 2026-09-25 — **P0-2 GA/privacy — CLOSED:** Google Analytics client-side code removed from the shipped site; Privacy and Terms aligned with the implementation. Google AdSense is not loaded in this release. Consent-dependent client-side analytics/advertising must not be introduced without updating implementation and disclosures.

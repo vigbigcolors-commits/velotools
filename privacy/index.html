@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy | VeloTools</title>
-<meta name="description" content="VeloTools Privacy Policy. All processing happens in your browser. Your files never leave your device. No upload, no tracking, no data collection.">
+<meta name="description" content="VeloTools Privacy Policy: how browser-side tool data, hosting requests and third-party assets are handled.">
 <link rel="canonical" href="https://velotools.app/privacy/">
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -123,9 +123,6 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .foot-copy{font-size:12px;color:var(--tx3)}
 @media(max-width:680px){.foot{padding:28px 20px}.foot-in{flex-direction:column;text-align:center}.foot-links{justify-content:center}}
 </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
-<script src="/js/analytics.js"></script>
 </head>
 <body>
 
@@ -197,7 +194,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
       </div>
       <div class="sc-item">
         <div class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><div class="sc-t">No Tracking</div><div class="sc-d">We don't track individuals. Anonymous aggregated analytics only.</div></div>
+        <div><div class="sc-t">No Google Analytics</div><div class="sc-d">The current site code does not load Google Analytics or another client-side product analytics script. Hosting and asset providers still process normal network requests.</div></div>
       </div>
     </div>
 
@@ -212,7 +209,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
           <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
           <div class="ib-text"><strong>The bottom line</strong>VeloTools is a client-side application. Every operation — image compression, invoice generation, QR code creation, background removal, PDF compression — happens entirely inside your web browser using JavaScript and the Web APIs. No file you open, edit, or export is ever transmitted to our servers or any third party. We do not store, process, or have access to your files.</div>
         </div>
-        <p>This Privacy Policy explains what limited information we do collect (basic anonymous analytics) and how we handle it in full compliance with the EU General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA), and Google's Publisher Policies.</p>
+        <p>This Privacy Policy explains how the current VeloTools site handles browser-side tool data and the technical network data involved in delivering the website. It describes the shipped implementation rather than making a blanket compliance guarantee.</p>
       </div>
     </section>
 
@@ -220,21 +217,14 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
     <section class="section" id="data-collection">
       <div class="section-hdr">
         <div class="section-num">02</div>
-        <h2 class="section-title">What Data We Collect</h2>
+        <h2 class="section-title">Technical Data Used to Serve the Site</h2>
       </div>
       <div class="section-body">
-        <p>We collect <strong>no personally identifiable information (PII)</strong>. We never ask for your name, email address, phone number, or any other identifying information. VeloTools does not require account creation.</p>
-        <p>The only data we receive is what your browser sends to any web server when you visit a website:</p>
-        <ul class="pp-list">
-          <li><strong>IP address</strong> — processed by our hosting provider (Cloudflare) to route traffic. We do not store or log individual IP addresses.</li>
-          <li><strong>Browser type and version</strong> — used in aggregate to improve compatibility.</li>
-          <li><strong>Referring URL</strong> — the page you came from, used in aggregate analytics.</li>
-          <li><strong>Pages visited and time on page</strong> — aggregated, never tied to an individual.</li>
-          <li><strong>Country/region</strong> — derived from IP at a country level only, used in aggregate.</li>
-        </ul>
+        <p>VeloTools does not require an account or ask you to provide a profile in order to use the tools.</p>
+        <p>When you load the website, hosting and asset providers may process standard network request information such as IP address, browser or user-agent information, requested URL, referrer, and timestamps as needed to deliver, secure, and troubleshoot the service. Their handling of that information is governed by their own policies.</p>
         <div class="info-box green">
           <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="ib-text"><strong>What we never collect</strong>File contents, file names, image data, invoice information, QR code data, form inputs, or any content you process using our tools. This data never leaves your device.</div>
+          <div class="ib-text"><strong>Tool data</strong>For tools described as browser-side or local processing, selected files and tool inputs are handled according to the behavior documented on that tool’s page.</div>
         </div>
       </div>
     </section>
@@ -264,18 +254,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <h2 class="section-title">Analytics</h2>
       </div>
       <div class="section-body">
-        <p>We use <strong>anonymous, aggregated analytics</strong> to understand how our tools are used and to improve the service. This may be provided by a privacy-focused analytics provider (such as Cloudflare Web Analytics or Plausible).</p>
-        <p>Our analytics approach:</p>
-        <ul class="pp-list">
-          <li>No persistent identifiers or cross-site tracking cookies.</li>
-          <li>Data is aggregated — we see totals, not individual user journeys.</li>
-          <li>No fingerprinting of browsers or devices.</li>
-          <li>Page views and tool usage counts help us decide which tools to improve.</li>
-        </ul>
-        <div class="info-box amber">
-          <div class="ib-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffcf5c" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-          <div class="ib-text"><strong>Your choice</strong>If we use Google Analytics in the future, it will be disclosed here first. You can always opt out of analytics tracking via your browser's "Do Not Track" setting or by using a browser extension such as uBlock Origin.</div>
-        </div>
+        <p>The website code in this release does not load Google Analytics or another client-side product analytics script.</p>
+        <p>If product analytics is introduced later, this policy and any required consent controls must be updated before that analytics code is activated.</p>
       </div>
     </section>
 
@@ -286,15 +266,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <h2 class="section-title">Advertising</h2>
       </div>
       <div class="section-body">
-        <p>VeloTools may display advertisements through <strong>Google AdSense</strong> to support our free service. By displaying ads, Google may use cookies and web beacons to serve ads based on your prior visits to our website or other websites on the internet.</p>
-        <p>Google's advertising practices:</p>
-        <ul class="pp-list">
-          <li>Google uses the DoubleClick cookie to serve ads based on browsing history.</li>
-          <li>Ad personalization uses data collected across websites using Google services.</li>
-          <li>You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">google.com/settings/ads</a>.</li>
-          <li>You can opt out via the Network Advertising Initiative at <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener">networkadvertising.org</a>.</li>
-        </ul>
-        <p>We comply with Google's EU User Consent Policy and obtain appropriate consent from users in the EEA and UK before serving personalized ads. We do not pass any personally identifiable information to Google AdSense.</p>
+        <p>The website code in this release does not load Google AdSense or another advertising network.</p>
+        <p>If advertising is enabled later, this policy and any required consent controls must be updated before the advertising code is activated.</p>
       </div>
     </section>
 
@@ -305,21 +278,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <h2 class="section-title">Third-Party Services</h2>
       </div>
       <div class="section-body">
-        <p>VeloTools uses a small number of third-party services to deliver the application. These services may collect limited technical data as part of their operation:</p>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
-          <div class="info-box" style="flex-direction:column;gap:8px">
-            <div style="display:flex;align-items:center;gap:10px"><strong style="color:var(--tx);font-size:14px">Google Fonts</strong><span style="font-size:11px;color:var(--tx3);background:var(--sur2);padding:2px 8px;border-radius:10px">CDN</span></div>
-            <p style="font-size:14px;margin:0">We load the "DM Sans" typeface from Google Fonts. This causes your browser to make a request to Google's servers. Google may log this request per their <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>. No font data is transmitted — only the font file is downloaded.</p>
-          </div>
-          <div class="info-box" style="flex-direction:column;gap:8px">
-            <div style="display:flex;align-items:center;gap:10px"><strong style="color:var(--tx);font-size:14px">Cloudflare</strong><span style="font-size:11px;color:var(--tx3);background:var(--sur2);padding:2px 8px;border-radius:10px">CDN / Hosting</span></div>
-            <p style="font-size:14px;margin:0">Our site is served via Cloudflare's CDN. Cloudflare may process IP addresses and request metadata to provide DDoS protection and performance optimization, per their <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Privacy Policy</a>.</p>
-          </div>
-          <div class="info-box" style="flex-direction:column;gap:8px">
-            <div style="display:flex;align-items:center;gap:10px"><strong style="color:var(--tx);font-size:14px">QR Code Styling Library</strong><span style="font-size:11px;color:var(--tx3);background:var(--sur2);padding:2px 8px;border-radius:10px">Open Source</span></div>
-            <p style="font-size:14px;margin:0">The QR Code Generator tool loads the <code style="background:rgba(0,230,208,.1);color:var(--mint);padding:1px 6px;border-radius:4px;font-size:13px">qr-code-styling</code> library from a CDN (esm.sh). This request may be logged by the CDN provider.</p>
-          </div>
-        </div>
+        <p>VeloTools uses third-party infrastructure and assets to deliver parts of the website. Depending on the page, this can include hosting or CDN infrastructure, Google Fonts, and externally hosted browser libraries.</p>
+        <p>Requests to those providers can include normal network information such as your IP address, browser or user-agent information, referrer, requested resource, and timestamp. Those providers handle that information under their own privacy policies.</p>
+        <p>The current release does not load Google Analytics or Google AdSense.</p>
       </div>
     </section>
 
@@ -327,17 +288,12 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
     <section class="section" id="cookies">
       <div class="section-hdr">
         <div class="section-num">07</div>
-        <h2 class="section-title">Cookies &amp; Local Storage</h2>
+        <h2 class="section-title">Cookies and Browser Storage</h2>
       </div>
       <div class="section-body">
-        <p>VeloTools uses <strong>localStorage</strong> (a browser-side storage mechanism, not a network cookie) to save your settings and in-progress work locally on your device. This data:</p>
-        <ul class="pp-list">
-          <li>Never leaves your device and is never transmitted to our servers.</li>
-          <li>Includes saved invoice data, tool preferences, and Focus Room tasks.</li>
-          <li>Can be cleared at any time via your browser settings (Clear Site Data).</li>
-        </ul>
-        <p><strong>Google AdSense cookies</strong> — if ads are displayed, Google may set cookies in your browser to serve personalized advertising. These are third-party cookies governed by Google's Privacy Policy. You can manage cookie preferences in your browser settings or via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google's ad settings</a>.</p>
-        <p>We do not use any first-party tracking cookies, session cookies, or persistent identification cookies of our own.</p>
+        <p>The current release does not intentionally set Google Analytics or advertising cookies.</p>
+        <p>Some VeloTools features may use browser storage for local tool state, settings, or preferences. This browser-side storage is separate from advertising or cross-site tracking.</p>
+        <p>Third-party infrastructure or asset providers may apply their own technical storage or request-handling practices under their respective policies.</p>
       </div>
     </section>
 
