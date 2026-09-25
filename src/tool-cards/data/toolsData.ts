@@ -32,7 +32,7 @@ export const TOOLS_DATA: ToolItem[] = [
     titlePrefix: 'Focus',
     titleHighlight: 'Room',
     category: 'productivity',
-    description: 'Lofi music, ambient white noise, and a Pomodoro timer built into one distraction-free workspace. Scientifically proven deep work method — no ads or accounts.',
+    description: 'Pomodoro timer with lofi and ambient audio, tasks, and local notes in one workspace. No account required.',
     badgeText: 'DEEP WORK',
     badgeType: 'deepwork',
     badgeIcon: 'Clock',
@@ -84,8 +84,8 @@ export const TOOLS_DATA: ToolItem[] = [
     titlePrefix: 'PDF',
     titleHighlight: 'Compressor',
     category: 'media',
-    description: 'Reduce PDF file size up to 90% without quality loss — directly in your browser. Batch compress up to 20 PDFs at once with 4 quality presets for screen and web.',
-    badgeText: '100% PRIVATE',
+    description: 'Compress PDFs in your browser with adjustable quality presets. Batch up to 20 files at once.',
+    badgeText: 'NO PDF UPLOAD',
     badgeType: 'private',
     badgeIcon: 'Lock',
     iconName: 'FileText',
@@ -103,14 +103,14 @@ export const TOOLS_DATA: ToolItem[] = [
       { label: 'Batch Size', value: '20 PDFs' },
       { label: 'Privacy', value: 'In-browser' }
     ],
-    features: ['Browser-only compression', 'Batch 20 files at once', '4 DPI quality presets', 'Zero quality loss']
+    features: ['Browser-only compression', 'Batch 20 files at once', '4 quality presets', 'Adjustable PDF compression presets']
   },
   {
     id: 'bg-remover',
     titlePrefix: 'Background',
     titleHighlight: 'Remover',
     category: 'media',
-    description: 'AI removes any background instantly in your browser — no server upload, completely private. Product photos, portraits, logos with clean transparent PNG output.',
+    description: 'AI-assisted background removal in your browser. Export transparent PNG images for product photos, portraits, and logos.',
     badgeText: 'AI POWERED',
     badgeType: 'ai',
     badgeIcon: 'Sparkles',
@@ -126,10 +126,10 @@ export const TOOLS_DATA: ToolItem[] = [
       bgPattern: 'waves-violet'
     },
     stats: [
-      { label: 'AI Accuracy', value: '99.4%' },
-      { label: 'Speed', value: '< 2 sec' }
+      { label: 'Output', value: 'Transparent PNG' },
+      { label: 'Processing', value: 'In-browser' }
     ],
-    features: ['Instant AI cutout', 'HD transparent PNG', 'Product photo mode', 'Unlimited exports']
+    features: ['AI background removal', 'Transparent PNG export', 'Product photo mode', 'Browser-based processing']
   },
   {
     id: 'invoice-generator',

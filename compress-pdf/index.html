@@ -87,7 +87,7 @@
     <span class="logo-nm">velotools</span>
   </a>
   <div class="hdr-r">
-    <div class="hdr-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>No upload · 100% private</div>
+    <div class="hdr-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>No PDF upload</div>
     <a class="back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>All tools</a>
   </div>
 </header>
@@ -95,27 +95,26 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>Compress PDF online — <em>private, no upload</em></h1>
+    <h1>Compress PDF online — <em>no PDF upload</em></h1>
     <p class="hero-sub">Reduce PDF file size in your browser, compare the actual result, and download it without sending the document to VeloTools.</p>
     <div class="hero-badges">
-      <span class="hbadge hbadge--private">&#128274; 100% Private</span>
-      <span class="hbadge hbadge--speed">&#9889; Instant</span>
+      <span class="hbadge hbadge--private">&#128274; No PDF upload</span>
       <span class="hbadge hbadge--batch">&#128196; Batch &times;20</span>
       <span class="hbadge hbadge--save">Compare actual file size</span>
     </div>
   </div>
   <div class="hero-visual" aria-hidden="true">
     <div class="hv-card hv-before">
-      <div class="hv-label">Before</div>
+      <div class="hv-label">Illustrative before</div>
       <svg class="hv-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       <div class="hv-size">12.4 MB</div>
     </div>
     <div class="hv-arrow">
       <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      <span>-82%</span>
+      <span>Results vary</span>
     </div>
     <div class="hv-card hv-after">
-      <div class="hv-label">After</div>
+      <div class="hv-label">Illustrative after</div>
       <svg class="hv-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       <div class="hv-size hv-size-small">2.2 MB</div>
     </div>
@@ -274,7 +273,7 @@
   <section id="security" class="seo-section seo-security">
     <h2>Security: compression without server upload</h2>
     <p>VeloTools PDF Compressor never transmits document bytes over the network. After you select files, the browser reads them via the <strong>File API</strong> into an <code>ArrayBuffer</code>; <strong>PDF.js</strong> renders each page to a canvas in tab memory; <strong>pdf-lib</strong> assembles a new PDF from JPEG page images. No <code>fetch</code>, presigned URL, or cloud queue participates in the pipeline.</p>
-    <p>This is structural privacy, not a policy promise. With Wi-Fi disabled after the page loads, compression still runs — proof that work is local. For NDAs, HIPAA-covered records, and financial statements, no third party can access file content because no upload step exists. Server-based compressors (iLovePDF, Smallpdf) must copy your file to remote storage; VeloTools cannot, by design.</p>
+    <p>The selected PDF is processed in the browser tab. The page has no PDF-upload step, so VeloTools does not receive document bytes. Required page assets must load before processing can begin.</p>
   </section>
 
   <section id="how-it-works" class="seo-section seo-steps">
@@ -292,7 +291,7 @@
       <tbody>
         <tr><th>Max files per batch</th><td>20 PDFs</td></tr>
         <tr><th>Max file size</th><td>120 MB per file; available browser memory may constrain complex documents sooner</td></tr>
-        <tr><th>Supported PDF versions</th><td>PDF 1.4 – 2.0; scanned, vector, and mixed content</td></tr>
+        <tr><th>Supported PDFs</th><td>PDF files supported by the browser libraries; encrypted or complex documents may fail.</td></tr>
         <tr><th>Compression method</th><td>Rasterize pages via PDF.js → JPEG encode → pdf-lib reassembly</td></tr>
         <tr><th>Presets</th><td>Screen (72 DPI / 40%), Web (96 / 65%), Print (150 / 80%), Archive (200 / 90%)</td></tr>
         <tr><th>Manual controls</th><td>DPI 72–300, JPEG quality 10–95%, grayscale, strip metadata, remove annotations</td></tr>
@@ -309,7 +308,7 @@
     <p>Compression here is <strong>lossy rasterization</strong>, not in-place stream stripping. PDF.js draws each page onto a white canvas at <code>scale = DPI / 72</code>. The canvas is encoded as JPEG at your quality setting. pdf-lib embeds those JPEGs into a clean new PDF without legacy fonts, scripts, or redundant object streams.</p>
     <p><strong>Two independent levers.</strong> Lower DPI reduces the rendered pixel count. Lower JPEG quality applies a stronger lossy encode to that page image. Presets combine both; inspect the downloaded result because smaller files can lose visible detail.</p>
     <p><strong>Scanned vs vector text.</strong> Image-heavy scans often have more reducible data than PDFs built mainly from vector text. The page reports the actual before-and-after byte counts instead of promising a fixed saving.</p>
-    <p><strong>Smart compress path.</strong> For some image-heavy pages, the engine extracts embedded JPEG streams without full canvas render when safe — faster and preserves source quality on single-image pages. Complex layered PDFs fall back to full render.</p>
+    <p><strong>Image-heavy pages.</strong> For some pages, the engine can use an embedded image before JPEG re-encoding instead of a full page render. Complex layered PDFs fall back to full render.</p>
     <p><strong>Compress vs merge/split.</strong> <a href="/merge-pdf/">Merge</a> and <a href="/split-pdf/">Split</a> use lossless <code>copyPages</code>. Compress intentionally trades fidelity for size. Merge first, compress second, is a common workflow for smaller email attachments.</p>
     <p><strong>Export to images.</strong> Need JPG/PNG per page instead of a smaller PDF? Use <a href="/pdf-to-jpg/">PDF to JPG</a> — same PDF.js render path, image output instead of pdf-lib assembly.</p>
   </section>
@@ -330,7 +329,7 @@
     </details>
     <details>
       <summary>Will compression reduce visual quality?</summary>
-      <div class="faq-a">Yes — except Archive preset, every mode trades size for fidelity. Print and Archive are best for client deliverables; Screen is best for internal email and portals.</div>
+      <div class="faq-a">All compression presets rasterize pages and may reduce fidelity. Archive uses the highest default DPI and JPEG-quality settings; inspect the downloaded file before sharing it.</div>
     </details>
     <details>
       <summary>What is the difference between DPI and JPEG quality?</summary>
@@ -350,7 +349,7 @@
     </details>
     <details>
       <summary>Does it work offline?</summary>
-      <div class="faq-a">Yes, after CDN libraries cache (~3 MB total). Airplane mode does not block compression, batch mode, or ZIP download.</div>
+      <div class="faq-a">Compression can run after the required page assets are available in the browser. Offline availability depends on the browser cache; ZIP download also requires JSZip to be available.</div>
     </details>
   </section>
 
@@ -404,7 +403,7 @@
   <div class="vt-exp-links"><a href="/pdf-tools/">All PDF tools</a><a href="/merge-pdf/">Merge PDF</a><a href="/lab/why-zero-upload/">Why zero upload</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
 </section>
 <footer class="site-footer">
-  <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
+  <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No PDF upload</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
