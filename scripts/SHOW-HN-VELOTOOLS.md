@@ -70,7 +70,7 @@ Why we built it
 Most “free” tools are upload-to-server wrappers. That fails for confidential docs, offline-ish workflows, and people who simply don’t want another account. We wanted the opposite architecture: ship UI + client engines, keep user bytes on-device.
 
 How it’s built
-Static site on Cloudflare. Tools are mostly vanilla JS + Wasm where needed. Focus Room and some SEO landing variants were built/iterated heavily in Cursor. For long-tail pages we use a locked preset matrix (profession × tool × config) validated with Zod so URL segments can’t inject arbitrary state (XSS / parameter tampering). Indexing is handled by a separate worker talking to Google Indexing API with credentials kept out of the repo.
+Static site on Cloudflare. Tools are mostly vanilla JS + Wasm where needed. Focus Room and some SEO landing variants were built/iterated heavily in Cursor. For long-tail pages we use a locked preset matrix (profession × tool × config) validated with Zod so URL segments can’t inject arbitrary state (XSS / parameter tampering). Discovery is handled through sitemap, internal links and normal search-engine crawling.
 
 What we’re unsure about / tradeoffs
 - “No signup” is a feature and a constraint: we don’t have accounts, sync, or a hosted API yet.

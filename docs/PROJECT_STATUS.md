@@ -25,7 +25,7 @@
 1. Focus matrix dry build fails; intent regeneration drifts 51/54 outputs; EEAT changes 125/131 on first pass and remains non-idempotent (102 changes on repeat).
 2. GA4 runs on 138 pages while the policy says Google Analytics is future-only and 65 pages say no tracking/zero data collection.
 3. Quantitative, offline, lossless and compliance claims are not backed by scoped evidence.
-4. Google Indexing API is wired to ordinary tool pages outside Google’s eligible content types.
+4. Google Indexing API submission for ordinary tool/landing pages has been disabled; sitemap, internal links and Search Console remain the discovery path.
 
 ## Verified healthy baseline
 

@@ -64,7 +64,7 @@ Rules:
 - Forbidden: spun content, scraped forums, nearly-identical URL thousands.
 - Large offline DB is fine. Index only the best allowlisted layer; rest = `noindex` or out of sitemap.
 - Controlled inject: pilot → GSC → valve ~**50–100 URL/day** after green pilot. Never dump thousands in a day.
-- **Sitemap = primary discovery.** Indexing API / IndexNow = accelerator, not a substitute.
+- **Sitemap = primary discovery.** Google Indexing API must not be used for ordinary tool/landing pages. IndexNow, where supported, is a separate protocol and must not be confused with Google's Indexing API.
 - Doubt → do not index. Weak → strengthen or delete.
 
 Cross-check: `.cursor/rules/data-driven-pseo.mdc` + `scripts/PSEO-MASTER-PROMPT.md`.

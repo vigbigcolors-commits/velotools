@@ -1,5 +1,5 @@
 /**
- * Bump lastmod on GSC "discovered" cluster + write priority sitemap for Indexing API.
+ * Bump lastmod on the GSC "discovered" cluster and maintain sitemap discovery signals.
  */
 import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';

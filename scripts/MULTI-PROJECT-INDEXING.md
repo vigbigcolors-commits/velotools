@@ -1,3 +1,5 @@
+> **DEPRECATED INDEXING API GUIDANCE:** Do not use the Google Indexing API for ordinary VeloTools tool/landing pages. Historical Indexing API instructions below are retained only as project history. Current discovery path: sitemap, internal links and Search Console.
+
 # Multi-Project PSEO + Indexing Playbook
 
 > **Фундамент: безопасность на первом месте.**  

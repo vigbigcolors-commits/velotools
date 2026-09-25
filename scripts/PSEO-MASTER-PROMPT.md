@@ -132,7 +132,7 @@ Padding ban list: “In today’s digital world”, “It is important to note�
 • Sitemap inclusion + lastmod only after the page is unique and live-200.
 • Hub pages MUST link to the cluster (prevent “Discovered – not indexed” orphaning).
 • Cross-link siblings with INTENTIONAL contrasts, not identical footer dumps only.
-• After publish: Indexing API / sitemap ping is ops — your job is to make the page worth crawling.
+• After publish: sitemap/internal-link discovery is ops — your job is to make the page worth crawling.
 • Avoid soft-404 signals: empty editorial, noindex mistakes, canonical to a different tool, schema url pointing at parent.
 
 ═══════════════════════════════════════════════════════════════

@@ -39,7 +39,7 @@ If anything conflicts with that file, the master prompt + repo validators win.
    - `npm run pseo:validate` + `npm run pseo:audit` (compress/image)
    - `npm run bgmatrix:validate` + build (bgremover)
    - `npm run matrix:validate` (focus)
-6. Build → publish ≤15/day → push. Indexing API for new clusters when needed.
+6. Build → publish conservatively → sitemap discovery. Do not submit ordinary VeloTools tool/landing pages to Google Indexing API.
 
 ## Differentiation axes (use ≥3)
 

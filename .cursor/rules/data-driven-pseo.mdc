@@ -33,10 +33,10 @@ alwaysApply: true
 
 - пилот → GSC → вентиль **~50–100 страниц/день** (после зелёного пилота)
 - первая волна indexable: до **~1000** URL; остальное offline / `noindex` / вне sitemap
-- **Sitemap = primary discovery.** Indexing API = ускоритель после попадания в sitemap, не замена
+- **Sitemap = primary discovery.** Do not use Google Indexing API for ordinary tool/landing pages; use sitemap, internal links and Search Console.
 - логи краула / GSC: боты едят и позиции растут → открывать вентиль; иначе чинить уникальность, тонкое не индексировать
 
-`pseo:publish` / `matrix:publish` / `pseo:daily` сами пушат **новые** URL в Indexing API. `--skip-index` только осознанно.
+`pseo:publish` / `matrix:publish` / `pseo:daily` publish through the sitemap workflow only. Google Indexing API submission is disabled for ordinary VeloTools pages.
 
 ## Совместимость
 

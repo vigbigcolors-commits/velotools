@@ -7,14 +7,14 @@
  *   2. Add intent → scripts/seo-data/intents/*.json (publishStatus: "draft")
  *   3. npm run pseo:validate
  *   4. npm run pseo:build        → draft → built (HTML on disk)
- *   5. npm run pseo:publish      → built → sitemap + Indexing API (max 15/day)
+ *   5. npm run pseo:publish      → built → sitemap publication (Google Indexing API disabled for ordinary tool pages)
  *
  * Commands:
  *   node scripts/pseo-pipeline.mjs status
  *   node scripts/pseo-pipeline.mjs validate
  *   node scripts/pseo-pipeline.mjs build [--slug=x] [--dry-run]
  *   node scripts/pseo-pipeline.mjs publish [--limit=15] [--skip-index]
- *   node scripts/pseo-pipeline.mjs daily   → validate + build + publish + Indexing API
+ *   node scripts/pseo-pipeline.mjs daily   → validate + build + publish through sitemap workflow
  */
 import { loadAllIntents, updateIntentStatus } from './pseo/intents.mjs';
 import { validateAll } from './pseo/validate.mjs';
