@@ -211,6 +211,36 @@ body::before {
   display:flex; flex-direction:column;
   align-items:center; gap:20px;
 }
+.f-hub-heading {
+  text-align:center;
+  margin:0 0 2px;
+  max-width:28rem;
+}
+.f-hub-kicker {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ac);
+  margin:0 0 8px;
+}
+.f-hub-heading h1 {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(26px, 3.2vw, 36px);
+  font-weight:800;
+  letter-spacing:-.6px;
+  line-height:1.1;
+  color:var(--tx);
+  margin:0;
+}
+.f-hub-lead {
+  font-size:13px;
+  font-weight:500;
+  color:var(--tx2);
+  line-height:1.45;
+  margin:8px 0 0;
+}
 
 /* mode tabs */
 .f-modes {
@@ -667,6 +697,7 @@ body.zen-mode .f-sounds,
 body.zen-mode .f-notes,
 body.zen-mode .f-modes,
 body.zen-mode .f-timer-bottom,
+body.zen-mode .f-hub-heading,
 body.zen-mode .f-seo-section,
 body.zen-mode #fa-wrap {
   display: none !important;
@@ -845,7 +876,7 @@ body.zen-mode .f-timer-wrap {
     <a href="/image-compress/" class="f-nav-link">Image</a>
     <a href="/invoice/"        class="f-nav-link">Invoice</a>
     <a href="/qr/"             class="f-nav-link">QR Code</a>
-    <a href="/focus/"          class="f-nav-link act">Focus</a><a href="/bgremover/"      class="f-nav-link">BG Remover</a><a href="/compress-pdf/"   class="f-nav-link">PDF</a>
+    <a href="/focus/"          class="f-nav-link act">Focus</a><a href="/bgremover/"      class="f-nav-link">BG Remover</a><a href="/pdf-tools/"   class="f-nav-link">PDF</a>
     <a href="/lab/" class="f-nav-link">Lab</a>
     <a href="/about/" class="f-nav-link">About <span class="f-nav-dot"></span></a>
   </div>
@@ -1256,8 +1287,8 @@ _ro.observe(cv);
         </div>
       </div>
       <div class="f-wl-info">
-        <div class="f-wl-track">Weightless<span class="f-wl-badge">Scientific</span></div>
-        <div class="f-wl-artist">Marconi Union · The world's most relaxing track</div>
+        <div class="f-wl-track">Weightless<span class="f-wl-badge">Optional track</span></div>
+        <div class="f-wl-artist">Marconi Union · streamed FLAC audio</div>
       </div>
       <div class="f-wl-ctrl">
         <button class="f-wl-btn-play" id="wl-play-btn" onclick="toggleWeightless()">
@@ -1268,8 +1299,8 @@ _ro.observe(cv);
           <span class="f-wl-vol-ico">🔊</span>
           <input type="range" class="f-wl-vol" id="wl-vol" min="0" max="100" value="70" oninput="setWlVolume(this.value)" onchange="setWlVolume(this.value)">
         </div>
-        <div class="f-wl-warn-pill">⚠️ Don't drive</div>
-        <button class="f-wl-info-btn" onclick="toggleWlInfo()" title="Scientific info">
+        <div class="f-wl-warn-pill">Optional background audio</div>
+        <button class="f-wl-info-btn" onclick="toggleWlInfo()" title="Playback information">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         </button>
       </div>
@@ -1277,58 +1308,28 @@ _ro.observe(cv);
     <div class="f-wl-science" id="wl-science">
       <div class="f-wl-science-inner">
         <div>
-          <div class="f-wl-sci-title">How it works physiologically</div>
-          <p class="f-wl-sci-text">Engineered with the <strong>British Academy of Sound Therapy</strong>. Based on <strong>acoustic entrainment</strong> — brain and body sync to external sound vibrations.</p>
-          <ul class="f-wl-sci-list">
-            <li><strong>Heart rate:</strong> Starts at 60 BPM, slows to 50. Heart auto-syncs within ~5 minutes.</li>
-            <li><strong>Cortisol:</strong> As heart rate drops, blood pressure and cortisol decrease.</li>
-            <li><strong>No repeating motifs:</strong> Brain stops predicting, analytical center disengages.</li>
-            <li><strong>Low frequencies:</strong> Bass drones imitate deep meditation — subconsciously safe.</li>
-          </ul>
-          <div style="margin-top:12px;padding:10px 12px;background:rgba(122,155,184,.08);border:1px solid rgba(122,155,184,.2);border-radius:10px;font-size:12px;color:#8fa3b8">
-            ⚠️ <strong>Do not listen while driving.</strong> Clinically documented sedative effect.
-          </div>
+          <div class="f-wl-sci-title">About this optional track</div>
+          <p class="f-wl-sci-text">Use the player as background audio if it suits your work. VeloTools does not claim that this track treats anxiety, changes cortisol, or produces a guaranteed physiological response.</p>
         </div>
         <div>
-          <div class="f-wl-sci-title">Mindlab International Research</div>
-          <p class="f-wl-sci-text">Outperformed Enya, Mozart, and all standard relaxation tracks in stress conditions.</p>
-          <div class="f-wl-sci-stats">
-            <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">65%</span><span class="f-wl-sci-stat-l">reduction in overall anxiety</span></div>
-            <div class="f-wl-sci-stat"><span class="f-wl-sci-stat-n">35%</span><span class="f-wl-sci-stat-l">higher calm vs Enya & classical</span></div>
-          </div>
-          <p class="f-wl-sci-text" style="margin-top:14px"><strong>Best for:</strong> Long breaks, high-anxiety days, post-session recovery.</p>
+          <div class="f-wl-sci-title">Playback notes</div>
+          <p class="f-wl-sci-text">The track is streamed as FLAC, so playback depends on browser support and a network connection. Volume is controlled separately inside the player.</p>
           <button class="f-wl-sci-info2-btn" onclick="toggleFlacPanel()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Why FLAC? Audio quality explained
+            Audio format details
           </button>
         </div>
       </div>
     </div>
-    <!-- FLAC DEEP PANEL -->
     <div class="f-wl-flac-panel" id="wl-flac-panel">
       <div class="f-wl-flac-inner">
         <div>
-          <div class="f-wl-flac-title">🎧 FLAC vs MP3 — what your ears hear</div>
-          <p class="f-wl-flac-text">MP3 achieves compression by permanently discarding audio data the algorithm predicts you won't notice. <strong>FLAC is lossless</strong> — every sample of the original recording is preserved, bit-for-bit identical to the studio master.</p>
-          <p class="f-wl-flac-text" style="margin-top:10px">For a track engineered specifically to alter your physiological state, <strong>precision matters</strong>. The 60→50 BPM entrainment effect and the sub-bass frequencies that trigger the parasympathetic response are preserved in full resolution — not approximated.</p>
-          <table class="f-wl-flac-table">
-            <tr><th>Format</th><th>Bit depth</th><th>Freq. range</th><th>Data loss</th></tr>
-            <tr><td>MP3 128k</td><td>—</td><td>~16 kHz</td><td>~80%</td></tr>
-            <tr><td>MP3 320k</td><td>—</td><td>~20 kHz</td><td>~30%</td></tr>
-            <tr class="highlight"><td>FLAC (ours)</td><td>24-bit</td><td>22+ kHz</td><td>0%</td></tr>
-          </table>
+          <div class="f-wl-flac-title">FLAC playback</div>
+          <p class="f-wl-flac-text">FLAC is a lossless audio format. That describes how the file is encoded; it does not establish a stronger focus or relaxation effect than another format.</p>
         </div>
         <div>
-          <div class="f-wl-flac-title">📐 Technical specifications</div>
-          <div class="f-wl-flac-specs">
-            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">24</span><span class="f-wl-flac-spec-l">bit depth</span></div>
-            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">44.1</span><span class="f-wl-flac-spec-l">kHz sample rate</span></div>
-            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">0%</span><span class="f-wl-flac-spec-l">data loss</span></div>
-            <div class="f-wl-flac-spec"><span class="f-wl-flac-spec-n">8:03</span><span class="f-wl-flac-spec-l">full duration</span></div>
-          </div>
-          <div class="f-wl-flac-title" style="margin-top:16px">🔬 The science behind the choice</div>
-          <p class="f-wl-flac-text">Research by the <strong>British Academy of Sound Therapy</strong> (2011) found Weightless reduced anxiety by 65% in standardized stress tests — results obtained using full-resolution audio. Compressed versions introduce quantization artifacts in the sub-bass range (20–80 Hz) — precisely the frequencies responsible for the physiological entrainment effect.</p>
-          <p class="f-wl-flac-text" style="margin-top:10px">We purchased and host the <strong>original studio FLAC</strong> to ensure you receive the clinically studied version — not a degraded approximation.</p>
+          <div class="f-wl-flac-title">Use it as a preference</div>
+          <p class="f-wl-flac-text">Choose this track, lofi, or an ambient loop by preference. Stop playback whenever it distracts you or when you need to stay alert to your surroundings.</p>
         </div>
       </div>
     </div>
@@ -2154,6 +2155,7 @@ function escHtml(s){
 }
 </script>
 
+<!-- PRODUCT GUIDE -->
 <!-- SEO SECTION — UNIQUE PSEO (anti-doorway) -->
 <section class="f-seo-section" id="vt-unique-seo">
   <div class="f-seo-inner">
@@ -2204,9 +2206,6 @@ function escHtml(s){
     </div>
   </div>
 </section>
-
-
-
 <style>
 /* ══════════════════════════════════════════
    FOCUS ROOM — SEO SECTION (REBUILT)
@@ -2361,11 +2360,24 @@ function escHtml(s){
 
 
 
+
+
+
+
+
 <section class="vt-exp" id="builder-experience" data-pseo="tools/data-analyst/focus-room/sql" aria-label="Builder experience">
   <div class="vt-exp-kicker">Human experience · Vigen G.</div>
   <h2>Field note: Data Analyst · Focus Room · Sql</h2>
   <p>I keep this page because deep-work blocks for Data Analyst · Focus Room · Sql kept failing with upload tools or generic presets. Here you start the timer with the baked preset — the minutes on the page must match the clock. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
-  <div class="vt-exp-links"><a href="/focus/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
+  <div class="vt-exp-links"><a href="/focus/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
 </section>
+
+<nav class="vt-eeat-rail" aria-label="Trust and product links">
+  <a href="/focus/">Parent tool</a>
+  <a href="/lab/">Lab Notes</a>
+  <a href="/methodology/">Methodology</a>
+  <a href="/about/">About</a>
+  <a href="/">All tools</a>
+</nav>
 </body>
 </html>

@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { MATRIX, entryPath } from '../seo-data/matrix/index.mjs';
+import { renderPseoTrust } from './lib/pseo-trust.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '../..');
@@ -74,6 +75,56 @@ function pageConfig(entry) {
 
 function pad2(n) {
   return String(n).padStart(2, '0');
+}
+
+const FOCUS_SEO_SLOT = 'data-vt-slot="VT:FOCUS_MATRIX_SEO_SLOT"';
+
+function replaceFocusSeoSlot(html, replacement) {
+  const slotCount = html.split(FOCUS_SEO_SLOT).length - 1;
+  if (slotCount !== 1) throw new Error(`Focus SEO slot count must be 1 (found ${slotCount})`);
+
+  const slotAt = html.indexOf(FOCUS_SEO_SLOT);
+  const sectionStart = html.lastIndexOf('<section', slotAt);
+  const openingEnd = html.indexOf('>', sectionStart);
+  if (sectionStart < 0 || openingEnd < slotAt) {
+    throw new Error('Focus SEO slot is not inside a section element');
+  }
+
+  const sectionTag = /<\/?section\b[^>]*>/gi;
+  sectionTag.lastIndex = sectionStart;
+  let depth = 0;
+  let match;
+  while ((match = sectionTag.exec(html))) {
+    depth += match[0].startsWith('</') ? -1 : 1;
+    if (depth === 0) return html.slice(0, sectionStart) + replacement + html.slice(sectionTag.lastIndex);
+  }
+  throw new Error('Focus SEO slot section is not closed');
+}
+
+function applyPseoTrust(html, routePath) {
+  const trust = renderPseoTrust(routePath);
+  const experience = /<section class="vt-exp" id="builder-experience"[\s\S]*?<\/section>\s*/i;
+  html = experience.test(html)
+    ? html.replace(experience, `${trust.experience}\n`)
+    : insertTrustBeforeFooterOrBody(html, trust.experience);
+  if (!html.includes('class="vt-eeat-rail"')) {
+    html = insertTrustBeforeFooterOrBody(html, trust.rail);
+  }
+  return html;
+}
+
+function insertTrustBeforeFooterOrBody(html, markup) {
+  if (/<footer\b/i.test(html)) return html.replace(/<footer\b/i, `${markup}\n<footer`);
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, `${markup}\n</body>`);
+  throw new Error('Focus shell has no trust insertion point');
+}
+
+function assertFocusTrust(html, path) {
+  const experienceCount = (html.match(/id="builder-experience"/g) || []).length;
+  const railCount = (html.match(/<nav class="vt-eeat-rail"/g) || []).length;
+  if (experienceCount !== 1 || railCount !== 1) {
+    throw new Error(`Focus trust structure invalid for ${path}: experience=${experienceCount}, rail=${railCount}`);
+  }
 }
 
 /**
@@ -208,7 +259,7 @@ function faqJsonLd(entry) {
  * @param {import('zod').infer<typeof import('../seo-data/matrix/schema.mjs').MatrixEntrySchema>} entry
  * @param {boolean} [dryRun]
  */
-export function buildMatrixPage(entry, dryRun = false) {
+export function renderMatrixPage(entry) {
   let html = readFileSync(join(root, 'focus', 'index.html'), 'utf8');
   const path = entryPath(entry);
   const canonical = `${baseUrl}${path}`;
@@ -265,18 +316,7 @@ export function buildMatrixPage(entry, dryRun = false) {
   const bannerHtml = `<div id="vt-intent-banner" role="status" style="position:sticky;top:0;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(0,201,167,.12);border-bottom:1px solid rgba(0,201,167,.28);color:var(--ac,#00c9a7)">${esc(entry.intentBanner)}</div>`;
   html = html.replace(/<body([^>]*)>/, `<body$1>\n${bannerHtml}`);
 
-  // Replace cloned Focus SEO essay with unique profession copy
-  const seoStart = html.indexOf('<!-- SEO SECTION');
-  const endMatch = html.slice(seoStart).match(/<\/section>\r?\n\r?\n<style>/);
-  if (seoStart < 0 || !endMatch || endMatch.index == null) {
-    throw new Error(`SEO section markers missing for ${entry.id}`);
-  }
-  const seoEnd = seoStart + endMatch.index;
-  html =
-    html.slice(0, seoStart) +
-    renderUniqueSeo(entry) +
-    '\n\n' +
-    html.slice(seoEnd + '</section>'.length);
+  html = replaceFocusSeoSlot(html, renderUniqueSeo(entry));
 
   const inject = [
     `<script type="application/ld+json">${ldApp}</script>`,
@@ -291,8 +331,17 @@ export function buildMatrixPage(entry, dryRun = false) {
     html = html.replace('</head>', `${inject}\n</head>`);
   }
 
+  html = applyPseoTrust(html, path.slice(1) + 'index.html');
+  assertFocusTrust(html, path);
+
   const outDir = join(root, 'tools', entry.profession, entry.tool, ...(entry.variant ? [entry.variant] : []));
   const outFile = join(outDir, 'index.html');
+
+  return { path, outDir, outFile, html };
+}
+
+export function buildMatrixPage(entry, dryRun = false) {
+  const { path, outDir, outFile, html } = renderMatrixPage(entry);
 
   if (dryRun) {
     console.log(`[dry-run] ${path} → ${outFile}`);

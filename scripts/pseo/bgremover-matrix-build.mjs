@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { MATRIX, entryPath } from '../seo-data/bgremover-matrix/index.mjs';
+import { renderPseoTrust } from './lib/pseo-trust.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '../..');
@@ -17,6 +18,16 @@ function esc(s) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+function applyPseoTrust(html, routePath) {
+  const trust = renderPseoTrust(routePath);
+  const experience = /<section class="vt-exp" id="builder-experience"[\s\S]*?<\/section>\s*/i;
+  html = experience.test(html)
+    ? html.replace(experience, `${trust.experience}\n`)
+    : html.replace(/<footer\b/i, `${trust.experience}\n<footer`);
+  if (html.includes('class="vt-eeat-rail"')) return html;
+  return html.replace(/<footer\b/i, `${trust.rail}\n<footer`);
 }
 
 function pageConfig(entry) {
@@ -179,7 +190,7 @@ function applyExportHighlight(html, entry) {
 /**
  * @param {import('zod').infer<typeof import('../seo-data/bgremover-matrix/schema.mjs').MatrixEntrySchema>} entry
  */
-export function buildBgremoverPage(entry, dryRun = false) {
+export function renderBgremoverPage(entry) {
   let html = readFileSync(join(root, 'bgremover', 'index.html'), 'utf8');
   const path = entryPath(entry);
   const canonical = `${baseUrl}${path}`;
@@ -260,9 +271,16 @@ export function buildBgremoverPage(entry, dryRun = false) {
     `<script type="application/json" id="vt-page-config">${cfg}</script>`,
   ].join('\n');
   html = html.replace('</head>', `${inject}\n</head>`);
+  html = applyPseoTrust(html, path.slice(1) + 'index.html');
 
   const outDir = join(root, 'bgremover', `for-${entry.useCase}`);
   const outFile = join(outDir, 'index.html');
+
+  return { path, outDir, outFile, html };
+}
+
+export function buildBgremoverPage(entry, dryRun = false) {
+  const { path, outDir, outFile, html } = renderBgremoverPage(entry);
 
   if (dryRun) {
     console.log(`[dry-run] ${path} → ${outFile}`);

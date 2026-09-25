@@ -26,9 +26,6 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Group and team photos","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-group-photos/","description":"Cut whole teams and families from a busy room and keep every hairline honest on a transparent grid. Refine helps the many edges between people. Local AI means group faces never touch a server.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint png","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I clean the background between people?","acceptedAnswer":{"@type":"Answer","text":"The gaps between shoulders and arms become small background pockets. On the transparent grid, zoom into each enclosed gap and Erase the leftover background so it does not appear as a gray island once the group is composited onto a new backdrop."}},{"@type":"Question","name":"What if shoulders are touching or overlapping?","acceptedAnswer":{"@type":"Answer","text":"Touching silhouettes are the hardest part of a group cut. Decide which edge is foreground at each overlap and clean it deliberately. When you can influence the shoot, ask the group to leave small gaps so the model separates people more cleanly."}},{"@type":"Question","name":"Why is Refine on for group photos?","acceptedAnswer":{"@type":"Answer","text":"A group has many hairlines and edges, and a single controlled Refine pass improves all of them at once, which is far faster than brushing each person individually. You then Restore outer flyaways and clean the between-people gaps by hand."}},{"@type":"Question","name":"Is it safe to cut a photo full of faces here?","acceptedAnswer":{"@type":"Answer","text":"Inference runs locally, so none of the faces upload to a remover service and only public model weights download once. That is especially relevant for schools and clubs, though you still need the consent your context requires for the original shoot."}},{"@type":"Question","name":"Which export keeps multiple hairlines clean?","acceptedAnswer":{"@type":"Answer","text":"Use PNG so the partial alpha across every hairline survives into the composite. Add the new backdrop and any shadow in your design tool afterward, and keep the PNG master so you can recomposite the same group onto different plates later."}}]}</script>
-<script type="application/json" id="vt-page-config">{"id":"bgremover-group-photos","tool":"bg-remover","useCase":"group-photos","useCaseLabel":"Group and team photos","intentBanner":"Group preset - transparent grid - PNG - per-person hair Refine","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"png","suggestRefine":true,"tipLabel":"Refine every hairline between people"}}</script>
 <style id="vt-eeat-css">
 .vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
 .vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
@@ -41,6 +38,9 @@
 .vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
 .vt-eeat-rail a:hover{color:#00e6d0}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Group and team photos","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-group-photos/","description":"Cut whole teams and families from a busy room and keep every hairline honest on a transparent grid. Refine helps the many edges between people. Local AI means group faces never touch a server.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint png","Refine suggested","No watermarks"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I clean the background between people?","acceptedAnswer":{"@type":"Answer","text":"The gaps between shoulders and arms become small background pockets. On the transparent grid, zoom into each enclosed gap and Erase the leftover background so it does not appear as a gray island once the group is composited onto a new backdrop."}},{"@type":"Question","name":"What if shoulders are touching or overlapping?","acceptedAnswer":{"@type":"Answer","text":"Touching silhouettes are the hardest part of a group cut. Decide which edge is foreground at each overlap and clean it deliberately. When you can influence the shoot, ask the group to leave small gaps so the model separates people more cleanly."}},{"@type":"Question","name":"Why is Refine on for group photos?","acceptedAnswer":{"@type":"Answer","text":"A group has many hairlines and edges, and a single controlled Refine pass improves all of them at once, which is far faster than brushing each person individually. You then Restore outer flyaways and clean the between-people gaps by hand."}},{"@type":"Question","name":"Is it safe to cut a photo full of faces here?","acceptedAnswer":{"@type":"Answer","text":"Inference runs locally, so none of the faces upload to a remover service and only public model weights download once. That is especially relevant for schools and clubs, though you still need the consent your context requires for the original shoot."}},{"@type":"Question","name":"Which export keeps multiple hairlines clean?","acceptedAnswer":{"@type":"Answer","text":"Use PNG so the partial alpha across every hairline survives into the composite. Add the new backdrop and any shadow in your design tool afterward, and keep the PNG master so you can recomposite the same group onto different plates later."}}]}</script>
+<script type="application/json" id="vt-page-config">{"id":"bgremover-group-photos","tool":"bg-remover","useCase":"group-photos","useCaseLabel":"Group and team photos","intentBanner":"Group preset - transparent grid - PNG - per-person hair Refine","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"png","suggestRefine":true,"tipLabel":"Refine every hairline between people"}}</script>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Group preset - transparent grid - PNG - per-person hair Refine · Refine every hairline between people</div>
@@ -362,23 +362,20 @@
 </section>
 
 
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-group-photos" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Group Photos</h2>
+  <p>I keep this page because background removal for Group Photos kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
+</section>
+
 <nav class="vt-eeat-rail" aria-label="Trust and product links">
   <a href="/bgremover/">Parent tool</a>
-  <a href="/bgremover/">Tool hub</a>
   <a href="/lab/">Lab Notes</a>
   <a href="/methodology/">Methodology</a>
   <a href="/about/">About</a>
   <a href="/">All tools</a>
 </nav>
-
-
-
-<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-group-photos" aria-label="Builder experience">
-  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
-  <h2>Field note: Group Photos</h2>
-  <p>I keep this page because background removal for Group Photos kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
-  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
-</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

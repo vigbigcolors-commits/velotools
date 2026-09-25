@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Inject human Experience + ideal pillar↔product linking into tool HTML.
+ * Legacy manual maintenance tool; not part of the deterministic generation pipeline.
  * - Unique Experience block per core tool (from tool-experience.mjs)
  * - Nav/footer: Lab + Methodology + About + sibling products
  * - PSEO pages: trust rail up to parent hub + Lab/Method (no cloned essays)

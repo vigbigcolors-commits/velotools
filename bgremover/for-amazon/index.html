@@ -26,9 +26,6 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Amazon main images","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-amazon/","description":"Create Amazon-style white-background main images locally. No server upload. Soft Refine for clean product silhouettes.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #ffffff","Export hint jpg-white","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this an Amazon-certified tool?","acceptedAnswer":{"@type":"Answer","text":"No certification claim. It is a local editor that helps you produce white-background masters. Always re-check the current Seller Central image rules for your category before publishing. Treat exports as candidates until your own compliance checklist passes."}},{"@type":"Question","name":"What if my product is white on white?","acceptedAnswer":{"@type":"Answer","text":"Shoot with a contrasting temporary backdrop, cut out locally, then place on pure white via JPG-white export. Soft Erase along the silhouette prevents the subject from dissolving into the fill. Slight underexposure on the temporary backdrop often helps the model more than raising ISO."}},{"@type":"Question","name":"Can secondary images stay lifestyle?","acceptedAnswer":{"@type":"Answer","text":"Yes. This preset targets the main image workflow. Lifestyle and detail shots can use other routes or no cutout at all. Keep naming clear so the white main never gets swapped with a transparent design export by accident."}},{"@type":"Question","name":"How many Refine passes are safe?","acceptedAnswer":{"@type":"Answer","text":"Usually one. A second pass can chew packaging type and thin plastic edges. Prefer Undo plus localized Erase if a ring remains. Zoom is cheaper than another global peel."}},{"@type":"Question","name":"Does JPG-white strip metadata?","acceptedAnswer":{"@type":"Answer","text":"Export behavior focuses on pixels and the white field. Strip EXIF with your usual publishing pipeline if policy requires it. Local cutout does not replace your broader asset hygiene checklist."}}]}</script>
-<script type="application/json" id="vt-page-config">{"id":"bgremover-amazon","tool":"bg-remover","useCase":"amazon","useCaseLabel":"Amazon main images","intentBanner":"Amazon preset · pure white · JPG-white · one Refine pass","config":{"defaultBg":"#ffffff","bgSwatchIndex":1,"exportHint":"jpg-white","suggestRefine":true,"tipLabel":"Marketplace tip: solid white, no shadow fringe"}}</script>
 <style id="vt-eeat-css">
 .vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
 .vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
@@ -41,6 +38,9 @@
 .vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
 .vt-eeat-rail a:hover{color:#00e6d0}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for Amazon main images","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-amazon/","description":"Create Amazon-style white-background main images locally. No server upload. Soft Refine for clean product silhouettes.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview #ffffff","Export hint jpg-white","Refine suggested","No watermarks"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this an Amazon-certified tool?","acceptedAnswer":{"@type":"Answer","text":"No certification claim. It is a local editor that helps you produce white-background masters. Always re-check the current Seller Central image rules for your category before publishing. Treat exports as candidates until your own compliance checklist passes."}},{"@type":"Question","name":"What if my product is white on white?","acceptedAnswer":{"@type":"Answer","text":"Shoot with a contrasting temporary backdrop, cut out locally, then place on pure white via JPG-white export. Soft Erase along the silhouette prevents the subject from dissolving into the fill. Slight underexposure on the temporary backdrop often helps the model more than raising ISO."}},{"@type":"Question","name":"Can secondary images stay lifestyle?","acceptedAnswer":{"@type":"Answer","text":"Yes. This preset targets the main image workflow. Lifestyle and detail shots can use other routes or no cutout at all. Keep naming clear so the white main never gets swapped with a transparent design export by accident."}},{"@type":"Question","name":"How many Refine passes are safe?","acceptedAnswer":{"@type":"Answer","text":"Usually one. A second pass can chew packaging type and thin plastic edges. Prefer Undo plus localized Erase if a ring remains. Zoom is cheaper than another global peel."}},{"@type":"Question","name":"Does JPG-white strip metadata?","acceptedAnswer":{"@type":"Answer","text":"Export behavior focuses on pixels and the white field. Strip EXIF with your usual publishing pipeline if policy requires it. Local cutout does not replace your broader asset hygiene checklist."}}]}</script>
+<script type="application/json" id="vt-page-config">{"id":"bgremover-amazon","tool":"bg-remover","useCase":"amazon","useCaseLabel":"Amazon main images","intentBanner":"Amazon preset · pure white · JPG-white · one Refine pass","config":{"defaultBg":"#ffffff","bgSwatchIndex":1,"exportHint":"jpg-white","suggestRefine":true,"tipLabel":"Marketplace tip: solid white, no shadow fringe"}}</script>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Amazon preset · pure white · JPG-white · one Refine pass · Marketplace tip: solid white, no shadow fringe</div>
@@ -362,23 +362,20 @@
 </section>
 
 
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-amazon" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Amazon</h2>
+  <p>I keep this page because background removal for Amazon kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
+</section>
+
 <nav class="vt-eeat-rail" aria-label="Trust and product links">
   <a href="/bgremover/">Parent tool</a>
-  <a href="/bgremover/">Tool hub</a>
   <a href="/lab/">Lab Notes</a>
   <a href="/methodology/">Methodology</a>
   <a href="/about/">About</a>
   <a href="/">All tools</a>
 </nav>
-
-
-
-<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-amazon" aria-label="Builder experience">
-  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
-  <h2>Field note: Amazon</h2>
-  <p>I keep this page because background removal for Amazon kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
-  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
-</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>

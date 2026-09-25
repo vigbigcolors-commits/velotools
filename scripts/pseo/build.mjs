@@ -12,6 +12,7 @@ import {
   renderEditorial,
   isImageIntent,
 } from '../seo/fact-copy.mjs';
+import { renderPseoTrust } from './lib/pseo-trust.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '../..');
@@ -34,6 +35,18 @@ function pageConfigJson(intent) {
     widget: intent.widget,
     intentBanner: intent.intentBanner,
   });
+}
+
+function applyPseoTrust(html, routePath, preserveExistingExperience = false) {
+  const trust = renderPseoTrust(routePath);
+  if (!preserveExistingExperience) {
+    const experience = /<section class="vt-exp" id="builder-experience"[\s\S]*?<\/section>\s*/i;
+    html = experience.test(html)
+      ? html.replace(experience, `${trust.experience}\n`)
+      : html.replace(/<footer\b/i, `${trust.experience}\n<footer`);
+  }
+  if (html.includes('class="vt-eeat-rail"')) return html;
+  return html.replace(/<footer\b/i, `${trust.rail}\n<footer`);
 }
 
 export function buildCompressPdfPage(intent) {
@@ -102,6 +115,7 @@ export function buildCompressPdfPage(intent) {
     '<script src="/pdf-tools/compress.js"></script>',
     `<script type="application/json" id="vt-page-config">${pageConfigJson(intent)}</script>\n<script src="/pdf-tools/compress.js"></script>`,
   );
+  html = applyPseoTrust(html, `${intent.slug}/index.html`);
   return html;
 }
 
@@ -253,6 +267,7 @@ export function buildImageResizerPage(intent) {
     html = html.replace('<script src="js/ui.js', inject + '<script src="/image-compress/js/ui.js');
   }
 
+  html = applyPseoTrust(html, `${intent.slug}/index.html`, applySeoTrustTransforms);
   return html;
 }
 

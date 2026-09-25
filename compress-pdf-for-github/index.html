@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Compress PDF for GitHub — Stay Under the ~25 MB Blob Warning | VeloTools</title>
 <meta name="description" content="GitHub blocking a fat PDF commit? Shrink design-tool exports under ~25 MB and strip annotations — Web preset, local browser only, no LFS required for specs.">
-<meta name="keywords" content="compress pdf online free,reduce pdf size,pdf compressor no upload,pdf file size reducer,compress pdf without losing quality,batch pdf compressor,pdf size reducer 2026,free pdf compressor browser">
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
@@ -17,7 +16,7 @@
 <meta property="og:description" content="GitHub blocking a fat PDF commit? Shrink design-tool exports under ~25 MB and strip annotations — Web preset, local browser only, no LFS required for specs.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://velotools.app/compress-pdf-for-github/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools PDF Compressor","description":"Free browser-based PDF compressor. Reduce file size without uploading. Supports batch processing, multiple quality levels, grayscale mode.","url":"https://velotools.app/compress-pdf-for-github/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["PDF compression up to 90%","No server upload","Batch processing","4 quality presets","Grayscale mode","Metadata removal","Free forever"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VeloTools PDF Compressor","description":"Free browser-based PDF compressor with quality presets, batch processing, grayscale mode, and local file handling.","url":"https://velotools.app/compress-pdf-for-github/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Local browser processing","Batch processing up to 20 files","4 quality presets","Grayscale mode","Metadata removal"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does GitHub say my PDF is too large?","acceptedAnswer":{"@type":"Answer","text":"Normal repository files warn and block around 25 MB. Compress here, use Git LFS, or host the large master outside the repo."}},{"@type":"Question","name":"Should documentation PDFs live in git at all?","acceptedAnswer":{"@type":"Answer","text":"Short, lean PDFs can. Huge scans usually belong in Drive/Dropbox with a link from the README. Compressing makes the “small enough” path possible when you truly need the file in-repo."}},{"@type":"Question","name":"Does this tool open a pull request for me?","acceptedAnswer":{"@type":"Answer","text":"No. There is no GitHub login. You add the compressed file and commit yourself."}},{"@type":"Question","name":"Will compressing break PDF links in my markdown?","acceptedAnswer":{"@type":"Answer","text":"Not if you replace the file at the same path. Update the path only if you rename the asset."}},{"@type":"Question","name":"Is Git LFS better than compressing?","acceptedAnswer":{"@type":"Answer","text":"LFS helps when the binary must stay huge. Compressing is better when readers only need a lean doc and you want to avoid LFS complexity."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -103,7 +102,7 @@
       <span class="hbadge hbadge--private">&#128274; 100% Private</span>
       <span class="hbadge hbadge--speed">&#9889; Instant</span>
       <span class="hbadge hbadge--batch">&#128196; Batch &times;20</span>
-      <span class="hbadge hbadge--save">&#127775; Up to 90% smaller</span>
+      <span class="hbadge hbadge--save">Compare actual file size</span>
     </div>
   </div>
   <div class="hero-visual" aria-hidden="true">
@@ -142,25 +141,25 @@
           <div class="pb-icon">&#128190;</div>
           <div class="pb-name">Screen</div>
           <div class="pb-desc">72 dpi · JPEG 40%</div>
-          <div class="pb-save">~85% smaller</div>
+          <div class="pb-save">Smallest preset</div>
         </button>
         <button class="preset-btn act" data-preset="web" title="Good balance of size and quality.">
           <div class="pb-icon">&#127760;</div>
           <div class="pb-name">Web</div>
           <div class="pb-desc">96 dpi · JPEG 65%</div>
-          <div class="pb-save">~70% smaller</div>
+          <div class="pb-save">Balanced preset</div>
         </button>
         <button class="preset-btn" data-preset="print" title="Suitable for printing.">
           <div class="pb-icon">&#128438;</div>
           <div class="pb-name">Print</div>
           <div class="pb-desc">150 dpi · JPEG 80%</div>
-          <div class="pb-save">~50% smaller</div>
+          <div class="pb-save">Higher-detail preset</div>
         </button>
         <button class="preset-btn" data-preset="archive" title="Maximum quality, minimal compression.">
           <div class="pb-icon">&#128736;</div>
           <div class="pb-name">Archive</div>
           <div class="pb-desc">200 dpi · JPEG 90%</div>
-          <div class="pb-save">~30% smaller</div>
+          <div class="pb-save">Highest-detail preset</div>
         </button>
       </div>
     </div>
@@ -195,7 +194,7 @@
         <span class="ot-track"><span class="ot-thumb"></span></span>
         <div class="ot-text">
           <span class="ot-name">Grayscale mode</span>
-          <span class="ot-hint">Removes colour data · extra 10–20% saving</span>
+          <span class="ot-hint">Removes colour data; the size change depends on the document</span>
         </div>
       </label>
       <label class="opt-toggle">
@@ -236,7 +235,7 @@
           <p class="uz-h">Drop your PDF files here</p>
           <p class="uz-p">or <strong>click to browse</strong> &middot; Up to 20 files at once</p>
         </div>
-        <div class="uz-formats"><span class="fmt">PDF</span><span class="fmt-note">Max ~100MB per file</span></div>
+        <div class="uz-formats"><span class="fmt">PDF</span><span class="fmt-note">Maximum 120 MB per file</span></div>
       </div>
     </div>
 
@@ -349,24 +348,20 @@
 
 
 
+<section class="vt-exp" id="builder-experience" data-pseo="compress-pdf-for-github" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Github</h2>
+  <p>I keep this page because PDF attachment limits for Github kept failing with upload tools or generic presets. Here you pick the Screen/Web preset that fits the channel, compress locally, then attach. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/compress-pdf/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
+</section>
 
 <nav class="vt-eeat-rail" aria-label="Trust and product links">
   <a href="/compress-pdf/">Parent tool</a>
-  <a href="/compress-pdf/">Tool hub</a>
   <a href="/lab/">Lab Notes</a>
   <a href="/methodology/">Methodology</a>
   <a href="/about/">About</a>
   <a href="/">All tools</a>
 </nav>
-
-
-
-<section class="vt-exp" id="builder-experience" data-pseo="compress-pdf-for-github" aria-label="Builder experience">
-  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
-  <h2>Field note: Github</h2>
-  <p>I keep this page because PDF attachment limits for Github kept failing with upload tools or generic presets. Here you pick the Screen/Web preset that fits the channel, compress locally, then attach. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
-  <div class="vt-exp-links"><a href="/compress-pdf/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
-</section>
 <footer class="site-footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> · Free PDF tools · No upload · No tracking</p>
 </footer>

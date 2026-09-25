@@ -6,19 +6,19 @@
 | DOMAIN             | <https://velotools.app>                                                                                          |
 | AUDIT DATE         | 2026-09-24                                                                                                       |
 | BRANCH             | `main`                                                                                                           |
-| HEAD               | `a7afa6134d8ba98a302b337e3f4a80209bc56d84`                                                                       |
+| HEAD               | `eaf24137b31e74ef329eccd51dbfbef1f854a307`                                                                       |
 | WORKTREE STATUS    | Pre-existing untracked `.agents/`, `AGENTS.md`, `velo-growth-desk/`; audit adds docs only                        |
 | DEPLOYMENT TARGET  | Cloudflare production; repository does not contain the Pages/build/redirect configuration                        |
 | STACK              | Static HTML/CSS/vanilla JS; React/Vite tool-card bundle; Node generators; Zod; Vitest/Playwright                 |
-| BUILD STATUS       | Tool-card typecheck + isolated Vite build pass; Focus matrix build fails; generation is not reproducible         |
+| BUILD STATUS       | Tool-card typecheck, isolated Vite build and P0-1 deterministic generation checks pass                           |
 | TEST STATUS        | Targeted: 24 Vitest + 4 PDF integration + 49 PDF audit checks pass. Global `npm test` and lint fail structurally |
 | SEO AUDIT STATUS   | Complete; 139 routes, 123 indexable/sitemap URLs, 110 generated pages                                            |
-| CURRENT PHASE      | P0-1 Generation Pipeline Architecture Review — implementation review pending                                     |
+| CURRENT PHASE      | P0-1 IMPLEMENTED — FINAL REVIEW PENDING                                                                          |
 | P0 COUNT           | 4                                                                                                                |
 | P1 COUNT           | 8                                                                                                                |
-| NEXT SAFE STEP     | Review approved P0-1 implementation plan/diff boundaries; then implement P0-1 only                               |
+| NEXT SAFE STEP     | Resolve pre-existing shell/output drift before approving the P0-1 generated candidate                             |
 | DO NOT TOUCH       | `.agents/`, `AGENTS.md`, `velo-growth-desk/`; generated HTML manually; deploy/index/noindex/claims before review |
-| LAST REVIEW STATUS | P0-1 architecture review passed; implementation review required                                                  |
+| LAST REVIEW STATUS | P0-1 final repair addresses Focus trust, transaction boundary and prune protection; no commit                    |
 
 ## Current top blockers
 

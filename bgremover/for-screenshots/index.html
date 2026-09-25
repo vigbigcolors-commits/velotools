@@ -26,9 +26,6 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FBE4JKG3R"></script>
 <script src="/js/analytics.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for UI screenshots","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-screenshots/","description":"Isolate app windows and UI chrome from desktop clutter without uploading product screens. Checkerboard alpha, WebP for docs and changelogs.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint webp","Refine suggested","No watermarks"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should documentation figures keep the OS shadow?","acceptedAnswer":{"@type":"Answer","text":"Follow brand guidelines. Soft shadows can look native but also pick up wallpaper color. Many design systems prefer a hard window edge plus a synthetic shadow in Figma. This preset lets you QA either choice on checkers."}},{"@type":"Question","name":"Why WebP instead of PNG for screenshots?","acceptedAnswer":{"@type":"Answer","text":"Help centers load many figures. WebP reduces weight. Keep PNG when designers will zoom into chrome for critique or when lossless archival matters. Re-export from the same matte as needed."}},{"@type":"Question","name":"Can I cut a multi-window composition at once?","acceptedAnswer":{"@type":"Answer","text":"You can, but overlapping windows are harder. Cutting each window separately and compositing usually looks cleaner for tutorials. Keep scale consistent across the set."}},{"@type":"Question","name":"How do I avoid leaking PII in UI captures?","acceptedAnswer":{"@type":"Answer","text":"Redact in the staging data or blur before capture when possible. Cutout does not remove text inside the window. Local processing only prevents uploading the image to a remover — it does not scrub content."}},{"@type":"Question","name":"Do rounded macOS corners need special care?","acceptedAnswer":{"@type":"Answer","text":"Yes. Zoom each corner and Erase wallpaper wedges. A one-pixel wallpaper sliver becomes obvious on light article backgrounds. Checkers make those wedges easier to see than a white proof."}}]}</script>
-<script type="application/json" id="vt-page-config">{"id":"bgremover-screenshots","tool":"bg-remover","useCase":"screenshots","useCaseLabel":"UI screenshots","intentBanner":"Screenshots preset · checkerboard · WebP · UI Erase tip","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"webp","suggestRefine":true,"tipLabel":"Erase desktop icons; keep window chrome"}}</script>
 <style id="vt-eeat-css">
 .vt-exp{margin:40px auto;max-width:920px;padding:24px 26px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,0,0,.22)}
 .vt-exp-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#00e6d0;margin-bottom:8px}
@@ -41,6 +38,9 @@
 .vt-eeat-rail a{color:rgba(176,202,216,.9);text-decoration:none;font-weight:600}
 .vt-eeat-rail a:hover{color:#00e6d0}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Background Remover for UI screenshots","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires a modern browser with WebAssembly","url":"https://velotools.app/bgremover/for-screenshots/","description":"Isolate app windows and UI chrome from desktop clutter without uploading product screens. Checkerboard alpha, WebP for docs and changelogs.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"VeloTools","url":"https://velotools.app"},"featureList":["Client-side only (no upload)","Default preview transparent","Export hint webp","Refine suggested","No watermarks"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should documentation figures keep the OS shadow?","acceptedAnswer":{"@type":"Answer","text":"Follow brand guidelines. Soft shadows can look native but also pick up wallpaper color. Many design systems prefer a hard window edge plus a synthetic shadow in Figma. This preset lets you QA either choice on checkers."}},{"@type":"Question","name":"Why WebP instead of PNG for screenshots?","acceptedAnswer":{"@type":"Answer","text":"Help centers load many figures. WebP reduces weight. Keep PNG when designers will zoom into chrome for critique or when lossless archival matters. Re-export from the same matte as needed."}},{"@type":"Question","name":"Can I cut a multi-window composition at once?","acceptedAnswer":{"@type":"Answer","text":"You can, but overlapping windows are harder. Cutting each window separately and compositing usually looks cleaner for tutorials. Keep scale consistent across the set."}},{"@type":"Question","name":"How do I avoid leaking PII in UI captures?","acceptedAnswer":{"@type":"Answer","text":"Redact in the staging data or blur before capture when possible. Cutout does not remove text inside the window. Local processing only prevents uploading the image to a remover — it does not scrub content."}},{"@type":"Question","name":"Do rounded macOS corners need special care?","acceptedAnswer":{"@type":"Answer","text":"Yes. Zoom each corner and Erase wallpaper wedges. A one-pixel wallpaper sliver becomes obvious on light article backgrounds. Checkers make those wedges easier to see than a white proof."}}]}</script>
+<script type="application/json" id="vt-page-config">{"id":"bgremover-screenshots","tool":"bg-remover","useCase":"screenshots","useCaseLabel":"UI screenshots","intentBanner":"Screenshots preset · checkerboard · WebP · UI Erase tip","config":{"defaultBg":"transparent","bgSwatchIndex":0,"exportHint":"webp","suggestRefine":true,"tipLabel":"Erase desktop icons; keep window chrome"}}</script>
 </head>
 <body>
 <div id="vt-intent-banner" role="status" style="position:sticky;top:60px;z-index:50;padding:8px 16px;text-align:center;font:600 12px/1.4 'DM Mono',monospace;letter-spacing:.04em;background:rgba(168,85,232,.12);border-bottom:1px solid rgba(168,85,232,.28);color:#e9d5ff">Screenshots preset · checkerboard · WebP · UI Erase tip · Erase desktop icons; keep window chrome</div>
@@ -362,23 +362,20 @@
 </section>
 
 
+<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-screenshots" aria-label="Builder experience">
+  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
+  <h2>Field note: Screenshots</h2>
+  <p>I keep this page because background removal for Screenshots kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
+  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/vigen/">Vigen G.</a><a href="/about/">About</a></div>
+</section>
+
 <nav class="vt-eeat-rail" aria-label="Trust and product links">
   <a href="/bgremover/">Parent tool</a>
-  <a href="/bgremover/">Tool hub</a>
   <a href="/lab/">Lab Notes</a>
   <a href="/methodology/">Methodology</a>
   <a href="/about/">About</a>
   <a href="/">All tools</a>
 </nav>
-
-
-
-<section class="vt-exp" id="builder-experience" data-pseo="bgremover/for-screenshots" aria-label="Builder experience">
-  <div class="vt-exp-kicker">Human experience · Vigen G.</div>
-  <h2>Field note: Screenshots</h2>
-  <p>I keep this page because background removal for Screenshots kept failing with upload tools or generic presets. Here you run the local cutout, Refine hair/edges, export PNG or white JPG as the channel requires. Limits and architecture are documented in Lab Notes — this URL is a micro-instrument for one job, not a keyword clone.</p>
-  <div class="vt-exp-links"><a href="/bgremover/">Parent tool</a><a href="/lab/">Lab Notes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></div>
-</section>
 <footer class="footer">
   <p>&copy; 2026 <a href="/">VeloTools</a> &middot; Free AI tools &middot; No ads &middot; No tracking</p>
   <div class="fbs"><span class="fb">No watermarks</span><span class="fb">No signup</span><span class="fb">No upload</span><span class="fb">Free forever</span><span class="fb">Privacy first</span></div>
