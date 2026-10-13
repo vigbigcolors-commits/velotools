@@ -4,14 +4,23 @@ import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   {
-    ignores: ["node_modules/**"],
+    // Build output, vendored WASM codecs, and the protected local growth desk are
+    // not authored application source. The generated tool-card bundle is checked
+    // at its Vite source instead of after minification.
+    ignores: [
+      "node_modules/**",
+      "dist-tool-cards/**",
+      "js/tool-card-grid.js",
+      "image-compress/vendor/**",
+      "velo-growth-desk/**",
+    ],
   },
   js.configs.recommended,
   {
     files: ["**/*.js"],
     languageOptions: {
       ecmaVersion: "latest",
-      sourceType: "script",
+      sourceType: "module",
       globals: {
         ...globals.browser,
         ...globals.es2021,

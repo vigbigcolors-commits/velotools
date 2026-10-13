@@ -13,7 +13,7 @@ export default defineConfig({
     acceptDownloads: true,
   },
   webServer: {
-    command: 'npx serve -l 3000',
+    command: 'npx vite --host 127.0.0.1 --port 3000',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: true,
     timeout: 30_000,

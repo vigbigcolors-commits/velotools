@@ -1049,7 +1049,7 @@ async function processFile(file){
     $('proc-st').textContent='Loading AI engine…';
     var fn=S.removeBg;
     try{ if(!fn) fn=await withTimeout(preloadEngine(), 60000, 'AI engine download'); }
-    catch(loadErr){ throw new Error('Could not load AI engine. Check your connection and try again.'); }
+    catch(loadErr){ throw new Error('Could not load AI engine. Check your connection and try again.', { cause: loadErr }); }
     if(!fn) throw new Error('Could not load AI engine. Check your connection.');
 
     var modelName=pickModel();
