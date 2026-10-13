@@ -301,8 +301,6 @@
         warn =
           'File is larger than 25 MB local cache limit — saved presets only (never uploaded).';
         keepFile = false;
-        blob = null;
-        blobs = null;
       } else {
         try {
           var blobCount = await countBlobs(db);
@@ -504,7 +502,7 @@
 
   function renderPanel(root, toolId, rows, opts, stats) {
     var hasRows = rows && rows.length;
-    var listHtml = '';
+    var listHtml;
     if (hasRows) {
       listHtml =
         '<ul class="vt-recent-list">' +

@@ -3,15 +3,18 @@ import { test, expect } from '@playwright/test';
 import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIX = join(__dirname, 'fixtures');
 const ROOT = join(__dirname, '../..');
 
 test.beforeAll(() => {
-  execSync('node tests/e2e/generate-fixtures.mjs', { stdio: 'inherit', cwd: ROOT });
-  for (const f of ['two-page-a.pdf', 'three-page-b.pdf', 'five-page.pdf', 'encrypted.pdf', 'large-105.pdf']) {
+  const fixtureNames = ['two-page-a.pdf', 'three-page-b.pdf', 'five-page.pdf', 'encrypted.pdf', 'large-105.pdf'];
+  if (!fixtureNames.every((file) => existsSync(join(FIX, file)))) {
+    execFileSync(process.execPath, ['tests/e2e/generate-fixtures.mjs'], { stdio: 'inherit', cwd: ROOT });
+  }
+  for (const f of fixtureNames) {
     if (!existsSync(join(FIX, f))) throw new Error('Missing fixture: ' + f);
   }
 });
